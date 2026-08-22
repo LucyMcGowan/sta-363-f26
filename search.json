@@ -124,7 +124,7 @@
     "href": "slides/06-pipelines.html#columntransformer",
     "title": "Pipelines and data leakage",
     "section": "ColumnTransformer",
-    "text": "ColumnTransformer\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nnum = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\ncat = [\"Gender\", \"Student\", \"Married\"]\n\nprep = ColumnTransformer([\n    (\"num\", StandardScaler(), num),\n    (\"cat\", OneHotEncoder(drop=\"first\"), cat),\n])\nprep\n\nColumnTransformer(transformers=[('num', StandardScaler(),\n                                 ['Income', 'Limit', 'Rating', 'Age']),\n                                ('cat', OneHotEncoder(drop='first'),\n                                 ['Gender', 'Student', 'Married'])])In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.ColumnTransformer?Documentation for ColumnTransformeriNot fitted\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ntransformers transformers: list of tuples\n\nList of (name, transformer, columns) tuples specifying the\ntransformer objects to be applied to subsets of the data.\n\nname : str\nLike in Pipeline and FeatureUnion, this allows the transformer and\nits parameters to be set using ``set_params`` and searched in grid\nsearch.\ntransformer : {'drop', 'passthrough'} or estimator\nEstimator must support :term:`fit` and :term:`transform`.\nSpecial-cased strings 'drop' and 'passthrough' are accepted as\nwell, to indicate to drop the columns or to pass them through\nuntransformed, respectively.\ncolumns : str, array-like of str, int, array-like of int, array-like of bool, slice or callable\nIndexes the data on its second axis. Integers are interpreted as\npositional columns, while strings can reference DataFrame columns\nby name. A scalar string or int should be used where\n``transformer`` expects X to be a 1d array-like (vector),\notherwise a 2d array will be passed to the transformer.\nA callable is passed the input data `X` and can return any of the\nabove. To select multiple columns by name or dtype, you can use\n:obj:`make_column_selector`.\n[('num', ...), ('cat', ...)]\n\n\n\nremainder remainder: {'drop', 'passthrough'} or estimator, default='drop'\n\nBy default, only the specified columns in `transformers` are\ntransformed and combined in the output, and the non-specified\ncolumns are dropped. (default of ``'drop'``).\nBy specifying ``remainder='passthrough'``, all remaining columns that\nwere not specified in `transformers`, but present in the data passed\nto `fit` will be automatically passed through. This subset of columns\nis concatenated with the output of the transformers. For dataframes,\nextra columns not seen during `fit` will be excluded from the output\nof `transform`.\nBy setting ``remainder`` to be an estimator, the remaining\nnon-specified columns will use the ``remainder`` estimator. The\nestimator must support :term:`fit` and :term:`transform`.\nNote that using this feature requires that the DataFrame columns\ninput at :term:`fit` and :term:`transform` have identical order.\n'drop'\n\n\n\nsparse_threshold sparse_threshold: float, default=0.3\n\nIf the output of the different transformers contains sparse matrices,\nthese will be stacked as a sparse matrix if the overall density is\nlower than this value. Use ``sparse_threshold=0`` to always return\ndense. When the transformed output consists of all dense data, the\nstacked result will be dense, and this keyword will be ignored.\n0.3\n\n\n\nn_jobs n_jobs: int, default=None\n\nNumber of jobs to run in parallel.\n``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.\n``-1`` means using all processors. See :term:`Glossary `\nfor more details.\nNone\n\n\n\ntransformer_weights transformer_weights: dict, default=None\n\nMultiplicative weights for features per transformer. The output of the\ntransformer is multiplied by these weights. Keys are transformer names,\nvalues the weights.\nNone\n\n\n\nverbose verbose: bool, default=False\n\nIf True, the time elapsed while fitting each transformer will be\nprinted as it is completed.\nFalse\n\n\n\nverbose_feature_names_out verbose_feature_names_out: bool, str or Callable[[str, str], str], default=True\n\n- If True, :meth:`ColumnTransformer.get_feature_names_out` will prefix\nall feature names with the name of the transformer that generated that\nfeature. It is equivalent to setting\n`verbose_feature_names_out=\"{transformer_name}__{feature_name}\"`.\n- If False, :meth:`ColumnTransformer.get_feature_names_out` will not\nprefix any feature names and will error if feature names are not\nunique.\n- If ``Callable[[str, str], str]``,\n:meth:`ColumnTransformer.get_feature_names_out` will rename all the features\nusing the name of the transformer. The first argument of the callable is the\ntransformer name and the second argument is the feature name. The returned\nstring will be the new feature name.\n- If ``str``, it must be a string ready for formatting. The given string will\nbe formatted using two field names: ``transformer_name`` and ``feature_name``.\ne.g. ``\"{feature_name}__{transformer_name}\"``. See :meth:`str.format` method\nfrom the standard library for more info.\n\n.. versionadded:: 1.0\n\n.. versionchanged:: 1.6\n`verbose_feature_names_out` can be a callable or a string to be formatted.\nTrue\n\n\n\nforce_int_remainder_cols force_int_remainder_cols: bool, default=False\n\nThis parameter has no effect.\n\n.. note::\nIf you do not access the list of columns for the remainder columns\nin the `transformers_` fitted attribute, you do not need to set\nthis parameter.\n\n.. versionadded:: 1.5\n\n.. versionchanged:: 1.7\nThe default value for `force_int_remainder_cols` will change from\n`True` to `False` in version 1.7.\n\n.. deprecated:: 1.7\n`force_int_remainder_cols` is deprecated and will be removed in 1.9.\n'deprecated'\n\n\n\n\n            \n        \n    num['Income', 'Limit', 'Rating', 'Age']StandardScaler?Documentation for StandardScaler\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ncopy copy: bool, default=True\n\nIf False, try to avoid a copy and do inplace scaling instead.\nThis is not guaranteed to always work inplace; e.g. if the data is\nnot a NumPy array or scipy.sparse CSR matrix, a copy may still be\nreturned.\nTrue\n\n\n\nwith_mean with_mean: bool, default=True\n\nIf True, center the data before scaling.\nThis does not work (and will raise an exception) when attempted on\nsparse matrices, because centering them entails building a dense\nmatrix which in common use cases is likely to be too large to fit in\nmemory.\nTrue\n\n\n\nwith_std with_std: bool, default=True\n\nIf True, scale the data to unit variance (or equivalently,\nunit standard deviation).\nTrue\n\n\n\n\n            \n        \n    cat['Gender', 'Student', 'Married']OneHotEncoder?Documentation for OneHotEncoder\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ncategories categories: 'auto' or a list of array-like, default='auto'\n\nCategories (unique values) per feature:\n\n- 'auto' : Determine categories automatically from the training data.\n- list : ``categories[i]`` holds the categories expected in the ith\ncolumn. The passed categories should not mix strings and numeric\nvalues within a single feature, and should be sorted in case of\nnumeric values.\n\nThe used categories can be found in the ``categories_`` attribute.\n\n.. versionadded:: 0.20\n'auto'\n\n\n\ndrop drop: {'first', 'if_binary'} or an array-like of shape (n_features,), default=None\n\nSpecifies a methodology to use to drop one of the categories per\nfeature. This is useful in situations where perfectly collinear\nfeatures cause problems, such as when feeding the resulting data\ninto an unregularized linear regression model.\n\nHowever, dropping one category breaks the symmetry of the original\nrepresentation and can therefore induce a bias in downstream models,\nfor instance for penalized linear classification or regression models.\n\n- None : retain all features (the default).\n- 'first' : drop the first category in each feature. If only one\ncategory is present, the feature will be dropped entirely.\n- 'if_binary' : drop the first category in each feature with two\ncategories. Features with 1 or more than 2 categories are\nleft intact.\n- array : ``drop[i]`` is the category in feature ``X[:, i]`` that\nshould be dropped.\n\nWhen `max_categories` or `min_frequency` is configured to group\ninfrequent categories, the dropping behavior is handled after the\ngrouping.\n\n.. versionadded:: 0.21\nThe parameter `drop` was added in 0.21.\n\n.. versionchanged:: 0.23\nThe option `drop='if_binary'` was added in 0.23.\n\n.. versionchanged:: 1.1\nSupport for dropping infrequent categories.\n'first'\n\n\n\nsparse_output sparse_output: bool, default=True\n\nWhen ``True``, it returns a :class:`scipy.sparse.csr_matrix`,\ni.e. a sparse matrix in \"Compressed Sparse Row\" (CSR) format.\n\n.. versionadded:: 1.2\n`sparse` was renamed to `sparse_output`\nTrue\n\n\n\ndtype dtype: number type, default=np.float64\n\nDesired dtype of output.\n&lt;class 'numpy.float64'&gt;\n\n\n\nhandle_unknown handle_unknown: {'error', 'ignore', 'infrequent_if_exist', 'warn'}, default='error'\n\nSpecifies the way unknown categories are handled during :meth:`transform`.\n\n- 'error' : Raise an error if an unknown category is present during transform.\n- 'ignore' : When an unknown category is encountered during\ntransform, the resulting one-hot encoded columns for this feature\nwill be all zeros. In the inverse transform, an unknown category\nwill be denoted as None.\n- 'infrequent_if_exist' : When an unknown category is encountered\nduring transform, the resulting one-hot encoded columns for this\nfeature will map to the infrequent category if it exists. The\ninfrequent category will be mapped to the last position in the\nencoding. During inverse transform, an unknown category will be\nmapped to the category denoted `'infrequent'` if it exists. If the\n`'infrequent'` category does not exist, then :meth:`transform` and\n:meth:`inverse_transform` will handle an unknown category as with\n`handle_unknown='ignore'`. Infrequent categories exist based on\n`min_frequency` and `max_categories`. Read more in the\n:ref:`User Guide `.\n- 'warn' : When an unknown category is encountered during transform\na warning is issued, and the encoding then proceeds as described for\n`handle_unknown=\"infrequent_if_exist\"`.\n\n.. versionchanged:: 1.1\n`'infrequent_if_exist'` was added to automatically handle unknown\ncategories and infrequent categories.\n\n.. versionadded:: 1.6\nThe option `\"warn\"` was added in 1.6.\n'error'\n\n\n\nmin_frequency min_frequency: int or float, default=None\n\nSpecifies the minimum frequency below which a category will be\nconsidered infrequent.\n\n- If `int`, categories with a smaller cardinality will be considered\ninfrequent.\n\n- If `float`, categories with a smaller cardinality than\n`min_frequency * n_samples` will be considered infrequent.\n\n.. versionadded:: 1.1\nRead more in the :ref:`User Guide `.\nNone\n\n\n\nmax_categories max_categories: int, default=None\n\nSpecifies an upper limit to the number of output features for each input\nfeature when considering infrequent categories. If there are infrequent\ncategories, `max_categories` includes the category representing the\ninfrequent categories along with the frequent categories. If `None`,\nthere is no limit to the number of output features.\n\n.. versionadded:: 1.1\nRead more in the :ref:`User Guide `.\nNone\n\n\n\nfeature_name_combiner feature_name_combiner: \"concat\" or callable, default=\"concat\"\n\nCallable with signature `def callable(input_feature, category)` that returns a\nstring. This is used to create feature names to be returned by\n:meth:`get_feature_names_out`.\n\n`\"concat\"` concatenates encoded feature name and category with\n`feature + \"_\" + str(category)`.E.g. feature X with values 1, 6, 7 create\nfeature names `X_1, X_6, X_7`.\n\n.. versionadded:: 1.3\n'concat'",
+    "text": "ColumnTransformer\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nnum = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\ncat = [\"Gender\", \"Student\", \"Married\"]\n\nprep = ColumnTransformer([\n    (\"num\", StandardScaler(), num),\n    (\"cat\", OneHotEncoder(drop=\"first\"), cat),\n])\nprep\n\nColumnTransformer(transformers=[('num', StandardScaler(),\n                                 ['Income', 'Limit', 'Rating', 'Age']),\n                                ('cat', OneHotEncoder(drop='first'),\n                                 ['Gender', 'Student', 'Married'])])In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.ColumnTransformer?Documentation for ColumnTransformeriNot fitted\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ntransformers  transformers: list of tuples\n\nList of (name, transformer, columns) tuples specifying the\ntransformer objects to be applied to subsets of the data.\n\nname : str\nLike in Pipeline and FeatureUnion, this allows the transformer and\nits parameters to be set using ``set_params`` and searched in grid\nsearch.\ntransformer : {'drop', 'passthrough'} or estimator\nEstimator must support :term:`fit` and :term:`transform`.\nSpecial-cased strings 'drop' and 'passthrough' are accepted as\nwell, to indicate to drop the columns or to pass them through\nuntransformed, respectively.\ncolumns : str, array-like of str, int, array-like of int, array-like of bool, slice or callable\nIndexes the data on its second axis. Integers are interpreted as\npositional columns, while strings can reference DataFrame columns\nby name. A scalar string or int should be used where\n``transformer`` expects X to be a 1d array-like (vector),\notherwise a 2d array will be passed to the transformer.\nA callable is passed the input data `X` and can return any of the\nabove. To select multiple columns by name or dtype, you can use\n:obj:`make_column_selector`.\n[('num', ...), ('cat', ...)]\n\n\n\nremainder  remainder: {'drop', 'passthrough'} or estimator, default='drop'\n\nBy default, only the specified columns in `transformers` are\ntransformed and combined in the output, and the non-specified\ncolumns are dropped. (default of ``'drop'``).\nBy specifying ``remainder='passthrough'``, all remaining columns that\nwere not specified in `transformers`, but present in the data passed\nto `fit` will be automatically passed through. This subset of columns\nis concatenated with the output of the transformers. For dataframes,\nextra columns not seen during `fit` will be excluded from the output\nof `transform`.\nBy setting ``remainder`` to be an estimator, the remaining\nnon-specified columns will use the ``remainder`` estimator. The\nestimator must support :term:`fit` and :term:`transform`.\nNote that using this feature requires that the DataFrame columns\ninput at :term:`fit` and :term:`transform` have identical order.\n'drop'\n\n\n\nsparse_threshold  sparse_threshold: float, default=0.3\n\nIf the output of the different transformers contains sparse matrices,\nthese will be stacked as a sparse matrix if the overall density is\nlower than this value. Use ``sparse_threshold=0`` to always return\ndense. When the transformed output consists of all dense data, the\nstacked result will be dense, and this keyword will be ignored.\n0.3\n\n\n\nn_jobs  n_jobs: int, default=None\n\nNumber of jobs to run in parallel.\n``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.\n``-1`` means using all processors. See :term:`Glossary &lt;n_jobs&gt;`\nfor more details.\nNone\n\n\n\ntransformer_weights  transformer_weights: dict, default=None\n\nMultiplicative weights for features per transformer. The output of the\ntransformer is multiplied by these weights. Keys are transformer names,\nvalues the weights.\nNone\n\n\n\nverbose  verbose: bool, default=False\n\nIf True, the time elapsed while fitting each transformer will be\nprinted as it is completed.\nFalse\n\n\n\nverbose_feature_names_out  verbose_feature_names_out: bool, str or Callable[[str, str], str], default=True\n\n- If True, :meth:`ColumnTransformer.get_feature_names_out` will prefix\nall feature names with the name of the transformer that generated that\nfeature. It is equivalent to setting\n`verbose_feature_names_out=\"{transformer_name}__{feature_name}\"`.\n- If False, :meth:`ColumnTransformer.get_feature_names_out` will not\nprefix any feature names and will error if feature names are not\nunique.\n- If ``Callable[[str, str], str]``,\n:meth:`ColumnTransformer.get_feature_names_out` will rename all the features\nusing the name of the transformer. The first argument of the callable is the\ntransformer name and the second argument is the feature name. The returned\nstring will be the new feature name.\n- If ``str``, it must be a string ready for formatting. The given string will\nbe formatted using two field names: ``transformer_name`` and ``feature_name``.\ne.g. ``\"{feature_name}__{transformer_name}\"``. See :meth:`str.format` method\nfrom the standard library for more info.\n\n.. versionadded:: 1.0\n\n.. versionchanged:: 1.6\n`verbose_feature_names_out` can be a callable or a string to be formatted.\nTrue\n\n\n\n\n            \n        \n    num['Income', 'Limit', 'Rating', 'Age']StandardScaler?Documentation for StandardScaler\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ncopy  copy: bool, default=True\n\nIf False, try to avoid a copy and do inplace scaling instead.\nThis is not guaranteed to always work inplace; e.g. if the data is\nnot a NumPy array or scipy.sparse CSR matrix, a copy may still be\nreturned.\nTrue\n\n\n\nwith_mean  with_mean: bool, default=True\n\nIf True, center the data before scaling.\nThis does not work (and will raise an exception) when attempted on\nsparse matrices, because centering them entails building a dense\nmatrix which in common use cases is likely to be too large to fit in\nmemory.\nTrue\n\n\n\nwith_std  with_std: bool, default=True\n\nIf True, scale the data to unit variance (or equivalently,\nunit standard deviation).\nTrue\n\n\n\n\n            \n        \n    cat['Gender', 'Student', 'Married']OneHotEncoder?Documentation for OneHotEncoder\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ndrop  drop: {'first', 'if_binary'} or an array-like of shape (n_features,), default=None\n\nSpecifies a methodology to use to drop one of the categories per\nfeature. This is useful in situations where perfectly collinear\nfeatures cause problems, such as when feeding the resulting data\ninto an unregularized linear regression model.\n\nHowever, dropping one category breaks the symmetry of the original\nrepresentation and can therefore induce a bias in downstream models,\nfor instance for penalized linear classification or regression models.\n\n- None : retain all features (the default).\n- 'first' : drop the first category in each feature. If only one\ncategory is present, the feature will be dropped entirely.\n- 'if_binary' : drop the first category in each feature with two\ncategories. Features with 1 or more than 2 categories are\nleft intact.\n- array : ``drop[i]`` is the category in feature ``X[:, i]`` that\nshould be dropped.\n\nWhen `max_categories` or `min_frequency` is configured to group\ninfrequent categories, the dropping behavior is handled after the\ngrouping.\n\n.. versionadded:: 0.21\nThe parameter `drop` was added in 0.21.\n\n.. versionchanged:: 0.23\nThe option `drop='if_binary'` was added in 0.23.\n\n.. versionchanged:: 1.1\nSupport for dropping infrequent categories.\n'first'\n\n\n\ncategories  categories: 'auto' or a list of array-like, default='auto'\n\nCategories (unique values) per feature:\n\n- 'auto' : Determine categories automatically from the training data.\n- list : ``categories[i]`` holds the categories expected in the ith\ncolumn. The passed categories should not mix strings and numeric\nvalues within a single feature, and should be sorted in case of\nnumeric values.\n\nThe used categories can be found in the ``categories_`` attribute.\n\n.. versionadded:: 0.20\n'auto'\n\n\n\nsparse_output  sparse_output: bool, default=True\n\nWhen ``True``, it returns a SciPy sparse matrix/array\nin \"Compressed Sparse Row\" (CSR) format.\n\n.. versionadded:: 1.2\n`sparse` was renamed to `sparse_output`\nTrue\n\n\n\ndtype  dtype: number type, default=np.float64\n\nDesired dtype of output.\n&lt;class 'numpy.float64'&gt;\n\n\n\nhandle_unknown  handle_unknown: {'error', 'ignore', 'infrequent_if_exist', 'warn'}, default='error'\n\nSpecifies the way unknown categories are handled during :meth:`transform`.\n\n- 'error' : Raise an error if an unknown category is present during transform.\n- 'ignore' : When an unknown category is encountered during\ntransform, the resulting one-hot encoded columns for this feature\nwill be all zeros. In the inverse transform, an unknown category\nwill be denoted as None.\n- 'infrequent_if_exist' : When an unknown category is encountered\nduring transform, the resulting one-hot encoded columns for this\nfeature will map to the infrequent category if it exists. The\ninfrequent category will be mapped to the last position in the\nencoding. During inverse transform, an unknown category will be\nmapped to the category denoted `'infrequent'` if it exists. If the\n`'infrequent'` category does not exist, then :meth:`transform` and\n:meth:`inverse_transform` will handle an unknown category as with\n`handle_unknown='ignore'`. Infrequent categories exist based on\n`min_frequency` and `max_categories`. Read more in the\n:ref:`User Guide &lt;encoder_infrequent_categories&gt;`.\n- 'warn' : When an unknown category is encountered during transform\na warning is issued, and the encoding then proceeds as described for\n`handle_unknown=\"infrequent_if_exist\"`.\n\n.. versionchanged:: 1.1\n`'infrequent_if_exist'` was added to automatically handle unknown\ncategories and infrequent categories.\n\n.. versionadded:: 1.6\nThe option `\"warn\"` was added in 1.6.\n'error'\n\n\n\nmin_frequency  min_frequency: int or float, default=None\n\nSpecifies the minimum frequency below which a category will be\nconsidered infrequent.\n\n- If `int`, categories with a smaller cardinality will be considered\ninfrequent.\n\n- If `float`, categories with a smaller cardinality than\n`min_frequency * n_samples` will be considered infrequent.\n\n.. versionadded:: 1.1\nRead more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.\nNone\n\n\n\nmax_categories  max_categories: int, default=None\n\nSpecifies an upper limit to the number of output features for each input\nfeature when considering infrequent categories. If there are infrequent\ncategories, `max_categories` includes the category representing the\ninfrequent categories along with the frequent categories. If `None`,\nthere is no limit to the number of output features.\n\n.. versionadded:: 1.1\nRead more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.\nNone\n\n\n\nfeature_name_combiner  feature_name_combiner: \"concat\" or callable, default=\"concat\"\n\nCallable with signature `def callable(input_feature, category)` that returns a\nstring. This is used to create feature names to be returned by\n:meth:`get_feature_names_out`.\n\n`\"concat\"` concatenates encoded feature name and category with\n`feature + \"_\" + str(category)`.E.g. feature X with values 1, 6, 7 create\nfeature names `X_1, X_6, X_7`.\n\n.. versionadded:: 1.3\n'concat'",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -208,7 +208,7 @@
     "href": "slides/06-pipelines.html#before-wednesday",
     "title": "Pipelines and data leakage",
     "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nRead ISLP Sections 3.1 to 3.3\n\nProblem set 3 due today\n\nCheck-in 3 on Wednesday\n\n\n\n\nThree weeks in and no models yet. What we have is a way to tell whether a model is any good.",
+    "text": "Before Wednesday\n\nRead ISLP Sections 3.1 to 3.3\n\nProblem set 2 due today, problem set 3 posted\n\nCheck-in 3 on Wednesday\n\n\n\n\nThree weeks in and no models yet. What we have is a way to tell whether a model is any good.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -376,7 +376,7 @@
     "href": "slides/04-knn.html#before-wednesday",
     "title": "K-nearest neighbors",
     "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nRead ISLP Sections 5.1.1 to 5.1.3\n\nProblem set 2 due today\n\nCheck-in 2 on Wednesday\n\n\n\n\nWe picked \\(K\\) by looking at the test set. What is wrong with that?",
+    "text": "Before Wednesday\n\nRead ISLP Sections 5.1.1 to 5.1.3\n\nProblem set 1 due today, problem set 2 posted\n\nCheck-in 2 on Wednesday\n\n\n\n\nWe picked \\(K\\) by looking at the test set. What is wrong with that?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -544,7 +544,7 @@
     "href": "slides/02-prediction-error.html#before-wednesday",
     "title": "Prediction error",
     "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nRead ISLP Section 2.2.2\n\nProblem set 1 posted, due next Friday\n\nCheck-in 1 at the start of class",
+    "text": "Before Wednesday\n\nRead ISLP Section 2.2.2\n\nProblem set 1 posted, due Friday September 4\n\nCheck-in 1 at the start of class",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -564,286 +564,460 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "STA 363: Statistical Learning",
+    "objectID": "ps/03-ps.html",
+    "href": "ps/03-ps.html",
+    "title": "Problem set 3: Cross-validation and leakage",
     "section": "",
-    "text": "Course Info\nLocation: TBD Time: W/F Semester: Fall 2026\n\n\n Office Hours\nInstructor: Dr. Lucy D’Agostino McGowan Email: mcgowald@wfu.edu Hours: Bookable Office: Manchester 342\nMath & Stats Center: mathandstatscenter@wfu.edu Location: Math & Stats Center\n\n\n\n Text\nThe main textbook is An Introduction to Statistical Learning with Applications in Python by Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan Taylor (Springer, 2023). A free PDF is available at statlearning.com.\n\n\n Computing\nWe use Python in Google Colab, so there is nothing to install. You need a browser and your WFU Google account.\nStart here: Getting Started with Colab.\nThe Python Quick Guide has the R to Python translation.\n\n\n Stuck?\nRead Troubleshooting first, then see Help for office hours, the Math & Stats Center, and how to ask a question that gets a fast answer.\n\n\n Materials\nThis class is hands on. Bring a charged laptop to every class."
+    "text": "Covers meetings 5 and 6. Submit a PDF to Canvas. If you worked with classmates, say so at the top.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
   },
   {
-    "objectID": "ex/06-ex.html",
-    "href": "ex/06-ex.html",
-    "title": "Application exercise 6: Find the leak",
+    "objectID": "ps/03-ps.html#why-not-one-split",
+    "href": "ps/03-ps.html#why-not-one-split",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "1. Why not one split",
+    "text": "1. Why not one split\n\nGive the two problems with estimating test error from a single train and test split. One sentence each.\n\nBoth problems point the same direction. What is it?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#choosing-k",
+    "href": "ps/03-ps.html#choosing-k",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "2. Choosing k",
+    "text": "2. Choosing k\n\nLOOCV has lower bias than 10-fold CV. Say why.\n\nLOOCV has higher variance than 10-fold CV. Say why, in terms of how much the \\(n\\) fitted models resemble each other.\n\nThe usual advice is \\(k = 5\\) or \\(k = 10\\). Is that a theorem or a rule of thumb? What would change your choice?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#what-cv-is-for",
+    "href": "ps/03-ps.html#what-cv-is-for",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "3. What CV is for",
+    "text": "3. What CV is for\nISLP Figure 5.6 shows CV estimates sitting noticeably below the true test MSE in two of three panels, while the location of the minimum lines up in all three.\n\nGiven that, is cross-validation a good way to estimate the error of a model you plan to deploy?\n\nIs it a good way to choose between models?\n\nReconcile your two answers in a sentence.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#cross-validating-a-polynomial",
+    "href": "ps/03-ps.html#cross-validating-a-polynomial",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "4. Cross-validating a polynomial",
+    "text": "4. Cross-validating a polynomial\nPredict mpg from horsepower in the Auto data.\n\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nX, y = Auto[[\"horsepower\"]], Auto[\"mpg\"]\ncv = KFold(n_splits=10, shuffle=True, random_state=363)\n\n\nCompute 10-fold CV MSE for degrees 1 through 10. Report the table.\n\nWhich degree is smallest? By how much does it beat degree 2?\n\nReport the standard deviation across the ten folds for your best degree and for degree 2.\n\nGiven c, which would you ship? Defend it in two sentences.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#where-the-scaler-goes",
+    "href": "ps/03-ps.html#where-the-scaler-goes",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "5. Where the scaler goes",
+    "text": "5. Where the scaler goes\n\nX_scaled = StandardScaler().fit_transform(X)\ncross_val_score(KNeighborsRegressor(10), X_scaled, y, cv=cv)\n\n\nName what this code estimated from the data before cross-validation started.\n\nIs the resulting number too high or too low as an estimate of future performance? Say why.\n\nRewrite it correctly and report both numbers.\n\nOn these data the difference is small. Say what you would need to know in advance to be confident it would be small, and whether you could know it.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#three-kinds-of-leak",
+    "href": "ps/03-ps.html#three-kinds-of-leak",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "6. Three kinds of leak",
+    "text": "6. Three kinds of leak\nFor each, name what leaked, say whether a pipeline would have caught it, and give the fix.\n\nMissing salaries were filled with the mean of the whole column, then the data were cross-validated.\n\nEach patient appears at five clinic visits. Rows were split at random into folds.\n\nA readmission model uses followup_calls_made, recorded during the 30 days after discharge.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#grouped-data",
+    "href": "ps/03-ps.html#grouped-data",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "7. Grouped data",
+    "text": "7. Grouped data\n\n\n\n\n\n\n\n\n\npatient_id\nbmi\nsbp\nscore\n\n\n\n\n0\n0\n-0.508\n0.663\n4.036\n\n\n1\n0\n-0.424\n0.637\n5.075\n\n\n2\n0\n-0.439\n0.686\n4.440\n\n\n3\n0\n-0.412\n0.647\n4.502\n\n\n4\n0\n-0.411\n0.604\n5.108\n\n\n5\n1\n0.360\n-0.098\n2.205\n\n\n\n\n\n\n\nTwo hundred patients, five visits each.\n\nLook at the first six rows. What do you notice about bmi and sbp within a single patient?\n\nScore the model below two ways: with KFold(5, shuffle=True), then with GroupKFold(5) and groups=visits[\"patient_id\"]. Report both.\n\n\nmodel = make_pipeline(StandardScaler(), KNeighborsRegressor(5))\n\n\nThe honest number is negative. Say what a negative \\(R^2\\) means and what would have predicted better for a new patient.\n\nThe model is meant for patients it has never seen. Which of your two numbers answers that question?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/03-ps.html#three-sets",
+    "href": "ps/03-ps.html#three-sets",
+    "title": "Problem set 3: Cross-validation and leakage",
+    "section": "8. Three sets",
+    "text": "8. Three sets\n\nSay what each of training, validation, and test is for, in one phrase each.\n\nYour CV accuracy is 0.91 and your test accuracy is 0.84. Which do you report, and why is the gap expected rather than alarming?\n\nYou look at the test set, adjust the model, and look again. What have you just done to the test set?\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit data are simulated.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "3. Cross-validation and leakage"
+    ]
+  },
+  {
+    "objectID": "ps/01-ps.html",
+    "href": "ps/01-ps.html",
+    "title": "Problem set 1: The prediction framework",
     "section": "",
-    "text": "Three analyses, three different kinds of leak. For each one: find it, fix it, and report the honest number.\nimport numpy as np\nimport pandas as pd\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import (\n    cross_val_score, train_test_split, KFold, GroupKFold, StratifiedKFold\n)\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.pipeline import Pipeline, make_pipeline\nfrom sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor\n\nrng = np.random.default_rng(363)",
+    "text": "Submit a PDF on Canvas. If you work with classmates, please indicate this at the top of your document. Additionally please cite all other sources including AI.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "6. Find the leak"
+      "Problem Sets",
+      "1. The prediction framework"
     ]
   },
   {
-    "objectID": "ex/06-ex.html#notebook-a-cleaning-before-splitting",
-    "href": "ex/06-ex.html#notebook-a-cleaning-before-splitting",
-    "title": "Application exercise 6: Find the leak",
-    "section": "Notebook A: cleaning before splitting",
-    "text": "Notebook A: cleaning before splitting\nAn analyst predicts Balance from four numeric predictors. Thirty percent of Income is missing, so they fill it in and standardize before doing anything else.\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nnum = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\nCredit.loc[rng.random(len(Credit)) &lt; 0.30, \"Income\"] = np.nan\n\nclean = Credit.copy()\nclean[\"Income\"] = clean[\"Income\"].fillna(clean[\"Income\"].mean())\nclean[num] = StandardScaler().fit_transform(clean[num])\n\ncv = KFold(5, shuffle=True, random_state=363)\nscore = cross_val_score(\n    KNeighborsRegressor(10), clean[num], clean[\"Balance\"],\n    cv=cv, scoring=\"neg_mean_squared_error\"\n)\nfloat(round(-score.mean(), 1))\n\n40935.0\n\n\n\n\nTwo things were estimated from the data before cross-validation started. Name both.\n\nRewrite this as a single Pipeline with three steps so that both are learned inside each fold. Report the honest MSE.\n\nThe two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference was small.\n\n\n\n\n\n\n\nYour pipeline needs SimpleImputer, then StandardScaler, then the model. Pass the unfilled Credit[num] to cross_val_score.",
+    "objectID": "ps/01-ps.html#naming-the-pieces",
+    "href": "ps/01-ps.html#naming-the-pieces",
+    "title": "Problem set 1: The prediction framework",
+    "section": "1. Naming the pieces",
+    "text": "1. Naming the pieces\nA hospital wants to flag, at the moment of discharge, which patients are likely to be readmitted within 30 days.\n\nWhat is \\(Y\\)? Is this regression or classification?\n\nName three predictors that would plausibly be available at discharge.\n\nWhat does one row of this data set represent?\n\nWrite the model we assume relates \\(Y\\) to \\(X\\), and say what each symbol means.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "6. Find the leak"
+      "Problem Sets",
+      "1. The prediction framework"
     ]
   },
   {
-    "objectID": "ex/06-ex.html#notebook-b-an-impressive-r2",
-    "href": "ex/06-ex.html#notebook-b-an-impressive-r2",
-    "title": "Application exercise 6: Find the leak",
-    "section": "Notebook B: an impressive \\(R^2\\)",
-    "text": "Notebook B: an impressive \\(R^2\\)\nA clinic measures each patient at five visits. The analyst wants to predict a functional score from BMI and systolic blood pressure.\n\nn_patients, n_visits = 200, 5\npid = np.repeat(np.arange(n_patients), n_visits)\n\nbmi = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\nsbp = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\npatient_effect = rng.normal(0, 2.5, n_patients)[pid]\nscore = bmi + patient_effect + rng.normal(0, 0.4, n_patients * n_visits)\n\nvisits = pd.DataFrame(\n    {\"patient_id\": pid, \"bmi\": bmi, \"sbp\": sbp, \"score\": score}\n)\nvisits.head(6)\n\n\n\n\n\n\n\n\npatient_id\nbmi\nsbp\nscore\n\n\n\n\n0\n0\n-0.455388\n-0.965580\n-1.513012\n\n\n1\n0\n-0.471733\n-1.008728\n-1.408096\n\n\n2\n0\n-0.557966\n-0.968895\n-1.254455\n\n\n3\n0\n-0.523274\n-0.930570\n-0.899867\n\n\n4\n0\n-0.505790\n-0.912909\n-1.058279\n\n\n5\n1\n-0.108126\n1.250025\n0.915257\n\n\n\n\n\n\n\n\nmodel = make_pipeline(StandardScaler(), KNeighborsRegressor(5))\nfloat(round(\n    cross_val_score(\n        model, visits[[\"bmi\", \"sbp\"]], visits[\"score\"],\n        cv=KFold(5, shuffle=True, random_state=1)\n    ).mean(),\n    3,\n))\n\n0.543\n\n\n\n\nLook at the first six rows. What do you notice about the predictor values within a single patient?\n\nWhen a visit lands in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?\n\nThe model is meant to be used on new patients. Re-run the cross-validation with GroupKFold(5) and groups=visits[\"patient_id\"]. Report the honest \\(R^2\\).\n\n\n\n\n\n\n\nThe honest \\(R^2\\) is negative. What does a negative \\(R^2\\) mean, and what would have been a better prediction rule for a new patient?",
+    "objectID": "ps/01-ps.html#reducible-and-irreducible",
+    "href": "ps/01-ps.html#reducible-and-irreducible",
+    "title": "Problem set 1: The prediction framework",
+    "section": "2. Reducible and irreducible",
+    "text": "2. Reducible and irreducible\nFor each change, say whether it can reduce the reducible error, the irreducible error, both, or neither. One sentence each.\n\nCollecting 50,000 more patients rather than 5,000.\n\nAdding a predictor for whether the patient lives alone.\n\nReplacing logistic regression with a neural network.\n\nRecording blood pressure with a better cuff.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "6. Find the leak"
+      "Problem Sets",
+      "1. The prediction framework"
     ]
   },
   {
-    "objectID": "ex/06-ex.html#notebook-c-the-pipeline-is-perfect",
-    "href": "ex/06-ex.html#notebook-c-the-pipeline-is-perfect",
-    "title": "Application exercise 6: Find the leak",
-    "section": "Notebook C: the pipeline is perfect",
-    "text": "Notebook C: the pipeline is perfect\nHere the code is correct. Read the data dictionary instead.\n\nn = 800\nseverity = rng.normal(0, 1, n)\nreadmit = (rng.random(n) &lt; 1 / (1 + np.exp(-(-1.2 + 0.9 * severity)))).astype(int)\n\nclinic = pd.DataFrame({\n    \"age\": rng.normal(62, 12, n),\n    \"severity_score\": severity,\n    \"n_labs_ordered\": rng.poisson(np.clip(3 + 2 * severity, 0.1, None)),\n    \"discharge_med_count\": rng.poisson(np.clip(4 + 0.5 * severity, 0.1, None)),\n    \"followup_calls_made\": rng.poisson(0.4 + 3.0 * readmit),\n    \"readmitted_30d\": readmit,\n})\nclinic.head()\n\n\n\n\n\n\n\n\nage\nseverity_score\nn_labs_ordered\ndischarge_med_count\nfollowup_calls_made\nreadmitted_30d\n\n\n\n\n0\n46.429989\n-0.438399\n1\n3\n1\n0\n\n\n1\n55.374458\n0.295059\n2\n4\n0\n0\n\n\n2\n73.563485\n-0.259286\n1\n0\n0\n0\n\n\n3\n87.302273\n-0.165281\n2\n5\n0\n0\n\n\n4\n57.324869\n0.243289\n4\n4\n0\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nMeaning\nWhen is it recorded?\n\n\n\n\nage\nPatient age at admission\nAt admission\n\n\nseverity_score\nClinical severity index\nAt admission\n\n\nn_labs_ordered\nLabs ordered during the stay\nDuring the stay\n\n\ndischarge_med_count\nMedications on the discharge summary\nAt discharge\n\n\nfollowup_calls_made\nFollow-up calls from the care team\nIn the 30 days after discharge\n\n\nreadmitted_30d\nReadmitted within 30 days\n30 days after discharge\n\n\n\n\nfeats = [\"age\", \"severity_score\", \"n_labs_ordered\",\n         \"discharge_med_count\", \"followup_calls_made\"]\n\ncv_c = StratifiedKFold(5, shuffle=True, random_state=363)\nfloat(round(\n    cross_val_score(\n        make_pipeline(StandardScaler(), KNeighborsClassifier(15)),\n        clinic[feats], clinic[\"readmitted_30d\"], cv=cv_c, scoring=\"roc_auc\"\n    ).mean(),\n    3,\n))\n\n0.959\n\n\n\n\nEvery learned step is inside a pipeline and the folds are stratified. So why is this result still worthless?\n\nWhich column is the problem? Point to the row of the data dictionary that gives it away.\n\nDrop it, re-run, and report the honest AUC.\n\nThe model is meant to run the moment a patient is discharged, so a nurse can decide who to call tonight. Which of the five predictors are available at that moment?",
+    "objectID": "ps/01-ps.html#prediction-or-inference",
+    "href": "ps/01-ps.html#prediction-or-inference",
+    "title": "Problem set 1: The prediction framework",
+    "section": "3. Prediction or inference",
+    "text": "3. Prediction or inference\nLabel each P or I (prediction or inference).\n\nDoes this discharge medication reduce readmission?\n\nWhich 200 patients should the nurse call tonight?\n\nHow much does living alone raise readmission risk?\n\nWill this patient be readmitted?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "6. Find the leak"
+      "Problem Sets",
+      "1. The prediction framework"
     ]
   },
   {
-    "objectID": "ex/06-ex.html#wrap-up",
-    "href": "ex/06-ex.html#wrap-up",
-    "title": "Application exercise 6: Find the leak",
+    "objectID": "ps/01-ps.html#reading-a-test-error-curve",
+    "href": "ps/01-ps.html#reading-a-test-error-curve",
+    "title": "Problem set 1: The prediction framework",
+    "section": "4. Reading a test error curve",
+    "text": "4. Reading a test error curve\n\n\n\n\n\n\n\n\n\nThe dashed teal line is \\(\\text{Var}(\\varepsilon)\\) in both panels.\n\nIn each panel, roughly what flexibility would you choose, and why?\n\nIn which panel is the true \\(f\\) closer to linear? Say how you can tell.\n\nIn panel A at flexibility 20, the gap between the magenta curve and the dashed line has two sources. Name them.\n\nThe grey curve never turns upward in either panel. Explain why that is guaranteed rather than a feature of these particular data.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "1. The prediction framework"
+    ]
+  },
+  {
+    "objectID": "ps/01-ps.html#a-colleagues-claim",
+    "href": "ps/01-ps.html#a-colleagues-claim",
+    "title": "Problem set 1: The prediction framework",
+    "section": "5. A colleague’s claim",
+    "text": "5. A colleague’s claim\n\nI fit twelve models and picked the one with the lowest MSE on my data. It gets an MSE of 0.4, which beats everything published on this problem.\n\nWrite a few sentences explaining what is wrong, what number you would want to see instead, and how they should have produced it.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "1. The prediction framework"
+    ]
+  },
+  {
+    "objectID": "ps/01-ps.html#splitting-and-scoring",
+    "href": "ps/01-ps.html#splitting-and-scoring",
+    "title": "Problem set 1: The prediction framework",
+    "section": "6. Splitting and scoring",
+    "text": "6. Splitting and scoring\nPredict mpg from weight in the Auto data.\n\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nX = Auto[[\"weight\"]]\ny = Auto[\"mpg\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=363\n)\n\n\nFit a linear regression on the training set and report training MSE and test MSE. Which is smaller, and is that what you expected?\n\nRepeat with PolynomialFeatures(10) in a pipeline. Report both numbers again.\n\nWhich of the two models would you deploy? Explain why in two sentences.\n\n\nmake_pipeline(PolynomialFeatures(10), LinearRegression()) builds the second model. mean_squared_error(y_test, model.predict(X_test)) scores it.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "1. The prediction framework"
+    ]
+  },
+  {
+    "objectID": "ps/01-ps.html#one-split-is-not-enough",
+    "href": "ps/01-ps.html#one-split-is-not-enough",
+    "title": "Problem set 1: The prediction framework",
+    "section": "7. One split is not enough",
+    "text": "7. One split is not enough\nRerun part 6b with random_state set to 1, 2, 3, 4, and 5. Record the test MSE each time.\n\nReport the five numbers and their range.\n\nA classmate reports a single test MSE to three decimal places. What is misleading about that, given what you just found?\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "1. The prediction framework"
+    ]
+  },
+  {
+    "objectID": "help.html",
+    "href": "help.html",
+    "title": " Help",
+    "section": "",
+    "text": "Most technical problems are answered on Troubleshooting."
+  },
+  {
+    "objectID": "help.html#start-here",
+    "href": "help.html#start-here",
+    "title": " Help",
+    "section": "",
+    "text": "Most technical problems are answered on Troubleshooting."
+  },
+  {
+    "objectID": "help.html#office-hours",
+    "href": "help.html#office-hours",
+    "title": " Help",
+    "section": "Office hours",
+    "text": "Office hours\nDr. Lucy D’Agostino McGowan Manchester 342 Book a time"
+  },
+  {
+    "objectID": "help.html#math-stats-center",
+    "href": "help.html#math-stats-center",
+    "title": " Help",
+    "section": "Math & Stats Center",
+    "text": "Math & Stats Center\nmathandstatscenter.wfu.edu mathandstatscenter@wfu.edu"
+  },
+  {
+    "objectID": "help.html#each-other",
+    "href": "help.html#each-other",
+    "title": " Help",
+    "section": "Each other",
+    "text": "Each other\nYou are encouraged to work together on application exercises and problem sets, however I want you to write up your own work. See the honor code section of the course policies."
+  },
+  {
+    "objectID": "help.html#reference",
+    "href": "help.html#reference",
+    "title": " Help",
+    "section": "Reference",
+    "text": "Reference\n\n\n\nTextbook\nstatlearning.com, free PDF\n\n\nColab setup\nGetting Started with Colab\n\n\nPython syntax\nPython Quick Guide\n\n\nData sets\nCourse Data\n\n\nscikit-learn\nscikit-learn.org/stable/user_guide.html\n\n\npandas\npandas.pydata.org/docs/user_guide"
+  },
+  {
+    "objectID": "help.html#using-ai-assistants",
+    "href": "help.html#using-ai-assistants",
+    "title": " Help",
+    "section": "Using AI assistants",
+    "text": "Using AI assistants\nYou may use them AI on assignments however you must:\n\nCite what you used on graded work, the same way you would cite a classmate or a StackOverflow answer.\nDo not submit code you cannot explain. The exams are on paper and the questions are about reasoning, so code you did not understand will not help you there. If AI gives you something that works and you are unsure why, that is a good office hours question."
+  },
+  {
+    "objectID": "ex/05-ex.html",
+    "href": "ex/05-ex.html",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "",
+    "text": "On Friday you chose \\(K\\) using a single train/test split, and found that the answer moved when the split moved. Today you replace that with cross-validation and see how much steadier the answer gets.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/05-ex.html#setup",
+    "href": "ex/05-ex.html#setup",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "Setup",
+    "text": "Setup\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import cross_val_score, StratifiedKFold\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nX = Default[[\"balance\", \"income\"]]\ny = (Default[\"default\"] == \"Yes\").astype(int)\n\nNotice that we are not splitting. Cross-validation will do the splitting for us.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/05-ex.html#part-1-one-value-of-k",
+    "href": "ex/05-ex.html#part-1-one-value-of-k",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "Part 1: One value of K",
+    "text": "Part 1: One value of K\n\ncv = StratifiedKFold(n_splits=10, shuffle=True, random_state=363)\nmodel = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=25))\nscores = cross_val_score(model, X, y, cv=cv, scoring=\"accuracy\")\nscores.round(4)\n\narray([0.976, 0.966, 0.977, 0.972, 0.973, 0.976, 0.973, 0.969, 0.972,\n       0.974])\n\n\n\n\nWhy are there ten numbers?\n\nWhat does each one represent?\n\nCompute the mean and the standard deviation. What does the standard deviation tell you that the mean does not?\n\n\n\n\nscores.mean(), scores.std()",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/05-ex.html#part-2-sweep-k-with-cross-validation",
+    "href": "ex/05-ex.html#part-2-sweep-k-with-cross-validation",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "Part 2: Sweep K with cross-validation",
+    "text": "Part 2: Sweep K with cross-validation\n\nks = [1, 3, 5, 10, 25, 50, 100, 200, 500]\ncv_err = []\n\nfor k in ks:\n    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))\n    cv_err.append(1 - cross_val_score(m, X, y, cv=cv, scoring=\"accuracy\").mean())\n\npd.DataFrame({\"K\": ks, \"cv_error\": cv_err}).round(4)\n\n\n\n\n\n\n\n\nK\ncv_error\n\n\n\n\n0\n1\n0.0432\n\n\n1\n3\n0.0335\n\n\n2\n5\n0.0304\n\n\n3\n10\n0.0272\n\n\n4\n25\n0.0272\n\n\n5\n50\n0.0278\n\n\n6\n100\n0.0289\n\n\n7\n200\n0.0329\n\n\n8\n500\n0.0333\n\n\n\n\n\n\n\n\nWhich \\(K\\) does cross-validation choose? Is it the same one your single split chose on Friday?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/05-ex.html#part-3-how-much-steadier-is-it",
+    "href": "ex/05-ex.html#part-3-how-much-steadier-is-it",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "Part 3: How much steadier is it?",
+    "text": "Part 3: How much steadier is it?\nRun the whole sweep nine times, changing only the random seed of the fold assignment.\n\nfig, ax = plt.subplots(figsize=(6.5, 3.6))\nbest_ks = []\n\nfor seed in range(9):\n    cv_s = StratifiedKFold(n_splits=10, shuffle=True, random_state=seed)\n    curve = [\n        1 - cross_val_score(\n            make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k)),\n            X, y, cv=cv_s, scoring=\"accuracy\"\n        ).mean()\n        for k in ks\n    ]\n    best_ks.append(ks[int(np.argmin(curve))])\n    ax.plot([1 / k for k in ks], curve, color=\"#d5008f\", alpha=0.6)\n\nax.set_xscale(\"log\")\nax.set_xlabel(\"1/K\")\nax.set_ylabel(\"10-fold CV error\")\nplt.show()\n\nbest_ks\n\n\n\n\n\n\n\n\n\n\nHow much do the nine curves differ?\n\nHow many distinct values of \\(K\\) were chosen across the nine runs?\n\nGo back to Friday’s exercise and do the same thing with nine single splits. Which procedure is more stable?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/05-ex.html#part-4-regression-same-machinery",
+    "href": "ex/05-ex.html#part-4-regression-same-machinery",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "Part 4: Regression, same machinery",
+    "text": "Part 4: Regression, same machinery\n\nfrom sklearn.model_selection import KFold\nfrom sklearn.preprocessing import PolynomialFeatures\nfrom sklearn.linear_model import LinearRegression\n\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nXa, ya = Auto[[\"horsepower\"]], Auto[\"mpg\"]\n\ncv_reg = KFold(n_splits=10, shuffle=True, random_state=363)\ndegrees = range(1, 11)\nmse = [\n    -cross_val_score(\n        make_pipeline(PolynomialFeatures(d), LinearRegression()),\n        Xa, ya, cv=cv_reg, scoring=\"neg_mean_squared_error\"\n    ).mean()\n    for d in degrees\n]\npd.DataFrame({\"degree\": degrees, \"cv_mse\": mse}).round(2)\n\n\n\n\n\n\n\n\ndegree\ncv_mse\n\n\n\n\n0\n1\n24.24\n\n\n1\n2\n19.27\n\n\n2\n3\n19.39\n\n\n3\n4\n19.55\n\n\n4\n5\n19.09\n\n\n5\n6\n19.22\n\n\n6\n7\n19.16\n\n\n7\n8\n19.02\n\n\n8\n9\n19.14\n\n\n9\n10\n19.85\n\n\n\n\n\n\n\n\n\nWhich degree has the smallest CV MSE?\n\nHow much better is it than degree 2?\n\nIf the difference between them is smaller than the fold-to-fold variability, which would you actually ship? Why?\n\n\n\n\n\n\n\nFor question 3, look at the standard deviation across the ten folds for each of the two degrees, not just their means.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/05-ex.html#part-5-think-ahead",
+    "href": "ex/05-ex.html#part-5-think-ahead",
+    "title": "Application exercise 5: Cross-validation",
+    "section": "Part 5: Think ahead",
+    "text": "Part 5: Think ahead\n\nIn Part 1 you put StandardScaler inside make_pipeline rather than scaling X beforehand. Suppose you had instead written\nX_scaled = StandardScaler().fit_transform(X)\ncross_val_score(KNeighborsClassifier(25), X_scaled, y, cv=cv)\nWould that give the same answer? Would it be correct? Write down what you think and bring it to Friday.\n\n\n\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "5. Cross-validation"
+    ]
+  },
+  {
+    "objectID": "ex/03-ex.html",
+    "href": "ex/03-ex.html",
+    "title": "Application exercise 3: Reading bias and variance",
+    "section": "",
+    "text": "Most of today is reasoning, not coding.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "3. Reading bias and variance"
+    ]
+  },
+  {
+    "objectID": "ex/03-ex.html#part-1-which-is-which",
+    "href": "ex/03-ex.html#part-1-which-is-which",
+    "title": "Application exercise 3: Reading bias and variance",
+    "section": "Part 1: Which is which?",
+    "text": "Part 1: Which is which?\nFour analysts fit models to the same 200 observations. Each then refits on 50 fresh samples from the same population and plots all 50 fitted curves.\n\nMatch each description to a diagnosis: high bias, low variance; low bias, high variance; high bias, high variance; low bias, low variance.\nA. The 50 curves lie almost on top of each other and all miss the same bend in the data.\nB. The 50 curves fan out wildly at the edges but their average tracks the data closely.\nC. The 50 curves lie almost on top of each other and follow the data closely.\nD. The 50 curves fan out wildly and their average still misses the bend.\n\n\n\n\n\nOne of these four is what we always want and rarely get. Which, and what would have to be true of the problem for it to happen?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "3. Reading bias and variance"
+    ]
+  },
+  {
+    "objectID": "ex/03-ex.html#part-2-move-the-knob",
+    "href": "ex/03-ex.html#part-2-move-the-knob",
+    "title": "Application exercise 3: Reading bias and variance",
+    "section": "Part 2: Move the knob",
+    "text": "Part 2: Move the knob\n\nFor each change, say what happens to bias, to variance, and to test MSE. Test MSE may go either way , if so, say what it depends on.\n\nIncreasing \\(K\\) in KNN from 5 to 50\n\nCollecting 10 times as many observations, model unchanged\n\nAdding 50 irrelevant predictors\n\nReplacing a degree-2 polynomial with a degree-9 polynomial\n\nAveraging the predictions of 100 different flexible models\n\n\n\n\n\n\n\nNumber 5 is the idea behind an entire unit in November. Think about what averaging does to the spread of a set of numbers.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "3. Reading bias and variance"
+    ]
+  },
+  {
+    "objectID": "ex/03-ex.html#part-3-diagnose-from-a-curve",
+    "href": "ex/03-ex.html#part-3-diagnose-from-a-curve",
+    "title": "Application exercise 3: Reading bias and variance",
+    "section": "Part 3: Diagnose from a curve",
+    "text": "Part 3: Diagnose from a curve\n\n\n\n\n\n\n\n\n\nThree test MSE curves. The dashed teal line is \\(\\text{Var}(\\varepsilon)\\) in each.\n\n\nFor each panel, roughly where is the best flexibility?\n\nIn which panel is the true \\(f\\) closest to linear? How do you know?\n\nIn which panel would using a very flexible method be least damaging?\n\nIn panel A, the curve at flexibility 20 is well above the dashed line. Name the two contributions to that gap and say which one dominates.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "3. Reading bias and variance"
+    ]
+  },
+  {
+    "objectID": "ex/03-ex.html#part-4-an-argument-to-settle",
+    "href": "ex/03-ex.html#part-4-an-argument-to-settle",
+    "title": "Application exercise 3: Reading bias and variance",
+    "section": "Part 4: An argument to settle",
+    "text": "Part 4: An argument to settle\nTwo students are arguing.\n\nJordan: A degree-14 polynomial has high variance. That is just a property of degree-14 polynomials.\nRiley: No it isn’t. It depends on how much data you have.\n\n\nWho is right, and why? Support your answer by describing an experiment you could run to settle it.\n\n\n\n\nIf you have time, run it: adapt the simulation from today’s slides, changing only the sample size from 60 to 2,000.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "3. Reading bias and variance"
+    ]
+  },
+  {
+    "objectID": "ex/03-ex.html#wrap-up",
+    "href": "ex/03-ex.html#wrap-up",
+    "title": "Application exercise 3: Reading bias and variance",
     "section": "Wrap-up",
-    "text": "Wrap-up\n\nFill in this table from what you found today.\n\n\n\nNotebook\nKind of leak\nHow big was it?\nWhat catches it?\n\n\n\n\nA\n\n\n\n\n\nB\n\n\n\n\n\nC\n\n\n\n\n\n\n\n\n\n\n\nThe size of a leak is not predictable from how careless the code looks. Notebook A looks the sloppiest and cost the least. Notebook C looks flawless and was useless.\nPipelines are free, so always use them. But only reading the data dictionary catches the leak that actually matters.\n\nCredit data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit and clinic data are simulated.",
+    "text": "Wrap-up\n\nIn one sentence: why is the test MSE curve U-shaped rather than monotone?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "6. Find the leak"
+      "3. Reading bias and variance"
     ]
   },
   {
-    "objectID": "ex/04-ex.html",
-    "href": "ex/04-ex.html",
-    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "objectID": "ex/01-ex.html",
+    "href": "ex/01-ex.html",
+    "title": "Application exercise 1: What is the problem?",
     "section": "",
-    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nX = Default[[\"balance\", \"income\"]]\ny = (Default[\"default\"] == \"Yes\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=363, stratify=y\n)\nfloat(round(y_test.mean(), 4))\n\n0.0333\n\n\n\nThat number is the proportion of the test set that defaulted. If you predicted “no default” for every single person, what would your error rate be?\nWrite it down. It is the bar every model today has to clear.",
+    "text": "For each scenario, determine:\n\n\\(Y\\)\nat least three plausible predictors\nwhat one row of the data set represents\nwhether it is a regression or classification problem\n\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "4. Tuning K"
+      "1. What is the problem?"
     ]
   },
   {
-    "objectID": "ex/04-ex.html#setup",
-    "href": "ex/04-ex.html#setup",
-    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "objectID": "ex/01-ex.html#part-1-naming-the-pieces",
+    "href": "ex/01-ex.html#part-1-naming-the-pieces",
+    "title": "Application exercise 1: What is the problem?",
     "section": "",
-    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nX = Default[[\"balance\", \"income\"]]\ny = (Default[\"default\"] == \"Yes\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=363, stratify=y\n)\nfloat(round(y_test.mean(), 4))\n\n0.0333\n\n\n\nThat number is the proportion of the test set that defaulted. If you predicted “no default” for every single person, what would your error rate be?\nWrite it down. It is the bar every model today has to clear.",
+    "text": "For each scenario, determine:\n\n\\(Y\\)\nat least three plausible predictors\nwhat one row of the data set represents\nwhether it is a regression or classification problem\n\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "4. Tuning K"
+      "1. What is the problem?"
     ]
   },
   {
-    "objectID": "ex/04-ex.html#part-1-forget-to-scale",
-    "href": "ex/04-ex.html#part-1-forget-to-scale",
-    "title": "Application exercise 4: Tuning K, and what scaling does",
-    "section": "Part 1: Forget to scale",
-    "text": "Part 1: Forget to scale\n\nunscaled = KNeighborsClassifier(n_neighbors=25).fit(X_train, y_train)\nfloat(round(1 - unscaled.score(X_test, y_test), 4))\n\n0.0333\n\n\n\nscaled = make_pipeline(\n    StandardScaler(), KNeighborsClassifier(n_neighbors=25)\n).fit(X_train, y_train)\nfloat(round(1 - scaled.score(X_test, y_test), 4))\n\n0.0263\n\n\n\n\nWhich did better?\n\nThe unscaled error should look familiar. Compare it to the number you wrote down above. What is the unscaled model actually predicting?\n\n\n\n\n\n\nNow look at the units.\n\nX.describe().loc[[\"min\", \"max\", \"std\"]].round(1)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\nmin\n0.0\n772.0\n\n\nmax\n2654.3\n73554.2\n\n\nstd\n483.7\n13336.6\n\n\n\n\n\n\n\n\nTwo customers differ by $1,000 in balance and $1,000 in income. Before scaling, how much does each difference contribute to the distance between them? Which predictor is deciding who counts as a neighbor?",
+    "objectID": "ex/01-ex.html#part-2-prediction-or-inference",
+    "href": "ex/01-ex.html#part-2-prediction-or-inference",
+    "title": "Application exercise 1: What is the problem?",
+    "section": "Part 2: Prediction or inference?",
+    "text": "Part 2: Prediction or inference?\n\nSort each of these.\n\nDoes raising the minimum wage reduce employment?\n\nWhich of these 10,000 transactions should we flag as fraudulent?\n\nHow much does an extra bathroom add to a house’s sale price?\n\nWhat will this house sell for?\n\nIs this tumor malignant?\n\nDoes this drug lower blood pressure more than the current standard of care?\n\n\n\n\n\n\n\nAsk yourself: if the model were a black box that gave great answers but was hard to understand, would that be acceptable? If yes, it is prediction.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "4. Tuning K"
+      "1. What is the problem?"
     ]
   },
   {
-    "objectID": "ex/04-ex.html#part-2-sweep-k",
-    "href": "ex/04-ex.html#part-2-sweep-k",
-    "title": "Application exercise 4: Tuning K, and what scaling does",
-    "section": "Part 2: Sweep K",
-    "text": "Part 2: Sweep K\n\nks = [1, 3, 5, 10, 25, 50, 100, 200, 500]\ntrain_err, test_err = [], []\n\nfor k in ks:\n    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))\n    m.fit(X_train, y_train)\n    train_err.append(1 - m.score(X_train, y_train))\n    test_err.append(1 - m.score(X_test, y_test))\n\npd.DataFrame({\"K\": ks, \"train\": train_err, \"test\": test_err}).round(4)\n\n\n\n\n\n\n\n\nK\ntrain\ntest\n\n\n\n\n0\n1\n0.0000\n0.0423\n\n\n1\n3\n0.0219\n0.0333\n\n\n2\n5\n0.0237\n0.0290\n\n\n3\n10\n0.0260\n0.0270\n\n\n4\n25\n0.0270\n0.0263\n\n\n5\n50\n0.0287\n0.0263\n\n\n6\n100\n0.0311\n0.0310\n\n\n7\n200\n0.0333\n0.0333\n\n\n8\n500\n0.0333\n0.0333\n\n\n\n\n\n\n\n\n\nWhat is the training error at \\(K = 1\\)? Why is that value guaranteed before you run anything?\n\nWhich \\(K\\) minimizes test error?\n\nWhat happens to test error at very large \\(K\\), and why?\n\n\n\n\n\n\nPlot it against \\(1/K\\) so that flexibility increases left to right.\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.plot([1 / k for k in ks], train_err, \"-o\", color=\"#595959\", label=\"Training\")\nax.plot([1 / k for k in ks], test_err, \"-o\", color=\"#d5008f\", label=\"Test\")\nax.set_xscale(\"log\")\nax.set_xlabel(\"1/K\")\nax.set_ylabel(\"Error rate\")\nax.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nCompare the shape of your curves to Figure 2.17 in the textbook. Where do they agree, and where does real data refuse to look like the textbook?",
+    "objectID": "ex/01-ex.html#part-3-a-first-look-at-data",
+    "href": "ex/01-ex.html#part-3-a-first-look-at-data",
+    "title": "Application exercise 1: What is the problem?",
+    "section": "Part 3: A first look at data",
+    "text": "Part 3: A first look at data\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nWage = pd.read_csv(DATA + \"Wage.csv\")\nWage.head()\n\n\n\n\n\n\n\n\nyear\nage\nmaritl\nrace\neducation\nregion\njobclass\nhealth\nhealth_ins\nlogwage\nwage\n\n\n\n\n0\n2006\n18\n1. Never Married\n1. White\n1. &lt; HS Grad\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n2. No\n4.318063\n75.043154\n\n\n1\n2004\n24\n1. Never Married\n1. White\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n2. No\n4.255273\n70.476020\n\n\n2\n2003\n45\n2. Married\n1. White\n3. Some College\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n1. Yes\n4.875061\n130.982177\n\n\n3\n2003\n43\n2. Married\n3. Asian\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n1. Yes\n5.041393\n154.685293\n\n\n4\n2005\n50\n4. Divorced\n1. White\n2. HS Grad\n2. Middle Atlantic\n2. Information\n1. &lt;=Good\n1. Yes\n4.318063\n75.043154\n\n\n\n\n\n\n\n\nWage.shape\n\n(3000, 11)\n\n\n\n\nWhat is \\(n\\)?\n\nIf you wanted to predict wage, what is the largest \\(p\\) you could use?\n\nLook at the column names. Is there any column you would not use as a predictor? Why?\n\n\n\n\n\n\n\nFor question 3, look carefully at logwage.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "4. Tuning K"
-    ]
-  },
-  {
-    "objectID": "ex/04-ex.html#part-3-the-error-rate-is-hiding-something",
-    "href": "ex/04-ex.html#part-3-the-error-rate-is-hiding-something",
-    "title": "Application exercise 4: Tuning K, and what scaling does",
-    "section": "Part 3: The error rate is hiding something",
-    "text": "Part 3: The error rate is hiding something\nThe bank cannot contact everyone. Suppose they will reach out to the 100 customers the model considers most at risk.\n\nbest = make_pipeline(\n    StandardScaler(), KNeighborsClassifier(n_neighbors=25)\n).fit(X_train, y_train)\n\nprobs = best.predict_proba(X_test)[:, 1]\ntop100 = np.argsort(-probs)[:100]\nfloat(round(y_test.values[top100].mean(), 3))\n\n0.51\n\n\n\n\nWhat fraction of the top 100 actually defaulted?\n\nCompare that to the overall default rate in the test set. How many times better than random is the model at finding defaulters?\n\nThe model’s error rate was only slightly better than “predict no for everyone.” Yet this number is dramatically better than chance. How can both be true?\n\n\n\n\n\n\n\nA classifier that is mediocre at labelling can be excellent at ranking. On October 2 we will replace the error rate with measures that can tell the difference.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "4. Tuning K"
-    ]
-  },
-  {
-    "objectID": "ex/04-ex.html#if-you-finish-early",
-    "href": "ex/04-ex.html#if-you-finish-early",
-    "title": "Application exercise 4: Tuning K, and what scaling does",
-    "section": "If you finish early",
-    "text": "If you finish early\nAdd student as a third predictor. It is categorical, so you will need to encode it as 0/1 first.\n\nDoes it help? Should it be scaled along with the others? Defend your answer.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "4. Tuning K"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html",
-    "href": "ex/02-ex.html",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "",
-    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import PolynomialFeatures\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.metrics import mean_squared_error\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nAuto.head()\n\n\n\n\n\n\n\n\nname\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nyear\norigin\n\n\n\n\n0\nchevrolet chevelle malibu\n18.0\n8\n307.0\n130\n3504\n12.0\n70\n1\n\n\n1\nbuick skylark 320\n15.0\n8\n350.0\n165\n3693\n11.5\n70\n1\n\n\n2\nplymouth satellite\n18.0\n8\n318.0\n150\n3436\n11.0\n70\n1\n\n\n3\namc rebel sst\n16.0\n8\n304.0\n150\n3433\n12.0\n70\n1\n\n\n4\nford torino\n17.0\n8\n302.0\n140\n3449\n10.5\n70\n1\n\n\n\n\n\n\n\nWe will predict mpg from horsepower.\n\nX = Auto[[\"horsepower\"]]\ny = Auto[\"mpg\"]",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html#setup",
-    "href": "ex/02-ex.html#setup",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "",
-    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import PolynomialFeatures\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.metrics import mean_squared_error\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nAuto.head()\n\n\n\n\n\n\n\n\nname\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nyear\norigin\n\n\n\n\n0\nchevrolet chevelle malibu\n18.0\n8\n307.0\n130\n3504\n12.0\n70\n1\n\n\n1\nbuick skylark 320\n15.0\n8\n350.0\n165\n3693\n11.5\n70\n1\n\n\n2\nplymouth satellite\n18.0\n8\n318.0\n150\n3436\n11.0\n70\n1\n\n\n3\namc rebel sst\n16.0\n8\n304.0\n150\n3433\n12.0\n70\n1\n\n\n4\nford torino\n17.0\n8\n302.0\n140\n3449\n10.5\n70\n1\n\n\n\n\n\n\n\nWe will predict mpg from horsepower.\n\nX = Auto[[\"horsepower\"]]\ny = Auto[\"mpg\"]",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html#part-1-look-before-you-model",
-    "href": "ex/02-ex.html#part-1-look-before-you-model",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "Part 1: Look before you model",
-    "text": "Part 1: Look before you model\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.scatter(X[\"horsepower\"], y, s=12, alpha=0.6, color=\"#d5008f\")\nax.set_xlabel(\"horsepower\")\nax.set_ylabel(\"mpg\")\nplt.show()\n\n\n\n\n\n\n\n\n\nWould a straight line be a good description of this relationship? Sketch, in words, the shape you see.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html#part-2-split",
-    "href": "ex/02-ex.html#part-2-split",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "Part 2: Split",
-    "text": "Part 2: Split\nFill in the blank so that 30% of the observations are held out.\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=____, random_state=363\n)\n\n\nWhy does random_state matter? What would change if you left it out?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html#part-3-training-mse-versus-test-mse",
-    "href": "ex/02-ex.html#part-3-training-mse-versus-test-mse",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "Part 3: Training MSE versus test MSE",
-    "text": "Part 3: Training MSE versus test MSE\n\ndegrees = range(1, 11)\ntrain_mse, test_mse = [], []\n\nfor d in degrees:\n    model = make_pipeline(PolynomialFeatures(d), LinearRegression())\n    model.fit(X_train, y_train)\n    train_mse.append(mean_squared_error(y_train, model.predict(X_train)))\n    test_mse.append(mean_squared_error(y_test, model.predict(X_test)))\n\n\npd.DataFrame({\"degree\": degrees, \"train\": train_mse, \"test\": test_mse}).round(2)\n\n\n\n\n\n\n\n\ndegree\ntrain\ntest\n\n\n\n\n0\n1\n24.81\n22.05\n\n\n1\n2\n19.91\n16.86\n\n\n2\n3\n19.79\n17.05\n\n\n3\n4\n19.77\n17.42\n\n\n4\n5\n19.63\n16.47\n\n\n5\n6\n19.67\n16.87\n\n\n6\n7\n19.64\n16.80\n\n\n7\n8\n19.70\n16.24\n\n\n8\n9\n20.04\n15.78\n\n\n9\n10\n20.79\n15.89\n\n\n\n\n\n\n\n\n\nWhich degree minimizes training MSE? Is that surprising?\n\nWhich degree minimizes test MSE?\n\nAt which degree do the two columns start to disagree about the direction of improvement? What is happening there?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html#part-4-plot-it",
-    "href": "ex/02-ex.html#part-4-plot-it",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "Part 4: Plot it",
-    "text": "Part 4: Plot it\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.plot(degrees, train_mse, \"-o\", color=\"#595959\", label=\"Training MSE\")\nax.plot(degrees, test_mse, \"-o\", color=\"#d5008f\", label=\"Test MSE\")\nax.set_xlabel(\"Polynomial degree\")\nax.set_ylabel(\"MSE\")\nax.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nCompare this to Figure 2.9 in the textbook. Which of the three panels (Figures 2.9, 2.10, 2.11) does the Auto data most resemble? What does that tell you about the true \\(f\\)?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "ex/02-ex.html#part-5-the-uncomfortable-part",
-    "href": "ex/02-ex.html#part-5-the-uncomfortable-part",
-    "title": "Application exercise 2: Training error will lie to you",
-    "section": "Part 5: The uncomfortable part",
-    "text": "Part 5: The uncomfortable part\nRe-run everything above with random_state=1, then random_state=2, then random_state=3. Record the best degree each time.\n\n\n\n\nrandom_state\nbest degree\ntest MSE at that degree\n\n\n\n\n363\n\n\n\n\n1\n\n\n\n\n2\n\n\n\n\n3\n\n\n\n\n\n\n\nHow much did your answer move? If a colleague reported “the best model is degree 7” based on one split, how much would you trust them?\n\n\n\n\n\nHold on to this. It is the reason cross-validation exists, and we will build it in two weeks.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "2. Training error will lie to you"
-    ]
-  },
-  {
-    "objectID": "data.html",
-    "href": "data.html",
-    "title": " Course Data",
-    "section": "",
-    "text": "import pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nThe above example reads in the Default dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the Auto data we’d change the above code from Default.csv to Auto.csv.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Course Data"
-    ]
-  },
-  {
-    "objectID": "data.html#how-to-read-in-data",
-    "href": "data.html#how-to-read-in-data",
-    "title": " Course Data",
-    "section": "",
-    "text": "import pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nThe above example reads in the Default dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the Auto data we’d change the above code from Default.csv to Auto.csv.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Course Data"
-    ]
-  },
-  {
-    "objectID": "data.html#the-data-sets",
-    "href": "data.html#the-data-sets",
-    "title": " Course Data",
-    "section": "The data sets",
-    "text": "The data sets\n\n\n\nData set\nRows\nColumns\nMissing\nISLP chapters\nDescription\n\n\n\n\nAuto.csv\n392\n9\n\n2, 3, 5\nGas mileage, horsepower, and other characteristics of 392 cars.\n\n\nBoston.csv\n506\n13\n\n3, 8\nHousing values and neighborhood characteristics for 506 Boston census tracts.\n\n\nCaravan.csv\n5,822\n86\n\n4\nDemographic characteristics of 5,822 customers and whether they bought caravan insurance.\n\n\nCarseats.csv\n400\n11\n\n8\nSimulated child car seat sales at 400 stores.\n\n\nCredit.csv\n400\n12\n\n6\nCredit card balance and customer characteristics for 400 people.\n\n\nDefault.csv\n10,000\n4\n\n2, 4\nCredit card default, balance, income, and student status for 10,000 customers.\n\n\nHitters.csv\n322\n20\n59\n6, 8\nSalary and 1986 performance for 322 Major League Baseball players.\n\n\nNCI60.csv\n64\n6,831\n\n1\nGene expression, 6,830 genes measured on 64 cancer cell lines.\n\n\nSmarket.csv\n1,250\n9\n\n1, 4\nDaily S&P 500 percentage returns from 2001 to 2005.\n\n\nWage.csv\n3,000\n11\n\n1, 7\nWage and demographic data for 3,000 male workers in the Atlantic region.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Course Data"
-    ]
-  },
-  {
-    "objectID": "data.html#looking-at-your-data-before-you-model-it",
-    "href": "data.html#looking-at-your-data-before-you-model-it",
-    "title": " Course Data",
-    "section": "Looking at your data before you model it",
-    "text": "Looking at your data before you model it\n\nDefault.dtypes\n\ndefault     object\nstudent     object\nbalance    float64\nincome     float64\ndtype: object\n\n\n\nDefault.describe().round(2)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\ncount\n10000.00\n10000.00\n\n\nmean\n835.37\n33516.98\n\n\nstd\n483.71\n13336.64\n\n\nmin\n0.00\n771.97\n\n\n25%\n481.73\n21340.46\n\n\n50%\n823.64\n34552.64\n\n\n75%\n1166.31\n43807.73\n\n\nmax\n2654.32\n73554.23\n\n\n\n\n\n\n\n\nDefault[\"default\"].value_counts(normalize=True).round(4)\n\ndefault\nNo     0.9667\nYes    0.0333\nName: proportion, dtype: float64",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Course Data"
-    ]
-  },
-  {
-    "objectID": "data.html#where-these-came-from",
-    "href": "data.html#where-these-came-from",
-    "title": " Course Data",
-    "section": "Where these came from",
-    "text": "Where these came from\nAll of these datasets are from the ISLP package that accompanies the textbook.\nIf you want the book’s own labs, which use from ISLP import load_data, you can install the ISLP python package.\n\n%pip install ISLP\n\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Course Data"
+      "1. What is the problem?"
     ]
   },
   {
@@ -967,257 +1141,395 @@
     ]
   },
   {
-    "objectID": "ex/01-ex.html",
-    "href": "ex/01-ex.html",
-    "title": "Application exercise 1: What is the problem?",
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": " Course Data",
     "section": "",
-    "text": "For each scenario, determine:\n\n\\(Y\\)\nat least three plausible predictors\nwhat one row of the data set represents\nwhether it is a regression or classification problem\n\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.",
+    "text": "import pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nThe above example reads in the Default dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the Auto data we’d change the above code from Default.csv to Auto.csv.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "1. What is the problem?"
+      "Computing",
+      "Course Data"
     ]
   },
   {
-    "objectID": "ex/01-ex.html#part-1-naming-the-pieces",
-    "href": "ex/01-ex.html#part-1-naming-the-pieces",
-    "title": "Application exercise 1: What is the problem?",
+    "objectID": "data.html#how-to-read-in-data",
+    "href": "data.html#how-to-read-in-data",
+    "title": " Course Data",
     "section": "",
-    "text": "For each scenario, determine:\n\n\\(Y\\)\nat least three plausible predictors\nwhat one row of the data set represents\nwhether it is a regression or classification problem\n\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.",
+    "text": "import pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nThe above example reads in the Default dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the Auto data we’d change the above code from Default.csv to Auto.csv.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "1. What is the problem?"
+      "Computing",
+      "Course Data"
     ]
   },
   {
-    "objectID": "ex/01-ex.html#part-2-prediction-or-inference",
-    "href": "ex/01-ex.html#part-2-prediction-or-inference",
-    "title": "Application exercise 1: What is the problem?",
-    "section": "Part 2: Prediction or inference?",
-    "text": "Part 2: Prediction or inference?\n\nSort each of these.\n\nDoes raising the minimum wage reduce employment?\n\nWhich of these 10,000 transactions should we flag as fraudulent?\n\nHow much does an extra bathroom add to a house’s sale price?\n\nWhat will this house sell for?\n\nIs this tumor malignant?\n\nDoes this drug lower blood pressure more than the current standard of care?\n\n\n\n\n\n\n\nAsk yourself: if the model were a black box that gave great answers but was hard to understand, would that be acceptable? If yes, it is prediction.",
+    "objectID": "data.html#the-data-sets",
+    "href": "data.html#the-data-sets",
+    "title": " Course Data",
+    "section": "The data sets",
+    "text": "The data sets\n\n\n\nData set\nRows\nColumns\nMissing\nISLP chapters\nDescription\n\n\n\n\nAuto.csv\n392\n9\n\n2, 3, 5\nGas mileage, horsepower, and other characteristics of 392 cars.\n\n\nBoston.csv\n506\n13\n\n3, 8\nHousing values and neighborhood characteristics for 506 Boston census tracts.\n\n\nCaravan.csv\n5,822\n86\n\n4\nDemographic characteristics of 5,822 customers and whether they bought caravan insurance.\n\n\nCarseats.csv\n400\n11\n\n8\nSimulated child car seat sales at 400 stores.\n\n\nCredit.csv\n400\n12\n\n6\nCredit card balance and customer characteristics for 400 people.\n\n\nDefault.csv\n10,000\n4\n\n2, 4\nCredit card default, balance, income, and student status for 10,000 customers.\n\n\nHitters.csv\n322\n20\n59\n6, 8\nSalary and 1986 performance for 322 Major League Baseball players.\n\n\nNCI60.csv\n64\n6,831\n\n1\nGene expression, 6,830 genes measured on 64 cancer cell lines.\n\n\nSmarket.csv\n1,250\n9\n\n1, 4\nDaily S&P 500 percentage returns from 2001 to 2005.\n\n\nWage.csv\n3,000\n11\n\n1, 7\nWage and demographic data for 3,000 male workers in the Atlantic region.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "1. What is the problem?"
+      "Computing",
+      "Course Data"
     ]
   },
   {
-    "objectID": "ex/01-ex.html#part-3-a-first-look-at-data",
-    "href": "ex/01-ex.html#part-3-a-first-look-at-data",
-    "title": "Application exercise 1: What is the problem?",
-    "section": "Part 3: A first look at data",
-    "text": "Part 3: A first look at data\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nWage = pd.read_csv(DATA + \"Wage.csv\")\nWage.head()\n\n\n\n\n\n\n\n\nyear\nage\nmaritl\nrace\neducation\nregion\njobclass\nhealth\nhealth_ins\nlogwage\nwage\n\n\n\n\n0\n2006\n18\n1. Never Married\n1. White\n1. &lt; HS Grad\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n2. No\n4.318063\n75.043154\n\n\n1\n2004\n24\n1. Never Married\n1. White\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n2. No\n4.255273\n70.476020\n\n\n2\n2003\n45\n2. Married\n1. White\n3. Some College\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n1. Yes\n4.875061\n130.982177\n\n\n3\n2003\n43\n2. Married\n3. Asian\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n1. Yes\n5.041393\n154.685293\n\n\n4\n2005\n50\n4. Divorced\n1. White\n2. HS Grad\n2. Middle Atlantic\n2. Information\n1. &lt;=Good\n1. Yes\n4.318063\n75.043154\n\n\n\n\n\n\n\n\nWage.shape\n\n(3000, 11)\n\n\n\n\nWhat is \\(n\\)?\n\nIf you wanted to predict wage, what is the largest \\(p\\) you could use?\n\nLook at the column names. Is there any column you would not use as a predictor? Why?\n\n\n\n\n\n\n\nFor question 3, look carefully at logwage.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "objectID": "data.html#looking-at-your-data-before-you-model-it",
+    "href": "data.html#looking-at-your-data-before-you-model-it",
+    "title": " Course Data",
+    "section": "Looking at your data before you model it",
+    "text": "Looking at your data before you model it\n\nDefault.dtypes\n\ndefault     object\nstudent     object\nbalance    float64\nincome     float64\ndtype: object\n\n\n\nDefault.describe().round(2)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\ncount\n10000.00\n10000.00\n\n\nmean\n835.37\n33516.98\n\n\nstd\n483.71\n13336.64\n\n\nmin\n0.00\n771.97\n\n\n25%\n481.73\n21340.46\n\n\n50%\n823.64\n34552.64\n\n\n75%\n1166.31\n43807.73\n\n\nmax\n2654.32\n73554.23\n\n\n\n\n\n\n\n\nDefault[\"default\"].value_counts(normalize=True).round(4)\n\ndefault\nNo     0.9667\nYes    0.0333\nName: proportion, dtype: float64",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "1. What is the problem?"
+      "Computing",
+      "Course Data"
     ]
   },
   {
-    "objectID": "ex/03-ex.html",
-    "href": "ex/03-ex.html",
-    "title": "Application exercise 3: Reading bias and variance",
+    "objectID": "data.html#where-these-came-from",
+    "href": "data.html#where-these-came-from",
+    "title": " Course Data",
+    "section": "Where these came from",
+    "text": "Where these came from\nAll of these datasets are from the ISLP package that accompanies the textbook.\nIf you want the book’s own labs, which use from ISLP import load_data, you can install the ISLP python package.\n\n%pip install ISLP\n\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Computing",
+      "Course Data"
+    ]
+  },
+  {
+    "objectID": "ex/02-ex.html",
+    "href": "ex/02-ex.html",
+    "title": "Application exercise 2: Training error misleads",
     "section": "",
-    "text": "Most of today is reasoning, not coding.",
+    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import PolynomialFeatures\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.metrics import mean_squared_error\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nAuto.head()\n\n\n\n\n\n\n\n\nname\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nyear\norigin\n\n\n\n\n0\nchevrolet chevelle malibu\n18.0\n8\n307.0\n130\n3504\n12.0\n70\n1\n\n\n1\nbuick skylark 320\n15.0\n8\n350.0\n165\n3693\n11.5\n70\n1\n\n\n2\nplymouth satellite\n18.0\n8\n318.0\n150\n3436\n11.0\n70\n1\n\n\n3\namc rebel sst\n16.0\n8\n304.0\n150\n3433\n12.0\n70\n1\n\n\n4\nford torino\n17.0\n8\n302.0\n140\n3449\n10.5\n70\n1\n\n\n\n\n\n\n\nWe will predict mpg from horsepower.\n\nX = Auto[[\"horsepower\"]]\ny = Auto[\"mpg\"]",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "3. Reading bias and variance"
+      "2. Training error will lie to you"
     ]
   },
   {
-    "objectID": "ex/03-ex.html#part-1-which-is-which",
-    "href": "ex/03-ex.html#part-1-which-is-which",
-    "title": "Application exercise 3: Reading bias and variance",
-    "section": "Part 1: Which is which?",
-    "text": "Part 1: Which is which?\nFour analysts fit models to the same 200 observations. Each then refits on 50 fresh samples from the same population and plots all 50 fitted curves.\n\nMatch each description to a diagnosis: high bias, low variance; low bias, high variance; high bias, high variance; low bias, low variance.\nA. The 50 curves lie almost on top of each other and all miss the same bend in the data.\nB. The 50 curves fan out wildly at the edges but their average tracks the data closely.\nC. The 50 curves lie almost on top of each other and follow the data closely.\nD. The 50 curves fan out wildly and their average still misses the bend.\n\n\n\n\n\nOne of these four is what we always want and rarely get. Which, and what would have to be true of the problem for it to happen?",
+    "objectID": "ex/02-ex.html#setup",
+    "href": "ex/02-ex.html#setup",
+    "title": "Application exercise 2: Training error misleads",
+    "section": "",
+    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import PolynomialFeatures\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.metrics import mean_squared_error\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nAuto.head()\n\n\n\n\n\n\n\n\nname\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nyear\norigin\n\n\n\n\n0\nchevrolet chevelle malibu\n18.0\n8\n307.0\n130\n3504\n12.0\n70\n1\n\n\n1\nbuick skylark 320\n15.0\n8\n350.0\n165\n3693\n11.5\n70\n1\n\n\n2\nplymouth satellite\n18.0\n8\n318.0\n150\n3436\n11.0\n70\n1\n\n\n3\namc rebel sst\n16.0\n8\n304.0\n150\n3433\n12.0\n70\n1\n\n\n4\nford torino\n17.0\n8\n302.0\n140\n3449\n10.5\n70\n1\n\n\n\n\n\n\n\nWe will predict mpg from horsepower.\n\nX = Auto[[\"horsepower\"]]\ny = Auto[\"mpg\"]",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "3. Reading bias and variance"
+      "2. Training error will lie to you"
     ]
   },
   {
-    "objectID": "ex/03-ex.html#part-2-move-the-knob",
-    "href": "ex/03-ex.html#part-2-move-the-knob",
-    "title": "Application exercise 3: Reading bias and variance",
-    "section": "Part 2: Move the knob",
-    "text": "Part 2: Move the knob\n\nFor each change, say what happens to bias, to variance, and to test MSE. Test MSE may go either way , if so, say what it depends on.\n\nIncreasing \\(K\\) in KNN from 5 to 50\n\nCollecting 10 times as many observations, model unchanged\n\nAdding 50 irrelevant predictors\n\nReplacing a degree-2 polynomial with a degree-9 polynomial\n\nAveraging the predictions of 100 different flexible models\n\n\n\n\n\n\n\nNumber 5 is the idea behind an entire unit in November. Think about what averaging does to the spread of a set of numbers.",
+    "objectID": "ex/02-ex.html#part-1-look-before-you-model",
+    "href": "ex/02-ex.html#part-1-look-before-you-model",
+    "title": "Application exercise 2: Training error misleads",
+    "section": "Part 1: Look before you model",
+    "text": "Part 1: Look before you model\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.scatter(X[\"horsepower\"], y, s=12, alpha=0.6, color=\"#d5008f\")\nax.set_xlabel(\"horsepower\")\nax.set_ylabel(\"mpg\")\nplt.show()\n\n\n\n\n\n\n\n\n\nWould a straight line be a good description of this relationship? Sketch, in words, the shape you see.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "3. Reading bias and variance"
+      "2. Training error will lie to you"
     ]
   },
   {
-    "objectID": "ex/03-ex.html#part-3-diagnose-from-a-curve",
-    "href": "ex/03-ex.html#part-3-diagnose-from-a-curve",
-    "title": "Application exercise 3: Reading bias and variance",
-    "section": "Part 3: Diagnose from a curve",
-    "text": "Part 3: Diagnose from a curve\n\n\n\n\n\n\n\n\n\nThree test MSE curves. The dashed teal line is \\(\\text{Var}(\\varepsilon)\\) in each.\n\n\nFor each panel, roughly where is the best flexibility?\n\nIn which panel is the true \\(f\\) closest to linear? How do you know?\n\nIn which panel would using a very flexible method be least damaging?\n\nIn panel A, the curve at flexibility 20 is well above the dashed line. Name the two contributions to that gap and say which one dominates.",
+    "objectID": "ex/02-ex.html#part-2-split",
+    "href": "ex/02-ex.html#part-2-split",
+    "title": "Application exercise 2: Training error misleads",
+    "section": "Part 2: Split",
+    "text": "Part 2: Split\nFill in the blank so that 30% of the observations are held out.\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=____, random_state=363\n)\n\n\nWhy does random_state matter? What would change if you left it out?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "3. Reading bias and variance"
+      "2. Training error will lie to you"
     ]
   },
   {
-    "objectID": "ex/03-ex.html#part-4-an-argument-to-settle",
-    "href": "ex/03-ex.html#part-4-an-argument-to-settle",
-    "title": "Application exercise 3: Reading bias and variance",
-    "section": "Part 4: An argument to settle",
-    "text": "Part 4: An argument to settle\nTwo students are arguing.\n\nJordan: A degree-14 polynomial has high variance. That is just a property of degree-14 polynomials.\nRiley: No it isn’t. It depends on how much data you have.\n\n\nWho is right, and why? Support your answer by describing an experiment you could run to settle it.\n\n\n\n\nIf you have time, run it: adapt the simulation from today’s slides, changing only the sample size from 60 to 2,000.",
+    "objectID": "ex/02-ex.html#part-3-training-mse-versus-test-mse",
+    "href": "ex/02-ex.html#part-3-training-mse-versus-test-mse",
+    "title": "Application exercise 2: Training error misleads",
+    "section": "Part 3: Training MSE versus test MSE",
+    "text": "Part 3: Training MSE versus test MSE\n\ndegrees = range(1, 11)\ntrain_mse, test_mse = [], []\n\nfor d in degrees:\n    model = make_pipeline(PolynomialFeatures(d), LinearRegression())\n    model.fit(X_train, y_train)\n    train_mse.append(mean_squared_error(y_train, model.predict(X_train)))\n    test_mse.append(mean_squared_error(y_test, model.predict(X_test)))\n\n\npd.DataFrame({\"degree\": degrees, \"train\": train_mse, \"test\": test_mse}).round(2)\n\n\n\n\n\n\n\n\ndegree\ntrain\ntest\n\n\n\n\n0\n1\n24.81\n22.05\n\n\n1\n2\n19.91\n16.86\n\n\n2\n3\n21.19\n17.58\n\n\n3\n4\n23.76\n20.67\n\n\n4\n5\n26.98\n25.11\n\n\n5\n6\n30.31\n29.88\n\n\n6\n7\n33.58\n34.41\n\n\n7\n8\n36.72\n38.42\n\n\n8\n9\n39.72\n41.82\n\n\n9\n10\n42.52\n44.61\n\n\n\n\n\n\n\n\n\nWhich degree minimizes training MSE? Is that surprising?\n\nWhich degree minimizes test MSE?\n\nAt which degree do the two columns start to disagree about the direction of improvement? What is happening there?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "3. Reading bias and variance"
+      "2. Training error will lie to you"
     ]
   },
   {
-    "objectID": "ex/03-ex.html#wrap-up",
-    "href": "ex/03-ex.html#wrap-up",
-    "title": "Application exercise 3: Reading bias and variance",
+    "objectID": "ex/02-ex.html#part-4-plot-it",
+    "href": "ex/02-ex.html#part-4-plot-it",
+    "title": "Application exercise 2: Training error misleads",
+    "section": "Part 4: Plot it",
+    "text": "Part 4: Plot it\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.plot(degrees, train_mse, \"-o\", color=\"#595959\", label=\"Training MSE\")\nax.plot(degrees, test_mse, \"-o\", color=\"#d5008f\", label=\"Test MSE\")\nax.set_xlabel(\"Polynomial degree\")\nax.set_ylabel(\"MSE\")\nax.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nCompare this to Figure 2.9 in the textbook. Which of the three panels (Figures 2.9, 2.10, 2.11) does the Auto data most resemble? What does that tell you about the true \\(f\\)?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "2. Training error will lie to you"
+    ]
+  },
+  {
+    "objectID": "ex/02-ex.html#part-5-the-uncomfortable-part",
+    "href": "ex/02-ex.html#part-5-the-uncomfortable-part",
+    "title": "Application exercise 2: Training error misleads",
+    "section": "Part 5: The uncomfortable part",
+    "text": "Part 5: The uncomfortable part\nRe-run everything above with random_state=1, then random_state=2, then random_state=3. Record the best degree each time.\n\n\n\n\nrandom_state\nbest degree\ntest MSE at that degree\n\n\n\n\n363\n\n\n\n\n1\n\n\n\n\n2\n\n\n\n\n3\n\n\n\n\n\n\n\nHow much did your answer move? If a colleague reported “the best model is degree 7” based on one split, how much would you trust them?\n\n\n\n\n\nHold on to this. It is the reason cross-validation exists, and we will build it in two weeks.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "2. Training error will lie to you"
+    ]
+  },
+  {
+    "objectID": "ex/04-ex.html",
+    "href": "ex/04-ex.html",
+    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "section": "",
+    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nX = Default[[\"balance\", \"income\"]]\ny = (Default[\"default\"] == \"Yes\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=363, stratify=y\n)\nfloat(round(y_test.mean(), 4))\n\n0.0333\n\n\n\nThat number is the proportion of the test set that defaulted. If you predicted “no default” for every single person, what would your error rate be?\nWrite it down. It is the bar every model today has to clear.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "4. Tuning K"
+    ]
+  },
+  {
+    "objectID": "ex/04-ex.html#setup",
+    "href": "ex/04-ex.html#setup",
+    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "section": "",
+    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nX = Default[[\"balance\", \"income\"]]\ny = (Default[\"default\"] == \"Yes\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=363, stratify=y\n)\nfloat(round(y_test.mean(), 4))\n\n0.0333\n\n\n\nThat number is the proportion of the test set that defaulted. If you predicted “no default” for every single person, what would your error rate be?\nWrite it down. It is the bar every model today has to clear.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "4. Tuning K"
+    ]
+  },
+  {
+    "objectID": "ex/04-ex.html#part-1-forget-to-scale",
+    "href": "ex/04-ex.html#part-1-forget-to-scale",
+    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "section": "Part 1: Forget to scale",
+    "text": "Part 1: Forget to scale\n\nunscaled = KNeighborsClassifier(n_neighbors=25).fit(X_train, y_train)\nfloat(round(1 - unscaled.score(X_test, y_test), 4))\n\n0.0333\n\n\n\nscaled = make_pipeline(\n    StandardScaler(), KNeighborsClassifier(n_neighbors=25)\n).fit(X_train, y_train)\nfloat(round(1 - scaled.score(X_test, y_test), 4))\n\n0.0263\n\n\n\n\nWhich did better?\n\nThe unscaled error should look familiar. Compare it to the number you wrote down above. What is the unscaled model actually predicting?\n\n\n\n\n\n\nNow look at the units.\n\nX.describe().loc[[\"min\", \"max\", \"std\"]].round(1)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\nmin\n0.0\n772.0\n\n\nmax\n2654.3\n73554.2\n\n\nstd\n483.7\n13336.6\n\n\n\n\n\n\n\n\nTwo customers differ by $1,000 in balance and $1,000 in income. Before scaling, how much does each difference contribute to the distance between them? Which predictor is deciding who counts as a neighbor?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "4. Tuning K"
+    ]
+  },
+  {
+    "objectID": "ex/04-ex.html#part-2-sweep-k",
+    "href": "ex/04-ex.html#part-2-sweep-k",
+    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "section": "Part 2: Sweep K",
+    "text": "Part 2: Sweep K\n\nks = [1, 3, 5, 10, 25, 50, 100, 200, 500]\ntrain_err, test_err = [], []\n\nfor k in ks:\n    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))\n    m.fit(X_train, y_train)\n    train_err.append(1 - m.score(X_train, y_train))\n    test_err.append(1 - m.score(X_test, y_test))\n\npd.DataFrame({\"K\": ks, \"train\": train_err, \"test\": test_err}).round(4)\n\n\n\n\n\n\n\n\nK\ntrain\ntest\n\n\n\n\n0\n1\n0.0000\n0.0423\n\n\n1\n3\n0.0219\n0.0333\n\n\n2\n5\n0.0237\n0.0290\n\n\n3\n10\n0.0260\n0.0270\n\n\n4\n25\n0.0270\n0.0263\n\n\n5\n50\n0.0287\n0.0263\n\n\n6\n100\n0.0311\n0.0310\n\n\n7\n200\n0.0333\n0.0333\n\n\n8\n500\n0.0333\n0.0333\n\n\n\n\n\n\n\n\n\nWhat is the training error at \\(K = 1\\)? Why is that value guaranteed before you run anything?\n\nWhich \\(K\\) minimizes test error?\n\nWhat happens to test error at very large \\(K\\), and why?\n\n\n\n\n\n\nPlot it against \\(1/K\\) so that flexibility increases left to right.\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.plot([1 / k for k in ks], train_err, \"-o\", color=\"#595959\", label=\"Training\")\nax.plot([1 / k for k in ks], test_err, \"-o\", color=\"#d5008f\", label=\"Test\")\nax.set_xscale(\"log\")\nax.set_xlabel(\"1/K\")\nax.set_ylabel(\"Error rate\")\nax.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nCompare the shape of your curves to Figure 2.17 in the textbook. Where do they agree, and where does real data refuse to look like the textbook?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "4. Tuning K"
+    ]
+  },
+  {
+    "objectID": "ex/04-ex.html#part-3-the-error-rate-is-hiding-something",
+    "href": "ex/04-ex.html#part-3-the-error-rate-is-hiding-something",
+    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "section": "Part 3: The error rate is hiding something",
+    "text": "Part 3: The error rate is hiding something\nThe bank cannot contact everyone. Suppose they will reach out to the 100 customers the model considers most at risk.\n\nbest = make_pipeline(\n    StandardScaler(), KNeighborsClassifier(n_neighbors=25)\n).fit(X_train, y_train)\n\nprobs = best.predict_proba(X_test)[:, 1]\ntop100 = np.argsort(-probs)[:100]\nfloat(round(y_test.values[top100].mean(), 3))\n\n0.51\n\n\n\n\nWhat fraction of the top 100 actually defaulted?\n\nCompare that to the overall default rate in the test set. How many times better than random is the model at finding defaulters?\n\nThe model’s error rate was only slightly better than “predict no for everyone.” Yet this number is dramatically better than chance. How can both be true?\n\n\n\n\n\n\n\nA classifier that is mediocre at labelling can be excellent at ranking. On October 2 we will replace the error rate with measures that can tell the difference.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "4. Tuning K"
+    ]
+  },
+  {
+    "objectID": "ex/04-ex.html#if-you-finish-early",
+    "href": "ex/04-ex.html#if-you-finish-early",
+    "title": "Application exercise 4: Tuning K, and what scaling does",
+    "section": "If you finish early",
+    "text": "If you finish early\nAdd student as a third predictor. It is categorical, so you will need to encode it as 0/1 first.\n\nDoes it help? Should it be scaled along with the others? Defend your answer.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "4. Tuning K"
+    ]
+  },
+  {
+    "objectID": "ex/06-ex.html",
+    "href": "ex/06-ex.html",
+    "title": "Application exercise 6: Find the leak",
+    "section": "",
+    "text": "Three analyses, three different kinds of leak. For each one: find it, fix it, and report the honest number.\nimport numpy as np\nimport pandas as pd\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import (\n    cross_val_score, train_test_split, KFold, GroupKFold, StratifiedKFold\n)\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.pipeline import Pipeline, make_pipeline\nfrom sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor\n\nrng = np.random.default_rng(363)",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "6. Find the leak"
+    ]
+  },
+  {
+    "objectID": "ex/06-ex.html#notebook-a-cleaning-before-splitting",
+    "href": "ex/06-ex.html#notebook-a-cleaning-before-splitting",
+    "title": "Application exercise 6: Find the leak",
+    "section": "Notebook A: cleaning before splitting",
+    "text": "Notebook A: cleaning before splitting\nAn analyst predicts Balance from four numeric predictors. Thirty percent of Income is missing, so they fill it in and standardize before doing anything else.\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nnum = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\nCredit.loc[rng.random(len(Credit)) &lt; 0.30, \"Income\"] = np.nan\n\nclean = Credit.copy()\nclean[\"Income\"] = clean[\"Income\"].fillna(clean[\"Income\"].mean())\nclean[num] = StandardScaler().fit_transform(clean[num])\n\ncv = KFold(5, shuffle=True, random_state=363)\nscore = cross_val_score(\n    KNeighborsRegressor(10), clean[num], clean[\"Balance\"],\n    cv=cv, scoring=\"neg_mean_squared_error\"\n)\nfloat(round(-score.mean(), 1))\n\n40935.0\n\n\n\n\nTwo things were estimated from the data before cross-validation started. Name both.\n\nRewrite this as a single Pipeline with three steps so that both are learned inside each fold. Report the honest MSE.\n\nThe two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference was small.\n\n\n\n\n\n\n\nYour pipeline needs SimpleImputer, then StandardScaler, then the model. Pass the unfilled Credit[num] to cross_val_score.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "6. Find the leak"
+    ]
+  },
+  {
+    "objectID": "ex/06-ex.html#notebook-b-an-impressive-r2",
+    "href": "ex/06-ex.html#notebook-b-an-impressive-r2",
+    "title": "Application exercise 6: Find the leak",
+    "section": "Notebook B: an impressive \\(R^2\\)",
+    "text": "Notebook B: an impressive \\(R^2\\)\nA clinic measures each patient at five visits. The analyst wants to predict a functional score from BMI and systolic blood pressure.\n\nn_patients, n_visits = 200, 5\npid = np.repeat(np.arange(n_patients), n_visits)\n\nbmi = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\nsbp = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\npatient_effect = rng.normal(0, 2.5, n_patients)[pid]\nscore = bmi + patient_effect + rng.normal(0, 0.4, n_patients * n_visits)\n\nvisits = pd.DataFrame(\n    {\"patient_id\": pid, \"bmi\": bmi, \"sbp\": sbp, \"score\": score}\n)\nvisits.head(6)\n\n\n\n\n\n\n\n\npatient_id\nbmi\nsbp\nscore\n\n\n\n\n0\n0\n-0.455388\n-0.965580\n-1.513012\n\n\n1\n0\n-0.471733\n-1.008728\n-1.408096\n\n\n2\n0\n-0.557966\n-0.968895\n-1.254455\n\n\n3\n0\n-0.523274\n-0.930570\n-0.899867\n\n\n4\n0\n-0.505790\n-0.912909\n-1.058279\n\n\n5\n1\n-0.108126\n1.250025\n0.915257\n\n\n\n\n\n\n\n\nmodel = make_pipeline(StandardScaler(), KNeighborsRegressor(5))\nfloat(round(\n    cross_val_score(\n        model, visits[[\"bmi\", \"sbp\"]], visits[\"score\"],\n        cv=KFold(5, shuffle=True, random_state=1)\n    ).mean(),\n    3,\n))\n\n0.543\n\n\n\n\nLook at the first six rows. What do you notice about the predictor values within a single patient?\n\nWhen a visit lands in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?\n\nThe model is meant to be used on new patients. Re-run the cross-validation with GroupKFold(5) and groups=visits[\"patient_id\"]. Report the honest \\(R^2\\).\n\n\n\n\n\n\n\nThe honest \\(R^2\\) is negative. What does a negative \\(R^2\\) mean, and what would have been a better prediction rule for a new patient?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "6. Find the leak"
+    ]
+  },
+  {
+    "objectID": "ex/06-ex.html#notebook-c-the-pipeline-is-perfect",
+    "href": "ex/06-ex.html#notebook-c-the-pipeline-is-perfect",
+    "title": "Application exercise 6: Find the leak",
+    "section": "Notebook C: the pipeline is perfect",
+    "text": "Notebook C: the pipeline is perfect\nHere the code is correct. Read the data dictionary instead.\n\nn = 800\nseverity = rng.normal(0, 1, n)\nreadmit = (rng.random(n) &lt; 1 / (1 + np.exp(-(-1.2 + 0.9 * severity)))).astype(int)\n\nclinic = pd.DataFrame({\n    \"age\": rng.normal(62, 12, n),\n    \"severity_score\": severity,\n    \"n_labs_ordered\": rng.poisson(np.clip(3 + 2 * severity, 0.1, None)),\n    \"discharge_med_count\": rng.poisson(np.clip(4 + 0.5 * severity, 0.1, None)),\n    \"followup_calls_made\": rng.poisson(0.4 + 3.0 * readmit),\n    \"readmitted_30d\": readmit,\n})\nclinic.head()\n\n\n\n\n\n\n\n\nage\nseverity_score\nn_labs_ordered\ndischarge_med_count\nfollowup_calls_made\nreadmitted_30d\n\n\n\n\n0\n46.429989\n-0.438399\n1\n3\n1\n0\n\n\n1\n55.374458\n0.295059\n2\n4\n0\n0\n\n\n2\n73.563485\n-0.259286\n1\n0\n0\n0\n\n\n3\n87.302273\n-0.165281\n2\n5\n0\n0\n\n\n4\n57.324869\n0.243289\n4\n4\n0\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nMeaning\nWhen is it recorded?\n\n\n\n\nage\nPatient age at admission\nAt admission\n\n\nseverity_score\nClinical severity index\nAt admission\n\n\nn_labs_ordered\nLabs ordered during the stay\nDuring the stay\n\n\ndischarge_med_count\nMedications on the discharge summary\nAt discharge\n\n\nfollowup_calls_made\nFollow-up calls from the care team\nIn the 30 days after discharge\n\n\nreadmitted_30d\nReadmitted within 30 days\n30 days after discharge\n\n\n\n\nfeats = [\"age\", \"severity_score\", \"n_labs_ordered\",\n         \"discharge_med_count\", \"followup_calls_made\"]\n\ncv_c = StratifiedKFold(5, shuffle=True, random_state=363)\nfloat(round(\n    cross_val_score(\n        make_pipeline(StandardScaler(), KNeighborsClassifier(15)),\n        clinic[feats], clinic[\"readmitted_30d\"], cv=cv_c, scoring=\"roc_auc\"\n    ).mean(),\n    3,\n))\n\n0.959\n\n\n\n\nEvery learned step is inside a pipeline and the folds are stratified. So why is this result still worthless?\n\nWhich column is the problem? Point to the row of the data dictionary that gives it away.\n\nDrop it, re-run, and report the honest AUC.\n\nThe model is meant to run the moment a patient is discharged, so a nurse can decide who to call tonight. Which of the five predictors are available at that moment?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "6. Find the leak"
+    ]
+  },
+  {
+    "objectID": "ex/06-ex.html#wrap-up",
+    "href": "ex/06-ex.html#wrap-up",
+    "title": "Application exercise 6: Find the leak",
     "section": "Wrap-up",
-    "text": "Wrap-up\n\nIn one sentence: why is the test MSE curve U-shaped rather than monotone?",
+    "text": "Wrap-up\n\nFill in this table from what you found today.\n\n\n\nNotebook\nKind of leak\nHow big was it?\nWhat catches it?\n\n\n\n\nA\n\n\n\n\n\nB\n\n\n\n\n\nC\n\n\n\n\n\n\n\n\n\n\n\nThe size of a leak is not predictable from how careless the code looks. Notebook A looks the sloppiest and cost the least. Notebook C looks flawless and was useless.\nPipelines are free, so always use them. But only reading the data dictionary catches the leak that actually matters.\n\nCredit data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit and clinic data are simulated.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "3. Reading bias and variance"
+      "6. Find the leak"
     ]
   },
   {
-    "objectID": "ex/05-ex.html",
-    "href": "ex/05-ex.html",
-    "title": "Application exercise 5: Cross-validation",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STA 363: Statistical Learning",
     "section": "",
-    "text": "On Friday you chose \\(K\\) using a single train/test split, and found that the answer moved when the split moved. Today you replace that with cross-validation and see how much steadier the answer gets.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
+    "text": "Course Info\nLocation: TBD Time: W/F Semester: Fall 2026\n\n\n Office Hours\nInstructor: Dr. Lucy D’Agostino McGowan Email: mcgowald@wfu.edu Hours: Bookable Office: Manchester 342\nMath & Stats Center: mathandstatscenter@wfu.edu Location: Math & Stats Center\n\n\n\n Text\nThe main textbook is An Introduction to Statistical Learning with Applications in Python by Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan Taylor (Springer, 2023). A free PDF is available at statlearning.com.\n\n\n Computing\nWe use Python in Google Colab, so there is nothing to install. You need a browser and your WFU Google account.\nStart here: Getting Started with Colab.\nThe Python Quick Guide has the R to Python translation.\n\n\n Stuck?\nRead Troubleshooting first, then see Help for office hours, the Math & Stats Center, and how to ask a question that gets a fast answer.\n\n\n Materials\nThis class is hands on. Bring a charged laptop to every class."
   },
   {
-    "objectID": "ex/05-ex.html#setup",
-    "href": "ex/05-ex.html#setup",
-    "title": "Application exercise 5: Cross-validation",
-    "section": "Setup",
-    "text": "Setup\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.model_selection import cross_val_score, StratifiedKFold\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nX = Default[[\"balance\", \"income\"]]\ny = (Default[\"default\"] == \"Yes\").astype(int)\n\nNotice that we are not splitting. Cross-validation will do the splitting for us.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
-  },
-  {
-    "objectID": "ex/05-ex.html#part-1-one-value-of-k",
-    "href": "ex/05-ex.html#part-1-one-value-of-k",
-    "title": "Application exercise 5: Cross-validation",
-    "section": "Part 1: One value of K",
-    "text": "Part 1: One value of K\n\ncv = StratifiedKFold(n_splits=10, shuffle=True, random_state=363)\nmodel = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=25))\nscores = cross_val_score(model, X, y, cv=cv, scoring=\"accuracy\")\nscores.round(4)\n\narray([0.976, 0.966, 0.977, 0.972, 0.973, 0.976, 0.973, 0.969, 0.972,\n       0.974])\n\n\n\n\nWhy are there ten numbers?\n\nWhat does each one represent?\n\nCompute the mean and the standard deviation. What does the standard deviation tell you that the mean does not?\n\n\n\n\nscores.mean(), scores.std()",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
-  },
-  {
-    "objectID": "ex/05-ex.html#part-2-sweep-k-with-cross-validation",
-    "href": "ex/05-ex.html#part-2-sweep-k-with-cross-validation",
-    "title": "Application exercise 5: Cross-validation",
-    "section": "Part 2: Sweep K with cross-validation",
-    "text": "Part 2: Sweep K with cross-validation\n\nks = [1, 3, 5, 10, 25, 50, 100, 200, 500]\ncv_err = []\n\nfor k in ks:\n    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))\n    cv_err.append(1 - cross_val_score(m, X, y, cv=cv, scoring=\"accuracy\").mean())\n\npd.DataFrame({\"K\": ks, \"cv_error\": cv_err}).round(4)\n\n\n\n\n\n\n\n\nK\ncv_error\n\n\n\n\n0\n1\n0.0432\n\n\n1\n3\n0.0335\n\n\n2\n5\n0.0304\n\n\n3\n10\n0.0272\n\n\n4\n25\n0.0272\n\n\n5\n50\n0.0278\n\n\n6\n100\n0.0289\n\n\n7\n200\n0.0329\n\n\n8\n500\n0.0333\n\n\n\n\n\n\n\n\nWhich \\(K\\) does cross-validation choose? Is it the same one your single split chose on Friday?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
-  },
-  {
-    "objectID": "ex/05-ex.html#part-3-how-much-steadier-is-it",
-    "href": "ex/05-ex.html#part-3-how-much-steadier-is-it",
-    "title": "Application exercise 5: Cross-validation",
-    "section": "Part 3: How much steadier is it?",
-    "text": "Part 3: How much steadier is it?\nRun the whole sweep nine times, changing only the random seed of the fold assignment.\n\nfig, ax = plt.subplots(figsize=(6.5, 3.6))\nbest_ks = []\n\nfor seed in range(9):\n    cv_s = StratifiedKFold(n_splits=10, shuffle=True, random_state=seed)\n    curve = [\n        1 - cross_val_score(\n            make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k)),\n            X, y, cv=cv_s, scoring=\"accuracy\"\n        ).mean()\n        for k in ks\n    ]\n    best_ks.append(ks[int(np.argmin(curve))])\n    ax.plot([1 / k for k in ks], curve, color=\"#d5008f\", alpha=0.6)\n\nax.set_xscale(\"log\")\nax.set_xlabel(\"1/K\")\nax.set_ylabel(\"10-fold CV error\")\nplt.show()\n\nbest_ks\n\n\n\n\n\n\n\n\n\n\nHow much do the nine curves differ?\n\nHow many distinct values of \\(K\\) were chosen across the nine runs?\n\nGo back to Friday’s exercise and do the same thing with nine single splits. Which procedure is more stable?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
-  },
-  {
-    "objectID": "ex/05-ex.html#part-4-regression-same-machinery",
-    "href": "ex/05-ex.html#part-4-regression-same-machinery",
-    "title": "Application exercise 5: Cross-validation",
-    "section": "Part 4: Regression, same machinery",
-    "text": "Part 4: Regression, same machinery\n\nfrom sklearn.model_selection import KFold\nfrom sklearn.preprocessing import PolynomialFeatures\nfrom sklearn.linear_model import LinearRegression\n\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nXa, ya = Auto[[\"horsepower\"]], Auto[\"mpg\"]\n\ncv_reg = KFold(n_splits=10, shuffle=True, random_state=363)\ndegrees = range(1, 11)\nmse = [\n    -cross_val_score(\n        make_pipeline(PolynomialFeatures(d), LinearRegression()),\n        Xa, ya, cv=cv_reg, scoring=\"neg_mean_squared_error\"\n    ).mean()\n    for d in degrees\n]\npd.DataFrame({\"degree\": degrees, \"cv_mse\": mse}).round(2)\n\n\n\n\n\n\n\n\ndegree\ncv_mse\n\n\n\n\n0\n1\n24.24\n\n\n1\n2\n19.27\n\n\n2\n3\n19.39\n\n\n3\n4\n19.55\n\n\n4\n5\n19.09\n\n\n5\n6\n19.22\n\n\n6\n7\n19.16\n\n\n7\n8\n19.02\n\n\n8\n9\n19.14\n\n\n9\n10\n19.85\n\n\n\n\n\n\n\n\n\nWhich degree has the smallest CV MSE?\n\nHow much better is it than degree 2?\n\nIf the difference between them is smaller than the fold-to-fold variability, which would you actually ship? Why?\n\n\n\n\n\n\n\nFor question 3, look at the standard deviation across the ten folds for each of the two degrees, not just their means.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
-  },
-  {
-    "objectID": "ex/05-ex.html#part-5-think-ahead",
-    "href": "ex/05-ex.html#part-5-think-ahead",
-    "title": "Application exercise 5: Cross-validation",
-    "section": "Part 5: Think ahead",
-    "text": "Part 5: Think ahead\n\nIn Part 1 you put StandardScaler inside make_pipeline rather than scaling X beforehand. Suppose you had instead written\nX_scaled = StandardScaler().fit_transform(X)\ncross_val_score(KNeighborsClassifier(25), X_scaled, y, cv=cv)\nWould that give the same answer? Would it be correct? Write down what you think and bring it to Friday.\n\n\n\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "5. Cross-validation"
-    ]
-  },
-  {
-    "objectID": "help.html",
-    "href": "help.html",
-    "title": " Help",
+    "objectID": "ps/02-ps.html",
+    "href": "ps/02-ps.html",
+    "title": "Problem set 2: Bias, variance, and neighbors",
     "section": "",
-    "text": "Most technical problems are answered on Troubleshooting."
+    "text": "Covers meetings 3 and 4. Submit a PDF to Canvas. If you worked with classmates, say so at the top.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
-    "objectID": "help.html#start-here",
-    "href": "help.html#start-here",
-    "title": " Help",
-    "section": "",
-    "text": "Most technical problems are answered on Troubleshooting."
+    "objectID": "ps/02-ps.html#the-decomposition",
+    "href": "ps/02-ps.html#the-decomposition",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "1. The decomposition",
+    "text": "1. The decomposition\n\nWrite the three terms that expected test MSE decomposes into.\n\nTwo of them can be driven toward zero. Which one cannot, and why not?\n\nBias and variance are defined with respect to something that varies. What varies, and what is held fixed?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
-    "objectID": "help.html#office-hours",
-    "href": "help.html#office-hours",
-    "title": " Help",
-    "section": "Office hours",
-    "text": "Office hours\nDr. Lucy D’Agostino McGowan Manchester 342 Book a time"
+    "objectID": "ps/02-ps.html#which-is-which",
+    "href": "ps/02-ps.html#which-is-which",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "2. Which is which",
+    "text": "2. Which is which\nFour analysts fit a model, then refit it on 50 fresh samples from the same population and overlay all 50 fitted curves.\n\n\n\n\n\n\n\n\nWhat they see\n\n\n\n\nA\nThe curves nearly coincide and all miss the same bend\n\n\nB\nThe curves fan out wildly, but their average tracks the truth\n\n\nC\nThe curves nearly coincide and follow the truth closely\n\n\nD\nThe curves fan out wildly and their average still misses the bend\n\n\n\n\nLabel each high or low bias and high or low variance.\n\nWhich analyst is in the best position, and what would have to be true of the problem for that to happen?\n\nAnalyst B wants lower variance. Give two different ways to get it, and say what each costs.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
-    "objectID": "help.html#math-stats-center",
-    "href": "help.html#math-stats-center",
-    "title": " Help",
-    "section": "Math & Stats Center",
-    "text": "Math & Stats Center\nmathandstatscenter.wfu.edu mathandstatscenter@wfu.edu"
+    "objectID": "ps/02-ps.html#move-the-knob",
+    "href": "ps/02-ps.html#move-the-knob",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "3. Move the knob",
+    "text": "3. Move the knob\nFor each change, state the effect on bias, on variance, and on test MSE. Where test MSE could go either way, say what it depends on.\n\nRaising \\(K\\) in KNN from 5 to 200.\n\nCollecting ten times as many rows, model unchanged.\n\nAdding 40 predictors that are pure noise.\n\nAveraging the predictions of 100 separately fitted flexible models.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
-    "objectID": "help.html#each-other",
-    "href": "help.html#each-other",
-    "title": " Help",
-    "section": "Each other",
-    "text": "Each other\nYou are encouraged to work together on application exercises and problem sets, however I want you to write up your own work. See the honor code section of the course policies."
+    "objectID": "ps/02-ps.html#a-property-of-the-model-or-not",
+    "href": "ps/02-ps.html#a-property-of-the-model-or-not",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "4. A property of the model, or not",
+    "text": "4. A property of the model, or not\n\nA degree-14 polynomial is a high variance model. That is what degree-14 means.\n\nSay whether you agree. Describe an experiment that would settle it, naming what you would vary and what you would measure.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
-    "objectID": "help.html#reference",
-    "href": "help.html#reference",
-    "title": " Help",
-    "section": "Reference",
-    "text": "Reference\n\n\n\nTextbook\nstatlearning.com, free PDF\n\n\nColab setup\nGetting Started with Colab\n\n\nPython syntax\nPython Quick Guide\n\n\nData sets\nCourse Data\n\n\nscikit-learn\nscikit-learn.org/stable/user_guide.html\n\n\npandas\npandas.pydata.org/docs/user_guide"
+    "objectID": "ps/02-ps.html#the-bayes-classifier",
+    "href": "ps/02-ps.html#the-bayes-classifier",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "5. The Bayes classifier",
+    "text": "5. The Bayes classifier\n\nWhy can the Bayes classifier never be used on real data?\n\nGiven that, say what purpose it serves.\n\nA colleague reports a classifier with a 4% test error rate on a problem whose Bayes error rate is 11%. What are the two possible explanations, and which is more likely?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
-    "objectID": "help.html#using-ai-assistants",
-    "href": "help.html#using-ai-assistants",
-    "title": " Help",
-    "section": "Using AI assistants",
-    "text": "Using AI assistants\nYou may use them AI on assignments however you must:\n\nCite what you used on graded work, the same way you would cite a classmate or a StackOverflow answer.\nDo not submit code you cannot explain. The exams are on paper and the questions are about reasoning, so code you did not understand will not help you there. If AI gives you something that works and you are unsure why, that is a good office hours question."
+    "objectID": "ps/02-ps.html#knn-and-scale",
+    "href": "ps/02-ps.html#knn-and-scale",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "6. KNN and scale",
+    "text": "6. KNN and scale\nThe Default data records credit card balance, income, and whether the customer defaulted.\n\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault[[\"balance\", \"income\"]].describe().loc[[\"min\", \"max\", \"std\"]].round(1)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\nmin\n0.0\n772.0\n\n\nmax\n2654.3\n73554.2\n\n\nstd\n483.7\n13336.6\n\n\n\n\n\n\n\n\nTwo customers differ by $1,000 in balance and $1,000 in income. Before any scaling, how much does each difference contribute to the distance between them? Which predictor decides who counts as a neighbor?\n\nFit KNN with \\(K = 25\\) twice, once without StandardScaler and once with it inside a pipeline. Report both test error rates.\n\nOne of those two numbers should look familiar. Compare it to the proportion of non-defaulters in the test set and say what that model is really doing.\n\n\n\nproportion of the test set that defaulted: 0.0333",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
+  },
+  {
+    "objectID": "ps/02-ps.html#choosing-k",
+    "href": "ps/02-ps.html#choosing-k",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "7. Choosing K",
+    "text": "7. Choosing K\nSweep \\(K\\) over 1, 3, 5, 10, 25, 50, 100, 200, and 500 with the scaled pipeline.\n\nReport training and test error for each.\n\nWhat is the training error at \\(K = 1\\), and why is that value guaranteed before you run anything?\n\nPlot both curves against \\(1/K\\). Describe where your picture matches ISLP Figure 2.17 and where it does not.\n\nWhich \\(K\\) would you choose? Say what you traded off.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
+  },
+  {
+    "objectID": "ps/02-ps.html#rare-outcomes",
+    "href": "ps/02-ps.html#rare-outcomes",
+    "title": "Problem set 2: Bias, variance, and neighbors",
+    "section": "8. Rare outcomes",
+    "text": "8. Rare outcomes\nUsing your chosen \\(K\\), rank the test set by predicted probability of default and look at the 100 highest.\n\nprobs = model.predict_proba(X_test)[:, 1]\ntop100 = np.argsort(-probs)[:100]\ny_test.values[top100].mean()\n\n\nWhat fraction of those 100 defaulted?\n\nCompare that to the overall default rate. How many times better than chance is the model at finding defaulters?\n\nYour model barely beat “predict no for everyone” on error rate, yet part b looks strong. Explain how both can be true, and say which of the two numbers the bank should care about.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Problem Sets",
+      "2. Bias, variance, and neighbors"
+    ]
   },
   {
     "objectID": "python-guide.html",
@@ -1692,7 +2004,7 @@
     "href": "slides/03-bias-variance.html#before-friday",
     "title": "Bias-variance trade-off",
     "section": "Before Friday",
-    "text": "Before Friday\n\nRead ISLP Section 2.2.3\n\nProblem set 2 posted\n\n\n\n\nBias and variance both require knowing \\(f\\). So how do we choose a model?",
+    "text": "Before Friday\n\nRead ISLP Section 2.2.3\n\nProblem set 1 due Friday\n\n\n\n\nBias and variance both require knowing \\(f\\). So how do we choose a model?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1860,7 +2172,7 @@
     "href": "slides/05-cross-validation.html#before-friday",
     "title": "Cross-validation",
     "section": "Before Friday",
-    "text": "Before Friday\n\nRead ISLP Section 5.1.4\n\nProblem set 3 posted\n\n\n\n\nYou scale your predictors, then cross-validate. Is that fine?",
+    "text": "Before Friday\n\nRead ISLP Section 5.1.4\n\nProblem set 2 due Friday\n\n\n\n\nYou scale your predictors, then cross-validate. Is that fine?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",

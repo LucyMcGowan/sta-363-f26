@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title> Troubleshooting – STA 363</title>
+<title>Problem set 3: Cross-validation and leakage – STA 363</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,28 +58,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./slides/01-welcome.html" rel="next">
-<link href="./data.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ex/01-ex.html" rel="next">
+<link href="../ps/02-ps.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,14 +107,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-<link rel="stylesheet" href="www/fontawesome/css/all.min.css">
-<meta property="og:title" content=" Troubleshooting – STA 363">
-<meta property="og:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
+<meta property="og:title" content="Problem set 3: Cross-validation and leakage – STA 363">
+<meta property="og:description" content="STA 363 | Posted September 11 | Due Friday, September 18">
 <meta property="og:site_name" content="STA 363">
-<meta name="twitter:title" content=" Troubleshooting – STA 363">
-<meta name="twitter:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
+<meta name="twitter:title" content="Problem set 3: Cross-validation and leakage – STA 363">
+<meta name="twitter:description" content="STA 363 | Posted September 11 | Due Friday, September 18">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -287,7 +319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">STA 363</span>
     </a>
   </div>
@@ -298,15 +330,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./schedule.html" aria-current="page"> 
+    <a class="nav-link active" href="../schedule.html" aria-current="page"> 
 <span class="menu-text"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text"><i class="fa-solid fa-gavel" aria-hidden="true"></i> Policies</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./help.html"> 
+    <a class="nav-link" href="../help.html"> 
 <span class="menu-text"><i class="fa-solid fa-question-circle" aria-hidden="true"></i> Help</span></a>
   </li>  
   <li class="nav-item">
@@ -325,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./troubleshooting.html">Troubleshooting</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ps/01-ps.html">Problem Sets</a></li><li class="breadcrumb-item"><a href="../ps/03-ps.html">3. Cross-validation and leakage</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -348,13 +380,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Policies</span></a>
   </div>
 </li>
@@ -362,34 +394,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Computing</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./colab.html" class="sidebar-item-text sidebar-link">
+  <a href="../colab.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting Started with Colab</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./python-guide.html" class="sidebar-item-text sidebar-link">
+  <a href="../python-guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python Quick Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
+  <a href="../data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link active">
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Troubleshooting</span></a>
   </div>
 </li>
@@ -406,37 +438,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/01-welcome.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/01-welcome.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Statistical learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Prediction error</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Bias-variance trade-off</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/04-knn.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/04-knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. K-nearest neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Pipelines and leakage</span></a>
   </div>
 </li>
@@ -444,28 +476,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Problem Sets</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ps/01-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="../ps/01-ps.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. The prediction framework</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ps/02-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="../ps/02-ps.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Bias, variance, and neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ps/03-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="../ps/03-ps.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">3. Cross-validation and leakage</span></a>
   </div>
 </li>
@@ -482,37 +514,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/01-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/01-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. What is the problem?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/02-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Training error will lie to you</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/03-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/03-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Reading bias and variance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/04-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/04-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Tuning K</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/05-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/05-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/06-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/06-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Find the leak</span></a>
   </div>
 </li>
@@ -527,30 +559,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
-  <li><a href="#the-first-thing-to-try" id="toc-the-first-thing-to-try" class="nav-link active" data-scroll-target="#the-first-thing-to-try">The first thing to try</a></li>
-  <li><a href="#colab-problems" id="toc-colab-problems" class="nav-link" data-scroll-target="#colab-problems">Colab problems</a>
   <ul class="collapse">
-  <li><a href="#my-variables-disappeared" id="toc-my-variables-disappeared" class="nav-link" data-scroll-target="#my-variables-disappeared">My variables disappeared</a></li>
-  <li><a href="#it-says-i-cannot-save" id="toc-it-says-i-cannot-save" class="nav-link" data-scroll-target="#it-says-i-cannot-save">It says I cannot save</a></li>
-  </ul></li>
-  <li><a href="#python-errors" id="toc-python-errors" class="nav-link" data-scroll-target="#python-errors">Python errors</a>
-  <ul class="collapse">
-  <li><a href="#nameerror-name-auto-is-not-defined" id="toc-nameerror-name-auto-is-not-defined" class="nav-link" data-scroll-target="#nameerror-name-auto-is-not-defined"><code>NameError: name 'Auto' is not defined</code></a></li>
-  <li><a href="#keyerror-balance" id="toc-keyerror-balance" class="nav-link" data-scroll-target="#keyerror-balance"><code>KeyError: 'Balance'</code></a></li>
-  <li><a href="#valueerror-expected-2d-array-got-1d-array-instead" id="toc-valueerror-expected-2d-array-got-1d-array-instead" class="nav-link" data-scroll-target="#valueerror-expected-2d-array-got-1d-array-instead"><code>ValueError: Expected 2D array, got 1D array instead</code></a></li>
-  <li><a href="#valueerror-could-not-convert-string-to-float" id="toc-valueerror-could-not-convert-string-to-float" class="nav-link" data-scroll-target="#valueerror-could-not-convert-string-to-float"><code>ValueError: could not convert string to float</code></a></li>
-  </ul></li>
+  <li><a href="#why-not-one-split" id="toc-why-not-one-split" class="nav-link active" data-scroll-target="#why-not-one-split">1. Why not one split</a></li>
+  <li><a href="#choosing-k" id="toc-choosing-k" class="nav-link" data-scroll-target="#choosing-k">2. Choosing k</a></li>
+  <li><a href="#what-cv-is-for" id="toc-what-cv-is-for" class="nav-link" data-scroll-target="#what-cv-is-for">3. What CV is for</a></li>
+  <li><a href="#cross-validating-a-polynomial" id="toc-cross-validating-a-polynomial" class="nav-link" data-scroll-target="#cross-validating-a-polynomial">4. Cross-validating a polynomial</a></li>
+  <li><a href="#where-the-scaler-goes" id="toc-where-the-scaler-goes" class="nav-link" data-scroll-target="#where-the-scaler-goes">5. Where the scaler goes</a></li>
+  <li><a href="#three-kinds-of-leak" id="toc-three-kinds-of-leak" class="nav-link" data-scroll-target="#three-kinds-of-leak">6. Three kinds of leak</a></li>
+  <li><a href="#grouped-data" id="toc-grouped-data" class="nav-link" data-scroll-target="#grouped-data">7. Grouped data</a></li>
+  <li><a href="#three-sets" id="toc-three-sets" class="nav-link" data-scroll-target="#three-sets">8. Three sets</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/troubleshooting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ps/03-ps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./troubleshooting.html">Troubleshooting</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ps/01-ps.html">Problem Sets</a></li><li class="breadcrumb-item"><a href="../ps/03-ps.html">3. Cross-validation and leakage</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><i class="fa-solid fa-wrench" aria-hidden="true"></i> Troubleshooting</h1>
+<h1 class="title">Problem set 3: Cross-validation and leakage</h1>
+<p class="subtitle lead">STA 363 | Posted September 11 | Due Friday, September 18</p>
 </div>
 
 
@@ -567,69 +595,174 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="the-first-thing-to-try" class="level2">
-<h2 class="anchored" data-anchor-id="the-first-thing-to-try">The first thing to try</h2>
-<p><strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Restart session and run all</strong>.</p>
-<p>A notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear.</p>
+<p>Covers meetings 5 and 6. Submit a PDF to Canvas. If you worked with classmates, say so at the top.</p>
+<section id="why-not-one-split" class="level2">
+<h2 class="anchored" data-anchor-id="why-not-one-split">1. Why not one split</h2>
+<ol type="a">
+<li>Give the two problems with estimating test error from a single train and test split. One sentence each.<br>
+</li>
+<li>Both problems point the same direction. What is it?</li>
+</ol>
 </section>
-<section id="colab-problems" class="level2">
-<h2 class="anchored" data-anchor-id="colab-problems">Colab problems</h2>
-<section id="my-variables-disappeared" class="level3">
-<h3 class="anchored" data-anchor-id="my-variables-disappeared">My variables disappeared</h3>
-<p>The runtime may have disconnected. Try running your cells again from the top.</p>
+<section id="choosing-k" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-k">2. Choosing k</h2>
+<ol type="a">
+<li>LOOCV has lower bias than 10-fold CV. Say why.<br>
+</li>
+<li>LOOCV has higher variance than 10-fold CV. Say why, in terms of how much the <span class="math inline">\(n\)</span> fitted models resemble each other.<br>
+</li>
+<li>The usual advice is <span class="math inline">\(k = 5\)</span> or <span class="math inline">\(k = 10\)</span>. Is that a theorem or a rule of thumb? What would change your choice?</li>
+</ol>
 </section>
-<section id="it-says-i-cannot-save" class="level3">
-<h3 class="anchored" data-anchor-id="it-says-i-cannot-save">It says I cannot save</h3>
-<p>You may have someone else’s notebook open. <strong>File</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Save a copy in Drive</strong>, then work in your copy.</p>
+<section id="what-cv-is-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-cv-is-for">3. What CV is for</h2>
+<p>ISLP Figure 5.6 shows CV estimates sitting noticeably below the true test MSE in two of three panels, while the location of the minimum lines up in all three.</p>
+<ol type="a">
+<li>Given that, is cross-validation a good way to estimate the error of a model you plan to deploy?<br>
+</li>
+<li>Is it a good way to choose between models?<br>
+</li>
+<li>Reconcile your two answers in a sentence.</li>
+</ol>
 </section>
-</section>
-<section id="python-errors" class="level2">
-<h2 class="anchored" data-anchor-id="python-errors">Python errors</h2>
-<section id="nameerror-name-auto-is-not-defined" class="level3">
-<h3 class="anchored" data-anchor-id="nameerror-name-auto-is-not-defined"><code>NameError: name 'Auto' is not defined</code></h3>
-<p>The cell that created <code>Auto</code> has not run in this session. Try running your workbook from the top to be sure the data has been loaded.</p>
-</section>
-<section id="keyerror-balance" class="level3">
-<h3 class="anchored" data-anchor-id="keyerror-balance"><code>KeyError: 'Balance'</code></h3>
-<p>No column by that name. Check the spelling, including capitals:</p>
-<div id="0784ff03" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Credit <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Credit.csv"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(Credit.columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>['ID',
- 'Income',
- 'Limit',
- 'Rating',
- 'Cards',
- 'Age',
- 'Education',
- 'Gender',
- 'Student',
- 'Married',
- 'Ethnicity',
- 'Balance']</code></pre>
+<section id="cross-validating-a-polynomial" class="level2">
+<h2 class="anchored" data-anchor-id="cross-validating-a-polynomial">4. Cross-validating a polynomial</h2>
+<p>Predict <code>mpg</code> from <code>horsepower</code> in the <code>Auto</code> data.</p>
+<div id="bca6b44a" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]], Auto[<span class="st">"mpg"</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<ol type="a">
+<li>Compute 10-fold CV MSE for degrees 1 through 10. Report the table.<br>
+</li>
+<li>Which degree is smallest? By how much does it beat degree 2?<br>
+</li>
+<li>Report the standard deviation across the ten folds for your best degree and for degree 2.<br>
+</li>
+<li>Given c, which would you ship? Defend it in two sentences.</li>
+</ol>
 </section>
-<section id="valueerror-expected-2d-array-got-1d-array-instead" class="level3">
-<h3 class="anchored" data-anchor-id="valueerror-expected-2d-array-got-1d-array-instead"><code>ValueError: Expected 2D array, got 1D array instead</code></h3>
-<p>scikit-learn wants the predictors as a data frame with columns, even when there is only one.</p>
-<div id="dca5f8a8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[<span class="st">"horsepower"</span>]      <span class="co"># wrong, this is one dimensional</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]    <span class="co"># right, note the double brackets</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="where-the-scaler-goes" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-scaler-goes">5. Where the scaler goes</h2>
+<div id="fb5629c8" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> StandardScaler().fit_transform(X)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cross_val_score(KNeighborsRegressor(<span class="dv">10</span>), X_scaled, y, cv<span class="op">=</span>cv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ol type="a">
+<li>Name what this code estimated from the data before cross-validation started.<br>
+</li>
+<li>Is the resulting number too high or too low as an estimate of future performance? Say why.<br>
+</li>
+<li>Rewrite it correctly and report both numbers.<br>
+</li>
+<li>On these data the difference is small. Say what you would need to know in advance to be confident it would be small, and whether you could know it.</li>
+</ol>
 </section>
-<section id="valueerror-could-not-convert-string-to-float" class="level3">
-<h3 class="anchored" data-anchor-id="valueerror-could-not-convert-string-to-float"><code>ValueError: could not convert string to float</code></h3>
-<p>A text column reached a model that only takes numbers. Either drop it or encode it:</p>
-<div id="48e7673d" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Credit[<span class="st">"Student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="three-kinds-of-leak" class="level2">
+<h2 class="anchored" data-anchor-id="three-kinds-of-leak">6. Three kinds of leak</h2>
+<p>For each, name what leaked, say whether a pipeline would have caught it, and give the fix.</p>
+<ol type="a">
+<li>Missing salaries were filled with the mean of the whole column, then the data were cross-validated.<br>
+</li>
+<li>Each patient appears at five clinic visits. Rows were split at random into folds.<br>
+</li>
+<li>A readmission model uses <code>followup_calls_made</code>, recorded during the 30 days after discharge.</li>
+</ol>
+</section>
+<section id="grouped-data" class="level2">
+<h2 class="anchored" data-anchor-id="grouped-data">7. Grouped data</h2>
+<div id="91f0faec" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 
 
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">patient_id</th>
+<th data-quarto-table-cell-role="th">bmi</th>
+<th data-quarto-table-cell-role="th">sbp</th>
+<th data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>-0.508</td>
+<td>0.663</td>
+<td>4.036</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>-0.424</td>
+<td>0.637</td>
+<td>5.075</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0</td>
+<td>-0.439</td>
+<td>0.686</td>
+<td>4.440</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>-0.412</td>
+<td>0.647</td>
+<td>4.502</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0</td>
+<td>-0.411</td>
+<td>0.604</td>
+<td>5.108</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>1</td>
+<td>0.360</td>
+<td>-0.098</td>
+<td>2.205</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Two hundred patients, five visits each.</p>
+<ol type="a">
+<li>Look at the first six rows. What do you notice about <code>bmi</code> and <code>sbp</code> within a single patient?<br>
+</li>
+<li>Score the model below two ways: with <code>KFold(5, shuffle=True)</code>, then with <code>GroupKFold(5)</code> and <code>groups=visits["patient_id"]</code>. Report both.</li>
+</ol>
+<div id="c0981cc4" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsRegressor(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="a">
+<li>The honest number is negative. Say what a negative <span class="math inline">\(R^2\)</span> means and what would have predicted better for a new patient.<br>
+</li>
+<li>The model is meant for patients it has never seen. Which of your two numbers answers that question?</li>
+</ol>
 </section>
+<section id="three-sets" class="level2">
+<h2 class="anchored" data-anchor-id="three-sets">8. Three sets</h2>
+<ol type="a">
+<li>Say what each of training, validation, and test is for, in one phrase each.<br>
+</li>
+<li>Your CV accuracy is 0.91 and your test accuracy is 0.84. Which do you report, and why is the gap expected rather than alarming?<br>
+</li>
+<li>You look at the test set, adjust the model, and look again. What have you just done to the test set?</li>
+</ol>
+<p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit data are simulated.</em></p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -1047,13 +1180,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./data.html" class="pagination-link" aria-label="Course Data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Course Data</span>
+      <a href="../ps/02-ps.html" class="pagination-link" aria-label="2. Bias, variance, and neighbors">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2. Bias, variance, and neighbors</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./slides/01-welcome.html" class="pagination-link" aria-label="1. Statistical learning">
-        <span class="nav-page-text">1. Statistical learning</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../ex/01-ex.html" class="pagination-link" aria-label="1. What is the problem?">
+        <span class="nav-page-text">1. What is the problem?</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1065,7 +1198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/troubleshooting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ps/03-ps.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <i class="fa-brands fa-python" aria-hidden="true"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>

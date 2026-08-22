@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Application exercise 2: Training error will lie to you – STA 363</title>
+<title>Application exercise 2: Training error misleads – STA 363</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bb27a1a2d4549a09392aab4ddfcdef5b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-af3528483685c6e66486dcec3885d3cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-bb27a1a2d4549a09392aab4ddfcdef5b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -142,19 +142,19 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
-<meta property="og:title" content="Application exercise 2: Training error will lie to you – STA 363">
+<meta property="og:title" content="Application exercise 2: Training error misleads – STA 363">
 <meta property="og:description" content="STA 363 | Meeting 2 | August 28">
 <meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/02-ex_files/figure-html/cell-4-output-1.png">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="318">
-<meta property="og:image:width" content="510">
-<meta name="twitter:title" content="Application exercise 2: Training error will lie to you – STA 363">
+<meta property="og:image:height" content="320">
+<meta property="og:image:width" content="511">
+<meta name="twitter:title" content="Application exercise 2: Training error misleads – STA 363">
 <meta name="twitter:description" content="STA 363 | Meeting 2 | August 28">
 <meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/02-ex_files/figure-html/cell-4-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="318">
-<meta name="twitter:image-width" content="510">
+<meta name="twitter:image-height" content="320">
+<meta name="twitter:image-width" content="511">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -482,13 +482,42 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Application Exercises</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Problem Sets</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ps/01-ps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. The prediction framework</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ps/02-ps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Bias, variance, and neighbors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ps/03-ps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Cross-validation and leakage</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Application Exercises</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ex/01-ex.html" class="sidebar-item-text sidebar-link">
@@ -552,7 +581,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/02-ex.html">2. Training error will lie to you</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Application exercise 2: Training error will lie to you</h1>
+<h1 class="title">Application exercise 2: Training error misleads</h1>
 <p class="subtitle lead">STA 363 | Meeting 2 | August 28</p>
 </div>
 
@@ -572,7 +601,7 @@ window.Quarto = {
 
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="25285934" class="cell" data-execution_count="1">
+<div id="524d6813" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -672,14 +701,14 @@ window.Quarto = {
 </div>
 </div>
 <p>We will predict <code>mpg</code> from <code>horsepower</code>.</p>
-<div id="0fd8f460" class="cell" data-execution_count="2">
+<div id="b343ab6a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="part-1-look-before-you-model" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-look-before-you-model">Part 1: Look before you model</h2>
-<div id="2bbcba30" class="cell" data-execution_count="3">
+<div id="672e7f18" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[<span class="st">"horsepower"</span>], y, s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"horsepower"</span>)</span>
@@ -703,7 +732,7 @@ window.Quarto = {
 <section id="part-2-split" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-split">Part 2: Split</h2>
 <p>Fill in the blank so that 30% of the observations are held out.</p>
-<div id="15a8cf61" class="cell" data-execution_count="4">
+<div id="cf23cf5f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span>____, random_state<span class="op">=</span><span class="dv">363</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -717,7 +746,7 @@ window.Quarto = {
 </section>
 <section id="part-3-training-mse-versus-test-mse" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-training-mse-versus-test-mse">Part 3: Training MSE versus test MSE</h2>
-<div id="2c475c00" class="cell" data-execution_count="6">
+<div id="37f5c54f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>degrees <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_mse, test_mse <span class="op">=</span> [], []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -727,7 +756,7 @@ window.Quarto = {
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    train_mse.append(mean_squared_error(y_train, model.predict(X_train)))</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    test_mse.append(mean_squared_error(y_test, model.predict(X_test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f569c37e" class="cell" data-execution_count="7">
+<div id="8ad9cccd" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"degree"</span>: degrees, <span class="st">"train"</span>: train_mse, <span class="st">"test"</span>: test_mse}).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
@@ -758,50 +787,50 @@ window.Quarto = {
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>3</td>
-<td>19.79</td>
-<td>17.05</td>
+<td>21.19</td>
+<td>17.58</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>4</td>
-<td>19.77</td>
-<td>17.42</td>
+<td>23.76</td>
+<td>20.67</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>5</td>
-<td>19.63</td>
-<td>16.47</td>
+<td>26.98</td>
+<td>25.11</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
 <td>6</td>
-<td>19.67</td>
-<td>16.87</td>
+<td>30.31</td>
+<td>29.88</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
 <td>7</td>
-<td>19.64</td>
-<td>16.80</td>
+<td>33.58</td>
+<td>34.41</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
 <td>8</td>
-<td>19.70</td>
-<td>16.24</td>
+<td>36.72</td>
+<td>38.42</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
 <td>9</td>
-<td>20.04</td>
-<td>15.78</td>
+<td>39.72</td>
+<td>41.82</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
 <td>10</td>
-<td>20.79</td>
-<td>15.89</td>
+<td>42.52</td>
+<td>44.61</td>
 </tr>
 </tbody>
 </table>
@@ -825,7 +854,7 @@ window.Quarto = {
 </section>
 <section id="part-4-plot-it" class="level2">
 <h2 class="anchored" data-anchor-id="part-4-plot-it">Part 4: Plot it</h2>
-<div id="08756e4a" class="cell" data-execution_count="8">
+<div id="282944e4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ax.plot(degrees, train_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#595959"</span>, label<span class="op">=</span><span class="st">"Training MSE"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.plot(degrees, test_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>, label<span class="op">=</span><span class="st">"Test MSE"</span>)</span>

@@ -6,59 +6,71 @@
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/06-pipelines.html</loc>
-    <lastmod>2026-08-22T13:45:06.653Z</lastmod>
+    <lastmod>2026-08-22T21:39:50.060Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/04-knn.html</loc>
-    <lastmod>2026-08-22T13:45:05.858Z</lastmod>
+    <lastmod>2026-08-22T21:39:48.636Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/02-prediction-error.html</loc>
-    <lastmod>2026-08-22T12:55:44.758Z</lastmod>
+    <lastmod>2026-08-22T21:39:47.916Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/schedule.html</loc>
     <lastmod>2026-08-22T13:24:03.021Z</lastmod>
   </url>
   <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/index.html</loc>
-    <lastmod>2026-08-22T13:24:00.877Z</lastmod>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ps/03-ps.html</loc>
+    <lastmod>2026-08-22T21:39:45.323Z</lastmod>
   </url>
   <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/06-ex.html</loc>
-    <lastmod>2026-08-22T13:45:05.096Z</lastmod>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ps/01-ps.html</loc>
+    <lastmod>2026-08-22T21:46:24.245Z</lastmod>
   </url>
   <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/04-ex.html</loc>
-    <lastmod>2026-08-22T13:45:04.453Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/02-ex.html</loc>
-    <lastmod>2026-08-22T13:45:04.099Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/data.html</loc>
-    <lastmod>2026-08-22T21:00:35.885Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/colab.html</loc>
-    <lastmod>2026-08-22T20:58:27.048Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/01-ex.html</loc>
-    <lastmod>2026-08-22T21:32:51.983Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/03-ex.html</loc>
-    <lastmod>2026-08-22T12:55:42.834Z</lastmod>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/help.html</loc>
+    <lastmod>2026-08-22T21:39:47.568Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/ex/05-ex.html</loc>
     <lastmod>2026-08-22T13:45:04.786Z</lastmod>
   </url>
   <url>
-    <loc>https://lucymcgowan.github.io/sta-363-f26/help.html</loc>
-    <lastmod>2026-08-22T21:02:27.596Z</lastmod>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/03-ex.html</loc>
+    <lastmod>2026-08-22T12:55:42.834Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/01-ex.html</loc>
+    <lastmod>2026-08-22T21:32:51.983Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/colab.html</loc>
+    <lastmod>2026-08-22T20:58:27.048Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/data.html</loc>
+    <lastmod>2026-08-22T21:00:35.885Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/02-ex.html</loc>
+    <lastmod>2026-08-22T21:34:33.687Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/04-ex.html</loc>
+    <lastmod>2026-08-22T13:45:04.453Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/06-ex.html</loc>
+    <lastmod>2026-08-22T13:45:05.096Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/index.html</loc>
+    <lastmod>2026-08-22T13:24:00.877Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ps/02-ps.html</loc>
+    <lastmod>2026-08-22T21:39:44.914Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/python-guide.html</loc>
@@ -70,11 +82,11 @@
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/03-bias-variance.html</loc>
-    <lastmod>2026-08-22T12:55:45.172Z</lastmod>
+    <lastmod>2026-08-22T21:39:48.319Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/05-cross-validation.html</loc>
-    <lastmod>2026-08-22T13:45:06.200Z</lastmod>
+    <lastmod>2026-08-22T21:39:49.702Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/syllabus.html</loc>
