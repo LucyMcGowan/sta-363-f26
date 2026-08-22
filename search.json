@@ -396,11 +396,35 @@
     ]
   },
   {
+    "objectID": "slides/02-prediction-error.html#application-exercise-2-part-1",
+    "href": "slides/02-prediction-error.html#application-exercise-2-part-1",
+    "title": "Prediction error",
+    "section": "Application exercise 2, part 1",
+    "text": "Application exercise 2, part 1\n\nOpen ex/02-ex.qmd and plot mpg against horsepower in the Auto data.\n\n\n\nWould a straight line describe this relationship?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
     "objectID": "slides/02-prediction-error.html#mean-squared-error",
     "href": "slides/02-prediction-error.html#mean-squared-error",
     "title": "Prediction error",
     "section": "Mean squared error",
     "text": "Mean squared error\n\n\\[\\text{MSE} = \\frac{1}{n}\\sum_{i=1}^{n}\\left(y_i - \\hat{f}(x_i)\\right)^2\\]",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#test-data",
+    "href": "slides/02-prediction-error.html#test-data",
+    "title": "Prediction error",
+    "section": "Test data",
+    "text": "Test data\n\nA stock model trained on six months of returns predicts tomorrow’s price, not last week’s\n\nA diabetes model trained on today’s patients predicts a new patient’s risk, not theirs\n\n\n\n\nWe already know \\(y_i\\) for every training row. The question is whether \\(\\hat{f}\\) generalizes.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -420,11 +444,47 @@
     ]
   },
   {
+    "objectID": "slides/02-prediction-error.html#training-mse-is-usually-smaller",
+    "href": "slides/02-prediction-error.html#training-mse-is-usually-smaller",
+    "title": "Prediction error",
+    "section": "Training MSE is usually smaller",
+    "text": "Training MSE is usually smaller\n\nMost methods choose their parameters to minimize training MSE, so we expect training MSE below test MSE whether or not the model overfits.\n\n\n\nSo a small training MSE on its own tells us what, exactly?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#application-exercise-2-part-2",
+    "href": "slides/02-prediction-error.html#application-exercise-2-part-2",
+    "title": "Prediction error",
+    "section": "Application exercise 2, part 2",
+    "text": "Application exercise 2, part 2\n\nPart 2: split Auto so 30% is held out.\n\n\n\nWhy does random_state matter?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
     "objectID": "slides/02-prediction-error.html#flexibility-and-training-mse",
     "href": "slides/02-prediction-error.html#flexibility-and-training-mse",
     "title": "Prediction error",
     "section": "Flexibility and training MSE",
     "text": "Flexibility and training MSE\n\nTraining MSE always falls as flexibility rises.\nTest MSE does not.\n\n\n\nA model with zero training MSE: perfect, or useless?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#degrees-of-freedom",
+    "href": "slides/02-prediction-error.html#degrees-of-freedom",
+    "title": "Prediction error",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\n\nA single number summarizing how flexible a fitted curve is. A smoother, more restricted curve has fewer degrees of freedom than a wiggly one.\n\n\n\nLinear regression: 2 degrees of freedom, the most restrictive end\n\nA very wiggly spline: many more",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -472,7 +532,19 @@
     "href": "slides/02-prediction-error.html#highly-non-linear-f",
     "title": "Prediction error",
     "section": "Highly non-linear f",
-    "text": "Highly non-linear f\n\n\nISLP Figure 2.11. The same setup with a true \\(f\\) that is far from linear.\n\n\n\nNo method wins on every data set. We check, every time.",
+    "text": "Highly non-linear f\n\n\nISLP Figure 2.11. The same setup with a true \\(f\\) that is far from linear.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#comparing-the-three-fits",
+    "href": "slides/02-prediction-error.html#comparing-the-three-fits",
+    "title": "Prediction error",
+    "section": "Comparing the three fits",
+    "text": "Comparing the three fits\n\nFigure 2.9, moderate curve: the middle spline wins\n\nFigure 2.10, near-linear: the line wins, flexible fits overfit\n\nFigure 2.11, highly non-linear: only the flexible fits get close\n\n\n\n\nNo method wins on every data set. We check the shape first.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -484,7 +556,43 @@
     "href": "slides/02-prediction-error.html#simulated-data",
     "title": "Prediction error",
     "section": "Simulated data",
-    "text": "Simulated data\n\ndef f(x):\n    return np.sin(2 * x) + 0.3 * x**2\n\nx = rng.uniform(-3, 3, 200)\ny = f(x) + rng.normal(0, 0.6, 200)\n\n\n\nfrom sklearn.model_selection import train_test_split\n\nx_train, x_test, y_train, y_test = train_test_split(\n    x, y, test_size=0.5, random_state=363\n)\nx_train.shape, x_test.shape\n\n((100,), (100,))",
+    "text": "Simulated data\n\ndef f(x):\n    return np.sin(2 * x) + 0.3 * x**2\n\nx = rng.uniform(-3, 3, 200)\ny = f(x) + rng.normal(0, 0.6, 200)",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#interpolating-the-training-data",
+    "href": "slides/02-prediction-error.html#interpolating-the-training-data",
+    "title": "Prediction error",
+    "section": "Interpolating the training data",
+    "text": "Interpolating the training data\n\n\n\nThe curve touches every training point. Training MSE?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#a-fresh-sample",
+    "href": "slides/02-prediction-error.html#a-fresh-sample",
+    "title": "Prediction error",
+    "section": "A fresh sample",
+    "text": "A fresh sample\n\n\n\nSame curve, new data: the fit was tracing noise, not \\(f\\).",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#traintest-split",
+    "href": "slides/02-prediction-error.html#traintest-split",
+    "title": "Prediction error",
+    "section": "Train/test split",
+    "text": "Train/test split\n\nfrom sklearn.model_selection import train_test_split\n\nx_train, x_test, y_train, y_test = train_test_split(\n    x, y, test_size=0.5, random_state=363\n)\nx_train.shape, x_test.shape\n\n((100,), (100,))",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -516,6 +624,18 @@
     ]
   },
   {
+    "objectID": "slides/02-prediction-error.html#application-exercise-2-parts-3-4",
+    "href": "slides/02-prediction-error.html#application-exercise-2-parts-3-4",
+    "title": "Prediction error",
+    "section": "Application exercise 2, parts 3-4",
+    "text": "Application exercise 2, parts 3-4\n\nParts 3 and 4: table the train and test MSE for degrees 1 to 10 on Auto, then plot it.\n\n\n\nWhich panel of Figures 2.9 to 2.11 does Auto resemble?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
     "objectID": "slides/02-prediction-error.html#the-validation-set-approach",
     "href": "slides/02-prediction-error.html#the-validation-set-approach",
     "title": "Prediction error",
@@ -528,11 +648,35 @@
     ]
   },
   {
+    "objectID": "slides/02-prediction-error.html#application-exercise-2-part-5",
+    "href": "slides/02-prediction-error.html#application-exercise-2-part-5",
+    "title": "Prediction error",
+    "section": "Application exercise 2, part 5",
+    "text": "Application exercise 2, part 5\n\nPart 5: repeat the split with random_state 1, 2, and 3. Record the best degree each time.\n\n\n\nHow much did the best degree move across splits?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
+    "objectID": "slides/02-prediction-error.html#toward-cross-validation",
+    "href": "slides/02-prediction-error.html#toward-cross-validation",
+    "title": "Prediction error",
+    "section": "Toward cross-validation",
+    "text": "Toward cross-validation\n\nOne split, one answer. A different split can point to a different degree.\n\n\n\nHow would you get a more stable answer than a single split?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "2. Prediction error"
+    ]
+  },
+  {
     "objectID": "slides/02-prediction-error.html#application-exercise-2",
     "href": "slides/02-prediction-error.html#application-exercise-2",
     "title": "Prediction error",
     "section": "Application exercise 2",
-    "text": "Application exercise 2\n\nSplitting, fitting, and comparing training and test MSE on the Auto data.",
+    "text": "Application exercise 2\n\nSplit Auto, compared training and test MSE across polynomial degrees, and checked how much the answer moved across random splits.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1209,7 +1353,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
@@ -1221,7 +1365,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
@@ -1229,11 +1373,11 @@
     "href": "ex/02-ex.html#part-1-look-before-you-model",
     "title": "Application exercise 2: Training error misleads",
     "section": "Part 1: Look before you model",
-    "text": "Part 1: Look before you model\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.scatter(X[\"horsepower\"], y, s=12, alpha=0.6, color=\"#d5008f\")\nax.set_xlabel(\"horsepower\")\nax.set_ylabel(\"mpg\")\nplt.show()\n\n\n\n\n\n\n\n\n\nWould a straight line be a good description of this relationship? Sketch, in words, the shape you see.",
+    "text": "Part 1: Look before you model\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.scatter(X[\"horsepower\"], y, s=12, alpha=0.6, color=\"#d5008f\")\nax.set_xlabel(\"horsepower\")\nax.set_ylabel(\"mpg\")\nplt.show()\n\n\n\n\n\n\n\n\n\nWould a straight line be a good description of this relationship? What shape do you see?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
@@ -1245,7 +1389,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
@@ -1257,7 +1401,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
@@ -1269,19 +1413,19 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
-    "objectID": "ex/02-ex.html#part-5-the-uncomfortable-part",
-    "href": "ex/02-ex.html#part-5-the-uncomfortable-part",
+    "objectID": "ex/02-ex.html#part-5",
+    "href": "ex/02-ex.html#part-5",
     "title": "Application exercise 2: Training error misleads",
-    "section": "Part 5: The uncomfortable part",
-    "text": "Part 5: The uncomfortable part\nRe-run everything above with random_state=1, then random_state=2, then random_state=3. Record the best degree each time.\n\n\n\n\nrandom_state\nbest degree\ntest MSE at that degree\n\n\n\n\n363\n\n\n\n\n1\n\n\n\n\n2\n\n\n\n\n3\n\n\n\n\n\n\n\nHow much did your answer move? If a colleague reported “the best model is degree 7” based on one split, how much would you trust them?\n\n\n\n\n\nHold on to this. It is the reason cross-validation exists, and we will build it in two weeks.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "section": "Part 5:",
+    "text": "Part 5:\nRe-run everything above with random_state=1, then random_state=2, then random_state=3. Record the best degree each time.\n\n\n\n\nrandom_state\nbest degree\ntest MSE at that degree\n\n\n\n\n363\n\n\n\n\n1\n\n\n\n\n2\n\n\n\n\n3\n\n\n\n\n\n\n\nHow much did your answer move? If a colleague reported “the best model is degree 7” based on one split, how much would you trust them?\n\n\n\n\n\nThis is reason cross-validation exists! We’ll learn more about this soon.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error will lie to you"
+      "2. Training error can mislead"
     ]
   },
   {
