@@ -971,7 +971,7 @@
     "href": "ex/01-ex.html",
     "title": "Application exercise 1: What is the problem?",
     "section": "",
-    "text": "Work in pairs. You will not write much code today. The goal is to get fluent with the vocabulary we will use for the next fifteen weeks.",
+    "text": "For each scenario, determine:\n\n\\(Y\\)\nat least three plausible predictors\nwhat one row of the data set represents\nwhether it is a regression or classification problem\n\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -982,8 +982,8 @@
     "objectID": "ex/01-ex.html#part-1-naming-the-pieces",
     "href": "ex/01-ex.html#part-1-naming-the-pieces",
     "title": "Application exercise 1: What is the problem?",
-    "section": "Part 1: Naming the pieces",
-    "text": "Part 1: Naming the pieces\nFor each scenario, write down \\(Y\\), at least three plausible predictors, what one row of the data set represents, and roughly what \\(n\\) would be.\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.\n\n\n\n\nFor each one, also say whether it is a regression or a classification problem.",
+    "section": "",
+    "text": "For each scenario, determine:\n\n\\(Y\\)\nat least three plausible predictors\nwhat one row of the data set represents\nwhether it is a regression or classification problem\n\n\nA. A hospital wants to know which patients discharged today are likely to come back within 30 days.\n\n\n\n\n\nB. A streaming service wants to guess how many minutes a new subscriber will watch in their first week.\n\n\n\n\n\nC. A university wants to flag first-year students who are at risk of not returning for a second year.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -995,7 +995,7 @@
     "href": "ex/01-ex.html#part-2-prediction-or-inference",
     "title": "Application exercise 1: What is the problem?",
     "section": "Part 2: Prediction or inference?",
-    "text": "Part 2: Prediction or inference?\nThe distinction is not about how hard the question is. It is about what you need the model to give you.\n\nSort each of these. For any you find ambiguous, say what extra information would settle it.\n\nDoes raising the minimum wage reduce employment?\n\nWhich of these 10,000 transactions should we flag as fraudulent?\n\nHow much does an extra bathroom add to a house’s sale price?\n\nWhat will this house sell for?\n\nIs this tumor malignant?\n\nDoes this drug lower blood pressure more than the current standard of care?\n\n\n\n\n\n\n\nAsk yourself: if the model were a sealed box that gave good answers but could never be opened, would that be acceptable? If yes, it is prediction.",
+    "text": "Part 2: Prediction or inference?\n\nSort each of these.\n\nDoes raising the minimum wage reduce employment?\n\nWhich of these 10,000 transactions should we flag as fraudulent?\n\nHow much does an extra bathroom add to a house’s sale price?\n\nWhat will this house sell for?\n\nIs this tumor malignant?\n\nDoes this drug lower blood pressure more than the current standard of care?\n\n\n\n\n\n\n\nAsk yourself: if the model were a black box that gave great answers but was hard to understand, would that be acceptable? If yes, it is prediction.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -1003,35 +1003,11 @@
     ]
   },
   {
-    "objectID": "ex/01-ex.html#part-3-reducible-or-irreducible",
-    "href": "ex/01-ex.html#part-3-reducible-or-irreducible",
+    "objectID": "ex/01-ex.html#part-3-a-first-look-at-data",
+    "href": "ex/01-ex.html#part-3-a-first-look-at-data",
     "title": "Application exercise 1: What is the problem?",
-    "section": "Part 3: Reducible or irreducible?",
-    "text": "Part 3: Reducible or irreducible?\nA colleague is predicting daily electricity demand for a city. Their model has a test MSE they are unhappy with.\n\nFor each proposed fix, say whether it attacks the reducible error, the irreducible error, or neither.\n\nCollect five more years of history\n\nAdd tomorrow’s forecast temperature as a predictor\n\nSwitch from linear regression to a neural network\n\nMeasure demand more precisely\n\nAdd a predictor for whether tomorrow is a public holiday\n\n\n\n\n\n\n\nIs it possible for something to move an error from the irreducible pile to the reducible pile? Explain.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "1. What is the problem?"
-    ]
-  },
-  {
-    "objectID": "ex/01-ex.html#part-4-a-first-look-at-data",
-    "href": "ex/01-ex.html#part-4-a-first-look-at-data",
-    "title": "Application exercise 1: What is the problem?",
-    "section": "Part 4: A first look at data",
-    "text": "Part 4: A first look at data\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nWage = pd.read_csv(DATA + \"Wage.csv\")\nWage.head()\n\n\n\n\n\n\n\n\nyear\nage\nmaritl\nrace\neducation\nregion\njobclass\nhealth\nhealth_ins\nlogwage\nwage\n\n\n\n\n0\n2006\n18\n1. Never Married\n1. White\n1. &lt; HS Grad\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n2. No\n4.318063\n75.043154\n\n\n1\n2004\n24\n1. Never Married\n1. White\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n2. No\n4.255273\n70.476020\n\n\n2\n2003\n45\n2. Married\n1. White\n3. Some College\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n1. Yes\n4.875061\n130.982177\n\n\n3\n2003\n43\n2. Married\n3. Asian\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n1. Yes\n5.041393\n154.685293\n\n\n4\n2005\n50\n4. Divorced\n1. White\n2. HS Grad\n2. Middle Atlantic\n2. Information\n1. &lt;=Good\n1. Yes\n4.318063\n75.043154\n\n\n\n\n\n\n\n\nWage.shape\n\n(3000, 11)\n\n\n\n\nWhat is \\(n\\)?\n\nIf you wanted to predict wage, what is the largest \\(p\\) you could use?\n\nLook at the column names. Is there any column you would refuse to use as a predictor? Why?\n\n\n\n\n\n\n\nFor question 3, look carefully at logwage.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "1. What is the problem?"
-    ]
-  },
-  {
-    "objectID": "ex/01-ex.html#wrap-up",
-    "href": "ex/01-ex.html#wrap-up",
-    "title": "Application exercise 1: What is the problem?",
-    "section": "Wrap-up",
-    "text": "Wrap-up\n\nBefore you leave, write one sentence answering: why can no model predict perfectly, even in principle?\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "section": "Part 3: A first look at data",
+    "text": "Part 3: A first look at data\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nWage = pd.read_csv(DATA + \"Wage.csv\")\nWage.head()\n\n\n\n\n\n\n\n\nyear\nage\nmaritl\nrace\neducation\nregion\njobclass\nhealth\nhealth_ins\nlogwage\nwage\n\n\n\n\n0\n2006\n18\n1. Never Married\n1. White\n1. &lt; HS Grad\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n2. No\n4.318063\n75.043154\n\n\n1\n2004\n24\n1. Never Married\n1. White\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n2. No\n4.255273\n70.476020\n\n\n2\n2003\n45\n2. Married\n1. White\n3. Some College\n2. Middle Atlantic\n1. Industrial\n1. &lt;=Good\n1. Yes\n4.875061\n130.982177\n\n\n3\n2003\n43\n2. Married\n3. Asian\n4. College Grad\n2. Middle Atlantic\n2. Information\n2. &gt;=Very Good\n1. Yes\n5.041393\n154.685293\n\n\n4\n2005\n50\n4. Divorced\n1. White\n2. HS Grad\n2. Middle Atlantic\n2. Information\n1. &lt;=Good\n1. Yes\n4.318063\n75.043154\n\n\n\n\n\n\n\n\nWage.shape\n\n(3000, 11)\n\n\n\n\nWhat is \\(n\\)?\n\nIf you wanted to predict wage, what is the largest \\(p\\) you could use?\n\nLook at the column names. Is there any column you would not use as a predictor? Why?\n\n\n\n\n\n\n\nFor question 3, look carefully at logwage.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -1944,7 +1920,7 @@
     "href": "syllabus.html#course-components",
     "title": " Policies",
     "section": "Course components",
-    "text": "Course components\n\nApplication exercises\nDone in class, in pairs or small groups. Graded for completion.\n\n\nProblem sets\nRoughly eleven across the semester, due Fridays.\nYou may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set.\n\n\nCheck-ins\nRoughly ten short check-ins at the start of class.\n\n\nExams\nWe will have two midterm exams and a final exam\n\n\n\nExam\nDate\n\n\n\n\n\nExam 1\nFriday, October 9\n\n\n\nExam 2\nWednesday, November 11\n\n\n\nExam 3\nFinal exam period",
+    "text": "Course components\n\nApplication exercises\nDone in class, in pairs or small groups. Graded for completion.\n\n\nProblem sets\nRoughly eleven across the semester, due Fridays.\nYou may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set.\n\n\nCheck-ins\nRoughly ten short check-ins at the start of class.\n\n\nExams\nWe will have two midterm exams and a final exam. Exams will be in class and closed book.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
