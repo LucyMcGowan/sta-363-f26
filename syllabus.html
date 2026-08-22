@@ -425,7 +425,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2. Training error can mislead</span></a>
+ <span class="menu-text">2. Training error will lie to you</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -464,9 +464,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-this-course-is" id="toc-what-this-course-is" class="nav-link active" data-scroll-target="#what-this-course-is">What this course is</a></li>
-  <li><a href="#what-this-course-is-not" id="toc-what-this-course-is-not" class="nav-link" data-scroll-target="#what-this-course-is-not">What this course is not</a></li>
-  <li><a href="#class" id="toc-class" class="nav-link" data-scroll-target="#class">Class</a></li>
+  <li><a href="#class" id="toc-class" class="nav-link active" data-scroll-target="#class">Class</a></li>
   <li><a href="#attendance" id="toc-attendance" class="nav-link" data-scroll-target="#attendance">Attendance</a></li>
   <li><a href="#computing" id="toc-computing" class="nav-link" data-scroll-target="#computing">Computing</a></li>
   <li><a href="#course-components" id="toc-course-components" class="nav-link" data-scroll-target="#course-components">Course components</a>
@@ -478,7 +476,6 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
   <li><a href="#late-and-missed-work" id="toc-late-and-missed-work" class="nav-link" data-scroll-target="#late-and-missed-work">Late and missed work</a></li>
-  <li><a href="#accessibility" id="toc-accessibility" class="nav-link" data-scroll-target="#accessibility">Accessibility</a></li>
   <li><a href="#honor-code" id="toc-honor-code" class="nav-link" data-scroll-target="#honor-code">Honor code</a>
   <ul class="collapse">
   <li><a href="#sharing-code-and-responses" id="toc-sharing-code-and-responses" class="nav-link" data-scroll-target="#sharing-code-and-responses">Sharing code and responses</a></li>
@@ -510,19 +507,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This syllabus and the dates herein are subject to change.</p>
-<section id="what-this-course-is" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-course-is">What this course is</h2>
-<p>STA 363 is about <strong>prediction</strong>. Given data we can measure, how do we build something that guesses well at what we cannot, and how do we know whether it worked?</p>
-<p>Every method we meet is a different answer to that one question. We will not do inference. There are no p-values in this course, no confidence intervals on coefficients, and no hypothesis tests. Those live in STA 112 and STA 312.</p>
-</section>
-<section id="what-this-course-is-not" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-course-is-not">What this course is not</h2>
-<p>It is not a programming course. We write Python, and you will get comfortable with it, but you are assessed on statistical reasoning rather than recall of syntax. Look things up freely.</p>
-</section>
+<p>This syllabus and the dates are subject to change.</p>
 <section id="class" class="level2">
 <h2 class="anchored" data-anchor-id="class">Class</h2>
-<p>This class is meant to be <em>hands on</em>. You are responsible for the assigned reading before each class. Bring a charged laptop.</p>
+<p>This class is meant to be <em>hands on</em>. You are responsible for the assigned reading before each class. Please bring a charged laptop.</p>
 <p>The rhythm is the same most weeks.</p>
 <table class="caption-top table">
 <colgroup>
@@ -557,53 +545,46 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="course-components">Course components</h2>
 <section id="application-exercises" class="level3">
 <h3 class="anchored" data-anchor-id="application-exercises">Application exercises</h3>
-<p>Done in class, in pairs or small groups, immediately after the method they use. Graded for completion and good faith effort rather than correctness. The point is to hit the confusion while I am standing there.</p>
+<p>Done in class, in pairs or small groups. Graded for completion.</p>
 </section>
 <section id="problem-sets" class="level3">
 <h3 class="anchored" data-anchor-id="problem-sets">Problem sets</h3>
-<p>Roughly eleven across the semester, due Fridays. Weighted toward conceptual reasoning: which model, why, what does this output mean, what would you check next. Some code, never a lot.</p>
-<p>You may work together. Write up your own answers.</p>
+<p>Roughly eleven across the semester, due Fridays.</p>
+<p>You may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set.</p>
 </section>
 <section id="check-ins" class="level3">
 <h3 class="anchored" data-anchor-id="check-ins">Check-ins</h3>
-<p>Roughly ten short quizzes, on paper, at the start of class. Ten minutes, no notes, no devices. They cover the reading and the previous class.</p>
-<p>These are low stakes on purpose. Their job is to tell both of us whether an idea landed while there is still time to fix it. <strong>Your two lowest check-in scores are dropped.</strong></p>
+<p>Roughly ten short check-ins at the start of class.</p>
 </section>
 <section id="exams" class="level3">
 <h3 class="anchored" data-anchor-id="exams">Exams</h3>
-<p>Three, all on paper.</p>
+<p>We will have two midterm exams and a final exam</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Exam</th>
 <th>Date</th>
-<th>Covers</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Exam 1</td>
 <td>Friday, October 9</td>
-<td>Prediction framework and linear models</td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Exam 2</td>
 <td>Wednesday, November 11</td>
-<td>Flexible methods, trees, ensembles, SVMs</td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>Exam 3</td>
 <td>Final exam period</td>
-<td>Deep learning, plus the whole course</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p>Exams test reasoning about models: reading output, choosing between methods, explaining what went wrong. You will not be asked to write code from memory.</p>
 </section>
 </section>
 <section id="grading" class="level2">
@@ -618,27 +599,27 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>Application exercises</td>
-<td>10%</td>
+<td>5%</td>
 </tr>
 <tr class="even">
 <td>Problem sets</td>
-<td>20%</td>
+<td>10%</td>
 </tr>
 <tr class="odd">
 <td>Check-ins</td>
-<td>10%</td>
+<td>20%</td>
 </tr>
 <tr class="even">
-<td>Exam 1</td>
+<td>Midterm 1</td>
 <td>20%</td>
 </tr>
 <tr class="odd">
-<td>Exam 2</td>
+<td>Midterm 2</td>
 <td>20%</td>
 </tr>
 <tr class="even">
-<td>Exam 3</td>
-<td>20%</td>
+<td>Final Exam</td>
+<td>25%</td>
 </tr>
 <tr class="odd">
 <td><strong>Total</strong></td>
@@ -712,11 +693,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
 <li>No make-up exams</li>
 </ul>
-<p>All regrade requests must be raised with me within one week of receiving the grade. No grade changes after the final class.</p>
-</section>
-<section id="accessibility" class="level2">
-<h2 class="anchored" data-anchor-id="accessibility">Accessibility</h2>
-<p>Wake Forest University provides reasonable accommodations for students with disabilities. Academic accommodations are coordinated through the Center for Learning, Access, and Student Success (CLASS). If you would like to request accommodations for this course, contact CLASS as early in the semester as possible (class.wfu.edu, 118 Reynolda Hall). Please contact me privately after sending notifications through the CLASS office Student Portal system. Retroactive accommodations will not be provided.</p>
+<p>All regrade requests must be raised with me within one week of receiving the grade. ## Accessibility</p>
+<p>Wake Forest University provides reasonable accommodations for students with disabilities. Academic accommodations are coordinated through the Center for Learning, Access, and Student Success (CLASS). If you would like to request accommodations for this course, contact CLASS as early in the semester as possible (class.wfu.edu, 118 Reynolda Hall).</p>
 </section>
 <section id="honor-code" class="level2">
 <h2 class="anchored" data-anchor-id="honor-code">Honor code</h2>
@@ -724,14 +702,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="sharing-code-and-responses" class="level3">
 <h3 class="anchored" data-anchor-id="sharing-code-and-responses">Sharing code and responses</h3>
 <p>On <strong>problem sets</strong> you may use online resources, including StackOverflow and AI assistants, and you <strong>must cite</strong> any borrowed or adapted code, whether copied directly or modified. Uncited reuse is treated as plagiarism.</p>
-<p>On application exercises, use whatever resources you like. Copying without understanding is a bad trade, since the exams are on paper.</p>
+<p>On application exercises, use whatever resources you like.</p>
 <p>Check-ins and exams are closed book and closed device.</p>
 <p>Rather than relying on someone else’s work, ask for help. See <a href="./help.html">Help</a>.</p>
 </section>
 </section>
 <section id="getting-help" class="level2">
 <h2 class="anchored" data-anchor-id="getting-help">Getting help</h2>
-<p>See the <a href="./help.html">Help</a> page for office hours, the Math &amp; Stats Center, and university resources.</p>
+<p>See the <a href="./help.html">Help</a> page for office hours, the Math &amp; Stats Center.</p>
 
 
 </section>

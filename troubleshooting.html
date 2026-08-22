@@ -460,7 +460,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2. Training error can mislead</span></a>
+ <span class="menu-text">2. Training error will lie to you</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -504,8 +504,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#my-variables-disappeared" id="toc-my-variables-disappeared" class="nav-link" data-scroll-target="#my-variables-disappeared">My variables disappeared</a></li>
   <li><a href="#it-says-i-cannot-save" id="toc-it-says-i-cannot-save" class="nav-link" data-scroll-target="#it-says-i-cannot-save">It says I cannot save</a></li>
-  <li><a href="#torch.cuda.is_available-returns-false" id="toc-torch.cuda.is_available-returns-false" class="nav-link" data-scroll-target="#torch.cuda.is_available-returns-false"><code>torch.cuda.is_available()</code> returns False</a></li>
-  <li><a href="#the-install-cell-asks-me-to-restart" id="toc-the-install-cell-asks-me-to-restart" class="nav-link" data-scroll-target="#the-install-cell-asks-me-to-restart">The install cell asks me to restart</a></li>
   </ul></li>
   <li><a href="#python-errors" id="toc-python-errors" class="nav-link" data-scroll-target="#python-errors">Python errors</a>
   <ul class="collapse">
@@ -513,19 +511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#keyerror-balance" id="toc-keyerror-balance" class="nav-link" data-scroll-target="#keyerror-balance"><code>KeyError: 'Balance'</code></a></li>
   <li><a href="#valueerror-expected-2d-array-got-1d-array-instead" id="toc-valueerror-expected-2d-array-got-1d-array-instead" class="nav-link" data-scroll-target="#valueerror-expected-2d-array-got-1d-array-instead"><code>ValueError: Expected 2D array, got 1D array instead</code></a></li>
   <li><a href="#valueerror-could-not-convert-string-to-float" id="toc-valueerror-could-not-convert-string-to-float" class="nav-link" data-scroll-target="#valueerror-could-not-convert-string-to-float"><code>ValueError: could not convert string to float</code></a></li>
-  <li><a href="#valueerror-input-contains-nan" id="toc-valueerror-input-contains-nan" class="nav-link" data-scroll-target="#valueerror-input-contains-nan"><code>ValueError: Input contains NaN</code></a></li>
-  <li><a href="#modulenotfounderror-no-module-named-islp" id="toc-modulenotfounderror-no-module-named-islp" class="nav-link" data-scroll-target="#modulenotfounderror-no-module-named-islp"><code>ModuleNotFoundError: No module named 'ISLP'</code></a></li>
-  <li><a href="#httperror-or-urlerror-when-reading-data" id="toc-httperror-or-urlerror-when-reading-data" class="nav-link" data-scroll-target="#httperror-or-urlerror-when-reading-data"><code>HTTPError</code> or <code>URLError</code> when reading data</a></li>
-  <li><a href="#settingwithcopywarning" id="toc-settingwithcopywarning" class="nav-link" data-scroll-target="#settingwithcopywarning"><code>SettingWithCopyWarning</code></a></li>
   </ul></li>
-  <li><a href="#results-that-look-wrong" id="toc-results-that-look-wrong" class="nav-link" data-scroll-target="#results-that-look-wrong">Results that look wrong</a>
-  <ul class="collapse">
-  <li><a href="#my-accuracy-is-suspiciously-high" id="toc-my-accuracy-is-suspiciously-high" class="nav-link" data-scroll-target="#my-accuracy-is-suspiciously-high">My accuracy is suspiciously high</a></li>
-  <li><a href="#my-numbers-changed-since-last-time" id="toc-my-numbers-changed-since-last-time" class="nav-link" data-scroll-target="#my-numbers-changed-since-last-time">My numbers changed since last time</a></li>
-  <li><a href="#my-plot-did-not-appear" id="toc-my-plot-did-not-appear" class="nav-link" data-scroll-target="#my-plot-did-not-appear">My plot did not appear</a></li>
-  <li><a href="#the-model-fits-but-predicts-one-class-for-everyone" id="toc-the-model-fits-but-predicts-one-class-for-everyone" class="nav-link" data-scroll-target="#the-model-fits-but-predicts-one-class-for-everyone">The model fits but predicts one class for everyone</a></li>
-  </ul></li>
-  <li><a href="#asking-for-help" id="toc-asking-for-help" class="nav-link" data-scroll-target="#asking-for-help">Asking for help</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/troubleshooting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -552,41 +538,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Work down this page before asking for help. Most problems are on it.</p>
 <section id="the-first-thing-to-try" class="level2">
 <h2 class="anchored" data-anchor-id="the-first-thing-to-try">The first thing to try</h2>
 <p><strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Restart session and run all</strong>.</p>
-<p>A notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear. If the error survives a restart, it is a real error.</p>
+<p>A notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear.</p>
 </section>
 <section id="colab-problems" class="level2">
 <h2 class="anchored" data-anchor-id="colab-problems">Colab problems</h2>
 <section id="my-variables-disappeared" class="level3">
 <h3 class="anchored" data-anchor-id="my-variables-disappeared">My variables disappeared</h3>
-<p>The runtime disconnected. Colab reclaims idle notebooks. Your code is untouched. Run your cells again from the top.</p>
+<p>The runtime may have disconnected. Try running your cells again from the top.</p>
 </section>
 <section id="it-says-i-cannot-save" class="level3">
 <h3 class="anchored" data-anchor-id="it-says-i-cannot-save">It says I cannot save</h3>
-<p>You opened someone else’s notebook. <strong>File</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Save a copy in Drive</strong>, then work in your copy.</p>
-</section>
-<section id="torch.cuda.is_available-returns-false" class="level3">
-<h3 class="anchored" data-anchor-id="torch.cuda.is_available-returns-false"><code>torch.cuda.is_available()</code> returns False</h3>
-<p>Colab did not give you a GPU. Check <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Change runtime type</strong> is set to a GPU accelerator. If it is, the free tier is simply out of GPUs right now. Everything we do runs without one.</p>
-</section>
-<section id="the-install-cell-asks-me-to-restart" class="level3">
-<h3 class="anchored" data-anchor-id="the-install-cell-asks-me-to-restart">The install cell asks me to restart</h3>
-<p>Only the <code>ISLP</code> package does this, and we do not require it. The November install cell for <code>pytorch-lightning</code> does not.</p>
+<p>You may have someone else’s notebook open. <strong>File</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Save a copy in Drive</strong>, then work in your copy.</p>
 </section>
 </section>
 <section id="python-errors" class="level2">
 <h2 class="anchored" data-anchor-id="python-errors">Python errors</h2>
 <section id="nameerror-name-auto-is-not-defined" class="level3">
 <h3 class="anchored" data-anchor-id="nameerror-name-auto-is-not-defined"><code>NameError: name 'Auto' is not defined</code></h3>
-<p>The cell that created <code>Auto</code> has not run in this session. Run from the top.</p>
+<p>The cell that created <code>Auto</code> has not run in this session. Try running your workbook from the top to be sure the data has been loaded.</p>
 </section>
 <section id="keyerror-balance" class="level3">
 <h3 class="anchored" data-anchor-id="keyerror-balance"><code>KeyError: 'Balance'</code></h3>
 <p>No column by that name. Check the spelling, including capitals:</p>
-<div id="ad20ae57" class="cell" data-execution_count="1">
+<div id="0784ff03" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Credit <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Credit.csv"</span>)</span>
@@ -610,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="valueerror-expected-2d-array-got-1d-array-instead" class="level3">
 <h3 class="anchored" data-anchor-id="valueerror-expected-2d-array-got-1d-array-instead"><code>ValueError: Expected 2D array, got 1D array instead</code></h3>
 <p>scikit-learn wants the predictors as a data frame with columns, even when there is only one.</p>
-<div id="ae32c3bf" class="cell" data-execution_count="2">
+<div id="dca5f8a8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[<span class="st">"horsepower"</span>]      <span class="co"># wrong, this is one dimensional</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]    <span class="co"># right, note the double brackets</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -618,62 +595,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="valueerror-could-not-convert-string-to-float" class="level3">
 <h3 class="anchored" data-anchor-id="valueerror-could-not-convert-string-to-float"><code>ValueError: could not convert string to float</code></h3>
 <p>A text column reached a model that only takes numbers. Either drop it or encode it:</p>
-<div id="64e46673" class="cell" data-execution_count="3">
+<div id="48e7673d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Credit[<span class="st">"Student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="valueerror-input-contains-nan" class="level3">
-<h3 class="anchored" data-anchor-id="valueerror-input-contains-nan"><code>ValueError: Input contains NaN</code></h3>
-<p>Missing values. <code>Hitters</code> has 59 missing salaries. Either put a <code>SimpleImputer</code> in your pipeline or drop the rows with <code>.dropna()</code>.</p>
-</section>
-<section id="modulenotfounderror-no-module-named-islp" class="level3">
-<h3 class="anchored" data-anchor-id="modulenotfounderror-no-module-named-islp"><code>ModuleNotFoundError: No module named 'ISLP'</code></h3>
-<p>You do not need it. Read the CSV instead, as on the <a href="./data.html">Course Data</a> page.</p>
-</section>
-<section id="httperror-or-urlerror-when-reading-data" class="level3">
-<h3 class="anchored" data-anchor-id="httperror-or-urlerror-when-reading-data"><code>HTTPError</code> or <code>URLError</code> when reading data</h3>
-<p>Check the URL for typos and check you are online. The address is exactly:</p>
-<pre><code>https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/</code></pre>
-</section>
-<section id="settingwithcopywarning" class="level3">
-<h3 class="anchored" data-anchor-id="settingwithcopywarning"><code>SettingWithCopyWarning</code></h3>
-<p>You changed a slice of a data frame rather than the frame. Add <code>.copy()</code> when you subset something you plan to modify.</p>
-</section>
-</section>
-<section id="results-that-look-wrong" class="level2">
-<h2 class="anchored" data-anchor-id="results-that-look-wrong">Results that look wrong</h2>
-<section id="my-accuracy-is-suspiciously-high" class="level3">
-<h3 class="anchored" data-anchor-id="my-accuracy-is-suspiciously-high">My accuracy is suspiciously high</h3>
-<p>Suspect leakage before you celebrate. Did any preprocessing step see the test data? Is a predictor recorded after the outcome? This is what the September 11 class is about.</p>
-</section>
-<section id="my-numbers-changed-since-last-time" class="level3">
-<h3 class="anchored" data-anchor-id="my-numbers-changed-since-last-time">My numbers changed since last time</h3>
-<p>You did not set a seed. Add <code>random_state=363</code> to <code>train_test_split</code>, <code>KFold</code>, and any model with randomness in it.</p>
-</section>
-<section id="my-plot-did-not-appear" class="level3">
-<h3 class="anchored" data-anchor-id="my-plot-did-not-appear">My plot did not appear</h3>
-<p>End the cell with <code>plt.show()</code>.</p>
-</section>
-<section id="the-model-fits-but-predicts-one-class-for-everyone" class="level3">
-<h3 class="anchored" data-anchor-id="the-model-fits-but-predicts-one-class-for-everyone">The model fits but predicts one class for everyone</h3>
-<p>Common with a rare outcome. Check the class balance with <code>y.value_counts(normalize=True)</code>. Accuracy is a poor measure here, which is the October 2 class.</p>
-</section>
-</section>
-<section id="asking-for-help" class="level2">
-<h2 class="anchored" data-anchor-id="asking-for-help">Asking for help</h2>
-<p>Include these four things and you will get an answer much faster:</p>
-<ol type="1">
-<li>What you were trying to do<br>
-</li>
-<li>The code you ran, as text rather than a screenshot<br>
-</li>
-<li>The full error message, including the last few lines<br>
-</li>
-<li>What you already tried</li>
-</ol>
-<p>Post in the course discussion so classmates hitting the same wall can see the answer. See <a href="./help.html">Help</a> for office hours and the Math &amp; Stats Center.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

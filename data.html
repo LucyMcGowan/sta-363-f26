@@ -463,7 +463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2. Training error can mislead</span></a>
+ <span class="menu-text">2. Training error will lie to you</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -502,9 +502,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#how-to-read-one" id="toc-how-to-read-one" class="nav-link active" data-scroll-target="#how-to-read-one">How to read one</a></li>
+  <li><a href="#how-to-read-in-data" id="toc-how-to-read-in-data" class="nav-link active" data-scroll-target="#how-to-read-in-data">How to read in data</a></li>
   <li><a href="#the-data-sets" id="toc-the-data-sets" class="nav-link" data-scroll-target="#the-data-sets">The data sets</a></li>
-  <li><a href="#looking-at-a-data-set-before-you-model-it" id="toc-looking-at-a-data-set-before-you-model-it" class="nav-link" data-scroll-target="#looking-at-a-data-set-before-you-model-it">Looking at a data set before you model it</a></li>
+  <li><a href="#looking-at-your-data-before-you-model-it" id="toc-looking-at-your-data-before-you-model-it" class="nav-link" data-scroll-target="#looking-at-your-data-before-you-model-it">Looking at your data before you model it</a></li>
   <li><a href="#where-these-came-from" id="toc-where-these-came-from" class="nav-link" data-scroll-target="#where-these-came-from">Where these came from</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -532,10 +532,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Every data set we use is served from the course repository, so you never install anything to get at it. All of them come from the textbook.</p>
-<section id="how-to-read-one" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-read-one">How to read one</h2>
-<div id="5f73abb5" class="cell" data-execution_count="1">
+<section id="how-to-read-in-data" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-in-data">How to read in data</h2>
+<div id="2e334f97" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
@@ -597,7 +596,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Change the file name, keep everything else. This works in Colab, in a local Jupyter notebook, and anywhere else with an internet connection.</p>
+<p>The above example reads in the <code>Default</code> dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the <code>Auto</code> data we’d change the above code from <code>Default.csv</code> to <code>Auto.csv</code>.</p>
 </section>
 <section id="the-data-sets" class="level2">
 <h2 class="anchored" data-anchor-id="the-data-sets">The data sets</h2>
@@ -695,11 +694,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p><code>Hitters</code> has 59 missing salaries. That is deliberate on the textbook’s part and we use it when we get to missing data.</p>
 </section>
-<section id="looking-at-a-data-set-before-you-model-it" class="level2">
-<h2 class="anchored" data-anchor-id="looking-at-a-data-set-before-you-model-it">Looking at a data set before you model it</h2>
-<div id="df183859" class="cell" data-execution_count="2">
+<section id="looking-at-your-data-before-you-model-it" class="level2">
+<h2 class="anchored" data-anchor-id="looking-at-your-data-before-you-model-it">Looking at your data before you model it</h2>
+<div id="cc37b292" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Default.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>default     object
@@ -709,7 +707,7 @@ income     float64
 dtype: object</code></pre>
 </div>
 </div>
-<div id="02878c12" class="cell" data-execution_count="3">
+<div id="982d731c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Default.describe().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
@@ -770,7 +768,7 @@ dtype: object</code></pre>
 </div>
 </div>
 </div>
-<div id="11a63741" class="cell" data-execution_count="4">
+<div id="3b2f8d13" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Default[<span class="st">"default"</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>default
@@ -779,16 +777,14 @@ Yes    0.0333
 Name: proportion, dtype: float64</code></pre>
 </div>
 </div>
-<p>Three percent of customers default. Knowing that before you fit anything is what stops you being impressed by a model that gets 97% accuracy by always saying no.</p>
 </section>
 <section id="where-these-came-from" class="level2">
 <h2 class="anchored" data-anchor-id="where-these-came-from">Where these came from</h2>
-<p>All ten ship with the <code>ISLP</code> package that accompanies the textbook. They are exported to CSV here so that nothing has to be installed. The script that does it is <a href="https://github.com/lucymcgowan/sta-363-f26/blob/main/data/export-data.py"><code>data/export-data.py</code></a> in the course repository.</p>
-<p>If you want the book’s own labs, which use <code>from ISLP import load_data</code>, install the package and everything on this site still works:</p>
-<div id="60b85c29" class="cell" data-execution_count="5">
+<p>All of these datasets are from the <code>ISLP</code> package that accompanies the textbook.</p>
+<p>If you want the book’s own labs, which use <code>from ISLP import load_data</code>, you can install the <code>ISLP</code> python package.</p>
+<div id="23167381" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install ISLP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Colab will ask you to restart the runtime afterward. That is expected, and it is the reason we do not require it.</p>
 <div class="small">
 <p>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). <em>An Introduction to Statistical Learning with Applications in Python</em>. Springer.</p>
 </div>

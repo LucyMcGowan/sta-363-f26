@@ -465,7 +465,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2. Training error can mislead</span></a>
+ <span class="menu-text">2. Training error will lie to you</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -508,10 +508,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#your-first-cell" id="toc-your-first-cell" class="nav-link" data-scroll-target="#your-first-cell">Your first cell</a></li>
   <li><a href="#loading-course-data" id="toc-loading-course-data" class="nav-link" data-scroll-target="#loading-course-data">Loading course data</a></li>
   <li><a href="#what-is-already-installed" id="toc-what-is-already-installed" class="nav-link" data-scroll-target="#what-is-already-installed">What is already installed</a></li>
-  <li><a href="#the-one-install-in-november" id="toc-the-one-install-in-november" class="nav-link" data-scroll-target="#the-one-install-in-november">The one install, in November</a></li>
+  <li><a href="#the-one-install" id="toc-the-one-install" class="nav-link" data-scroll-target="#the-one-install">The one install</a></li>
   <li><a href="#turning-on-the-gpu" id="toc-turning-on-the-gpu" class="nav-link" data-scroll-target="#turning-on-the-gpu">Turning on the GPU</a></li>
   <li><a href="#saving-your-work" id="toc-saving-your-work" class="nav-link" data-scroll-target="#saving-your-work">Saving your work</a></li>
-  <li><a href="#things-that-will-surprise-you" id="toc-things-that-will-surprise-you" class="nav-link" data-scroll-target="#things-that-will-surprise-you">Things that will surprise you</a></li>
+  <li><a href="#things-to-keep-in-mind" id="toc-things-to-keep-in-mind" class="nav-link" data-scroll-target="#things-to-keep-in-mind">Things to keep in mind</a></li>
   <li><a href="#working-locally-instead" id="toc-working-locally-instead" class="nav-link" data-scroll-target="#working-locally-instead">Working locally instead</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/colab.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -539,16 +539,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Google Colab runs Python in your browser. There is nothing to install, nothing to configure, and it works the same on a Mac, a PC, or a Chromebook.</p>
 <section id="sign-in" class="level2">
 <h2 class="anchored" data-anchor-id="sign-in">Sign in</h2>
-<p>Go to <a href="https://colab.research.google.com">colab.research.google.com</a> and sign in with your <strong>WFU Google account</strong> (<code>yourname@wfu.edu</code>), not a personal Gmail. Wake Forest is a Google Workspace for Education school, so your account already exists.</p>
-<p>Click <strong>New notebook</strong>. You now have a Python environment.</p>
+<p>Go to <a href="https://colab.research.google.com">colab.research.google.com</a> and sign in with your <strong>WFU Google account</strong> (<code>yourname@wfu.edu</code>).</p>
+<p>Click <strong>New notebook</strong>.</p>
 </section>
 <section id="your-first-cell" class="level2">
 <h2 class="anchored" data-anchor-id="your-first-cell">Your first cell</h2>
-<p>A notebook is a stack of cells. Click a cell, type, and press <kbd aria-hidden="true">Shift-Enter</kbd><span class="visually-hidden">Shift-Enter</span> to run it.</p>
-<div id="94dbe454" class="cell" data-execution_count="1">
+<p>Click a cell, type, and press <kbd aria-hidden="true">Shift-Enter</kbd><span class="visually-hidden">Shift-Enter</span> to run it.</p>
+<div id="81e4c2de" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>4</code></pre>
@@ -558,8 +557,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="loading-course-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-course-data">Loading course data</h2>
-<p>Every data set we use lives on this website. You read it straight off the web, so there is no downloading and no file paths to get wrong.</p>
-<div id="e5337e12" class="cell" data-execution_count="2">
+<p>Every data set we use lives on this website.</p>
+<div id="fe2cdcec" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
@@ -655,7 +654,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="what-is-already-installed" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-already-installed">What is already installed</h2>
-<p>Colab comes with everything we need through early November:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -686,24 +684,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>You do not need to install any of these. You do not need the <code>ISLP</code> package either, because the data is on this site.</p>
 </section>
-<section id="the-one-install-in-november" class="level2">
-<h2 class="anchored" data-anchor-id="the-one-install-in-november">The one install, in November</h2>
-<p>Starting Friday November 13 we fit neural networks. PyTorch itself is already on Colab, but three helper packages are not. Put this cell at the top of the notebook and run it once per session:</p>
-<div id="35f484d5" class="cell" data-execution_count="3">
+<section id="the-one-install" class="level2">
+<h2 class="anchored" data-anchor-id="the-one-install">The one install</h2>
+<p>When we get to neural networks we may need a few additional packages. PyTorch itself is already on Colab, but three helper packages are not. Put this cell at the top of the notebook and run it once per session:</p>
+<div id="93127e23" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q pytorch<span class="op">-</span>lightning torchinfo torchmetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>It takes a few seconds and does not require a runtime restart.</p>
 </section>
 <section id="turning-on-the-gpu" class="level2">
 <h2 class="anchored" data-anchor-id="turning-on-the-gpu">Turning on the GPU</h2>
-<p>For the convolutional network days, a GPU makes training minutes faster. Go to <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Change runtime type</strong> and pick a <strong>GPU</strong> accelerator. Check that it worked:</p>
-<div id="36f89326" class="cell" data-execution_count="4">
+<p>We will not often need to use GPUs. If we do, go to <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Change runtime type</strong> and pick a <strong>GPU</strong> accelerator. Check that it worked:</p>
+<div id="5f3836a4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>torch.cuda.is_available()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><code>True</code> means you have one. <code>False</code> means Colab did not allocate one right now, which happens on the free tier. Everything we do still runs without a GPU, just more slowly.</p>
+<p><code>True</code> means you have one. <code>False</code> means Colab did not allocate one right now, which happens on the free tier. Everything we do will run without a GPU, just more slowly.</p>
 </section>
 <section id="saving-your-work" class="level2">
 <h2 class="anchored" data-anchor-id="saving-your-work">Saving your work</h2>
@@ -711,19 +707,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>File</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Save a copy in Drive</strong></p>
 <p>Do this at the start of every class. Your copy lives in a Colab Notebooks folder in your WFU Google Drive and saves automatically after that.</p>
 </section>
-<section id="things-that-will-surprise-you" class="level2">
-<h2 class="anchored" data-anchor-id="things-that-will-surprise-you">Things that will surprise you</h2>
-<p><strong>The runtime disconnects.</strong> If you leave a notebook idle, Colab reclaims it. Your code is safe, but your variables are gone. Fix it by running your cells again from the top. This is why every exercise is short.</p>
-<p><strong>Cells remember what you ran, not what is on screen.</strong> If you delete a cell that defined <code>X</code>, <code>X</code> still exists until the runtime restarts. When something stops making sense, use <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Restart session and run all</strong>.</p>
-<p><strong>Order matters, not position.</strong> Running cells out of order is legal and is the usual cause of confusing errors. See <a href="./troubleshooting.html">Troubleshooting</a>.</p>
+<section id="things-to-keep-in-mind" class="level2">
+<h2 class="anchored" data-anchor-id="things-to-keep-in-mind">Things to keep in mind</h2>
+<p><strong>The runtime disconnects.</strong> If you leave a notebook idle, it may disconnect. If this happens just re-run your cells from the top.</p>
+<p><strong>Cells remember what you ran, not what is on screen.</strong> If you delete a cell that defined <code>X</code>, <code>X</code> still exists until the runtime restarts. If you are having trouble debugging, sometimes this is the underlying reason. Use <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Restart session and run all</strong>.</p>
+<p><strong>Order matters, not position.</strong> Running cells out of order will work and is a common cause of confusing errors. See <a href="./troubleshooting.html">Troubleshooting</a>.</p>
 </section>
 <section id="working-locally-instead" class="level2">
 <h2 class="anchored" data-anchor-id="working-locally-instead">Working locally instead</h2>
-<p>Install <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>, then:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">--name</span> sta363 python=3.12</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate sta363</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy pandas matplotlib scikit-learn statsmodels jupyter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Everything on this site works the same way locally. I can help with Colab problems in class; local installation problems are better suited to office hours.</p>
+<p>Everything we learn will work the same way locally. However, I can help with Colab problems in class; local installation problems are better suited to office hours.</p>
 
 
 </section>

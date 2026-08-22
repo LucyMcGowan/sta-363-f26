@@ -4,7 +4,7 @@
     "href": "troubleshooting.html",
     "title": " Troubleshooting",
     "section": "",
-    "text": "Work down this page before asking for help. Most problems are on it.",
+    "text": "Runtime  Restart session and run all.\nA notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -15,8 +15,8 @@
     "objectID": "troubleshooting.html#the-first-thing-to-try",
     "href": "troubleshooting.html#the-first-thing-to-try",
     "title": " Troubleshooting",
-    "section": "The first thing to try",
-    "text": "The first thing to try\nRuntime  Restart session and run all.\nA notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear. If the error survives a restart, it is a real error.",
+    "section": "",
+    "text": "Runtime  Restart session and run all.\nA notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -28,7 +28,7 @@
     "href": "troubleshooting.html#colab-problems",
     "title": " Troubleshooting",
     "section": "Colab problems",
-    "text": "Colab problems\n\nMy variables disappeared\nThe runtime disconnected. Colab reclaims idle notebooks. Your code is untouched. Run your cells again from the top.\n\n\nIt says I cannot save\nYou opened someone else’s notebook. File  Save a copy in Drive, then work in your copy.\n\n\ntorch.cuda.is_available() returns False\nColab did not give you a GPU. Check Runtime  Change runtime type is set to a GPU accelerator. If it is, the free tier is simply out of GPUs right now. Everything we do runs without one.\n\n\nThe install cell asks me to restart\nOnly the ISLP package does this, and we do not require it. The November install cell for pytorch-lightning does not.",
+    "text": "Colab problems\n\nMy variables disappeared\nThe runtime may have disconnected. Try running your cells again from the top.\n\n\nIt says I cannot save\nYou may have someone else’s notebook open. File  Save a copy in Drive, then work in your copy.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -40,31 +40,7 @@
     "href": "troubleshooting.html#python-errors",
     "title": " Troubleshooting",
     "section": "Python errors",
-    "text": "Python errors\n\nNameError: name 'Auto' is not defined\nThe cell that created Auto has not run in this session. Run from the top.\n\n\nKeyError: 'Balance'\nNo column by that name. Check the spelling, including capitals:\n\nimport pandas as pd\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nlist(Credit.columns)\n\n['ID',\n 'Income',\n 'Limit',\n 'Rating',\n 'Cards',\n 'Age',\n 'Education',\n 'Gender',\n 'Student',\n 'Married',\n 'Ethnicity',\n 'Balance']\n\n\n\n\nValueError: Expected 2D array, got 1D array instead\nscikit-learn wants the predictors as a data frame with columns, even when there is only one.\n\nX = Auto[\"horsepower\"]      # wrong, this is one dimensional\nX = Auto[[\"horsepower\"]]    # right, note the double brackets\n\n\n\nValueError: could not convert string to float\nA text column reached a model that only takes numbers. Either drop it or encode it:\n\ny = (Credit[\"Student\"] == \"Yes\").astype(int)\n\n\n\nValueError: Input contains NaN\nMissing values. Hitters has 59 missing salaries. Either put a SimpleImputer in your pipeline or drop the rows with .dropna().\n\n\nModuleNotFoundError: No module named 'ISLP'\nYou do not need it. Read the CSV instead, as on the Course Data page.\n\n\nHTTPError or URLError when reading data\nCheck the URL for typos and check you are online. The address is exactly:\nhttps://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\n\n\nSettingWithCopyWarning\nYou changed a slice of a data frame rather than the frame. Add .copy() when you subset something you plan to modify.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Troubleshooting"
-    ]
-  },
-  {
-    "objectID": "troubleshooting.html#results-that-look-wrong",
-    "href": "troubleshooting.html#results-that-look-wrong",
-    "title": " Troubleshooting",
-    "section": "Results that look wrong",
-    "text": "Results that look wrong\n\nMy accuracy is suspiciously high\nSuspect leakage before you celebrate. Did any preprocessing step see the test data? Is a predictor recorded after the outcome? This is what the September 11 class is about.\n\n\nMy numbers changed since last time\nYou did not set a seed. Add random_state=363 to train_test_split, KFold, and any model with randomness in it.\n\n\nMy plot did not appear\nEnd the cell with plt.show().\n\n\nThe model fits but predicts one class for everyone\nCommon with a rare outcome. Check the class balance with y.value_counts(normalize=True). Accuracy is a poor measure here, which is the October 2 class.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Troubleshooting"
-    ]
-  },
-  {
-    "objectID": "troubleshooting.html#asking-for-help",
-    "href": "troubleshooting.html#asking-for-help",
-    "title": " Troubleshooting",
-    "section": "Asking for help",
-    "text": "Asking for help\nInclude these four things and you will get an answer much faster:\n\nWhat you were trying to do\n\nThe code you ran, as text rather than a screenshot\n\nThe full error message, including the last few lines\n\nWhat you already tried\n\nPost in the course discussion so classmates hitting the same wall can see the answer. See Help for office hours and the Math & Stats Center.",
+    "text": "Python errors\n\nNameError: name 'Auto' is not defined\nThe cell that created Auto has not run in this session. Try running your workbook from the top to be sure the data has been loaded.\n\n\nKeyError: 'Balance'\nNo column by that name. Check the spelling, including capitals:\n\nimport pandas as pd\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nlist(Credit.columns)\n\n['ID',\n 'Income',\n 'Limit',\n 'Rating',\n 'Cards',\n 'Age',\n 'Education',\n 'Gender',\n 'Student',\n 'Married',\n 'Ethnicity',\n 'Balance']\n\n\n\n\nValueError: Expected 2D array, got 1D array instead\nscikit-learn wants the predictors as a data frame with columns, even when there is only one.\n\nX = Auto[\"horsepower\"]      # wrong, this is one dimensional\nX = Auto[[\"horsepower\"]]    # right, note the double brackets\n\n\n\nValueError: could not convert string to float\nA text column reached a model that only takes numbers. Either drop it or encode it:\n\ny = (Credit[\"Student\"] == \"Yes\").astype(int)",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -735,7 +711,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -747,7 +723,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -759,7 +735,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -771,7 +747,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -783,7 +759,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -795,7 +771,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -807,7 +783,7 @@
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
-      "2. Training error can mislead"
+      "2. Training error will lie to you"
     ]
   },
   {
@@ -815,7 +791,7 @@
     "href": "data.html",
     "title": " Course Data",
     "section": "",
-    "text": "Every data set we use is served from the course repository, so you never install anything to get at it. All of them come from the textbook.",
+    "text": "import pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nThe above example reads in the Default dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the Auto data we’d change the above code from Default.csv to Auto.csv.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -823,11 +799,11 @@
     ]
   },
   {
-    "objectID": "data.html#how-to-read-one",
-    "href": "data.html#how-to-read-one",
+    "objectID": "data.html#how-to-read-in-data",
+    "href": "data.html#how-to-read-in-data",
     "title": " Course Data",
-    "section": "How to read one",
-    "text": "How to read one\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nChange the file name, keep everything else. This works in Colab, in a local Jupyter notebook, and anywhere else with an internet connection.",
+    "section": "",
+    "text": "import pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nDefault = pd.read_csv(DATA + \"Default.csv\")\nDefault.head()\n\n\n\n\n\n\n\n\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\nNo\nNo\n729.526495\n44361.625074\n\n\n1\nNo\nYes\n817.180407\n12106.134700\n\n\n2\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\nNo\nNo\n529.250605\n35704.493935\n\n\n4\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\nThe above example reads in the Default dataset. To read a different dataset, just swap the “*.csv” part, for example to instead read in the Auto data we’d change the above code from Default.csv to Auto.csv.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -839,7 +815,7 @@
     "href": "data.html#the-data-sets",
     "title": " Course Data",
     "section": "The data sets",
-    "text": "The data sets\n\n\n\nData set\nRows\nColumns\nMissing\nISLP chapters\nDescription\n\n\n\n\nAuto.csv\n392\n9\n\n2, 3, 5\nGas mileage, horsepower, and other characteristics of 392 cars.\n\n\nBoston.csv\n506\n13\n\n3, 8\nHousing values and neighborhood characteristics for 506 Boston census tracts.\n\n\nCaravan.csv\n5,822\n86\n\n4\nDemographic characteristics of 5,822 customers and whether they bought caravan insurance.\n\n\nCarseats.csv\n400\n11\n\n8\nSimulated child car seat sales at 400 stores.\n\n\nCredit.csv\n400\n12\n\n6\nCredit card balance and customer characteristics for 400 people.\n\n\nDefault.csv\n10,000\n4\n\n2, 4\nCredit card default, balance, income, and student status for 10,000 customers.\n\n\nHitters.csv\n322\n20\n59\n6, 8\nSalary and 1986 performance for 322 Major League Baseball players.\n\n\nNCI60.csv\n64\n6,831\n\n1\nGene expression, 6,830 genes measured on 64 cancer cell lines.\n\n\nSmarket.csv\n1,250\n9\n\n1, 4\nDaily S&P 500 percentage returns from 2001 to 2005.\n\n\nWage.csv\n3,000\n11\n\n1, 7\nWage and demographic data for 3,000 male workers in the Atlantic region.\n\n\n\nHitters has 59 missing salaries. That is deliberate on the textbook’s part and we use it when we get to missing data.",
+    "text": "The data sets\n\n\n\nData set\nRows\nColumns\nMissing\nISLP chapters\nDescription\n\n\n\n\nAuto.csv\n392\n9\n\n2, 3, 5\nGas mileage, horsepower, and other characteristics of 392 cars.\n\n\nBoston.csv\n506\n13\n\n3, 8\nHousing values and neighborhood characteristics for 506 Boston census tracts.\n\n\nCaravan.csv\n5,822\n86\n\n4\nDemographic characteristics of 5,822 customers and whether they bought caravan insurance.\n\n\nCarseats.csv\n400\n11\n\n8\nSimulated child car seat sales at 400 stores.\n\n\nCredit.csv\n400\n12\n\n6\nCredit card balance and customer characteristics for 400 people.\n\n\nDefault.csv\n10,000\n4\n\n2, 4\nCredit card default, balance, income, and student status for 10,000 customers.\n\n\nHitters.csv\n322\n20\n59\n6, 8\nSalary and 1986 performance for 322 Major League Baseball players.\n\n\nNCI60.csv\n64\n6,831\n\n1\nGene expression, 6,830 genes measured on 64 cancer cell lines.\n\n\nSmarket.csv\n1,250\n9\n\n1, 4\nDaily S&P 500 percentage returns from 2001 to 2005.\n\n\nWage.csv\n3,000\n11\n\n1, 7\nWage and demographic data for 3,000 male workers in the Atlantic region.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -847,11 +823,11 @@
     ]
   },
   {
-    "objectID": "data.html#looking-at-a-data-set-before-you-model-it",
-    "href": "data.html#looking-at-a-data-set-before-you-model-it",
+    "objectID": "data.html#looking-at-your-data-before-you-model-it",
+    "href": "data.html#looking-at-your-data-before-you-model-it",
     "title": " Course Data",
-    "section": "Looking at a data set before you model it",
-    "text": "Looking at a data set before you model it\n\nDefault.dtypes\n\ndefault     object\nstudent     object\nbalance    float64\nincome     float64\ndtype: object\n\n\n\nDefault.describe().round(2)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\ncount\n10000.00\n10000.00\n\n\nmean\n835.37\n33516.98\n\n\nstd\n483.71\n13336.64\n\n\nmin\n0.00\n771.97\n\n\n25%\n481.73\n21340.46\n\n\n50%\n823.64\n34552.64\n\n\n75%\n1166.31\n43807.73\n\n\nmax\n2654.32\n73554.23\n\n\n\n\n\n\n\n\nDefault[\"default\"].value_counts(normalize=True).round(4)\n\ndefault\nNo     0.9667\nYes    0.0333\nName: proportion, dtype: float64\n\n\nThree percent of customers default. Knowing that before you fit anything is what stops you being impressed by a model that gets 97% accuracy by always saying no.",
+    "section": "Looking at your data before you model it",
+    "text": "Looking at your data before you model it\n\nDefault.dtypes\n\ndefault     object\nstudent     object\nbalance    float64\nincome     float64\ndtype: object\n\n\n\nDefault.describe().round(2)\n\n\n\n\n\n\n\n\nbalance\nincome\n\n\n\n\ncount\n10000.00\n10000.00\n\n\nmean\n835.37\n33516.98\n\n\nstd\n483.71\n13336.64\n\n\nmin\n0.00\n771.97\n\n\n25%\n481.73\n21340.46\n\n\n50%\n823.64\n34552.64\n\n\n75%\n1166.31\n43807.73\n\n\nmax\n2654.32\n73554.23\n\n\n\n\n\n\n\n\nDefault[\"default\"].value_counts(normalize=True).round(4)\n\ndefault\nNo     0.9667\nYes    0.0333\nName: proportion, dtype: float64",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -863,7 +839,7 @@
     "href": "data.html#where-these-came-from",
     "title": " Course Data",
     "section": "Where these came from",
-    "text": "Where these came from\nAll ten ship with the ISLP package that accompanies the textbook. They are exported to CSV here so that nothing has to be installed. The script that does it is data/export-data.py in the course repository.\nIf you want the book’s own labs, which use from ISLP import load_data, install the package and everything on this site still works:\n\n%pip install ISLP\n\nColab will ask you to restart the runtime afterward. That is expected, and it is the reason we do not require it.\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "text": "Where these came from\nAll of these datasets are from the ISLP package that accompanies the textbook.\nIf you want the book’s own labs, which use from ISLP import load_data, you can install the ISLP python package.\n\n%pip install ISLP\n\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -875,7 +851,7 @@
     "href": "colab.html",
     "title": " Getting Started with Colab",
     "section": "",
-    "text": "Google Colab runs Python in your browser. There is nothing to install, nothing to configure, and it works the same on a Mac, a PC, or a Chromebook.",
+    "text": "Go to colab.research.google.com and sign in with your WFU Google account (yourname@wfu.edu).\nClick New notebook.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -886,8 +862,8 @@
     "objectID": "colab.html#sign-in",
     "href": "colab.html#sign-in",
     "title": " Getting Started with Colab",
-    "section": "Sign in",
-    "text": "Sign in\nGo to colab.research.google.com and sign in with your WFU Google account (yourname@wfu.edu), not a personal Gmail. Wake Forest is a Google Workspace for Education school, so your account already exists.\nClick New notebook. You now have a Python environment.",
+    "section": "",
+    "text": "Go to colab.research.google.com and sign in with your WFU Google account (yourname@wfu.edu).\nClick New notebook.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -899,7 +875,7 @@
     "href": "colab.html#your-first-cell",
     "title": " Getting Started with Colab",
     "section": "Your first cell",
-    "text": "Your first cell\nA notebook is a stack of cells. Click a cell, type, and press Shift-EnterShift-Enter to run it.\n\n2 + 2\n\n4\n\n\nThe output appears underneath. Press Shift-EnterShift-Enter again and the next cell runs.",
+    "text": "Your first cell\nClick a cell, type, and press Shift-EnterShift-Enter to run it.\n\n2 + 2\n\n4\n\n\nThe output appears underneath. Press Shift-EnterShift-Enter again and the next cell runs.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -911,7 +887,7 @@
     "href": "colab.html#loading-course-data",
     "title": " Getting Started with Colab",
     "section": "Loading course data",
-    "text": "Loading course data\nEvery data set we use lives on this website. You read it straight off the web, so there is no downloading and no file paths to get wrong.\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nAuto.head()\n\n\n\n\n\n\n\n\nname\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nyear\norigin\n\n\n\n\n0\nchevrolet chevelle malibu\n18.0\n8\n307.0\n130\n3504\n12.0\n70\n1\n\n\n1\nbuick skylark 320\n15.0\n8\n350.0\n165\n3693\n11.5\n70\n1\n\n\n2\nplymouth satellite\n18.0\n8\n318.0\n150\n3436\n11.0\n70\n1\n\n\n3\namc rebel sst\n16.0\n8\n304.0\n150\n3433\n12.0\n70\n1\n\n\n4\nford torino\n17.0\n8\n302.0\n140\n3449\n10.5\n70\n1\n\n\n\n\n\n\n\nThat DATA line appears at the top of every exercise. Copy it once and change only the file name. The full list is on the Course Data page.",
+    "text": "Loading course data\nEvery data set we use lives on this website.\n\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")\nAuto.head()\n\n\n\n\n\n\n\n\nname\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nyear\norigin\n\n\n\n\n0\nchevrolet chevelle malibu\n18.0\n8\n307.0\n130\n3504\n12.0\n70\n1\n\n\n1\nbuick skylark 320\n15.0\n8\n350.0\n165\n3693\n11.5\n70\n1\n\n\n2\nplymouth satellite\n18.0\n8\n318.0\n150\n3436\n11.0\n70\n1\n\n\n3\namc rebel sst\n16.0\n8\n304.0\n150\n3433\n12.0\n70\n1\n\n\n4\nford torino\n17.0\n8\n302.0\n140\n3449\n10.5\n70\n1\n\n\n\n\n\n\n\nThat DATA line appears at the top of every exercise. Copy it once and change only the file name. The full list is on the Course Data page.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -923,7 +899,7 @@
     "href": "colab.html#what-is-already-installed",
     "title": " Getting Started with Colab",
     "section": "What is already installed",
-    "text": "What is already installed\nColab comes with everything we need through early November:\n\n\n\nPackage\nWhat we use it for\n\n\n\n\npandas\ndata frames\n\n\nnumpy\narrays and simulation\n\n\nmatplotlib\nfigures\n\n\nscikit-learn\nevery model until Thanksgiving\n\n\ntorch\nneural networks, already installed\n\n\n\nYou do not need to install any of these. You do not need the ISLP package either, because the data is on this site.",
+    "text": "What is already installed\n\n\n\nPackage\nWhat we use it for\n\n\n\n\npandas\ndata frames\n\n\nnumpy\narrays and simulation\n\n\nmatplotlib\nfigures\n\n\nscikit-learn\nevery model until Thanksgiving\n\n\ntorch\nneural networks, already installed",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -931,11 +907,11 @@
     ]
   },
   {
-    "objectID": "colab.html#the-one-install-in-november",
-    "href": "colab.html#the-one-install-in-november",
+    "objectID": "colab.html#the-one-install",
+    "href": "colab.html#the-one-install",
     "title": " Getting Started with Colab",
-    "section": "The one install, in November",
-    "text": "The one install, in November\nStarting Friday November 13 we fit neural networks. PyTorch itself is already on Colab, but three helper packages are not. Put this cell at the top of the notebook and run it once per session:\n\n%pip install -q pytorch-lightning torchinfo torchmetrics\n\nIt takes a few seconds and does not require a runtime restart.",
+    "section": "The one install",
+    "text": "The one install\nWhen we get to neural networks we may need a few additional packages. PyTorch itself is already on Colab, but three helper packages are not. Put this cell at the top of the notebook and run it once per session:\n\n%pip install -q pytorch-lightning torchinfo torchmetrics",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -947,7 +923,7 @@
     "href": "colab.html#turning-on-the-gpu",
     "title": " Getting Started with Colab",
     "section": "Turning on the GPU",
-    "text": "Turning on the GPU\nFor the convolutional network days, a GPU makes training minutes faster. Go to Runtime  Change runtime type and pick a GPU accelerator. Check that it worked:\n\nimport torch\ntorch.cuda.is_available()\n\nTrue means you have one. False means Colab did not allocate one right now, which happens on the free tier. Everything we do still runs without a GPU, just more slowly.",
+    "text": "Turning on the GPU\nWe will not often need to use GPUs. If we do, go to Runtime  Change runtime type and pick a GPU accelerator. Check that it worked:\n\nimport torch\ntorch.cuda.is_available()\n\nTrue means you have one. False means Colab did not allocate one right now, which happens on the free tier. Everything we do will run without a GPU, just more slowly.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -967,11 +943,11 @@
     ]
   },
   {
-    "objectID": "colab.html#things-that-will-surprise-you",
-    "href": "colab.html#things-that-will-surprise-you",
+    "objectID": "colab.html#things-to-keep-in-mind",
+    "href": "colab.html#things-to-keep-in-mind",
     "title": " Getting Started with Colab",
-    "section": "Things that will surprise you",
-    "text": "Things that will surprise you\nThe runtime disconnects. If you leave a notebook idle, Colab reclaims it. Your code is safe, but your variables are gone. Fix it by running your cells again from the top. This is why every exercise is short.\nCells remember what you ran, not what is on screen. If you delete a cell that defined X, X still exists until the runtime restarts. When something stops making sense, use Runtime  Restart session and run all.\nOrder matters, not position. Running cells out of order is legal and is the usual cause of confusing errors. See Troubleshooting.",
+    "section": "Things to keep in mind",
+    "text": "Things to keep in mind\nThe runtime disconnects. If you leave a notebook idle, it may disconnect. If this happens just re-run your cells from the top.\nCells remember what you ran, not what is on screen. If you delete a cell that defined X, X still exists until the runtime restarts. If you are having trouble debugging, sometimes this is the underlying reason. Use Runtime  Restart session and run all.\nOrder matters, not position. Running cells out of order will work and is a common cause of confusing errors. See Troubleshooting.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -983,7 +959,7 @@
     "href": "colab.html#working-locally-instead",
     "title": " Getting Started with Colab",
     "section": "Working locally instead",
-    "text": "Working locally instead\nInstall Miniconda, then:\nconda create --name sta363 python=3.12\nconda activate sta363\npip install numpy pandas matplotlib scikit-learn statsmodels jupyter\nEverything on this site works the same way locally. I can help with Colab problems in class; local installation problems are better suited to office hours.",
+    "text": "Working locally instead\nEverything we learn will work the same way locally. However, I can help with Colab problems in class; local installation problems are better suited to office hours.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1223,35 +1199,35 @@
     "href": "help.html",
     "title": " Help",
     "section": "",
-    "text": "Asking for help early is the single most useful habit in this course. Nobody here is expected to work it out alone."
+    "text": "Most technical problems are answered on Troubleshooting."
   },
   {
     "objectID": "help.html#start-here",
     "href": "help.html#start-here",
     "title": " Help",
-    "section": "Start here",
-    "text": "Start here\nMost technical problems are answered on Troubleshooting. Read that first, then work down this list."
+    "section": "",
+    "text": "Most technical problems are answered on Troubleshooting."
   },
   {
     "objectID": "help.html#office-hours",
     "href": "help.html#office-hours",
     "title": " Help",
     "section": "Office hours",
-    "text": "Office hours\nDr. Lucy D’Agostino McGowan Manchester 342 Book a time\nBring the error, bring the code, bring the thing you are confused about. Office hours are also for “I read the section three times and I still do not know what bias means,” which is a better use of them than debugging."
+    "text": "Office hours\nDr. Lucy D’Agostino McGowan Manchester 342 Book a time"
   },
   {
     "objectID": "help.html#math-stats-center",
     "href": "help.html#math-stats-center",
     "title": " Help",
     "section": "Math & Stats Center",
-    "text": "Math & Stats Center\nFree tutoring, no appointment needed for drop in hours.\nmathandstatscenter.wfu.edu mathandstatscenter@wfu.edu"
+    "text": "Math & Stats Center\nmathandstatscenter.wfu.edu mathandstatscenter@wfu.edu"
   },
   {
     "objectID": "help.html#each-other",
     "href": "help.html#each-other",
     "title": " Help",
     "section": "Each other",
-    "text": "Each other\nYou are encouraged to work together on application exercises and problem sets. Talk through the reasoning, compare answers, argue about which model is better. Write up your own work. See the honor code section of the course policies for where the line sits."
+    "text": "Each other\nYou are encouraged to work together on application exercises and problem sets, however I want you to write up your own work. See the honor code section of the course policies."
   },
   {
     "objectID": "help.html#reference",
@@ -1265,21 +1241,14 @@
     "href": "help.html#using-ai-assistants",
     "title": " Help",
     "section": "Using AI assistants",
-    "text": "Using AI assistants\nYou may use them. Two conditions.\nCite what you used on graded work, the same way you would cite a classmate or a StackOverflow answer.\nDo not submit code you cannot explain. The exams are on paper and the questions are about reasoning, so code you did not understand will not help you there. If an assistant gives you something that works and you are unsure why, that is a good office hours question."
-  },
-  {
-    "objectID": "help.html#beyond-this-course",
-    "href": "help.html#beyond-this-course",
-    "title": " Help",
-    "section": "Beyond this course",
-    "text": "Beyond this course\nIf you are struggling with something larger than statistical learning, the university has people whose job this is.\n\n\n\nUniversity Counseling Center\ncounselingcenter.wfu.edu\n\n\nLearning Assistance Center and Disability Services\nclass.wfu.edu\n\n\nStudent Health Service\nshs.wfu.edu\n\n\n\nIf you need an accommodation, contact CLASS as early in the semester as you can, then let me know privately. Details are in the course policies."
+    "text": "Using AI assistants\nYou may use them AI on assignments however you must:\n\nCite what you used on graded work, the same way you would cite a classmate or a StackOverflow answer.\nDo not submit code you cannot explain. The exams are on paper and the questions are about reasoning, so code you did not understand will not help you there. If AI gives you something that works and you are unsure why, that is a good office hours question."
   },
   {
     "objectID": "python-guide.html",
     "href": "python-guide.html",
     "title": " Python Quick Guide",
     "section": "",
-    "text": "Most of you know some R. Here is the translation, covering enough to get through the first month.\nimport numpy as np\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")",
+    "text": "import numpy as np\nimport pandas as pd\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nAuto = pd.read_csv(DATA + \"Auto.csv\")",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1291,7 +1260,7 @@
     "href": "python-guide.html#r-to-python",
     "title": " Python Quick Guide",
     "section": "R to Python",
-    "text": "R to Python\n\n\n\n\n\n\n\n\nTask\nR\nPython\n\n\n\n\nread a csv\nread_csv(\"f.csv\")\npd.read_csv(\"f.csv\")\n\n\nfirst rows\nhead(d)\nd.head()\n\n\ndimensions\ndim(d)\nd.shape\n\n\ncolumn names\nnames(d)\nd.columns\n\n\none column\nd$mpg\nd[\"mpg\"]\n\n\nseveral columns\nd[, c(\"mpg\", \"weight\")]\nd[[\"mpg\", \"weight\"]]\n\n\nfilter rows\nd[d$mpg &gt; 30, ]\nd[d[\"mpg\"] &gt; 30]\n\n\nnew column\nd$kpl &lt;- d$mpg * 0.425\nd[\"kpl\"] = d[\"mpg\"] * 0.425\n\n\nsummary\nsummary(d)\nd.describe()\n\n\ncounts\ntable(d$origin)\nd[\"origin\"].value_counts()\n\n\nmean\nmean(d$mpg)\nd[\"mpg\"].mean()\n\n\ngroup means\naggregate(mpg ~ origin, d, mean)\nd.groupby(\"origin\")[\"mpg\"].mean()\n\n\nsequence\n1:10\nrange(1, 11)\n\n\nlength\nlength(x)\nlen(x)\n\n\nmissing\nis.na(x)\nx.isna()\n\n\n\nTwo differences that trip people up. Python counts from zero, so d.iloc[0] is the first row. And range(1, 11) excludes the endpoint, so it stops at 10.",
+    "text": "R to Python\n\n\n\n\n\n\n\n\nTask\nR\nPython\n\n\n\n\nread a csv\nread_csv(\"f.csv\")\npd.read_csv(\"f.csv\")\n\n\nfirst rows\nhead(d)\nd.head()\n\n\ndimensions\ndim(d)\nd.shape\n\n\ncolumn names\nnames(d)\nd.columns\n\n\none column\nd$mpg\nd[\"mpg\"]\n\n\nseveral columns\nd[, c(\"mpg\", \"weight\")]\nd[[\"mpg\", \"weight\"]]\n\n\nfilter rows\nd[d$mpg &gt; 30, ]\nd[d[\"mpg\"] &gt; 30]\n\n\nnew column\nd$kpl &lt;- d$mpg * 0.425\nd[\"kpl\"] = d[\"mpg\"] * 0.425\n\n\nsummary\nsummary(d)\nd.describe()\n\n\ncounts\ntable(d$origin)\nd[\"origin\"].value_counts()\n\n\nmean\nmean(d$mpg)\nd[\"mpg\"].mean()\n\n\ngroup means\naggregate(mpg ~ origin, d, mean)\nd.groupby(\"origin\")[\"mpg\"].mean()\n\n\nsequence\n1:10\nrange(1, 11)\n\n\nlength\nlength(x)\nlen(x)\n\n\nmissing\nis.na(x)\nx.isna()\n\n\n\nPython counts from zero, so d.iloc[0] is the first row. And range(1, 11) excludes the endpoint, so it stops at 10.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1303,7 +1272,7 @@
     "href": "python-guide.html#selecting",
     "title": " Python Quick Guide",
     "section": "Selecting",
-    "text": "Selecting\n\nAuto[[\"mpg\", \"horsepower\", \"weight\"]].head(3)\n\n\n\n\n\n\n\n\nmpg\nhorsepower\nweight\n\n\n\n\n0\n18.0\n130\n3504\n\n\n1\n15.0\n165\n3693\n\n\n2\n18.0\n150\n3436\n\n\n\n\n\n\n\n\nAuto[Auto[\"mpg\"] &gt; 40][[\"name\", \"mpg\"]]\n\n\n\n\n\n\n\n\nname\nmpg\n\n\n\n\n242\nvolkswagen rabbit custom diesel\n43.1\n\n\n307\nvw rabbit\n41.5\n\n\n320\nmazda glc\n46.6\n\n\n322\ndatsun 210\n40.8\n\n\n323\nvw rabbit c (diesel)\n44.3\n\n\n324\nvw dasher (diesel)\n43.4\n\n\n327\nhonda civic 1500 gl\n44.6\n\n\n388\nvw pickup\n44.0\n\n\n\n\n\n\n\nTwo conditions need & for and, | for or, and parentheses around each piece:\n\nAuto[(Auto[\"mpg\"] &gt; 30) & (Auto[\"year\"] &gt; 78)].shape\n\n(60, 9)",
+    "text": "Selecting\n\nAuto[[\"mpg\", \"horsepower\", \"weight\"]].head(3)\n\n\n\n\n\n\n\n\nmpg\nhorsepower\nweight\n\n\n\n\n0\n18.0\n130\n3504\n\n\n1\n15.0\n165\n3693\n\n\n2\n18.0\n150\n3436\n\n\n\n\n\n\n\n\nAuto[Auto[\"mpg\"] &gt; 40][[\"name\", \"mpg\"]]\n\n\n\n\n\n\n\n\nname\nmpg\n\n\n\n\n242\nvolkswagen rabbit custom diesel\n43.1\n\n\n307\nvw rabbit\n41.5\n\n\n320\nmazda glc\n46.6\n\n\n322\ndatsun 210\n40.8\n\n\n323\nvw rabbit c (diesel)\n44.3\n\n\n324\nvw dasher (diesel)\n43.4\n\n\n327\nhonda civic 1500 gl\n44.6\n\n\n388\nvw pickup\n44.0\n\n\n\n\n\n\n\nIf you have multiple conditions, you use & for and, | for or, and parentheses around each piece:\n\nAuto[(Auto[\"mpg\"] &gt; 30) & (Auto[\"year\"] &gt; 78)].shape\n\n(60, 9)",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1311,11 +1280,11 @@
     ]
   },
   {
-    "objectID": "python-guide.html#the-four-lines-that-fit-every-model",
-    "href": "python-guide.html#the-four-lines-that-fit-every-model",
+    "objectID": "python-guide.html#model-fitting",
+    "href": "python-guide.html#model-fitting",
     "title": " Python Quick Guide",
-    "section": "The four lines that fit every model",
-    "text": "The four lines that fit every model\nEvery method this semester, from linear regression to a neural network, uses the same four steps. Learn them once.\n\nfrom sklearn.linear_model import LinearRegression\n\nX = Auto[[\"horsepower\", \"weight\"]]   # predictors, always a data frame\ny = Auto[\"mpg\"]                      # response, always a single column\n\nmodel = LinearRegression()           # 1. choose\nmodel.fit(X, y)                      # 2. fit\nmodel.predict(X.head(3))             # 3. predict\n\narray([19.18811123, 16.43741528, 18.63605667])\n\n\n\nmodel.score(X, y)                    # 4. score\n\n0.7063752737298348\n\n\nSwap LinearRegression() for KNeighborsRegressor(5) or RandomForestRegressor() and the other three lines stay as they are. That consistency is why we use scikit-learn.",
+    "section": "Model fitting",
+    "text": "Model fitting\n\nfrom sklearn.linear_model import LinearRegression\n\nX = Auto[[\"horsepower\", \"weight\"]]   # predictors, always a data frame\ny = Auto[\"mpg\"]                      # response, always a single column\n\nmodel = LinearRegression()           # 1. choose\nmodel.fit(X, y)                      # 2. fit\nmodel.predict(X.head(3))             # 3. predict\n\narray([19.18811123, 16.43741528, 18.63605667])\n\n\n\nmodel.score(X, y)                    # 4. score\n\n0.7063752737298348\n\n\nSwap LinearRegression() for KNeighborsRegressor(5) or RandomForestRegressor() and the other three lines stay as they are.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1327,7 +1296,7 @@
     "href": "python-guide.html#pipelines",
     "title": " Python Quick Guide",
     "section": "Pipelines",
-    "text": "Pipelines\nA pipeline glues preprocessing to the model so they always travel together. This matters more than it looks like it does, and we spend a whole class on why.\n\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.neighbors import KNeighborsRegressor\nfrom sklearn.pipeline import make_pipeline\n\npipe = make_pipeline(StandardScaler(), KNeighborsRegressor(10))\npipe.fit(X, y)\npipe.score(X, y)\n\n0.7794013249655986",
+    "text": "Pipelines\nA pipeline attaches preprocessing to a model so they always occur together.\n\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.neighbors import KNeighborsRegressor\nfrom sklearn.pipeline import make_pipeline\n\npipe = make_pipeline(StandardScaler(), KNeighborsRegressor(10))\npipe.fit(X, y)\npipe.score(X, y)\n\n0.7790841201261199",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1339,7 +1308,7 @@
     "href": "python-guide.html#plotting",
     "title": " Python Quick Guide",
     "section": "Plotting",
-    "text": "Plotting\n\nimport matplotlib.pyplot as plt\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.scatter(Auto[\"horsepower\"], Auto[\"mpg\"], s=12, alpha=0.6, color=\"#d5008f\")\nax.set_xlabel(\"horsepower\")\nax.set_ylabel(\"mpg\")\nplt.show()\n\n\n\n\n\n\n\n\nThe pattern is always the same: make a fig and an ax, draw on the ax, label the axes, then plt.show().",
+    "text": "Plotting\n\nimport matplotlib.pyplot as plt\n\nfig, ax = plt.subplots(figsize=(6, 3.5))\nax.scatter(Auto[\"horsepower\"], Auto[\"mpg\"], s=12, alpha=0.6, color=\"#d5008f\")\nax.set_xlabel(\"horsepower\")\nax.set_ylabel(\"mpg\")\nplt.show()",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1352,18 +1321,6 @@
     "title": " Python Quick Guide",
     "section": "Errors you will see",
     "text": "Errors you will see\nNameError: name 'X' is not defined You did not run the cell that created X, or the runtime restarted. Run your cells from the top.\nKeyError: 'mpg' That column does not exist. Check Auto.columns for the exact spelling. Column names are case sensitive.\nValueError: Expected 2D array, got 1D array instead scikit-learn wants predictors as a data frame. Use Auto[[\"horsepower\"]] with two sets of brackets, not Auto[\"horsepower\"].\nSettingWithCopyWarning You modified a slice of a data frame. Add .copy() when you subset something you intend to change.\nMore in Troubleshooting.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Computing",
-      "Python Quick Guide"
-    ]
-  },
-  {
-    "objectID": "python-guide.html#what-you-will-not-be-graded-on",
-    "href": "python-guide.html#what-you-will-not-be-graded-on",
-    "title": " Python Quick Guide",
-    "section": "What you will not be graded on",
-    "text": "What you will not be graded on\nYou are not being assessed on whether you can recall syntax. Look things up. Use the documentation, use these pages, use an assistant if it helps you understand what the code does. You are being assessed on whether you can reason about models: which one to use, how to tell whether it is any good, and what the output means.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Computing",
@@ -1939,31 +1896,7 @@
     "href": "syllabus.html",
     "title": " Policies",
     "section": "",
-    "text": "This syllabus and the dates herein are subject to change.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Course Details",
-      "Course Policies"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#what-this-course-is",
-    "href": "syllabus.html#what-this-course-is",
-    "title": " Policies",
-    "section": "What this course is",
-    "text": "What this course is\nSTA 363 is about prediction. Given data we can measure, how do we build something that guesses well at what we cannot, and how do we know whether it worked?\nEvery method we meet is a different answer to that one question. We will not do inference. There are no p-values in this course, no confidence intervals on coefficients, and no hypothesis tests. Those live in STA 112 and STA 312.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Course Details",
-      "Course Policies"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#what-this-course-is-not",
-    "href": "syllabus.html#what-this-course-is-not",
-    "title": " Policies",
-    "section": "What this course is not",
-    "text": "What this course is not\nIt is not a programming course. We write Python, and you will get comfortable with it, but you are assessed on statistical reasoning rather than recall of syntax. Look things up freely.",
+    "text": "This syllabus and the dates are subject to change.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -1975,7 +1908,7 @@
     "href": "syllabus.html#class",
     "title": " Policies",
     "section": "Class",
-    "text": "Class\nThis class is meant to be hands on. You are responsible for the assigned reading before each class. Bring a charged laptop.\nThe rhythm is the same most weeks.\n\n\n\n\n\n\n\nWednesday and Friday\na new method, then an application exercise using it\n\n\nMost Wednesdays\na short paper check-in at the start of class\n\n\nMost Fridays\na problem set due",
+    "text": "Class\nThis class is meant to be hands on. You are responsible for the assigned reading before each class. Please bring a charged laptop.\nThe rhythm is the same most weeks.\n\n\n\n\n\n\n\nWednesday and Friday\na new method, then an application exercise using it\n\n\nMost Wednesdays\na short paper check-in at the start of class\n\n\nMost Fridays\na problem set due",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -2011,7 +1944,7 @@
     "href": "syllabus.html#course-components",
     "title": " Policies",
     "section": "Course components",
-    "text": "Course components\n\nApplication exercises\nDone in class, in pairs or small groups, immediately after the method they use. Graded for completion and good faith effort rather than correctness. The point is to hit the confusion while I am standing there.\n\n\nProblem sets\nRoughly eleven across the semester, due Fridays. Weighted toward conceptual reasoning: which model, why, what does this output mean, what would you check next. Some code, never a lot.\nYou may work together. Write up your own answers.\n\n\nCheck-ins\nRoughly ten short quizzes, on paper, at the start of class. Ten minutes, no notes, no devices. They cover the reading and the previous class.\nThese are low stakes on purpose. Their job is to tell both of us whether an idea landed while there is still time to fix it. Your two lowest check-in scores are dropped.\n\n\nExams\nThree, all on paper.\n\n\n\n\n\n\n\n\nExam\nDate\nCovers\n\n\n\n\nExam 1\nFriday, October 9\nPrediction framework and linear models\n\n\nExam 2\nWednesday, November 11\nFlexible methods, trees, ensembles, SVMs\n\n\nExam 3\nFinal exam period\nDeep learning, plus the whole course\n\n\n\nExams test reasoning about models: reading output, choosing between methods, explaining what went wrong. You will not be asked to write code from memory.",
+    "text": "Course components\n\nApplication exercises\nDone in class, in pairs or small groups. Graded for completion.\n\n\nProblem sets\nRoughly eleven across the semester, due Fridays.\nYou may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set.\n\n\nCheck-ins\nRoughly ten short check-ins at the start of class.\n\n\nExams\nWe will have two midterm exams and a final exam\n\n\n\nExam\nDate\n\n\n\n\n\nExam 1\nFriday, October 9\n\n\n\nExam 2\nWednesday, November 11\n\n\n\nExam 3\nFinal exam period",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -2023,7 +1956,7 @@
     "href": "syllabus.html#grading",
     "title": " Policies",
     "section": "Grading",
-    "text": "Grading\n\n\n\nComponent\nWeight\n\n\n\n\nApplication exercises\n10%\n\n\nProblem sets\n20%\n\n\nCheck-ins\n10%\n\n\nExam 1\n20%\n\n\nExam 2\n20%\n\n\nExam 3\n20%\n\n\nTotal\n100%\n\n\n\n\n\n\nLetter\nNumeric\n\n\n\n\nA\n&gt; 94\n\n\nA-\n90 to 94\n\n\nB+\n87 to 89\n\n\nB\n83 to 86\n\n\nB-\n80 to 82\n\n\nC+\n77 to 79\n\n\nC\n73 to 76\n\n\nC-\n70 to 72\n\n\nD+\n67 to 69\n\n\nD\n65 to 66\n\n\nF\nBelow 65",
+    "text": "Grading\n\n\n\nComponent\nWeight\n\n\n\n\nApplication exercises\n5%\n\n\nProblem sets\n10%\n\n\nCheck-ins\n20%\n\n\nMidterm 1\n20%\n\n\nMidterm 2\n20%\n\n\nFinal Exam\n25%\n\n\nTotal\n100%\n\n\n\n\n\n\nLetter\nNumeric\n\n\n\n\nA\n&gt; 94\n\n\nA-\n90 to 94\n\n\nB+\n87 to 89\n\n\nB\n83 to 86\n\n\nB-\n80 to 82\n\n\nC+\n77 to 79\n\n\nC\n73 to 76\n\n\nC-\n70 to 72\n\n\nD+\n67 to 69\n\n\nD\n65 to 66\n\n\nF\nBelow 65",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -2035,19 +1968,7 @@
     "href": "syllabus.html#late-and-missed-work",
     "title": " Policies",
     "section": "Late and missed work",
-    "text": "Late and missed work\n\nProblem sets, late but within 24 hours of the due time: 50% credit\n\nAny later: no credit\n\nCheck-ins cannot be made up, which is why the lowest two are dropped\n\nNo make-up exams\n\nAll regrade requests must be raised with me within one week of receiving the grade. No grade changes after the final class.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Course Details",
-      "Course Policies"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#accessibility",
-    "href": "syllabus.html#accessibility",
-    "title": " Policies",
-    "section": "Accessibility",
-    "text": "Accessibility\nWake Forest University provides reasonable accommodations for students with disabilities. Academic accommodations are coordinated through the Center for Learning, Access, and Student Success (CLASS). If you would like to request accommodations for this course, contact CLASS as early in the semester as possible (class.wfu.edu, 118 Reynolda Hall). Please contact me privately after sending notifications through the CLASS office Student Portal system. Retroactive accommodations will not be provided.",
+    "text": "Late and missed work\n\nProblem sets, late but within 24 hours of the due time: 50% credit\n\nAny later: no credit\n\nCheck-ins cannot be made up, which is why the lowest two are dropped\n\nNo make-up exams\n\nAll regrade requests must be raised with me within one week of receiving the grade. ## Accessibility\nWake Forest University provides reasonable accommodations for students with disabilities. Academic accommodations are coordinated through the Center for Learning, Access, and Student Success (CLASS). If you would like to request accommodations for this course, contact CLASS as early in the semester as possible (class.wfu.edu, 118 Reynolda Hall).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -2059,7 +1980,7 @@
     "href": "syllabus.html#honor-code",
     "title": " Policies",
     "section": "Honor code",
-    "text": "Honor code\nWake Forest University is committed to a culture of academic integrity. As a part of this community, you share the responsibility for creating a place of honesty, intellectual curiosity, and individual accountability. As you committed to with your honor pledge signature, you agree “not to deceive any member of the community; not to steal, cheat, or plagiarize on academic work; and not to engage in any other form of academic misconduct.” If you have questions about documenting your work, working with external sources, or working with peers on assigned work, consult with me as soon as possible. Instances of academic dishonesty will be referred to the Honor and Ethics Council.\n\nSharing code and responses\nOn problem sets you may use online resources, including StackOverflow and AI assistants, and you must cite any borrowed or adapted code, whether copied directly or modified. Uncited reuse is treated as plagiarism.\nOn application exercises, use whatever resources you like. Copying without understanding is a bad trade, since the exams are on paper.\nCheck-ins and exams are closed book and closed device.\nRather than relying on someone else’s work, ask for help. See Help.",
+    "text": "Honor code\nWake Forest University is committed to a culture of academic integrity. As a part of this community, you share the responsibility for creating a place of honesty, intellectual curiosity, and individual accountability. As you committed to with your honor pledge signature, you agree “not to deceive any member of the community; not to steal, cheat, or plagiarize on academic work; and not to engage in any other form of academic misconduct.” If you have questions about documenting your work, working with external sources, or working with peers on assigned work, consult with me as soon as possible. Instances of academic dishonesty will be referred to the Honor and Ethics Council.\n\nSharing code and responses\nOn problem sets you may use online resources, including StackOverflow and AI assistants, and you must cite any borrowed or adapted code, whether copied directly or modified. Uncited reuse is treated as plagiarism.\nOn application exercises, use whatever resources you like.\nCheck-ins and exams are closed book and closed device.\nRather than relying on someone else’s work, ask for help. See Help.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -2071,7 +1992,7 @@
     "href": "syllabus.html#getting-help",
     "title": " Policies",
     "section": "Getting help",
-    "text": "Getting help\nSee the Help page for office hours, the Math & Stats Center, and university resources.",
+    "text": "Getting help\nSee the Help page for office hours, the Math & Stats Center.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
