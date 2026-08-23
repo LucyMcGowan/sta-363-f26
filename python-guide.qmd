@@ -1,0 +1,120 @@
+---
+title: "{{< fa brands python >}} Python Quick Guide"
+jupyter: python3
+---
+
+
+```{python}
+import numpy as np
+import pandas as pd
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Auto = pd.read_csv(DATA + "Auto.csv")
+```
+
+## R to Python
+
+| Task | R | Python |
+|---|---|---|
+| read a csv | `read_csv("f.csv")` | `pd.read_csv("f.csv")` |
+| first rows | `head(d)` | `d.head()` |
+| dimensions | `dim(d)` | `d.shape` |
+| column names | `names(d)` | `d.columns` |
+| one column | `d$mpg` | `d["mpg"]` |
+| several columns | `d[, c("mpg", "weight")]` | `d[["mpg", "weight"]]` |
+| filter rows | `d[d$mpg > 30, ]` | `d[d["mpg"] > 30]` |
+| new column | `d$kpl <- d$mpg * 0.425` | `d["kpl"] = d["mpg"] * 0.425` |
+| summary | `summary(d)` | `d.describe()` |
+| counts | `table(d$origin)` | `d["origin"].value_counts()` |
+| mean | `mean(d$mpg)` | `d["mpg"].mean()` |
+| group means | `aggregate(mpg ~ origin, d, mean)` | `d.groupby("origin")["mpg"].mean()` |
+| sequence | `1:10` | `range(1, 11)` |
+| length | `length(x)` | `len(x)` |
+| missing | `is.na(x)` | `x.isna()` |
+
+Python counts from **zero**, so `d.iloc[0]`
+is the first row. And `range(1, 11)` **excludes** the endpoint, so it stops at
+10.
+
+## Selecting
+
+```{python}
+Auto[["mpg", "horsepower", "weight"]].head(3)
+```
+
+```{python}
+Auto[Auto["mpg"] > 40][["name", "mpg"]]
+```
+
+If you have multiple conditions, you use `&` for and, `|` for or, and parentheses around each piece:
+
+```{python}
+Auto[(Auto["mpg"] > 30) & (Auto["year"] > 78)].shape
+```
+
+## Model fitting
+
+
+```{python}
+from sklearn.linear_model import LinearRegression
+
+X = Auto[["horsepower", "weight"]]   # predictors, always a data frame
+y = Auto["mpg"]                      # response, always a single column
+
+model = LinearRegression()           # 1. choose
+model.fit(X, y)                      # 2. fit
+model.predict(X.head(3))             # 3. predict
+```
+
+```{python}
+model.score(X, y)                    # 4. score
+```
+
+Swap `LinearRegression()` for `KNeighborsRegressor(5)` or
+`RandomForestRegressor()` and the other three lines stay as they are. 
+
+## Pipelines
+
+A pipeline attaches preprocessing to a model so they always occur together.
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.pipeline import make_pipeline
+
+pipe = make_pipeline(StandardScaler(), KNeighborsRegressor(10))
+pipe.fit(X, y)
+pipe.score(X, y)
+```
+
+## Plotting
+
+```{python}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.scatter(Auto["horsepower"], Auto["mpg"], s=12, alpha=0.6, color="#d5008f")
+ax.set_xlabel("horsepower")
+ax.set_ylabel("mpg")
+plt.show()
+```
+
+
+## Errors you may see
+
+**`NameError: name 'X' is not defined`**
+You did not run the cell that created `X`, or the runtime restarted. Run your cells from the top.
+
+**`KeyError: 'mpg'`**
+That column does not exist. Check `Auto.columns` for the exact spelling. Column names are case sensitive.
+
+**`ValueError: Expected 2D array, got 1D array instead`**
+scikit-learn wants predictors as a data frame. Use `Auto[["horsepower"]]` with
+two sets of brackets, not `Auto["horsepower"]`.
+
+**`SettingWithCopyWarning`**
+You modified a slice of a data frame. Add `.copy()` when you subset something you
+intend to change.
+
+More in [Troubleshooting](troubleshooting.qmd).
+
