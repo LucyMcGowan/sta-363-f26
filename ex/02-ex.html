@@ -491,19 +491,19 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ps/01-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/01-ps.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. The prediction framework</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ps/02-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/02-ps.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Bias, variance, and neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ps/03-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/03-ps.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Cross-validation and leakage</span></a>
   </div>
 </li>
@@ -601,12 +601,12 @@ window.Quarto = {
 
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="4a57891e" class="cell" data-execution_count="1">
+<div id="46efef6c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> SplineTransformer</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
@@ -701,14 +701,14 @@ window.Quarto = {
 </div>
 </div>
 <p>We will predict <code>mpg</code> from <code>horsepower</code>.</p>
-<div id="4a95dbf6" class="cell" data-execution_count="2">
+<div id="fe88f80b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="part-1-look-before-you-model" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-look-before-you-model">Part 1: Look before you model</h2>
-<div id="5478b8e5" class="cell" data-execution_count="3">
+<div id="357769e6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[<span class="st">"horsepower"</span>], y, s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"horsepower"</span>)</span>
@@ -732,7 +732,7 @@ window.Quarto = {
 <section id="part-2-split" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-split">Part 2: Split</h2>
 <p>Fill in the blank so that 30% of the observations are held out.</p>
-<div id="2f580633" class="cell" data-execution_count="4">
+<div id="4ab95e44" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span>____, random_state<span class="op">=</span><span class="dv">363</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -746,18 +746,19 @@ window.Quarto = {
 </section>
 <section id="part-3-training-mse-versus-test-mse" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-training-mse-versus-test-mse">Part 3: Training MSE versus test MSE</h2>
-<div id="afb1a492" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>degrees <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<p>We fit a spline to <code>horsepower</code>, and increase the degrees of freedom (<code>df</code>) to make the fit more flexible.</p>
+<div id="43336cd2" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">25</span>, <span class="dv">2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_mse, test_mse <span class="op">=</span> [], []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> degrees:</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> make_pipeline(PolynomialFeatures(d), LinearRegression())</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> df <span class="kw">in</span> dfs:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> make_pipeline(SplineTransformer(degree<span class="op">=</span><span class="dv">3</span>, n_knots<span class="op">=</span>df <span class="op">-</span> <span class="dv">2</span>), LinearRegression())</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    model.fit(X_train, y_train)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    train_mse.append(mean_squared_error(y_train, model.predict(X_train)))</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    test_mse.append(mean_squared_error(y_test, model.predict(X_test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="88937adc" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"degree"</span>: degrees, <span class="st">"train"</span>: train_mse, <span class="st">"test"</span>: test_mse}).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b36b3bdb" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"df"</span>: dfs, <span class="st">"train"</span>: train_mse, <span class="st">"test"</span>: test_mse}).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -766,7 +767,7 @@ window.Quarto = {
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">degree</th>
+<th data-quarto-table-cell-role="th">df</th>
 <th data-quarto-table-cell-role="th">train</th>
 <th data-quarto-table-cell-role="th">test</th>
 </tr>
@@ -774,63 +775,69 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>1</td>
-<td>24.81</td>
-<td>22.05</td>
+<td>4</td>
+<td>19.79</td>
+<td>17.05</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>2</td>
-<td>19.91</td>
-<td>16.86</td>
+<td>6</td>
+<td>19.69</td>
+<td>16.80</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>3</td>
-<td>21.19</td>
-<td>17.58</td>
+<td>8</td>
+<td>19.39</td>
+<td>15.84</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>4</td>
-<td>23.76</td>
-<td>20.67</td>
+<td>10</td>
+<td>19.28</td>
+<td>15.86</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>5</td>
-<td>26.98</td>
-<td>25.11</td>
+<td>12</td>
+<td>19.29</td>
+<td>15.97</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
-<td>6</td>
-<td>30.31</td>
-<td>29.88</td>
+<td>14</td>
+<td>19.23</td>
+<td>16.26</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
-<td>7</td>
-<td>33.58</td>
-<td>34.41</td>
+<td>16</td>
+<td>18.70</td>
+<td>16.57</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
-<td>8</td>
-<td>36.72</td>
-<td>38.42</td>
+<td>18</td>
+<td>18.79</td>
+<td>16.77</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
-<td>9</td>
-<td>39.72</td>
-<td>41.82</td>
+<td>20</td>
+<td>18.63</td>
+<td>16.65</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
-<td>10</td>
-<td>42.52</td>
-<td>44.61</td>
+<td>22</td>
+<td>18.15</td>
+<td>16.68</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>24</td>
+<td>17.45</td>
+<td>16.51</td>
 </tr>
 </tbody>
 </table>
@@ -840,11 +847,11 @@ window.Quarto = {
 </div>
 <div class="question">
 <ol type="1">
-<li>Which degree minimizes <strong>training</strong> MSE? Is that surprising?<br>
+<li>Which <code>df</code> minimizes <strong>training</strong> MSE? Is that surprising?<br>
 </li>
-<li>Which degree minimizes <strong>test</strong> MSE?<br>
+<li>Which <code>df</code> minimizes <strong>test</strong> MSE?<br>
 </li>
-<li>At which degree do the two columns start to disagree about the direction of improvement? What is happening there?<br>
+<li>At which <code>df</code> do the two columns start to disagree about the direction of improvement? What is happening there?<br>
 </li>
 </ol>
 </div>
@@ -854,11 +861,11 @@ window.Quarto = {
 </section>
 <section id="part-4-plot-it" class="level2">
 <h2 class="anchored" data-anchor-id="part-4-plot-it">Part 4: Plot it</h2>
-<div id="a127e395" class="cell" data-execution_count="8">
+<div id="d6318b56" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ax.plot(degrees, train_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#595959"</span>, label<span class="op">=</span><span class="st">"Training MSE"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.plot(degrees, test_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>, label<span class="op">=</span><span class="st">"Test MSE"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Polynomial degree"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ax.plot(dfs, train_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#595959"</span>, label<span class="op">=</span><span class="st">"Training MSE"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.plot(dfs, test_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>, label<span class="op">=</span><span class="st">"Test MSE"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Degrees of freedom"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"MSE"</span>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -879,14 +886,14 @@ window.Quarto = {
 </section>
 <section id="part-5" class="level2">
 <h2 class="anchored" data-anchor-id="part-5">Part 5:</h2>
-<p>Re-run everything above with <code>random_state=1</code>, then <code>random_state=2</code>, then <code>random_state=3</code>. Record the best degree each time.</p>
+<p>Re-run everything above with <code>random_state=1</code>, then <code>random_state=2</code>, then <code>random_state=3</code>. Record the best <code>df</code> each time.</p>
 <div class="question">
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th><code>random_state</code></th>
-<th>best degree</th>
-<th>test MSE at that degree</th>
+<th>best df</th>
+<th>test MSE at that df</th>
 </tr>
 </thead>
 <tbody>
@@ -914,7 +921,7 @@ window.Quarto = {
 </table>
 </div>
 <div class="question">
-<p>How much did your answer move? If a colleague reported “the best model is degree 7” based on one split, how much would you trust them?</p>
+<p>How much did your answer move? If a colleague reported “the best model has 20 degrees of freedom” based on one split, how much would you trust them?</p>
 </div>
 <div class="answer-space">
 

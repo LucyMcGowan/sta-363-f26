@@ -458,19 +458,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ps/01-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/01-ps.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. The prediction framework</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ps/02-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/02-ps.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Bias, variance, and neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ps/03-ps.html" class="sidebar-item-text sidebar-link">
+  <a href="https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/03-ps.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Cross-validation and leakage</span></a>
   </div>
 </li>
@@ -540,6 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#the-one-install" id="toc-the-one-install" class="nav-link" data-scroll-target="#the-one-install">The one install</a></li>
   <li><a href="#turning-on-the-gpu" id="toc-turning-on-the-gpu" class="nav-link" data-scroll-target="#turning-on-the-gpu">Turning on the GPU</a></li>
   <li><a href="#saving-your-work" id="toc-saving-your-work" class="nav-link" data-scroll-target="#saving-your-work">Saving your work</a></li>
+  <li><a href="#problem-sets" id="toc-problem-sets" class="nav-link" data-scroll-target="#problem-sets">Problem sets</a></li>
   <li><a href="#things-to-keep-in-mind" id="toc-things-to-keep-in-mind" class="nav-link" data-scroll-target="#things-to-keep-in-mind">Things to keep in mind</a></li>
   <li><a href="#working-locally-instead" id="toc-working-locally-instead" class="nav-link" data-scroll-target="#working-locally-instead">Working locally instead</a></li>
   </ul>
@@ -576,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="your-first-cell" class="level2">
 <h2 class="anchored" data-anchor-id="your-first-cell">Your first cell</h2>
 <p>Click a cell, type, and press <kbd aria-hidden="true">Shift-Enter</kbd><span class="visually-hidden">Shift-Enter</span> to run it.</p>
-<div id="81e4c2de" class="cell" data-execution_count="1">
+<div id="fd5ce98c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>4</code></pre>
@@ -587,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-course-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-course-data">Loading course data</h2>
 <p>Every data set we use lives on this website.</p>
-<div id="fe2cdcec" class="cell" data-execution_count="2">
+<div id="1644f5c4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
@@ -717,14 +718,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-one-install" class="level2">
 <h2 class="anchored" data-anchor-id="the-one-install">The one install</h2>
 <p>When we get to neural networks we may need a few additional packages. PyTorch itself is already on Colab, but three helper packages are not. Put this cell at the top of the notebook and run it once per session:</p>
-<div id="93127e23" class="cell" data-execution_count="3">
+<div id="6423a35d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>q pytorch<span class="op">-</span>lightning torchinfo torchmetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="turning-on-the-gpu" class="level2">
 <h2 class="anchored" data-anchor-id="turning-on-the-gpu">Turning on the GPU</h2>
 <p>We will not often need to use GPUs. If we do, go to <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Change runtime type</strong> and pick a <strong>GPU</strong> accelerator. Check that it worked:</p>
-<div id="5f3836a4" class="cell" data-execution_count="4">
+<div id="c55ea45d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>torch.cuda.is_available()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -735,6 +736,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A Colab notebook you open from a link is read only until you save your own copy.</p>
 <p><strong>File</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Save a copy in Drive</strong></p>
 <p>Do this at the start of every class. Your copy lives in a Colab Notebooks folder in your WFU Google Drive and saves automatically after that.</p>
+</section>
+<section id="problem-sets" class="level2">
+<h2 class="anchored" data-anchor-id="problem-sets">Problem sets</h2>
+<p>Each problem set is a notebook. Open it from the <i class="fa-solid fa-file-lines" aria-hidden="true"></i> icon on the <a href="./schedule.html">Schedule</a>, which lands you in Colab on a read only copy.</p>
+<ol type="1">
+<li><strong>File</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Save a copy in Drive</strong>, then work in your copy.<br>
+</li>
+<li>Run the setup cell at the top before anything else.<br>
+</li>
+<li>Type prose into the cells that read <em>Type your answer here</em>. Double click the cell to edit it, then press <kbd aria-hidden="true">Shift-Enter</kbd><span class="visually-hidden">Shift-Enter</span> to render it.<br>
+</li>
+<li>Type code into the blank code cells.<br>
+</li>
+<li>Before you turn it in, use <strong>Runtime</strong> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> <strong>Restart session and run all</strong> and check that everything still runs.</li>
+</ol>
+<p>To submit, click <strong>Share</strong> in the top right, set <strong>General access</strong> to <em>Anyone with the link</em>, click <strong>Copy link</strong>, and paste that link into Canvas. If the link is set to <em>Restricted</em> I cannot open it, so check that before you submit.</p>
 </section>
 <section id="things-to-keep-in-mind" class="level2">
 <h2 class="anchored" data-anchor-id="things-to-keep-in-mind">Things to keep in mind</h2>

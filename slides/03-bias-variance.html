@@ -29,7 +29,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-c674f21655d911bccd7a37be4b1c5bd6.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee6862a114be80f027b612748618a6b6.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -161,9 +161,22 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="bias-variance-decomposition" class="slide level2">
 <h2>Bias-variance decomposition</h2>
-<div class="vcenter">
 <p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = \text{Var}\left(\hat{f}(x_0)\right) + \left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2 + \text{Var}(\varepsilon)\]</span></p>
-</div>
+</section>
+<section id="bias-variance-decomposition-1" class="slide level2">
+<h2>Bias-variance decomposition</h2>
+<p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = {\require{color}\colorbox{#eec8e1}{$\text{Var}\left(\hat{f}(x_0)\right)$}} + \left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2 + \text{Var}(\varepsilon)\]</span></p>
+<p>How much <span class="math inline">\(\hat{f}(x_0)\)</span> moves across different training sets.</p>
+</section>
+<section id="bias-variance-decomposition-2" class="slide level2">
+<h2>Bias-variance decomposition</h2>
+<p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = \text{Var}\left(\hat{f}(x_0)\right) + {\require{color}\colorbox{#eec8e1}{$\left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2$}} + \text{Var}(\varepsilon)\]</span></p>
+<p>How far the average <span class="math inline">\(\hat{f}(x_0)\)</span>, over those training sets, sits from the truth <span class="math inline">\(f(x_0)\)</span>.</p>
+</section>
+<section id="bias-variance-decomposition-3" class="slide level2">
+<h2>Bias-variance decomposition</h2>
+<p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = \text{Var}\left(\hat{f}(x_0)\right) + \left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2 + {\require{color}\colorbox{#eec8e1}{$\text{Var}(\varepsilon)$}}\]</span></p>
+<p>The irreducible error. Neither variance nor bias touches this term.</p>
 </section>
 <section id="bias-and-variance" class="slide level2 small">
 <h2>Bias and variance</h2>
@@ -182,7 +195,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="variance-illustrated" class="slide level2 small">
 <h2>Variance, illustrated</h2>
 
-<img data-src="03-bias-variance_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<img data-src="03-bias-variance_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
 <p>Twenty five fits, each on its own training sample of 60 points. Grey is the true <span class="math inline">\(f\)</span>.</p>
 </div>
 </section>
@@ -224,9 +237,22 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="classification-error-rate" class="slide level2">
 <h2>Classification error rate</h2>
-<div class="vcenter">
 <p><span class="math display">\[\text{Error rate} = \frac{1}{n}\sum_{i=1}^{n} I\left(y_i \neq \hat{y}_i\right)\]</span></p>
-</div>
+</section>
+<section id="classification-error-rate-1" class="slide level2">
+<h2>Classification error rate</h2>
+<p><span class="math display">\[\text{Error rate} = \frac{1}{n}\sum_{i=1}^{n} {\require{color}\colorbox{#eec8e1}{$I\left(y_i \neq \hat{y}_i\right)$}}\]</span></p>
+<p>1 if observation <span class="math inline">\(i\)</span> was misclassified, 0 if it was not.</p>
+</section>
+<section id="classification-error-rate-2" class="slide level2">
+<h2>Classification error rate</h2>
+<p><span class="math display">\[\text{Error rate} = \frac{1}{n}{\require{color}\colorbox{#eec8e1}{$\sum_{i=1}^{n}$}} I\left(y_i \neq \hat{y}_i\right)\]</span></p>
+<p>Count up the misclassifications over all <span class="math inline">\(n\)</span> observations.</p>
+</section>
+<section id="classification-error-rate-3" class="slide level2">
+<h2>Classification error rate</h2>
+<p><span class="math display">\[\text{Error rate} = {\require{color}\colorbox{#eec8e1}{$\frac{1}{n}$}}\sum_{i=1}^{n} I\left(y_i \neq \hat{y}_i\right)\]</span></p>
+<p>Divide by <span class="math inline">\(n\)</span> to turn the count into a rate.</p>
 </section>
 <section id="application-exercise-3" class="slide level2">
 <h2>Application exercise 3</h2>
@@ -596,6 +622,158 @@ Dr.&nbsp;Lucy D’Agostino McGowan
             }
           });
         }
+            let selectedAnnoteEl;
+            const selectorForAnnotation = ( cell, annotation) => {
+              let cellAttr = 'data-code-cell="' + cell + '"';
+              let lineAttr = 'data-code-annotation="' +  annotation + '"';
+              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+              return selector;
+            }
+            const selectCodeLines = (annoteEl) => {
+              const doc = window.document;
+              const targetCell = annoteEl.getAttribute("data-target-cell");
+              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+              const lineIds = lines.map((line) => {
+                return targetCell + "-" + line;
+              })
+              let top = null;
+              let height = null;
+              let parent = null;
+              if (lineIds.length > 0) {
+                  //compute the position of the single el (top and bottom and make a div)
+                  const el = window.document.getElementById(lineIds[0]);
+                  top = el.offsetTop;
+                  height = el.offsetHeight;
+                  parent = el.parentElement.parentElement;
+                if (lineIds.length > 1) {
+                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                  height = bottom - top;
+                }
+                if (top !== null && height !== null && parent !== null) {
+                  // cook up a div (if necessary) and position it 
+                  let div = window.document.getElementById("code-annotation-line-highlight");
+                  if (div === null) {
+                    div = window.document.createElement("div");
+                    div.setAttribute("id", "code-annotation-line-highlight");
+                    div.style.position = 'absolute';
+                    parent.appendChild(div);
+                  }
+                  div.style.top = top - 2 + "px";
+                  div.style.height = height + 4 + "px";
+                  div.style.left = 0;
+                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                  if (gutterDiv === null) {
+                    gutterDiv = window.document.createElement("div");
+                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                    gutterDiv.style.position = 'absolute';
+                    const codeCell = window.document.getElementById(targetCell);
+                    const gutter = codeCell.querySelector('.code-annotation-gutter');
+                    gutter.appendChild(gutterDiv);
+                  }
+                  gutterDiv.style.top = top - 2 + "px";
+                  gutterDiv.style.height = height + 4 + "px";
+                }
+                selectedAnnoteEl = annoteEl;
+              }
+            };
+            const unselectCodeLines = () => {
+              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+              elementsIds.forEach((elId) => {
+                const div = window.document.getElementById(elId);
+                if (div) {
+                  div.remove();
+                }
+              });
+              selectedAnnoteEl = undefined;
+            };
+              // Handle positioning of the toggle
+          window.addEventListener(
+            "resize",
+            throttle(() => {
+              elRect = undefined;
+              if (selectedAnnoteEl) {
+                selectCodeLines(selectedAnnoteEl);
+              }
+            }, 10)
+          );
+          function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+            return (...args) => {
+              if(!throttle) { // first call gets through
+                  fn.apply(this, args);
+                  throttle = true;
+              } else { // all the others get throttled
+                  if(timer) clearTimeout(timer); // cancel #2
+                  timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = throttle = false;
+                  }, ms);
+              }
+            };
+          }
+            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+            for (let i=0; i<annoteTargets.length; i++) {
+              const annoteTarget = annoteTargets[i];
+              const targetCell = annoteTarget.getAttribute("data-target-cell");
+              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+              const contentFn = () => {
+                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                if (content) {
+                  const tipContent = content.cloneNode(true);
+                  tipContent.classList.add("code-annotation-tip-content");
+                  return tipContent.outerHTML;
+                }
+              }
+              const config = {
+                allowHTML: true,
+                content: contentFn,
+                onShow: (instance) => {
+                  selectCodeLines(instance.reference);
+                  instance.reference.classList.add('code-annotation-active');
+                  window.tippy.hideAll();
+                },
+                onHide: (instance) => {
+                  unselectCodeLines();
+                  instance.reference.classList.remove('code-annotation-active');
+                },
+                maxWidth: 300,
+                delay: [50, 0],
+                duration: [200, 0],
+                offset: [5, 10],
+                arrow: true,
+                appendTo: function(el) {
+                  return el.parentElement.parentElement.parentElement;
+                },
+                interactive: true,
+                interactiveBorder: 10,
+                theme: 'light-border',
+                placement: 'right',
+                popperOptions: {
+                  modifiers: [
+                  {
+                    name: 'flip',
+                    options: {
+                      flipVariations: false, // true by default
+                      allowedAutoPlacements: ['right'],
+                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                    },
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      mainAxis: false,
+                      altAxis: false
+                    }
+                  }
+                  ]        
+                }      
+              };
+              window.tippy(annoteTarget, config); 
+            }
         const findCites = (el) => {
           const parentEl = el.parentElement;
           if (parentEl) {

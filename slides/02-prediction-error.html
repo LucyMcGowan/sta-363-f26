@@ -95,7 +95,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-c674f21655d911bccd7a37be4b1c5bd6.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee6862a114be80f027b612748618a6b6.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -217,18 +217,48 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="review" class="slide level2">
 <h2>Review</h2>
 <div class="takeaway">
-<p><span class="math display">\[Y = f(X) + \varepsilon\]</span> We want <span class="math inline">\(\hat{f}(X)\)</span> close to <span class="math inline">\(Y\)</span>.</p>
+<p><span class="math display">\[Y = f(X) + \varepsilon\]</span></p>
 </div>
-<div class="fragment">
-<div class="question">
-<p>Close in what sense, and close on which observations?</p>
-</div>
-</div>
+<ul>
+<li class="fragment"><span class="math inline">\(\hat{f}(X)\)</span> is our best guess at the true <span class="math inline">\(f(X)\)</span><br>
+</li>
+<li class="fragment">Because we cannot observe <span class="math inline">\(f(X)\)</span>, we cannot measure <span class="math inline">\(\hat{f}(X)\)</span> against it.<br>
+</li>
+<li class="fragment">We check whether <span class="math inline">\(\hat{f}(X)\)</span> is close to <span class="math inline">\(Y\)</span>.<br>
+</li>
+</ul>
 </section>
-<section id="application-exercise-2-part-1" class="slide level2">
+<section id="application-exercise-2-part-1" class="slide level2 small">
 <h2>Application exercise 2, part 1</h2>
-<div class="takeaway">
-<p>Open <code>ex/02-ex.qmd</code> and plot <code>mpg</code> against <code>horsepower</code> in the <code>Auto</code> data.</p>
+<p><strong>1.</strong> Go to <a href="https://colab.research.google.com">Google Colab</a></p>
+<p><strong>2.</strong> Read in the data:</p>
+<div id="e2ab29f4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>DATA</code> is the base URL for the raw CSV files in the course’s GitHub repository.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2"><code>pd.read_csv</code> reads the file at <code>DATA + "Auto.csv"</code> and returns a <code>DataFrame</code>, assigned to <code>Auto</code>.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p><strong>3.</strong> Plot <code>mpg</code> against <code>horsepower</code>:</p>
+<div id="bbbcf197" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(Auto[<span class="st">"horsepower"</span>], Auto[<span class="st">"____"</span>])</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1"><code>plt.scatter(x, y)</code> draws a point for every row, from two array arguments. <code>Auto["horsepower"]</code> supplies the x-axis. Fill in the blank with <code>"mpg"</code>, the response column named above, to supply the y-axis.</span>
+</dd>
+</dl>
+</div>
 </div>
 <div class="fragment">
 <div class="question">
@@ -238,23 +268,22 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="mean-squared-error" class="slide level2">
 <h2>Mean squared error</h2>
-<div class="vcenter">
 <p><span class="math display">\[\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{f}(x_i)\right)^2\]</span></p>
-</div>
 </section>
-<section id="test-data" class="slide level2 small">
-<h2>Test data</h2>
-<ul>
-<li>A stock model trained on six months of returns predicts tomorrow’s price, not last week’s<br>
-</li>
-<li>A diabetes model trained on today’s patients predicts a new patient’s risk, not theirs<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="takeaway">
-<p>We already know <span class="math inline">\(y_i\)</span> for every training row. The question is whether <span class="math inline">\(\hat{f}\)</span> generalizes.</p>
-</div>
-</div>
+<section id="mean-squared-error-1" class="slide level2">
+<h2>Mean squared error</h2>
+<p><span class="math display">\[\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}{\require{color}\colorbox{#eec8e1}{$\left(y_i - \hat{f}(x_i)\right)^2$}}\]</span></p>
+<p>The squared prediction error for observation <span class="math inline">\(i\)</span>: how far <span class="math inline">\(\hat{f}(x_i)\)</span> misses <span class="math inline">\(y_i\)</span>.</p>
+</section>
+<section id="mean-squared-error-2" class="slide level2">
+<h2>Mean squared error</h2>
+<p><span class="math display">\[\text{MSE} = \frac{1}{n}{\require{color}\colorbox{#eec8e1}{$\sum_{i=1}^{n}$}}\left(y_i - \hat{f}(x_i)\right)^2\]</span></p>
+<p>Add that squared error up over every one of the <span class="math inline">\(n\)</span> observations.</p>
+</section>
+<section id="mean-squared-error-3" class="slide level2">
+<h2>Mean squared error</h2>
+<p><span class="math display">\[\text{MSE} = {\require{color}\colorbox{#eec8e1}{$\frac{1}{n}$}}\sum_{i=1}^{n}\left(y_i - \hat{f}(x_i)\right)^2\]</span></p>
+<p>Divide by <span class="math inline">\(n\)</span> to turn the total into an average.</p>
 </section>
 <section id="training-mse-and-test-mse" class="slide level2 small">
 <h2>Training MSE and test MSE</h2>
@@ -275,35 +304,19 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="training-mse-is-usually-smaller" class="slide level2">
 <h2>Training MSE is usually smaller</h2>
 <div class="takeaway">
-<p>Most methods choose their parameters to minimize training MSE, so we expect training MSE below test MSE whether or not the model overfits.</p>
+<p>Most methods choose their parameters to minimize training MSE, so we expect training MSE to fall below test MSE.</p>
 </div>
 <div class="fragment">
 <div class="question">
-<p>So a small training MSE on its own tells us what, exactly?</p>
-</div>
-</div>
-</section>
-<section id="application-exercise-2-part-2" class="slide level2">
-<h2>Application exercise 2, part 2</h2>
-<div class="takeaway">
-<p>Part 2: split <code>Auto</code> so 30% is held out.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Why does <code>random_state</code> matter?</p>
+<p>What does a small training MSE tell us?</p>
 </div>
 </div>
 </section>
 <section id="flexibility-and-training-mse" class="slide level2">
 <h2>Flexibility and training MSE</h2>
 <div class="takeaway">
-<p>Training MSE always falls as flexibility rises.</p>
-<p>Test MSE does not.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>A model with zero training MSE: perfect, or useless?</p>
-</div>
+<p>Training MSE always decreases as flexibility increases.</p>
+<p>Test MSE does not (necessarily)</p>
 </div>
 </section>
 <section id="degrees-of-freedom" class="slide level2 small">
@@ -313,7 +326,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <ul>
-<li>Linear regression: 2 degrees of freedom, the most restrictive end<br>
+<li>Linear regression with one predictor: 2 degrees of freedom, the most restrictive<br>
 </li>
 <li>A very wiggly spline: many more<br>
 </li>
@@ -361,22 +374,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <img data-src="img/islp/fig2_11.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
 <p>ISLP Figure 2.11. The same setup with a true <span class="math inline">\(f\)</span> that is far from linear.</p>
 </div>
-</section>
-<section id="comparing-the-three-fits" class="slide level2 small">
-<h2>Comparing the three fits</h2>
-<ul>
-<li>Figure 2.9, moderate curve: the middle spline wins<br>
-</li>
-<li>Figure 2.10, near-linear: the line wins, flexible fits overfit<br>
-</li>
-<li>Figure 2.11, highly non-linear: only the flexible fits get close<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="takeaway">
-<p>No method wins on every data set. We check the shape first.</p>
-</div>
-</div>
 </section></section>
 <section>
 <section id="in-python" class="title-slide slide level1 center">
@@ -385,77 +382,183 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="simulated-data" class="slide level2">
 <h2>Simulated data</h2>
-<div id="9f3d3c28" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sin(<span class="dv">2</span> <span class="op">*</span> x) <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">200</span>)</span>
-<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="68bc6435" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sin(<span class="dv">2</span> <span class="op">*</span> x) <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">200</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">200</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1"><code>f</code> is the true, otherwise-unknown regression function: <code>np.sin(2 * x) +    0.3 * x**2</code>, combining a sine wave with a quadratic term.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="2"><code>rng.uniform(-3, 3, 200)</code> draws 200 values from a uniform distribution on the interval [-3, 3], assigned to <code>x</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="3"><code>y</code> evaluates <code>f(x)</code> and adds <code>rng.normal(0, 0.6, 200)</code>, 200 draws of mean zero Gaussian noise with standard deviation 0.6: <span class="math inline">\(Y = f(X) +
+\varepsilon\)</span> in code.</span>
+</dd>
+</dl>
+</div>
 </div>
 </section>
 <section id="interpolating-the-training-data" class="slide level2 small">
 <h2>Interpolating the training data</h2>
 
-<img data-src="02-prediction-error_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
+<img data-src="02-prediction-error_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
 <div class="question">
-<p>The curve touches every training point. Training MSE?</p>
+<p>The curve touches every training point. What is the training MSE?</p>
 </div>
 </div>
 </section>
 <section id="a-fresh-sample" class="slide level2 small">
 <h2>A fresh sample</h2>
 
-<img data-src="02-prediction-error_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
+<img data-src="02-prediction-error_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
 <div class="takeaway">
-<p>Same curve, new data: the fit was tracing noise, not <span class="math inline">\(f\)</span>.</p>
+<p>Let’s generate another set of 10 points from the same distribution. I’ll plot my same prediction (<span class="math inline">\(\hat{f}(X)\)</span>) with the new data. My original <span class="math inline">\(\hat{f}\)</span> was overfitting to noise, not <span class="math inline">\(f\)</span>.</p>
 </div>
 </div>
 </section>
 <section id="traintest-split" class="slide level2">
 <h2>Train/test split</h2>
-<div id="ecdaaaf0" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>    x, y, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">363</span></span>
-<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a>x_train.shape, x_test.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div id="bb8cabb6" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    x, y, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">363</span></span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>x_train.shape, x_test.shape</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1"><code>train_test_split</code> is scikit-learn’s function for randomly partitioning arrays into training and test subsets.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="2">Called on <code>x</code> and <code>y</code>. <code>test_size=0.5</code> holds out half of the 200 observations for testing, and <code>random_state=363</code> fixes the shuffle so the split is identical every time the deck renders. The four returned arrays are unpacked into <code>x_train</code>, <code>x_test</code>, <code>y_train</code>, <code>y_test</code>.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>((100,), (100,))</code></pre>
 </div>
 </div>
 </section>
-<section id="polynomial-fits" class="slide level2 small">
-<h2>Polynomial fits</h2>
-<div id="81b07ead" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
-<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
-<span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a>degrees <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)</span>
-<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a>train_mse, test_mse <span class="op">=</span> [], []</span>
-<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> degrees:</span>
-<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> make_pipeline(PolynomialFeatures(d), LinearRegression())</span>
-<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a>    model.fit(x_train.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), y_train)</span>
-<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a>    train_mse.append(mean_squared_error(y_train, model.predict(x_train.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))))</span>
-<span id="cb4-13"><a aria-hidden="true" tabindex="-1"></a>    test_mse.append(mean_squared_error(y_test, model.predict(x_test.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="application-exercise-2-part-2" class="slide level2 small">
+<h2>Application exercise 2, part 2</h2>
+<p><strong>1.</strong> Go to <a href="https://colab.research.google.com">Google Colab</a></p>
+<p><strong>2.</strong> Split the data so 30% is held out:</p>
+<div id="c2f62cee" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span>____, random_state<span class="op">=</span><span class="dv">363</span></span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="1"><code>test_size</code> is the fraction of rows held out for testing; fill in the blank so 30% is held out. <code>random_state=363</code> fixes the shuffle, matching the value used throughout this exercise, so everyone gets the same split.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Why does <code>random_state</code> matter?</p>
+</div>
+</div>
+</section>
+<section id="spline-fits" class="slide level2 small">
+<h2>Spline fits</h2>
+<div id="93fcb401" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> SplineTransformer</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">51</span>, <span class="dv">4</span>)</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>train_mse, test_mse <span class="op">=</span> [], []</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> df <span class="kw">in</span> dfs:</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-10" class="code-annotation-target"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> make_pipeline(SplineTransformer(degree<span class="op">=</span><span class="dv">3</span>, n_knots<span class="op">=</span>df <span class="op">-</span> <span class="dv">2</span>), LinearRegression())</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4">4</button><span id="annotated-cell-6-11" class="code-annotation-target"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a>    model.fit(x_train.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), y_train)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5">5</button><span id="annotated-cell-6-12" class="code-annotation-target"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a>    train_mse.append(mean_squared_error(y_train, model.predict(x_train.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))))</span>
+<span id="annotated-cell-6-13"><a href="#annotated-cell-6-13" aria-hidden="true" tabindex="-1"></a>    test_mse.append(mean_squared_error(y_test, model.predict(x_test.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1"><code>SplineTransformer</code> builds a B-spline basis expansion of a predictor, the tool used here for a flexible, well-conditioned curve.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="2"><code>dfs = range(4, 51, 4)</code> is the sequence of degrees of freedom to sweep: 4, 8, 12, …, 48, from rigid to wiggly.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="10" data-code-annotation="3"><code>make_pipeline</code> chains two steps. <code>SplineTransformer(degree=3,    n_knots=df - 2)</code> builds a cubic (<code>degree=3</code>) spline basis with <code>df - 2</code> interior knots, giving the basis <code>df</code> total degrees of freedom. <code>LinearRegression()</code> then fits ordinary least squares on that basis.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="11" data-code-annotation="4"><code>model.fit(x_train.reshape(-1, 1), y_train)</code> fits the pipeline on the training data only; <code>.reshape(-1, 1)</code> turns the 1-D array <code>x_train</code> into the 2-D shape scikit-learn expects.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="12" data-code-annotation="5"><code>mean_squared_error(y_train, model.predict(...))</code> computes the training MSE at this <code>df</code> and appends it to <code>train_mse</code>; the same pattern on the next line (not separately annotated) computes the test MSE into <code>test_mse</code>.</span>
+</dd>
+</dl>
+</div>
 </div>
 </section>
 <section id="the-test-mse-curve" class="slide level2 small">
 <h2>The test MSE curve</h2>
 
-<img data-src="02-prediction-error_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
+<img data-src="02-prediction-error_files/figure-revealjs/cell-12-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
 <div class="question">
-<p>Which degree would training MSE have chosen?</p>
+<p>Which df would training MSE have chosen?</p>
 </div>
 </div>
 </section>
-<section id="application-exercise-2-parts-3-4" class="slide level2">
+<section id="application-exercise-2-parts-3-4" class="slide level2 small">
 <h2>Application exercise 2, parts 3-4</h2>
-<div class="takeaway">
-<p>Parts 3 and 4: table the train and test MSE for degrees 1 to 10 on <code>Auto</code>, then plot it.</p>
+<p><strong>1.</strong> Go to <a href="https://colab.research.google.com">Google Colab</a></p>
+<p><strong>2.</strong> Fit a spline with df 4 to 24 on <code>Auto</code>, same loop as the demo, then table it:</p>
+<div id="25522a13" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"df"</span>: dfs, <span class="st">"train"</span>: train_mse, <span class="st">"test"</span>: test_mse})</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1"><code>pd.DataFrame</code> builds a table with one row per value in <code>dfs</code> and columns <code>df</code>, <code>train</code>, <code>test</code> taken from the three lists computed in the loop.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p><strong>3.</strong> Plot it:</p>
+<div id="84e35554" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>plt.plot(dfs, train_mse, <span class="st">"-o"</span>, label<span class="op">=</span><span class="st">"Training MSE"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2">2</button><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>plt.plot(dfs, test_mse, <span class="st">"-o"</span>, label<span class="op">=</span><span class="st">"Test MSE"</span>)</span>
+<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>plt.legend()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="1" data-code-annotation="1"><code>plt.plot(dfs, train_mse, "-o", ...)</code> plots training MSE against <code>df</code>, with <code>"-o"</code> drawing a line with a circular marker at each point.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="2">The same call on <code>test_mse</code> draws a second line on the same axes, so the two curves can be compared directly.</span>
+</dd>
+</dl>
+</div>
 </div>
 <div class="fragment">
 <div class="question">
@@ -481,21 +584,33 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 </div>
 </section>
-<section id="application-exercise-2-part-5" class="slide level2">
+<section id="application-exercise-2-part-5" class="slide level2 small">
 <h2>Application exercise 2, part 5</h2>
-<div class="takeaway">
-<p>Part 5: repeat the split with <code>random_state</code> 1, 2, and 3. Record the best degree each time.</p>
+<p><strong>1.</strong> Go to <a href="https://colab.research.google.com">Google Colab</a></p>
+<p><strong>2.</strong> Re-run your split and fit with <code>random_state</code> set to 1, then 2, then 3:</p>
+<div id="d06222e0" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span>____</span>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="2" data-code-annotation="1"><code>random_state</code> controls the random shuffle used to form the split; re-run this cell with it set to 1, then 2, then 3 in place of the blank, keeping <code>test_size=0.3</code> fixed, to see how much the split itself changes the answer.</span>
+</dd>
+</dl>
+</div>
 </div>
 <div class="fragment">
 <div class="question">
-<p>How much did the best degree move across splits?</p>
+<p>How much did the best df move across splits?</p>
 </div>
 </div>
 </section>
 <section id="toward-cross-validation" class="slide level2">
 <h2>Toward cross-validation</h2>
 <div class="takeaway">
-<p>One split, one answer. A different split can point to a different degree.</p>
+<p>One split, one answer. A different split can point to a different df.</p>
 </div>
 <div class="fragment">
 <div class="question">
@@ -506,7 +621,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="application-exercise-2" class="slide level2">
 <h2>Application exercise 2</h2>
 <div class="takeaway">
-<p>Split <code>Auto</code>, compared training and test MSE across polynomial degrees, and checked how much the answer moved across random splits.</p>
+<p>Split <code>Auto</code>, compared training and test MSE across spline degrees of freedom, and checked how much the answer moved across random splits.</p>
 </div>
 </section>
 <section id="before-wednesday" class="slide level2">
@@ -868,6 +983,158 @@ Dr.&nbsp;Lucy D’Agostino McGowan
             }
           });
         }
+            let selectedAnnoteEl;
+            const selectorForAnnotation = ( cell, annotation) => {
+              let cellAttr = 'data-code-cell="' + cell + '"';
+              let lineAttr = 'data-code-annotation="' +  annotation + '"';
+              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+              return selector;
+            }
+            const selectCodeLines = (annoteEl) => {
+              const doc = window.document;
+              const targetCell = annoteEl.getAttribute("data-target-cell");
+              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+              const lineIds = lines.map((line) => {
+                return targetCell + "-" + line;
+              })
+              let top = null;
+              let height = null;
+              let parent = null;
+              if (lineIds.length > 0) {
+                  //compute the position of the single el (top and bottom and make a div)
+                  const el = window.document.getElementById(lineIds[0]);
+                  top = el.offsetTop;
+                  height = el.offsetHeight;
+                  parent = el.parentElement.parentElement;
+                if (lineIds.length > 1) {
+                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                  height = bottom - top;
+                }
+                if (top !== null && height !== null && parent !== null) {
+                  // cook up a div (if necessary) and position it 
+                  let div = window.document.getElementById("code-annotation-line-highlight");
+                  if (div === null) {
+                    div = window.document.createElement("div");
+                    div.setAttribute("id", "code-annotation-line-highlight");
+                    div.style.position = 'absolute';
+                    parent.appendChild(div);
+                  }
+                  div.style.top = top - 2 + "px";
+                  div.style.height = height + 4 + "px";
+                  div.style.left = 0;
+                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                  if (gutterDiv === null) {
+                    gutterDiv = window.document.createElement("div");
+                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                    gutterDiv.style.position = 'absolute';
+                    const codeCell = window.document.getElementById(targetCell);
+                    const gutter = codeCell.querySelector('.code-annotation-gutter');
+                    gutter.appendChild(gutterDiv);
+                  }
+                  gutterDiv.style.top = top - 2 + "px";
+                  gutterDiv.style.height = height + 4 + "px";
+                }
+                selectedAnnoteEl = annoteEl;
+              }
+            };
+            const unselectCodeLines = () => {
+              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+              elementsIds.forEach((elId) => {
+                const div = window.document.getElementById(elId);
+                if (div) {
+                  div.remove();
+                }
+              });
+              selectedAnnoteEl = undefined;
+            };
+              // Handle positioning of the toggle
+          window.addEventListener(
+            "resize",
+            throttle(() => {
+              elRect = undefined;
+              if (selectedAnnoteEl) {
+                selectCodeLines(selectedAnnoteEl);
+              }
+            }, 10)
+          );
+          function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+            return (...args) => {
+              if(!throttle) { // first call gets through
+                  fn.apply(this, args);
+                  throttle = true;
+              } else { // all the others get throttled
+                  if(timer) clearTimeout(timer); // cancel #2
+                  timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = throttle = false;
+                  }, ms);
+              }
+            };
+          }
+            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+            for (let i=0; i<annoteTargets.length; i++) {
+              const annoteTarget = annoteTargets[i];
+              const targetCell = annoteTarget.getAttribute("data-target-cell");
+              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+              const contentFn = () => {
+                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                if (content) {
+                  const tipContent = content.cloneNode(true);
+                  tipContent.classList.add("code-annotation-tip-content");
+                  return tipContent.outerHTML;
+                }
+              }
+              const config = {
+                allowHTML: true,
+                content: contentFn,
+                onShow: (instance) => {
+                  selectCodeLines(instance.reference);
+                  instance.reference.classList.add('code-annotation-active');
+                  window.tippy.hideAll();
+                },
+                onHide: (instance) => {
+                  unselectCodeLines();
+                  instance.reference.classList.remove('code-annotation-active');
+                },
+                maxWidth: 300,
+                delay: [50, 0],
+                duration: [200, 0],
+                offset: [5, 10],
+                arrow: true,
+                appendTo: function(el) {
+                  return el.parentElement.parentElement.parentElement;
+                },
+                interactive: true,
+                interactiveBorder: 10,
+                theme: 'light-border',
+                placement: 'right',
+                popperOptions: {
+                  modifiers: [
+                  {
+                    name: 'flip',
+                    options: {
+                      flipVariations: false, // true by default
+                      allowedAutoPlacements: ['right'],
+                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                    },
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      mainAxis: false,
+                      altAxis: false
+                    }
+                  }
+                  ]        
+                }      
+              };
+              window.tippy(annoteTarget, config); 
+            }
         const findCites = (el) => {
           const parentEl = el.parentElement;
           if (parentEl) {

@@ -95,7 +95,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-c674f21655d911bccd7a37be4b1c5bd6.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee6862a114be80f027b612748618a6b6.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -264,9 +264,25 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <img data-src="img/islp/fig5_3.png" class="quarto-figure quarto-figure-center r-stretch" style="width:76.0%"><div class="source">
 <p>ISLP Figure 5.3. Each observation takes a turn as a validation set of size one.</p>
 </div>
-<div class="fragment">
+</section>
+<section id="loocv-2" class="slide level2">
+<h2>LOOCV</h2>
 <p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\text{MSE}_i\]</span></p>
-</div>
+</section>
+<section id="loocv-3" class="slide level2">
+<h2>LOOCV</h2>
+<p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}{\require{color}\colorbox{#eec8e1}{$\text{MSE}_i$}}\]</span></p>
+<p>The MSE from the single fold where observation <span class="math inline">\(i\)</span> was held out and every other observation trained the model.</p>
+</section>
+<section id="loocv-4" class="slide level2">
+<h2>LOOCV</h2>
+<p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}{\require{color}\colorbox{#eec8e1}{$\sum_{i=1}^{n}$}}\text{MSE}_i\]</span></p>
+<p>Add that leave-one-out MSE up over all <span class="math inline">\(n\)</span> observations, since each gets a turn.</p>
+</section>
+<section id="loocv-5" class="slide level2">
+<h2>LOOCV</h2>
+<p><span class="math display">\[\text{CV}_{(n)} = {\require{color}\colorbox{#eec8e1}{$\frac{1}{n}$}}\sum_{i=1}^{n}\text{MSE}_i\]</span></p>
+<p>Divide by <span class="math inline">\(n\)</span> to average it, exactly like training or test MSE.</p>
 </section>
 <section id="k-fold-cross-validation" class="slide level2">
 <h2>k-fold cross-validation</h2>
@@ -301,7 +317,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <h2>Choosing k</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="loocv-2">LOOCV</h3>
+<h3 id="loocv-6">LOOCV</h3>
 <p>Low bias, since each fit uses <span class="math inline">\(n-1\)</span> points.</p>
 <p>High variance, since the <span class="math inline">\(n\)</span> fits are nearly identical and their errors are correlated.</p>
 </div><div class="column" style="width:50%;">
@@ -323,22 +339,42 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="cross_val_score" class="slide level2 small">
 <h2>cross_val_score</h2>
-<div id="d7c2e645" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold</span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span>
-<span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]</span>
-<span id="cb1-9"><a aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]</span>
-<span id="cb1-10"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(PolynomialFeatures(<span class="dv">2</span>), LinearRegression())</span>
-<span id="cb1-12"><a aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
-<span id="cb1-13"><a aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> <span class="op">-</span>cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>)</span>
-<span id="cb1-14"><a aria-hidden="true" tabindex="-1"></a>scores.<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="be6d2ce3" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-11" class="code-annotation-target"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), PolynomialFeatures(<span class="dv">2</span>), LinearRegression())</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-12" class="code-annotation-target"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-13" class="code-annotation-target"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> <span class="op">-</span>cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>)</span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>scores.<span class="bu">round</span>(<span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>cross_val_score</code> runs the whole cross-validation loop, fitting and scoring once per fold; <code>KFold</code> is the object that defines how the folds are built.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="11" data-code-annotation="2"><code>make_pipeline</code> chains <code>StandardScaler()</code>, <code>PolynomialFeatures(2)</code> (degree 2 polynomial terms of <code>horsepower</code>), and <code>LinearRegression()</code> into one estimator, assigned to <code>model</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="3"><code>KFold(n_splits=10, shuffle=True, random_state=363)</code> builds 10 folds; <code>shuffle=True</code> randomizes row order before splitting, and <code>random_state=363</code> fixes that shuffle.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="4"><code>cross_val_score(model, X, y, cv=cv, scoring="neg_mean_squared_error")</code> returns one score per fold. scikit-learn’s scorers are defined so that higher is better, so MSE is reported negative; the leading <code>-</code> flips it back to ordinary (positive) MSE, assigned to <code>scores</code>.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>array([18.01, 13.35, 19.8 , 30.54, 22.03, 17.  , 27.72, 10.18, 21.73,
        12.37])</code></pre>
 </div>
@@ -347,7 +383,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="stability-of-10-fold-cv" class="slide level2 small">
 <h2>Stability of 10-fold CV</h2>
 
-<img data-src="05-cross-validation_files/figure-html/cell-4-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<img data-src="05-cross-validation_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
 <p>Nine runs of 10-fold CV on <code>Auto</code>, differing only in the fold assignment.</p>
 </div>
 </section>
@@ -357,8 +393,16 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>Replace MSE with the error rate. Nothing else changes.</p>
 </div>
 <div class="fragment">
-<div id="4abb413d" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ee183c49" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"accuracy"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">The only change from the regression call above is <code>scoring="accuracy"</code> in place of <code>scoring="neg_mean_squared_error"</code>; <code>model</code>, <code>X</code>, <code>y</code>, and <code>cv</code> are reused exactly as defined earlier.</span>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 </section>
@@ -730,6 +774,158 @@ Dr.&nbsp;Lucy D’Agostino McGowan
             }
           });
         }
+            let selectedAnnoteEl;
+            const selectorForAnnotation = ( cell, annotation) => {
+              let cellAttr = 'data-code-cell="' + cell + '"';
+              let lineAttr = 'data-code-annotation="' +  annotation + '"';
+              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+              return selector;
+            }
+            const selectCodeLines = (annoteEl) => {
+              const doc = window.document;
+              const targetCell = annoteEl.getAttribute("data-target-cell");
+              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+              const lineIds = lines.map((line) => {
+                return targetCell + "-" + line;
+              })
+              let top = null;
+              let height = null;
+              let parent = null;
+              if (lineIds.length > 0) {
+                  //compute the position of the single el (top and bottom and make a div)
+                  const el = window.document.getElementById(lineIds[0]);
+                  top = el.offsetTop;
+                  height = el.offsetHeight;
+                  parent = el.parentElement.parentElement;
+                if (lineIds.length > 1) {
+                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                  height = bottom - top;
+                }
+                if (top !== null && height !== null && parent !== null) {
+                  // cook up a div (if necessary) and position it 
+                  let div = window.document.getElementById("code-annotation-line-highlight");
+                  if (div === null) {
+                    div = window.document.createElement("div");
+                    div.setAttribute("id", "code-annotation-line-highlight");
+                    div.style.position = 'absolute';
+                    parent.appendChild(div);
+                  }
+                  div.style.top = top - 2 + "px";
+                  div.style.height = height + 4 + "px";
+                  div.style.left = 0;
+                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                  if (gutterDiv === null) {
+                    gutterDiv = window.document.createElement("div");
+                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                    gutterDiv.style.position = 'absolute';
+                    const codeCell = window.document.getElementById(targetCell);
+                    const gutter = codeCell.querySelector('.code-annotation-gutter');
+                    gutter.appendChild(gutterDiv);
+                  }
+                  gutterDiv.style.top = top - 2 + "px";
+                  gutterDiv.style.height = height + 4 + "px";
+                }
+                selectedAnnoteEl = annoteEl;
+              }
+            };
+            const unselectCodeLines = () => {
+              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+              elementsIds.forEach((elId) => {
+                const div = window.document.getElementById(elId);
+                if (div) {
+                  div.remove();
+                }
+              });
+              selectedAnnoteEl = undefined;
+            };
+              // Handle positioning of the toggle
+          window.addEventListener(
+            "resize",
+            throttle(() => {
+              elRect = undefined;
+              if (selectedAnnoteEl) {
+                selectCodeLines(selectedAnnoteEl);
+              }
+            }, 10)
+          );
+          function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+            return (...args) => {
+              if(!throttle) { // first call gets through
+                  fn.apply(this, args);
+                  throttle = true;
+              } else { // all the others get throttled
+                  if(timer) clearTimeout(timer); // cancel #2
+                  timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = throttle = false;
+                  }, ms);
+              }
+            };
+          }
+            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+            for (let i=0; i<annoteTargets.length; i++) {
+              const annoteTarget = annoteTargets[i];
+              const targetCell = annoteTarget.getAttribute("data-target-cell");
+              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+              const contentFn = () => {
+                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                if (content) {
+                  const tipContent = content.cloneNode(true);
+                  tipContent.classList.add("code-annotation-tip-content");
+                  return tipContent.outerHTML;
+                }
+              }
+              const config = {
+                allowHTML: true,
+                content: contentFn,
+                onShow: (instance) => {
+                  selectCodeLines(instance.reference);
+                  instance.reference.classList.add('code-annotation-active');
+                  window.tippy.hideAll();
+                },
+                onHide: (instance) => {
+                  unselectCodeLines();
+                  instance.reference.classList.remove('code-annotation-active');
+                },
+                maxWidth: 300,
+                delay: [50, 0],
+                duration: [200, 0],
+                offset: [5, 10],
+                arrow: true,
+                appendTo: function(el) {
+                  return el.parentElement.parentElement.parentElement;
+                },
+                interactive: true,
+                interactiveBorder: 10,
+                theme: 'light-border',
+                placement: 'right',
+                popperOptions: {
+                  modifiers: [
+                  {
+                    name: 'flip',
+                    options: {
+                      flipVariations: false, // true by default
+                      allowedAutoPlacements: ['right'],
+                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                    },
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      mainAxis: false,
+                      altAxis: false
+                    }
+                  }
+                  ]        
+                }      
+              };
+              window.tippy(annoteTarget, config); 
+            }
         const findCites = (el) => {
           const parentEl = el.parentElement;
           if (parentEl) {

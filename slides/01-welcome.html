@@ -95,7 +95,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-c674f21655d911bccd7a37be4b1c5bd6.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee6862a114be80f027b612748618a6b6.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -238,7 +238,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="supervised-learning-1" class="slide level2">
 <h2>Supervised learning</h2>
 <div class="takeaway">
-<p>Given predictors we can measure, estimate a response we cannot.</p>
+<p>Given predictors we can measure, estimate a future response we cannot.</p>
 </div>
 <div class="fragment">
 <ul>
@@ -251,30 +251,18 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </ul>
 </div>
 </section>
-<section id="wage-data" class="slide level2">
-<h2>Wage data</h2>
+<section id="example-wage-data" class="slide level2">
+<h2>Example: Wage data</h2>
 
 <img data-src="img/islp/fig1_1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
 <p>ISLP Figure 1.1. Wage against age, year, and education for 3,000 men in the Atlantic region.</p>
 </div>
 </section>
-<section id="smarket-data" class="slide level2">
-<h2>Smarket data</h2>
+<section id="example-smarket-data" class="slide level2">
+<h2>Example: Smarket data</h2>
 
 <img data-src="img/islp/fig1_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
 <p>ISLP Figure 1.2. Previous days’ percentage change in the S&amp;P 500, split by whether the market rose or fell the next day.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>These boxplots look nearly identical. Is this a useless data set?</p>
-</div>
-</div>
-</section>
-<section id="nci60-data" class="slide level2">
-<h2>NCI60 data</h2>
-
-<img data-src="img/islp/fig1_4.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="source">
-<p>ISLP Figure 1.4. Sixty four cancer cell lines, 6,830 gene expression measurements each, summarized into two dimensions.</p>
 </div>
 </section></section>
 <section>
@@ -286,22 +274,36 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <h2>Response and predictors</h2>
 <div class="definition">
 <p><span class="math inline">\(Y\)</span> is the <strong>response</strong>, also called the outcome or target.</p>
-<p><span class="math inline">\(X = (X_1, X_2, \dots, X_p)\)</span> are the <strong>predictors</strong>, also called features.</p>
+<p><span class="math inline">\(X = (X_1, X_2, \dots, X_p)\)</span> are the <strong>predictors</strong>, also called features or variables.</p>
 <p><span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(p\)</span> the number of predictors.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>In the <code>Wage</code> data, what is <span class="math inline">\(Y\)</span>? What is <span class="math inline">\(p\)</span>?</p>
-</div>
 </div>
 </section>
 <section id="notation-in-code" class="slide level2 small">
 <h2>Notation in code</h2>
-<div id="ec49bc51" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>Wage <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Wage.csv"</span>)</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>Wage[[<span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"education"</span>, <span class="st">"wage"</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7a139c95" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>Wage <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Wage.csv"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>Wage[[<span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"education"</span>, <span class="st">"wage"</span>]].head()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>DATA</code> is the base URL for the raw CSV files in the course’s GitHub<br>
+repository. Every data set we load starts by appending a file name to this string.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2"><code>pd.read_csv</code> reads the CSV at <code>DATA + "Wage.csv"</code> and<br>
+returns a <code>DataFrame</code>, assigned to <code>Wage</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="3"><code>Wage[["age", "year", "education", "wage"]]</code> selects four columns by<br>
+name, and <code>.head()</code> returns the first five rows of that subset for display.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
@@ -371,19 +373,37 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 </div>
 <div class="fragment">
-<div id="00bcff30" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>Wage.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c03c0f91" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>Wage.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(3000, 11)</code></pre>
 </div>
 </div>
 </div>
+<div class="fragment">
+<div class="question">
+<p>In the <code>Wage</code> data, what is <span class="math inline">\(Y\)</span>? What is <span class="math inline">\(p\)</span>?</p>
+</div>
+</div>
 </section>
 <section id="the-model" class="slide level2">
 <h2>The model</h2>
-<div class="vcenter">
 <p><span class="math display">\[Y = f(X) + \varepsilon\]</span></p>
-</div>
+</section>
+<section id="the-model-1" class="slide level2">
+<h2>The model</h2>
+<p><span class="math display">\[{\require{color}\colorbox{#eec8e1}{$Y$}} = f(X) + \varepsilon\]</span></p>
+<p>The response we want to predict.</p>
+</section>
+<section id="the-model-2" class="slide level2">
+<h2>The model</h2>
+<p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$f(X)$}} + \varepsilon\]</span></p>
+<p>The true, otherwise-unknown relationship between the predictors and <span class="math inline">\(Y\)</span>.</p>
+</section>
+<section id="the-model-3" class="slide level2">
+<h2>The model</h2>
+<p><span class="math display">\[Y = f(X) + {\require{color}\colorbox{#eec8e1}{$\varepsilon$}}\]</span></p>
+<p>The error term: everything about <span class="math inline">\(Y\)</span> that <span class="math inline">\(X\)</span> does not capture.</p>
 </section>
 <section id="the-error-term" class="slide level2">
 <h2>The error term</h2>
@@ -422,25 +442,17 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="reducible-and-irreducible-error" class="slide level2">
 <h2>Reducible and irreducible error</h2>
-<div class="vcenter">
 <p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-</div>
 </section>
-<section id="irreducible-error" class="slide level2 small">
-<h2>Irreducible error</h2>
-<ul>
-<li class="fragment">Predictors we did not measure<br>
-</li>
-<li class="fragment">Predictors we cannot measure<br>
-</li>
-<li class="fragment">Genuine randomness<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>Can we shrink <span class="math inline">\(\text{Var}(\varepsilon)\)</span> by collecting more rows?</p>
-</div>
-</div>
+<section id="reducible-and-irreducible-error-1" class="slide level2">
+<h2>Reducible and irreducible error</h2>
+<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{{\require{color}\colorbox{#eec8e1}{$\left[f(X) - \hat{f}(X)\right]^2$}}}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
+<p>How far our estimate <span class="math inline">\(\hat{f}\)</span> sits from the truth <span class="math inline">\(f\)</span>. A better method, better predictors, or more data can shrink this to zero.</p>
+</section>
+<section id="reducible-and-irreducible-error-2" class="slide level2">
+<h2>Reducible and irreducible error</h2>
+<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{{\require{color}\colorbox{#eec8e1}{$\text{Var}(\varepsilon)$}}}_{\text{irreducible}}\]</span></p>
+<p>The irreducible error. No method, however good, gets past this floor.</p>
 </section></section>
 <section>
 <section id="flexibility" class="title-slide slide level1 center">
@@ -476,7 +488,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <div class="question">
-<p>Zero training error. Is this the best model?</p>
+<p>Is this the best model? The training error is zero!</p>
 </div>
 </div>
 </section>
@@ -507,11 +519,23 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <div class="column" style="width:50%;">
 <h3 id="regression">Regression</h3>
 <p><span class="math inline">\(Y\)</span> is quantitative.</p>
-<p>Wage. Price. Blood pressure.</p>
+<ul>
+<li>Wage<br>
+</li>
+<li>Price<br>
+</li>
+<li>Blood pressure</li>
+</ul>
 </div><div class="column" style="width:50%;">
 <h3 id="classification">Classification</h3>
 <p><span class="math inline">\(Y\)</span> is qualitative.</p>
-<p>Readmitted or not. Which digit.</p>
+<ul>
+<li>Readmitted or not<br>
+</li>
+<li>Labeling handwritten numbers<br>
+</li>
+<li>Which customers will convert</li>
+</ul>
 </div></div>
 <div class="fragment">
 <div class="question">
@@ -527,41 +551,29 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="course-structure" class="slide level2">
 <h2>Course structure</h2>
 <ul>
-<li class="fragment">Wednesday and Friday: a new method, then you use it<br>
-</li>
 <li class="fragment">Most Wednesdays: a paper check-in at the start of class<br>
 </li>
 <li class="fragment">Most Fridays: a problem set due<br>
 </li>
-<li class="fragment">Three exams: October 9, November 11, and finals week<br>
+<li class="fragment">Three exams: October 9, November 11, and a Final<br>
 </li>
 </ul>
 </section>
-<section id="software" class="slide level2 small">
-<h2>Software</h2>
-<div class="columns">
-<div class="column" style="width:52%;">
+<section id="google-colab" class="slide level2">
+<h2>Google Colab</h2>
 <ul>
-<li><code>numpy</code> and <code>pandas</code><br>
+<li>Free, runs in the browser, no local install<br>
 </li>
-<li><code>matplotlib</code><br>
+<li>Every notebook lives in this course’s GitHub repository<br>
 </li>
-<li><code>scikit-learn</code><br>
+<li>Application exercise 1 starts with a short walkthrough<br>
 </li>
 </ul>
-</div><div class="column" style="width:48%;">
-<ul>
-<li><code>ISLP</code> for the book’s data<br>
-</li>
-<li><code>torch</code> from November<br>
-</li>
-</ul>
-</div></div>
 </section>
 <section id="application-exercise-1" class="slide level2">
 <h2>Application exercise 1</h2>
 <div class="takeaway">
-<p>Identifying <span class="math inline">\(Y\)</span>, <span class="math inline">\(X\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(p\)</span>, and sorting problems into prediction and inference.</p>
+<p>Getting comfortable in Colab, then identifying <span class="math inline">\(Y\)</span>, <span class="math inline">\(X\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(p\)</span>, and sorting problems into prediction and inference.</p>
 </div>
 </section>
 <section id="before-friday" class="slide level2">
@@ -569,7 +581,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <ul>
 <li>Read ISLP Section 2.2.1<br>
 </li>
-<li>Have Python running<br>
+<li>Have Colab running<br>
 </li>
 </ul>
 <div class="fragment">
@@ -926,6 +938,158 @@ Dr.&nbsp;Lucy D’Agostino McGowan
             }
           });
         }
+            let selectedAnnoteEl;
+            const selectorForAnnotation = ( cell, annotation) => {
+              let cellAttr = 'data-code-cell="' + cell + '"';
+              let lineAttr = 'data-code-annotation="' +  annotation + '"';
+              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+              return selector;
+            }
+            const selectCodeLines = (annoteEl) => {
+              const doc = window.document;
+              const targetCell = annoteEl.getAttribute("data-target-cell");
+              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+              const lineIds = lines.map((line) => {
+                return targetCell + "-" + line;
+              })
+              let top = null;
+              let height = null;
+              let parent = null;
+              if (lineIds.length > 0) {
+                  //compute the position of the single el (top and bottom and make a div)
+                  const el = window.document.getElementById(lineIds[0]);
+                  top = el.offsetTop;
+                  height = el.offsetHeight;
+                  parent = el.parentElement.parentElement;
+                if (lineIds.length > 1) {
+                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                  height = bottom - top;
+                }
+                if (top !== null && height !== null && parent !== null) {
+                  // cook up a div (if necessary) and position it 
+                  let div = window.document.getElementById("code-annotation-line-highlight");
+                  if (div === null) {
+                    div = window.document.createElement("div");
+                    div.setAttribute("id", "code-annotation-line-highlight");
+                    div.style.position = 'absolute';
+                    parent.appendChild(div);
+                  }
+                  div.style.top = top - 2 + "px";
+                  div.style.height = height + 4 + "px";
+                  div.style.left = 0;
+                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                  if (gutterDiv === null) {
+                    gutterDiv = window.document.createElement("div");
+                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                    gutterDiv.style.position = 'absolute';
+                    const codeCell = window.document.getElementById(targetCell);
+                    const gutter = codeCell.querySelector('.code-annotation-gutter');
+                    gutter.appendChild(gutterDiv);
+                  }
+                  gutterDiv.style.top = top - 2 + "px";
+                  gutterDiv.style.height = height + 4 + "px";
+                }
+                selectedAnnoteEl = annoteEl;
+              }
+            };
+            const unselectCodeLines = () => {
+              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+              elementsIds.forEach((elId) => {
+                const div = window.document.getElementById(elId);
+                if (div) {
+                  div.remove();
+                }
+              });
+              selectedAnnoteEl = undefined;
+            };
+              // Handle positioning of the toggle
+          window.addEventListener(
+            "resize",
+            throttle(() => {
+              elRect = undefined;
+              if (selectedAnnoteEl) {
+                selectCodeLines(selectedAnnoteEl);
+              }
+            }, 10)
+          );
+          function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+            return (...args) => {
+              if(!throttle) { // first call gets through
+                  fn.apply(this, args);
+                  throttle = true;
+              } else { // all the others get throttled
+                  if(timer) clearTimeout(timer); // cancel #2
+                  timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = throttle = false;
+                  }, ms);
+              }
+            };
+          }
+            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+            for (let i=0; i<annoteTargets.length; i++) {
+              const annoteTarget = annoteTargets[i];
+              const targetCell = annoteTarget.getAttribute("data-target-cell");
+              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+              const contentFn = () => {
+                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                if (content) {
+                  const tipContent = content.cloneNode(true);
+                  tipContent.classList.add("code-annotation-tip-content");
+                  return tipContent.outerHTML;
+                }
+              }
+              const config = {
+                allowHTML: true,
+                content: contentFn,
+                onShow: (instance) => {
+                  selectCodeLines(instance.reference);
+                  instance.reference.classList.add('code-annotation-active');
+                  window.tippy.hideAll();
+                },
+                onHide: (instance) => {
+                  unselectCodeLines();
+                  instance.reference.classList.remove('code-annotation-active');
+                },
+                maxWidth: 300,
+                delay: [50, 0],
+                duration: [200, 0],
+                offset: [5, 10],
+                arrow: true,
+                appendTo: function(el) {
+                  return el.parentElement.parentElement.parentElement;
+                },
+                interactive: true,
+                interactiveBorder: 10,
+                theme: 'light-border',
+                placement: 'right',
+                popperOptions: {
+                  modifiers: [
+                  {
+                    name: 'flip',
+                    options: {
+                      flipVariations: false, // true by default
+                      allowedAutoPlacements: ['right'],
+                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                    },
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      mainAxis: false,
+                      altAxis: false
+                    }
+                  }
+                  ]        
+                }      
+              };
+              window.tippy(annoteTarget, config); 
+            }
         const findCites = (el) => {
           const parentEl = el.parentElement;
           if (parentEl) {
