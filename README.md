@@ -25,15 +25,16 @@ help.qmd               office hours and resources
 
 STYLE.yml              writing and formatting rules for every .qmd
 check_style.py         validates them
+build_notebooks.py     builds ps/*.qmd into ps/*.ipynb
 
 slides/                revealjs decks
 ex/                    application exercises
+ps/                    problem sets, .qmd source and built Colab notebooks
 checkins/              paper check-ins, typst to PDF, not published
 data/                  course data as CSV, plus export-data.py
 ```
 
 
----
 
 Textbook: James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
 (2023). *An Introduction to Statistical Learning with Applications in Python*.
