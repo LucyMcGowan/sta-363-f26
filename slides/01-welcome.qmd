@@ -53,7 +53,7 @@ pd.set_option("display.width", 100)
 ## Supervised learning
 
 ::: {.takeaway}
-Given predictors we can measure, estimate a response we cannot.
+Given predictors we can measure, estimate a future response we cannot.
 :::
 
 ::: {.fragment}
@@ -64,7 +64,7 @@ Given predictors we can measure, estimate a response we cannot.
 :::
 :::
 
-## Wage data
+## Example: Wage data
 
 ![](img/islp/fig1_1.png){fig-align="center" width="88%"}
 
@@ -73,7 +73,7 @@ ISLP Figure 1.1. Wage against age, year, and education for 3,000 men in the
 Atlantic region.
 :::
 
-## Smarket data
+## Example: Smarket data
 
 ![](img/islp/fig1_2.png){fig-align="center" width="88%"}
 
@@ -82,20 +82,6 @@ ISLP Figure 1.2. Previous days' percentage change in the S&P 500, split by
 whether the market rose or fell the next day.
 :::
 
-::: {.fragment}
-::: {.question}
-These boxplots look nearly identical. Is this a useless data set?
-:::
-:::
-
-## NCI60 data
-
-![](img/islp/fig1_4.png){fig-align="center" width="70%"}
-
-::: {.source}
-ISLP Figure 1.4. Sixty four cancer cell lines, 6,830 gene expression
-measurements each, summarized into two dimensions.
-:::
 
 # Notation {.center}
 
@@ -104,16 +90,11 @@ measurements each, summarized into two dimensions.
 ::: {.definition}
 $Y$ is the **response**, also called the outcome or target.
 
-$X = (X_1, X_2, \dots, X_p)$ are the **predictors**, also called features.
+$X = (X_1, X_2, \dots, X_p)$ are the **predictors**, also called features or variables.
 
 $n$ is the number of observations and $p$ the number of predictors.
 :::
 
-::: {.fragment}
-::: {.question}
-In the `Wage` data, what is $Y$? What is $p$?
-:::
-:::
 
 ## Notation in code {.small}
 
@@ -123,12 +104,12 @@ DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"  #
 Wage = pd.read_csv(DATA + "Wage.csv")  # <2>
 Wage[["age", "year", "education", "wage"]].head()  # <3>
 ```
-1. `DATA` is the base URL for the raw CSV files in the course's GitHub
+1. `DATA` is the base URL for the raw CSV files in the course's GitHub  
    repository. Every data set we load starts by appending a file name to
    this string.
-2. `pd.read_csv` reads the CSV at `DATA + "Wage.csv"` over the network and
+2. `pd.read_csv` reads the CSV at `DATA + "Wage.csv"` and  
    returns a `DataFrame`, assigned to `Wage`.
-3. `Wage[["age", "year", "education", "wage"]]` selects four columns by
+3. `Wage[["age", "year", "education", "wage"]]` selects four columns by  
    name, and `.head()` returns the first five rows of that subset for
    display.
 
@@ -136,6 +117,12 @@ Wage[["age", "year", "education", "wage"]].head()  # <3>
 ```{python}
 Wage.shape
 ```
+:::
+
+::: {.fragment}
+::: {.question}
+In the `Wage` data, what is $Y$? What is $p$?
+:::
 :::
 
 ```{python}
@@ -209,7 +196,7 @@ iterative_latex(
         r"\text{Var}(\varepsilon)",
     ],
     explanations=[
-        "How far our estimate $\\hat{f}$ sits from the truth $f$. A better method or more data can shrink this to zero.",
+        "How far our estimate $\\hat{f}$ sits from the truth $f$. A better method, better predictors, or more data can shrink this to zero.",
         "The irreducible error. No method, however good, gets past this floor.",
     ],
 )
@@ -301,7 +288,7 @@ $Y$ is quantitative.
 
 * Wage  
 * Price  
-* Blood pressure
+* Blood pressure  
 
 :::
 
@@ -312,7 +299,7 @@ $Y$ is qualitative.
 
 * Readmitted or not  
 * Labeling handwritten numbers  
-* Which customers will convert?  
+* Which customers will convert  
 
 :::
 
@@ -331,22 +318,29 @@ Is predicting a zip code regression or classification?
 ::: {.incremental}
 * Most Wednesdays: a paper check-in at the start of class  
 * Most Fridays: a problem set due  
-* Three exams: October 9, November 11, and a Final
+* Three exams: October 9, November 11, and a Final  
 :::
 
+## Google Colab
+
+::: {.nonincremental}
+* Free, runs in the browser, no local install  
+* Every notebook lives in this course's GitHub repository  
+* Application exercise 1 starts with a short walkthrough  
+:::
 
 ## Application exercise 1
 
 ::: {.takeaway}
-Identifying $Y$, $X$, $n$, and $p$, and sorting problems into prediction and
-inference.
+Getting comfortable in Colab, then identifying $Y$, $X$, $n$, and $p$, and
+sorting problems into prediction and inference.
 :::
 
 ## Before Friday
 
 ::: {.nonincremental}
 * Read ISLP Section 2.2.1  
-* Have Colab running 
+* Have Colab running  
 :::
 
 ::: {.fragment}
@@ -354,3 +348,4 @@ inference.
 How would you check whether the overfit spline was any good?
 :::
 :::
+
