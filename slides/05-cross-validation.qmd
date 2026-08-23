@@ -1,0 +1,276 @@
+---
+title: "Cross-validation"
+subtitle: "STA 363 | Meeting 5"
+author: "Dr. Lucy D'Agostino McGowan"
+footer: "[Dr. Lucy D'Agostino McGowan](https://lucymcgowan.com) | STA 363 | figures from *ISLP* (James, Witten, Hastie, Tibshirani and Taylor, 2023)"
+logo: "img/icon.png"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: true
+    menu: true
+    preview-links: true
+    code-overflow: wrap
+    code-line-numbers: false
+    code-annotations: hover
+    highlight-style: github
+    title-slide-attributes:
+      data-color: "#d5008f"
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+jupyter: python3
+---
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from iterative_latex import iterative_latex
+plt.style.use("sta363.mplstyle")
+rng = np.random.default_rng(363)
+```
+
+## Review
+
+::: {.takeaway}
+Test MSE is the quantity we want. One train and test split estimates it noisily,
+and costs us data.
+:::
+
+::: {.fragment}
+::: {.question}
+You split `Auto` in half on Friday. What happens with a different split?
+:::
+:::
+
+## The validation set approach
+
+![](img/islp/fig5_1.png){fig-align="center" width="78%"}
+
+::: {.source}
+ISLP Figure 5.1. Observations split at random into a training set in blue and a
+validation set in beige.
+:::
+
+## Validation set variability
+
+![](img/islp/fig5_2.png){fig-align="center" width="80%"}
+
+::: {.source}
+ISLP Figure 5.2. Predicting `mpg` from polynomials of `horsepower`. Left: one
+split. Right: ten different splits.
+:::
+
+::: {.fragment}
+::: {.question}
+Would ten analysts agree on the degree?
+:::
+:::
+
+## Limitations {.small}
+
+::: {.incremental}
+1. The estimate depends heavily on which split was drawn  
+2. Fitting on a subset overstates the error of the deployed model  
+:::
+
+# LOOCV {.center}
+
+## LOOCV
+
+![](img/islp/fig5_3.png){fig-align="center" width="76%"}
+
+::: {.source}
+ISLP Figure 5.3. Each observation takes a turn as a validation set of size one.
+:::
+
+```{python}
+#| output: asis
+#| echo: false
+iterative_latex(
+    "LOOCV",
+    r"\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\text{MSE}_i",
+    highlights=[
+        r"\text{MSE}_i",
+        r"\sum_{i=1}^{n}",
+        r"\frac{1}{n}",
+    ],
+    explanations=[
+        "The MSE from the single fold where observation $i$ was held out and every other observation trained the model.",
+        "Add that leave-one-out MSE up over all $n$ observations, since each gets a turn.",
+        "Divide by $n$ to average it, exactly like training or test MSE.",
+    ],
+)
+```
+
+## k-fold cross-validation
+
+![](img/islp/fig5_5.png){fig-align="center" width="78%"}
+
+::: {.source}
+ISLP Figure 5.5. Five fold cross-validation. Each fifth takes a turn as the
+validation set.
+:::
+
+::: {.fragment}
+$$\text{CV}_{(k)} = \frac{1}{k}\sum_{j=1}^{k}\text{MSE}_j$$
+:::
+
+## LOOCV and 10-fold CV
+
+![](img/islp/fig5_4.png){fig-align="center" width="84%"}
+
+::: {.source}
+ISLP Figure 5.4. Left: the LOOCV error curve on `Auto`. Right: 10-fold CV run
+nine times with different random splits.
+:::
+
+## CV against true test MSE
+
+![](img/islp/fig5_6.png){fig-align="center" width="86%"}
+
+::: {.source}
+ISLP Figure 5.6. True test MSE in blue, LOOCV as a black dashed line, and
+10-fold CV in orange, for the data of Figures 2.9 to 2.11.
+:::
+
+::: {.fragment}
+::: {.takeaway}
+CV can miss the level. It finds the location of the minimum.
+:::
+:::
+
+## Choosing k {.small}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### LOOCV
+
+Low bias, since each fit uses $n-1$ points.
+
+High variance, since the $n$ fits are nearly identical and their errors are
+correlated.
+:::
+
+::: {.column width="50%"}
+### $k = 5$ or $k = 10$
+
+A little bias.
+
+Lower variance.
+
+$k$ fits rather than $n$.
+:::
+
+::::
+
+::: {.fragment}
+::: {.takeaway}
+Bias and variance, applied to the estimator itself.
+:::
+:::
+
+# In Python {.center}
+
+## cross_val_score {.small}
+
+```{python}
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+from sklearn.model_selection import cross_val_score, KFold  # <1>
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import make_pipeline
+
+Auto = pd.read_csv(DATA + "Auto.csv")
+X = Auto[["horsepower"]]
+y = Auto["mpg"]
+
+model = make_pipeline(StandardScaler(), PolynomialFeatures(2), LinearRegression())  # <2>
+cv = KFold(n_splits=10, shuffle=True, random_state=363)  # <3>
+scores = -cross_val_score(model, X, y, cv=cv, scoring="neg_mean_squared_error")  # <4>
+scores.round(2)
+```
+1. `cross_val_score` runs the whole cross-validation loop, fitting and
+   scoring once per fold; `KFold` is the object that defines how the folds
+   are built.
+2. `make_pipeline` chains `StandardScaler()`, `PolynomialFeatures(2)`
+   (degree 2 polynomial terms of `horsepower`), and `LinearRegression()`
+   into one estimator, assigned to `model`.
+3. `KFold(n_splits=10, shuffle=True, random_state=363)` builds 10 folds;
+   `shuffle=True` randomizes row order before splitting, and
+   `random_state=363` fixes that shuffle.
+4. `cross_val_score(model, X, y, cv=cv, scoring="neg_mean_squared_error")`
+   returns one score per fold. scikit-learn's scorers are defined so that
+   higher is better, so MSE is reported negative; the leading `-` flips it
+   back to ordinary (positive) MSE, assigned to `scores`.
+
+## Stability of 10-fold CV {.small}
+
+```{python}
+#| echo: false
+#| fig-align: center
+degrees = range(1, 11)
+fig, ax = plt.subplots(figsize=(7.2, 3.5))
+for r in range(9):
+    cv_r = KFold(n_splits=10, shuffle=True, random_state=r)
+    curve = [
+        -cross_val_score(
+            make_pipeline(StandardScaler(), PolynomialFeatures(d), LinearRegression()),
+            X, y, cv=cv_r, scoring="neg_mean_squared_error"
+        ).mean()
+        for d in degrees
+    ]
+    ax.plot(degrees, curve, color="#d5008f", alpha=0.55, lw=1.5)
+ax.set_xlabel("Polynomial degree")
+ax.set_ylabel("10-fold CV MSE")
+ax.set_ylim(15, 28)
+plt.show()
+```
+
+::: {.source}
+Nine runs of 10-fold CV on `Auto`, differing only in the fold assignment.
+:::
+
+## CV for classification
+
+::: {.takeaway}
+Replace MSE with the error rate. Nothing else changes.
+:::
+
+::: {.fragment}
+```{python}
+#| eval: false
+cross_val_score(model, X, y, cv=cv, scoring="accuracy")  # <1>
+```
+1. The only change from the regression call above is `scoring="accuracy"`
+   in place of `scoring="neg_mean_squared_error"`; `model`, `X`, `y`, and
+   `cv` are reused exactly as defined earlier.
+:::
+
+## Application exercise 5
+
+::: {.takeaway}
+Using cross-validation to choose $K$ for KNN, and comparing the answer to
+Friday's single split.
+:::
+
+## Before Friday
+
+::: {.nonincremental}
+* Read ISLP Section 5.1.4  
+* Problem set 2 due Friday  
+:::
+
+::: {.fragment}
+::: {.question}
+You scale your predictors, then cross-validate. Is that fine?
+:::
+:::

@@ -1,0 +1,317 @@
+---
+title: "Pipelines and data leakage"
+subtitle: "STA 363 | Meeting 6"
+author: "Dr. Lucy D'Agostino McGowan"
+footer: "[Dr. Lucy D'Agostino McGowan](https://lucymcgowan.com) | STA 363 | figures from *ISLP* (James, Witten, Hastie, Tibshirani and Taylor, 2023)"
+logo: "img/icon.png"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: true
+    menu: true
+    preview-links: true
+    code-overflow: wrap
+    code-line-numbers: false
+    code-annotations: hover
+    highlight-style: github
+    title-slide-attributes:
+      data-color: "#d5008f"
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+jupyter: python3
+---
+
+```{python}
+#| label: setup
+#| include: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.style.use("sta363.mplstyle")
+rng = np.random.default_rng(363)
+```
+
+## Review
+
+::: {.question}
+You scale your predictors, then cross-validate. Is that fine?
+:::
+
+::: {.fragment}
+::: {.takeaway}
+No. The scaler used the held-out fold to compute its mean and standard
+deviation.
+:::
+:::
+
+## Data leakage {.small}
+
+::: {.definition}
+Anything estimated from the data is part of the model, and must be learned on
+the training fold alone.
+:::
+
+::: {.fragment}
+::: {.incremental}
+* Centering and scaling  
+* Imputing missing values  
+* Choosing which predictors to keep  
+* Deciding how to bin or encode a variable  
+:::
+:::
+
+# Leakage from selection {.center}
+
+## Simulated noise
+
+```{python}
+n, p = 100, 2000  # <1>
+X = rng.normal(size=(n, p))  # <2>
+y = rng.integers(0, 2, size=n)  # <3>
+```
+1. `n` is 100 rows and `p` is 2000 predictor columns, an unusually
+   wide data set on purpose.
+2. `rng.normal(size=(n, p))` draws a 100 by 2000 array of standard normal
+   noise, assigned to `X`; none of these columns are constructed to relate
+   to `y`.
+3. `rng.integers(0, 2, size=n)` draws 100 values from {0, 1}, a random two
+   class label with no relationship to any column of `X`.
+
+::: {.fragment}
+::: {.question}
+There is no signal here. What accuracy should any honest method report?
+:::
+:::
+
+## Selection outside the loop {.small}
+
+```{python}
+from sklearn.feature_selection import SelectKBest, f_classif  # <1>
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+
+keep = SelectKBest(f_classif, k=20).fit(X, y).get_support()  # <2>
+X_kept = X[:, keep]  # <3>
+
+cv = StratifiedKFold(5, shuffle=True, random_state=363)  # <4>
+leaky = cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)  # <5>
+float(leaky.mean().round(3))
+```
+1. `SelectKBest` ranks predictors by a scoring function and keeps the top
+   `k`; `f_classif` is the ANOVA F-statistic between each column of `X` and
+   the class label `y`.
+2. `SelectKBest(f_classif, k=20).fit(X, y)` scores all 2000 columns against
+   the full `y` and keeps the top 20; `.get_support()` returns a boolean
+   mask of which columns were kept, assigned to `keep`. Fitting on the full
+   `X` and `y` before any split is the leak.
+3. `X[:, keep]` uses that boolean mask to select only the 20 chosen
+   columns, assigned to `X_kept`.
+4. `StratifiedKFold(5, shuffle=True, random_state=363)` builds 5 folds that
+   preserve the class proportions of `y` in each fold.
+5. `cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)`
+   cross-validates a 5-nearest-neighbors classifier on `X_kept`, the
+   already-selected columns, so every fold's "test" data already
+   influenced which columns were chosen.
+
+::: {.fragment}
+::: {.question}
+We cross-validated. Why is this not 0.5?
+:::
+:::
+
+## Selection inside the loop {.small}
+
+```{python}
+from sklearn.pipeline import Pipeline
+
+pipe = Pipeline([
+    ("select", SelectKBest(f_classif, k=20)),  # <1>
+    ("knn", KNeighborsClassifier(5)),
+])
+
+honest = cross_val_score(pipe, X, y, cv=cv)  # <2>
+float(honest.mean().round(3))
+```
+1. `Pipeline` takes a list of (name, step) pairs. `SelectKBest(f_classif,
+   k=20)` is now the `"select"` step inside the pipeline, so scikit-learn
+   refits it on each training fold alone rather than on the full data.
+2. `cross_val_score(pipe, X, y, cv=cv)` cross-validates the whole `pipe`
+   object, so `SelectKBest` and `KNeighborsClassifier(5)` are both refit
+   from scratch on each fold's training rows, exactly like `leaky` above
+   but with the selection step properly inside the loop.
+
+::: {.fragment}
+::: {.takeaway}
+Same data, same method. Only the location of the selection step changed.
+:::
+:::
+
+## Leakage in practice
+
+::: {.incremental}
+* This is how published results fail to replicate  
+* This is how a model that tested at 95% ships and performs at 60%  
+* Nothing in the code looks wrong  
+:::
+
+# Pipelines {.center}
+
+## ColumnTransformer {.small}
+
+```{python}
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+from sklearn.compose import ColumnTransformer  # <1>
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+Credit = pd.read_csv(DATA + "Credit.csv")
+num = ["Income", "Limit", "Rating", "Age"]  # <2>
+cat = ["Gender", "Student", "Married"]  # <3>
+
+prep = ColumnTransformer([
+    ("num", StandardScaler(), num),  # <4>
+    ("cat", OneHotEncoder(drop="first"), cat),  # <5>
+])
+prep
+```
+1. `ColumnTransformer` applies a different transformer to a different
+   subset of columns, then concatenates the results into one array.
+2. `num` lists the four numeric predictor column names that will be
+   scaled.
+3. `cat` lists the three categorical predictor column names that will be
+   encoded.
+4. The `"num"` step applies `StandardScaler()`, centering and scaling to
+   mean 0 and standard deviation 1, to the columns named in `num`.
+5. The `"cat"` step applies `OneHotEncoder(drop="first")` to the columns
+   named in `cat`, creating a 0/1 indicator column for every category
+   except one (`drop="first"`), which avoids a redundant, perfectly
+   collinear column.
+
+## Missing data {.small}
+
+::: {.definition}
+Imputation is estimation. An imputed value is a prediction, and it must be
+learned on the training fold.
+:::
+
+::: {.fragment}
+::: {.incremental}
+* Dropping rows discards information and biases the result  
+* Filling with a column mean is a model, and a weak one  
+* For prediction, missingness itself is often informative  
+:::
+:::
+
+## SimpleImputer {.small}
+
+```{python}
+from sklearn.impute import SimpleImputer
+from sklearn.neighbors import KNeighborsRegressor
+
+num_steps = Pipeline([
+    ("impute", SimpleImputer(strategy="median")),  # <1>
+    ("scale", StandardScaler()),  # <2>
+])
+
+prep = ColumnTransformer([
+    ("num", num_steps, num),
+    ("cat", OneHotEncoder(drop="first", handle_unknown="ignore"), cat),  # <3>
+])
+
+full = Pipeline([("prep", prep), ("knn", KNeighborsRegressor(5))])  # <4>
+```
+1. `SimpleImputer(strategy="median")` replaces missing values in a numeric
+   column with that column's median, computed only from the training fold
+   it is fit on.
+2. `("scale", StandardScaler())` runs second, so scaling happens after
+   imputation fills the gaps, still learned from the training fold alone.
+3. `OneHotEncoder(drop="first", handle_unknown="ignore")` adds
+   `handle_unknown="ignore"` so a category value seen in a test fold but
+   never seen while fitting on the training fold produces all zero
+   indicator columns instead of raising an error.
+4. `full` chains the entire `prep` (imputation, scaling, and encoding) with
+   `KNeighborsRegressor(5)` into a single estimator, so calling `.fit` on
+   `full` fits every preprocessing step and the model together.
+
+## GridSearchCV {.small}
+
+```{python}
+from sklearn.model_selection import GridSearchCV, KFold  # <1>
+
+grid = GridSearchCV(
+    full,
+    {"knn__n_neighbors": [1, 5, 10, 25, 50]},  # <2>
+    cv=KFold(5, shuffle=True, random_state=363),  # <3>
+    scoring="neg_mean_squared_error",
+)
+grid.fit(Credit[num + cat], Credit["Balance"])  # <4>
+grid.best_params_
+```
+1. `GridSearchCV` cross-validates the estimator once per combination of
+   parameter values it is given, and reports the best one.
+2. `{"knn__n_neighbors": [1, 5, 10, 25, 50]}` is the grid of candidate `K`
+   values for the `"knn"` step of `full`; the double underscore in
+   `knn__n_neighbors` reaches into that named step's `n_neighbors`
+   parameter.
+3. `cv=KFold(5, shuffle=True, random_state=363)` runs 5-fold CV, refitting
+   `full`, imputation and scaling included, on each training fold for every
+   candidate `K`.
+4. `grid.fit(Credit[num + cat], Credit["Balance"])` runs the full search on
+   the numeric and categorical predictor columns against the response
+   `Credit["Balance"]`.
+
+::: {.fragment}
+::: {.takeaway}
+The double underscore names a step's parameter: `step__parameter`.
+:::
+:::
+
+## Training, validation, and test
+
+::: {.definition}
+**Training**: fit the model.
+
+**Validation**, or the CV folds: choose among models.
+
+**Test**: report how the chosen model does. Once.
+:::
+
+::: {.fragment}
+::: {.question}
+CV accuracy 0.88, test accuracy 0.81. Which do you report?
+:::
+:::
+
+## Leakage checklist {.small}
+
+::: {.nonincremental}
+* Did any step look at the outcome before the split?  
+* Is every learned transformation inside the pipeline?  
+* Does any predictor record something measured after the outcome?  
+* If the data have groups or a time order, does the split respect them?  
+:::
+
+## Application exercise 6
+
+::: {.takeaway}
+Find the leak. Three notebooks, three kinds of leakage, three magnitudes.
+:::
+
+## Before Wednesday
+
+::: {.nonincremental}
+* Read ISLP Sections 3.1 to 3.3  
+* Problem set 2 due today, problem set 3 posted  
+* Check-in 3 on Wednesday  
+:::
+
+::: {.fragment}
+::: {.takeaway}
+Three weeks in and no models yet. What we have is a way to tell whether a model
+is any good.
+:::
+:::
