@@ -561,8 +561,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#notebook-a-cleaning-before-splitting" id="toc-notebook-a-cleaning-before-splitting" class="nav-link active" data-scroll-target="#notebook-a-cleaning-before-splitting">Notebook A: cleaning before splitting</a></li>
   <li><a href="#notebook-b-an-impressive-r2" id="toc-notebook-b-an-impressive-r2" class="nav-link" data-scroll-target="#notebook-b-an-impressive-r2">Notebook B: an impressive <span class="math inline">\(R^2\)</span></a></li>
-  <li><a href="#notebook-c-the-pipeline-is-perfect" id="toc-notebook-c-the-pipeline-is-perfect" class="nav-link" data-scroll-target="#notebook-c-the-pipeline-is-perfect">Notebook C: the pipeline is perfect</a></li>
-  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap-up</a></li>
+  <li><a href="#notebook-c" id="toc-notebook-c" class="nav-link" data-scroll-target="#notebook-c">Notebook C:</a></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/06-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -590,8 +589,7 @@ window.Quarto = {
 </header>
 
 
-<p>Three analyses, three different kinds of leak. For each one: find it, fix it, and report the honest number.</p>
-<div id="652db296" class="cell" data-execution_count="1">
+<div id="6c01b8ac" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
@@ -608,7 +606,7 @@ window.Quarto = {
 <section id="notebook-a-cleaning-before-splitting" class="level2">
 <h2 class="anchored" data-anchor-id="notebook-a-cleaning-before-splitting">Notebook A: cleaning before splitting</h2>
 <p>An analyst predicts <code>Balance</code> from four numeric predictors. Thirty percent of <code>Income</code> is missing, so they fill it in and standardize before doing anything else.</p>
-<div id="43825fdf" class="cell" data-execution_count="2">
+<div id="19c9ce86" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Credit <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Credit.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> [<span class="st">"Income"</span>, <span class="st">"Limit"</span>, <span class="st">"Rating"</span>, <span class="st">"Age"</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Credit.loc[rng.random(<span class="bu">len</span>(Credit)) <span class="op">&lt;</span> <span class="fl">0.30</span>, <span class="st">"Income"</span>] <span class="op">=</span> np.nan</span>
@@ -629,11 +627,11 @@ window.Quarto = {
 </div>
 <div class="question">
 <ol type="1">
-<li>Two things were estimated from the data before cross-validation started. Name both.<br>
+<li>Two things were estimated from the data before cross-validation started. What are they?<br>
 </li>
-<li>Rewrite this as a single <code>Pipeline</code> with three steps so that both are learned inside each fold. Report the honest MSE.<br>
+<li>Rewrite this as a single <code>Pipeline</code> with three steps so that both are learned inside each fold. Report the MSE.<br>
 </li>
-<li>The two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference was small.<br>
+<li>The two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference will be small.<br>
 </li>
 </ol>
 </div>
@@ -647,7 +645,7 @@ window.Quarto = {
 <section id="notebook-b-an-impressive-r2" class="level2">
 <h2 class="anchored" data-anchor-id="notebook-b-an-impressive-r2">Notebook B: an impressive <span class="math inline">\(R^2\)</span></h2>
 <p>A clinic measures each patient at five visits. The analyst wants to predict a functional score from BMI and systolic blood pressure.</p>
-<div id="46372523" class="cell" data-execution_count="3">
+<div id="06adc1fa" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_patients, n_visits <span class="op">=</span> <span class="dv">200</span>, <span class="dv">5</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pid <span class="op">=</span> np.repeat(np.arange(n_patients), n_visits)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -723,7 +721,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="0e3661f9" class="cell" data-execution_count="4">
+<div id="26d073b1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsRegressor(<span class="dv">5</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    cross_val_score(</span>
@@ -740,9 +738,9 @@ window.Quarto = {
 <ol type="1">
 <li>Look at the first six rows. What do you notice about the predictor values within a single patient?<br>
 </li>
-<li>When a visit lands in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?<br>
+<li>When a visit is in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?<br>
 </li>
-<li>The model is meant to be used on <strong>new patients</strong>. Re-run the cross-validation with <code>GroupKFold(5)</code> and <code>groups=visits["patient_id"]</code>. Report the honest <span class="math inline">\(R^2\)</span>.<br>
+<li>The model is meant to be used on <strong>new patients</strong>. Re-run the cross-validation with <code>GroupKFold(5)</code> and <code>groups=visits["patient_id"]</code>. Report the updated <span class="math inline">\(R^2\)</span>.<br>
 </li>
 </ol>
 </div>
@@ -750,16 +748,16 @@ window.Quarto = {
 
 </div>
 <div class="question">
-<p>The honest <span class="math inline">\(R^2\)</span> is negative. What does a negative <span class="math inline">\(R^2\)</span> mean, and what would have been a better prediction rule for a new patient?</p>
+<p>The updated <span class="math inline">\(R^2\)</span> is negative. What does a negative <span class="math inline">\(R^2\)</span> mean, and what would have been a better prediction rule for a new patient?</p>
 </div>
 <div class="answer-space">
 
 </div>
 </section>
-<section id="notebook-c-the-pipeline-is-perfect" class="level2">
-<h2 class="anchored" data-anchor-id="notebook-c-the-pipeline-is-perfect">Notebook C: the pipeline is perfect</h2>
-<p>Here the code is correct. Read the data dictionary instead.</p>
-<div id="7ecc9d86" class="cell" data-execution_count="5">
+<section id="notebook-c" class="level2">
+<h2 class="anchored" data-anchor-id="notebook-c">Notebook C:</h2>
+<p>Here the code is correct, but we need to carefully consider the variables that are included. Look at the data dictionary below.</p>
+<div id="75452cd4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">800</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>severity <span class="op">=</span> rng.normal(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>readmit <span class="op">=</span> (rng.random(n) <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>(<span class="op">-</span><span class="fl">1.2</span> <span class="op">+</span> <span class="fl">0.9</span> <span class="op">*</span> severity)))).astype(<span class="bu">int</span>)</span>
@@ -887,7 +885,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="91383b30" class="cell" data-execution_count="6">
+<div id="b755dcf4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>feats <span class="op">=</span> [<span class="st">"age"</span>, <span class="st">"severity_score"</span>, <span class="st">"n_labs_ordered"</span>,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">"discharge_med_count"</span>, <span class="st">"followup_calls_made"</span>]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -905,11 +903,10 @@ window.Quarto = {
 </div>
 <div class="question">
 <ol type="1">
-<li>Every learned step is inside a pipeline and the folds are stratified. So why is this result still worthless?<br>
+<li>Every learned step is inside a pipeline and the folds are stratified. So why is this result still not useful?<br>
 </li>
-<li>Which column is the problem? Point to the row of the data dictionary that gives it away.<br>
-</li>
-<li>Drop it, re-run, and report the honest AUC.<br>
+<li>Which column is the problem?</li>
+<li>Drop the problematic column it, re-run, and report the new AUC.<br>
 </li>
 <li>The model is meant to run the moment a patient is discharged, so a nurse can decide who to call tonight. Which of the five predictors are available at that moment?<br>
 </li>
@@ -917,49 +914,6 @@ window.Quarto = {
 </div>
 <div class="answer-space">
 
-</div>
-</section>
-<section id="wrap-up" class="level2">
-<h2 class="anchored" data-anchor-id="wrap-up">Wrap-up</h2>
-<div class="question">
-<p>Fill in this table from what you found today.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Notebook</th>
-<th>Kind of leak</th>
-<th>How big was it?</th>
-<th>What catches it?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="answer-space">
-
-</div>
-<div class="takeaway">
-<p>The size of a leak is not predictable from how careless the code looks. Notebook A looks the sloppiest and cost the least. Notebook C looks flawless and was useless.</p>
-<p>Pipelines are free, so always use them. But only reading the data dictionary catches the leak that actually matters.</p>
 </div>
 <p><em><code>Credit</code> data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit and clinic data are simulated.</em></p>
 

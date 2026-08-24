@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -189,6 +189,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <meta property="og:title" content="Cross-validation – STA 363">
 <meta property="og:description" content="STA 363 | Meeting 5">
 <meta property="og:site_name" content="STA 363">
@@ -284,6 +287,29 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p><span class="math display">\[\text{CV}_{(n)} = {\require{color}\colorbox{#eec8e1}{$\frac{1}{n}$}}\sum_{i=1}^{n}\text{MSE}_i\]</span></p>
 <p>Divide by <span class="math inline">\(n\)</span> to average it, exactly like training or test MSE.</p>
 </section>
+<section id="loocv-looks-expensive" class="slide level2">
+<h2>LOOCV looks expensive</h2>
+<div class="takeaway">
+<p>With <span class="math inline">\(n\)</span> observations we fit <span class="math inline">\(n\)</span> models. For regression fit using least squares, there is a shortcut avoids refitting entirely.</p>
+</div>
+</section>
+<section id="the-loocv-shortcut" class="slide level2">
+<h2>The LOOCV shortcut</h2>
+<p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - \hat{y}_i}{1 - h_i}\right)^2\]</span></p>
+</section>
+<section id="the-loocv-shortcut-1" class="slide level2">
+<h2>The LOOCV shortcut</h2>
+<p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - {\require{color}\colorbox{#eec8e1}{$\hat{y}_i$}}}{1 - h_i}\right)^2\]</span></p>
+<p>The fitted value from the single model fit on all <span class="math inline">\(n\)</span> observations. No refitting.</p>
+</section>
+<section id="the-loocv-shortcut-2" class="slide level2">
+<h2>The LOOCV shortcut</h2>
+<p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - \hat{y}_i}{1 - {\require{color}\colorbox{#eec8e1}{$h_i$}}}\right)^2\]</span></p>
+<p>The leverage of observation <span class="math inline">\(i\)</span>: how much that point influences its own fit. Dividing by <span class="math inline">\(1 - h_i\)</span> inflates high-leverage residuals by exactly enough to match what leaving that point out would have given.</p>
+<div class="takeaway">
+<p>We’ll come back to this to define <span class="math inline">\(h_i\)</span> in the linear regression section</p>
+</div>
+</section>
 <section id="k-fold-cross-validation" class="slide level2">
 <h2>k-fold cross-validation</h2>
 
@@ -307,28 +333,31 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <img data-src="img/islp/fig5_6.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><div class="source">
 <p>ISLP Figure 5.6. True test MSE in blue, LOOCV as a black dashed line, and 10-fold CV in orange, for the data of Figures 2.9 to 2.11.</p>
 </div>
+</section>
+<section id="choosing-k-bias" class="slide level2 small">
+<h2>Choosing k: bias</h2>
+<ul>
+<li class="fragment">LOOCV trains on <span class="math inline">\(n - 1\)</span> points: almost the whole data set, so almost no bias<br>
+</li>
+<li class="fragment"><span class="math inline">\(k\)</span>-fold trains on about <span class="math inline">\((k-1)n/k\)</span> points: fewer, so a little more bias<br>
+</li>
+<li class="fragment">The validation set approach trains on about half: the most bias of the three<br>
+</li>
+</ul>
 <div class="fragment">
 <div class="takeaway">
-<p>CV can miss the level. It finds the location of the minimum.</p>
+<p>By bias alone, LOOCV wins.</p>
 </div>
 </div>
 </section>
-<section id="choosing-k" class="slide level2 small">
-<h2>Choosing k</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="loocv-6">LOOCV</h3>
-<p>Low bias, since each fit uses <span class="math inline">\(n-1\)</span> points.</p>
-<p>High variance, since the <span class="math inline">\(n\)</span> fits are nearly identical and their errors are correlated.</p>
-</div><div class="column" style="width:50%;">
-<h3 id="k-5-or-k-10"><span class="math inline">\(k = 5\)</span> or <span class="math inline">\(k = 10\)</span></h3>
-<p>A little bias.</p>
-<p>Lower variance.</p>
-<p><span class="math inline">\(k\)</span> fits rather than <span class="math inline">\(n\)</span>.</p>
-</div></div>
+<section id="choosing-k-variance" class="slide level2 small">
+<h2>Choosing k: variance</h2>
+<div class="takeaway">
+<p>LOOCV’s <span class="math inline">\(n\)</span> fits are trained on nearly identical data, so their errors are highly correlated. Averaging correlated quantities does not shrink variance the way averaging independent ones does.</p>
+</div>
 <div class="fragment">
 <div class="takeaway">
-<p>Bias and variance, applied to the estimator itself.</p>
+<p><span class="math inline">\(k\)</span>-fold’s fits overlap less, so their errors correlate less, and the average is more stable. In practice <span class="math inline">\(k = 5\)</span> or <span class="math inline">\(k = 10\)</span> balances both.</p>
 </div>
 </div>
 </section></section>
@@ -337,79 +366,311 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <h1>In Python</h1>
 
 </section>
-<section id="cross_val_score" class="slide level2 small">
-<h2>cross_val_score</h2>
-<div id="be6d2ce3" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span>
-<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]</span>
-<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]</span>
+<section id="one-k-many-folds" class="slide level2 small">
+<h2>One K, many folds</h2>
+<div id="919287e2" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>Default <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Default.csv"</span>)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Default[[<span class="st">"balance"</span>, <span class="st">"income"</span>]]</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Default[<span class="st">"default"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span>
 <span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-11" class="code-annotation-target"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), PolynomialFeatures(<span class="dv">2</span>), LinearRegression())</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-12" class="code-annotation-target"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-13" class="code-annotation-target"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> <span class="op">-</span>cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>)</span>
-<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>scores.<span class="bu">round</span>(<span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-11" class="code-annotation-target"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-12" class="code-annotation-target"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">25</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-13" class="code-annotation-target"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"accuracy"</span>)</span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>scores.<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>cross_val_score</code> runs the whole cross-validation loop, fitting and scoring once per fold; <code>KFold</code> is the object that defines how the folds are built.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>cross_val_score</code> runs the CV loop; <code>StratifiedKFold</code> builds folds that<br>
+preserve the class balance, which matters here since defaults are rare.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="11" data-code-annotation="2"><code>make_pipeline</code> chains <code>StandardScaler()</code>, <code>PolynomialFeatures(2)</code> (degree 2 polynomial terms of <code>horsepower</code>), and <code>LinearRegression()</code> into one estimator, assigned to <code>model</code>.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="11" data-code-annotation="2">10 folds, shuffled before splitting, with a fixed <code>random_state</code> so the<br>
+fold assignment is reproducible.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="3"><code>KFold(n_splits=10, shuffle=True, random_state=363)</code> builds 10 folds; <code>shuffle=True</code> randomizes row order before splitting, and <code>random_state=363</code> fixes that shuffle.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="3">The same scaled KNN pipeline from Meeting 4, with <span class="math inline">\(K = 25\)</span>.<br>
+</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="4"><code>cross_val_score(model, X, y, cv=cv, scoring="neg_mean_squared_error")</code> returns one score per fold. scikit-learn’s scorers are defined so that higher is better, so MSE is reported negative; the leading <code>-</code> flips it back to ordinary (positive) MSE, assigned to <code>scores</code>.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="4">One accuracy score per fold, ten numbers back.</span>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>array([18.01, 13.35, 19.8 , 30.54, 22.03, 17.  , 27.72, 10.18, 21.73,
-       12.37])</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>array([0.976, 0.966, 0.977, 0.972, 0.973, 0.976, 0.973, 0.969, 0.972,
+       0.974])</code></pre>
 </div>
+</div>
+</section>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 1. <a href="../ex/05-ex.html">ex/05-ex</a></p>
+</div>
+</section>
+<section id="trying-different-k-with-cross-validation" class="slide level2 small">
+<h2>Trying different K with cross-validation</h2>
+<div id="b9372d27" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>ks <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>]</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>cv_err <span class="op">=</span> []</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> ks:</span>
+<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors<span class="op">=</span>k))</span>
+<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a>    cv_err.append(<span class="dv">1</span> <span class="op">-</span> cross_val_score(m, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"accuracy"</span>).mean())</span>
+<span id="cb2-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"K"</span>: ks, <span class="st">"cv_error"</span>: cv_err}).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">K</th>
+<th data-quarto-table-cell-role="th">cv_error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>0.0432</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>3</td>
+<td>0.0335</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>5</td>
+<td>0.0304</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>10</td>
+<td>0.0272</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>25</td>
+<td>0.0272</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>50</td>
+<td>0.0278</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>100</td>
+<td>0.0289</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>200</td>
+<td>0.0329</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>500</td>
+<td>0.0333</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="application-exercise-1" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 2. <a href="../ex/05-ex.html">ex/05-ex</a></p>
+</div>
+</section>
+<section id="stability-across-seeds" class="slide level2 small">
+<h2>Stability across seeds</h2>
+
+<img data-src="05-cross-validation_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Nine runs, each with a different fold assignment. <code>best_ks</code> records the minimizing <span class="math inline">\(K\)</span> from each run.</p>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 3. <a href="../ex/05-ex.html">ex/05-ex</a></p>
+</div>
+</section>
+<section id="cross_val_score-for-regression" class="slide level2 small">
+<h2>cross_val_score for regression</h2>
+<div id="f0cf0b82" class="cell columns column-output-location" data-execution_count="7">
+<div class="column">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>Xa, ya <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]], Auto[<span class="st">"mpg"</span>]</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-8" class="code-annotation-target"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>cv_reg <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>degrees <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> [</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>cross_val_score(</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>        make_pipeline(StandardScaler(), PolynomialFeatures(d), LinearRegression()),</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>        Xa, ya, cv<span class="op">=</span>cv_reg, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>    ).mean()</span>
+<span id="annotated-cell-3-15"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> d <span class="kw">in</span> degrees</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-16" class="code-annotation-target"><a href="#annotated-cell-3-16" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="annotated-cell-3-17"><a href="#annotated-cell-3-17" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"degree"</span>: degrees, <span class="st">"cv_mse"</span>: mse}).<span class="bu">round</span>(<span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column fragment">
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">A plain <code>KFold</code> replaces <code>StratifiedKFold</code>: <code>mpg</code> is quantitative, so<br>
+there is no class balance to preserve.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="2">Same 10-fold structure as the previous example, different<br>
+<code>cv</code> object because the target is different.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="16" data-code-annotation="3">The only change from a single <code>.fit</code>/<code>.score</code> is wrapping the model in<br>
+<code>cross_val_score</code> and negating, exactly as before.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">degree</th>
+<th data-quarto-table-cell-role="th">cv_mse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>24.24</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>19.27</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>19.39</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>19.55</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>19.09</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>19.09</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>18.93</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>19.13</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>9</td>
+<td>19.06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>10</td>
+<td>19.39</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div></div>
+</section>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 4. <a href="../ex/05-ex.html">ex/05-ex</a></p>
 </div>
 </section>
 <section id="stability-of-10-fold-cv" class="slide level2 small">
 <h2>Stability of 10-fold CV</h2>
 
-<img data-src="05-cross-validation_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
-<p>Nine runs of 10-fold CV on <code>Auto</code>, differing only in the fold assignment.</p>
+<img data-src="05-cross-validation_files/figure-revealjs/cell-9-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Nine runs of 10-fold CV on <code>Auto</code>, differing only in the fold assignment. Steadier than the nine single-split curves from Friday.</p>
 </div>
 </section>
-<section id="cv-for-classification" class="slide level2">
-<h2>CV for classification</h2>
+<section id="application-exercise-4" class="slide level2">
+<h2>Application exercise</h2>
 <div class="takeaway">
-<p>Replace MSE with the error rate. Nothing else changes.</p>
-</div>
-<div class="fragment">
-<div id="ee183c49" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"accuracy"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">The only change from the regression call above is <code>scoring="accuracy"</code> in place of <code>scoring="neg_mean_squared_error"</code>; <code>model</code>, <code>X</code>, <code>y</code>, and <code>cv</code> are reused exactly as defined earlier.</span>
-</dd>
-</dl>
-</div>
-</div>
+<p>Complete Part 5. <a href="../ex/05-ex.html">ex/05-ex</a></p>
 </div>
 </section>
 <section id="application-exercise-5" class="slide level2">
 <h2>Application exercise 5</h2>
 <div class="takeaway">
-<p>Using cross-validation to choose <span class="math inline">\(K\)</span> for KNN, and comparing the answer to Friday’s single split.</p>
+<p>Ran cross-validation for one K, swept K, checked how stable the choice is across seeds, repeated the whole exercise for regression, and asked whether scaling before the split is safe.</p>
 </div>
 </section>
 <section id="before-friday" class="slide level2">
@@ -420,11 +681,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <li>Problem set 2 due Friday<br>
 </li>
 </ul>
-<div class="fragment">
-<div class="question">
-<p>You scale your predictors, then cross-validate. Is that fine?</p>
-</div>
-</div>
 
 
 </section></section>

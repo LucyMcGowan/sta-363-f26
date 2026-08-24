@@ -153,54 +153,124 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <div class="question">
 <p>Why is the test MSE curve U-shaped?</p>
 </div>
-<div class="fragment">
-<div class="takeaway">
-<p>Something improves as flexibility rises, and something degrades.</p>
-</div>
-</div>
 </section>
-<section id="bias-variance-decomposition" class="slide level2">
+<section id="bias-variance-decomposition" class="slide level2 small">
 <h2>Bias-variance decomposition</h2>
 <p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = \text{Var}\left(\hat{f}(x_0)\right) + \left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2 + \text{Var}(\varepsilon)\]</span></p>
 </section>
-<section id="bias-variance-decomposition-1" class="slide level2">
+<section id="bias-variance-decomposition-1" class="slide level2 small">
 <h2>Bias-variance decomposition</h2>
 <p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = {\require{color}\colorbox{#eec8e1}{$\text{Var}\left(\hat{f}(x_0)\right)$}} + \left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2 + \text{Var}(\varepsilon)\]</span></p>
 <p>How much <span class="math inline">\(\hat{f}(x_0)\)</span> moves across different training sets.</p>
 </section>
-<section id="bias-variance-decomposition-2" class="slide level2">
+<section id="bias-variance-decomposition-2" class="slide level2 small">
 <h2>Bias-variance decomposition</h2>
 <p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = \text{Var}\left(\hat{f}(x_0)\right) + {\require{color}\colorbox{#eec8e1}{$\left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2$}} + \text{Var}(\varepsilon)\]</span></p>
 <p>How far the average <span class="math inline">\(\hat{f}(x_0)\)</span>, over those training sets, sits from the truth <span class="math inline">\(f(x_0)\)</span>.</p>
 </section>
-<section id="bias-variance-decomposition-3" class="slide level2">
+<section id="bias-variance-decomposition-3" class="slide level2 small">
 <h2>Bias-variance decomposition</h2>
 <p><span class="math display">\[E\left(y_0 - \hat{f}(x_0)\right)^2 = \text{Var}\left(\hat{f}(x_0)\right) + \left[\text{Bias}\left(\hat{f}(x_0)\right)\right]^2 + {\require{color}\colorbox{#eec8e1}{$\text{Var}(\varepsilon)$}}\]</span></p>
 <p>The irreducible error. Neither variance nor bias touches this term.</p>
 </section>
-<section id="bias-and-variance" class="slide level2 small">
-<h2>Bias and variance</h2>
+<section>
+<section id="bias-and-variance" class="title-slide slide level1 center">
+<h1>Bias and variance</h1>
+
+</section>
+<section id="variance-defined" class="slide level2">
+<h2>Variance, defined</h2>
 <div class="definition">
-<p>Imagine drawing a new training set from the same population, refitting, and predicting at the same <span class="math inline">\(x_0\)</span>. Repeat many times.</p>
+<p>How much <span class="math inline">\(\hat{f}\)</span> would change if estimated from a different training set. Different training data gives a different <span class="math inline">\(\hat{f}\)</span>; a good method should not move too much between them.</p>
+</div>
+</section>
+<section id="why-flexible-methods-have-high-variance" class="slide level2">
+<h2>Why flexible methods have high variance</h2>
+<div class="takeaway">
+<p>A flexible fit follows the training points closely, so changing even a few of those points can change the fit a lot.</p>
 </div>
 <div class="fragment">
-<ul>
-<li class="fragment"><strong>Variance</strong>: how much <span class="math inline">\(\hat{f}(x_0)\)</span> moves across those training sets<br>
-</li>
-<li class="fragment"><strong>Bias</strong>: how far the average <span class="math inline">\(\hat{f}(x_0)\)</span> sits from <span class="math inline">\(f(x_0)\)</span><br>
-</li>
-</ul>
+<div class="question">
+<p>An inflexible line barely moves when one point changes. Why?</p>
 </div>
+</div>
+</section>
+<section id="bias-defined" class="slide level2">
+<h2>Bias, defined</h2>
+<div class="definition">
+<p>The error from approximating a complicated relationship with a simpler model. A method that cannot bend enough to match <span class="math inline">\(f\)</span> is biased, no matter how much data it sees.</p>
+</div>
+</section>
+<section id="the-bias-formula" class="slide level2">
+<h2>The bias formula</h2>
+<p><span class="math display">\[\text{Bias}(\hat{f}(x_0)) = E[\hat{f}(x_0)] - f(x_0)\]</span></p>
+</section>
+<section id="the-bias-formula-1" class="slide level2">
+<h2>The bias formula</h2>
+<p><span class="math display">\[\text{Bias}(\hat{f}(x_0)) = {\require{color}\colorbox{#eec8e1}{$E[\hat{f}(x_0)]$}} - f(x_0)\]</span></p>
+<p>The average fit at <span class="math inline">\(x_0\)</span>, over many training sets.</p>
+</section>
+<section id="the-bias-formula-2" class="slide level2">
+<h2>The bias formula</h2>
+<p><span class="math display">\[\text{Bias}(\hat{f}(x_0)) = E[\hat{f}(x_0)] - {\require{color}\colorbox{#eec8e1}{$f(x_0)$}}\]</span></p>
+<p>The truth at <span class="math inline">\(x_0\)</span>. Bias is the gap between the two.</p>
 </section>
 <section id="variance-illustrated" class="slide level2 small">
 <h2>Variance, illustrated</h2>
 
-<img data-src="03-bias-variance_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<img data-src="03-bias-variance_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
 <p>Twenty five fits, each on its own training sample of 60 points. Grey is the true <span class="math inline">\(f\)</span>.</p>
 </div>
 </section>
-<section id="the-trade-off" class="slide level2">
-<h2>The trade-off</h2>
+<section id="bias-illustrated" class="slide level2 small">
+<h2>Bias, illustrated</h2>
+
+<img data-src="03-bias-variance_files/figure-revealjs/cell-6-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>The average fit over 200 refits (dashed), against the true <span class="math inline">\(f\)</span> (solid).</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Which average curve is closer to the truth: df 4 or df 20?</p>
+</div>
+</div>
+</section>
+<section id="the-two-extremes" class="slide level2 small">
+<h2>The two extremes</h2>
+
+<img data-src="03-bias-variance_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Twelve points from the same simulation. A flat line on the left, a curve through every point on the right.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Which curve has zero training error? Is that the same as being unbiased?</p>
+</div>
+</div>
+</section>
+<section id="the-extremes-repeated" class="slide level2 small">
+<h2>The extremes, repeated</h2>
+
+<img data-src="03-bias-variance_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Fifteen resamples of twelve points each, same two methods. Grey is the true <span class="math inline">\(f\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>The flat lines barely move: low variance, high bias. The interpolators never agree: low bias, high variance.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 1. <a href="../ex/03-ex.html">ex/03-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="the-trade-off" class="title-slide slide level1 center">
+<h1>The trade-off</h1>
+
+</section>
+<section id="more-flexible-less-flexible" class="slide level2">
+<h2>More flexible, less flexible</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <h3 id="more-flexible">More flexible</h3>
@@ -213,9 +283,20 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div></div>
 <div class="fragment">
 <div class="takeaway">
-<p>The U is one curve falling plus another rising.</p>
+<p>Choosing flexibility using test error is a bias-variance trade-off.</p>
 </div>
 </div>
+</section>
+<section id="why-the-curve-is-u-shaped" class="slide level2 small">
+<h2>Why the curve is U-shaped</h2>
+<ul>
+<li class="fragment">Bias falls as flexibility increases<br>
+</li>
+<li class="fragment">Variance increases as flexibility increases<br>
+</li>
+<li class="fragment">Past some point, more flexibility barely reduces bias but raises variance a lot<br>
+</li>
+</ul>
 </section>
 <section id="bias-and-variance-by-data-set" class="slide level2">
 <h2>Bias and variance by data set</h2>
@@ -224,15 +305,157 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>ISLP Figure 2.12. Squared bias in blue, variance in orange, <span class="math inline">\(\text{Var}(\varepsilon)\)</span> dashed, and test MSE in red, for the data of Figures 2.9 to 2.11.</p>
 </div>
 </section>
+<section id="bias-and-variance-moderate-curve" class="slide level2 small">
+<h2>Bias and variance: moderate curve</h2>
+
+<img data-src="img/islp/fig2_12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"><div class="source">
+<p>ISLP Figure 2.12, left panel. The data of Figure 2.9: a moderately non-linear <span class="math inline">\(f\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Bias drops fast as flexibility rises. The minimum sits in the middle.</p>
+</div>
+</div>
+</section>
+<section id="bias-and-variance-near-linear" class="slide level2 small">
+<h2>Bias and variance: near-linear</h2>
+
+<img data-src="img/islp/fig2_12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"><div class="source">
+<p>ISLP Figure 2.12, center panel. The data of Figure 2.10: <span class="math inline">\(f\)</span> close to linear.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Bias starts low and stays low. Variance dominates almost immediately.</p>
+</div>
+</div>
+</section>
+<section id="bias-and-variance-highly-non-linear" class="slide level2 small">
+<h2>Bias and variance: highly non-linear</h2>
+
+<img data-src="img/islp/fig2_12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"><div class="source">
+<p>ISLP Figure 2.12, right panel. The data of Figure 2.11: <span class="math inline">\(f\)</span> far from linear.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Bias stays high until flexibility is high. Variance barely rises.</p>
+</div>
+</div>
+</section>
+<section id="comparing-the-three-panels" class="slide level2 small">
+<h2>Comparing the three panels</h2>
+<ul>
+<li>Moderate curve: bias and variance trade off at a middle flexibility<br>
+</li>
+<li>Near-linear: variance dominates, so the simple method wins<br>
+</li>
+<li>Highly non-linear: bias dominates, so the flexible method wins<br>
+</li>
+</ul>
+<div class="fragment">
+<div class="takeaway">
+<p>The best flexibility depends on the data. We check the shape first.</p>
+</div>
+</div>
+</section>
 <section id="irreducible-error" class="slide level2">
 <h2>Irreducible error</h2>
 <div class="takeaway">
 <p>Bias and variance can both be driven toward zero with the right model and enough data. <span class="math inline">\(\text{Var}(\varepsilon)\)</span> cannot.</p>
 </div>
+</section>
+<section id="application-exercise-1" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 3. <a href="../ex/03-ex.html">ex/03-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="moving-the-knob" class="title-slide slide level1 center">
+<h1>Moving the knob</h1>
+
+</section>
+<section id="flexibility-knobs" class="slide level2">
+<h2>Flexibility knobs</h2>
+<ul>
+<li>Polynomial degree or spline degrees of freedom<br>
+</li>
+<li><span class="math inline">\(K\)</span> in K-nearest neighbors<br>
+</li>
+<li>Number of predictors<br>
+</li>
+<li>Amount of training data<br>
+</li>
+</ul>
+</section>
+<section id="k-nearest-neighbors-a-preview" class="slide level2 small">
+<h2>K-nearest neighbors, a preview</h2>
+<div class="definition">
+<p>To classify or predict at <span class="math inline">\(x_0\)</span>, average the <span class="math inline">\(K\)</span> closest training points.</p>
+</div>
+<div class="fragment">
+<ul>
+<li>Small <span class="math inline">\(K\)</span>: flexible, wiggly, high variance<br>
+</li>
+<li>Large <span class="math inline">\(K\)</span>: rigid, smooth, high bias<br>
+</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="dim">
+<p>Formal definition Friday.</p>
+</div>
+</div>
+</section>
+<section id="more-data" class="slide level2">
+<h2>More data</h2>
+<div class="takeaway">
+<p>More observations shrink variance. Bias is about the model’s form, not how much data it sees, so it barely moves.</p>
+</div>
 <div class="fragment">
 <div class="question">
-<p>Test MSE is 4.0 and will not go lower. Bad model, or hard problem?</p>
+<p>A degree-14 polynomial trained on 20 points versus 20,000. Which has more variance?</p>
 </div>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 4. <a href="../ex/03-ex.html">ex/03-ex</a></p>
+</div>
+</section>
+<section id="irrelevant-predictors" class="slide level2">
+<h2>Irrelevant predictors</h2>
+<div class="takeaway">
+<p>An irrelevant predictor adds a parameter to estimate without adding signal. Variance rises. Bias does not fall.</p>
+</div>
+</section>
+<section id="averaging-models" class="slide level2">
+<h2>Averaging models</h2>
+<div class="takeaway">
+<p>Average the predictions of many flexible fits, and the noise that made each one wobble tends to cancel out.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Does averaging change the bias of the individual fits?</p>
+</div>
+</div>
+</section>
+<section id="averaging-models-illustrated" class="slide level2 small">
+<h2>Averaging models, illustrated</h2>
+
+<img data-src="03-bias-variance_files/figure-revealjs/cell-9-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Fifteen draws. Left: one fit each time. Right: the average of fifteen fits each time. Grey is the true <span class="math inline">\(f\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Same bias, far less variance. This is the idea behind an entire unit in November.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 2. <a href="../ex/03-ex.html">ex/03-ex</a></p>
 </div>
 </section>
 <section id="classification-error-rate" class="slide level2">
@@ -254,10 +477,35 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p><span class="math display">\[\text{Error rate} = {\require{color}\colorbox{#eec8e1}{$\frac{1}{n}$}}\sum_{i=1}^{n} I\left(y_i \neq \hat{y}_i\right)\]</span></p>
 <p>Divide by <span class="math inline">\(n\)</span> to turn the count into a rate.</p>
 </section>
-<section id="application-exercise-3" class="slide level2">
+<section id="bias-and-variance-for-classification" class="slide level2">
+<h2>Bias and variance for classification</h2>
+<div class="takeaway">
+<p>The same trade-off holds: a flexible boundary has low bias and high variance, a rigid one the reverse. Friday formalizes this with the Bayes classifier and KNN.</p>
+</div>
+</section>
+<section id="application-exercise-4" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete the wrap-up. <a href="../ex/03-ex.html">ex/03-ex</a></p>
+</div>
+</section>
+<section id="summary" class="slide level2 small">
+<h2>Summary</h2>
+<ul>
+<li>Expected test MSE splits into variance, squared bias, and irreducible error<br>
+</li>
+<li>More flexibility: bias down, variance up<br>
+</li>
+<li>The best flexibility depends on how non-linear the truth is<br>
+</li>
+<li>More data lowers variance without changing bias<br>
+</li>
+</ul>
+</section>
+<section id="application-exercise-3-1" class="slide level2">
 <h2>Application exercise 3</h2>
 <div class="takeaway">
-<p>Reading bias-variance curves, and deciding which panel of Figure 2.12 an unfamiliar data set resembles.</p>
+<p>Matched bias-variance patterns to fan plots, moved five knobs, read test MSE curves, settled a debate about sample size, and answered why the curve is U-shaped.</p>
 </div>
 </section>
 <section id="before-friday" class="slide level2">
@@ -275,7 +523,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="img/icon.png" class="slide-logo"></p>

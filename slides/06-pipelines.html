@@ -253,7 +253,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="simulated-noise" class="slide level2">
 <h2>Simulated noise</h2>
-<div id="7976cb45" class="cell" data-execution_count="2">
+<div id="00c82263" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> <span class="dv">100</span>, <span class="dv">2000</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rng.normal(size<span class="op">=</span>(n, p))</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, size<span class="op">=</span>n)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -261,15 +261,18 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>n</code> is 100 rows and <code>p</code> is 2000 predictor columns, an unusually wide data set on purpose.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>n</code> is 100 rows and <code>p</code> is 2000 predictor columns, an unusually<br>
+wide data set on purpose.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2"><code>rng.normal(size=(n, p))</code> draws a 100 by 2000 array of standard normal noise, assigned to <code>X</code>; none of these columns are constructed to relate to <code>y</code>.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2"><code>rng.normal(size=(n, p))</code> draws a 100 by 2000 array of standard normal<br>
+noise, assigned to <code>X</code>; none of these columns are constructed to relate to <code>y</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="3"><code>rng.integers(0, 2, size=n)</code> draws 100 values from {0, 1}, a random two class label with no relationship to any column of <code>X</code>.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="3"><code>rng.integers(0, 2, size=n)</code> draws 100 values from {0, 1}, a random two<br>
+class label with no relationship to any column of <code>X</code>.</span>
 </dd>
 </dl>
 </div>
@@ -282,7 +285,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="selection-outside-the-loop" class="slide level2 small">
 <h2>Selection outside the loop</h2>
-<div id="ace5246d" class="cell" data-execution_count="3">
+<div id="36ff7426" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectKBest, f_classif</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
@@ -297,23 +300,28 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1"><code>SelectKBest</code> ranks predictors by a scoring function and keeps the top <code>k</code>; <code>f_classif</code> is the ANOVA F-statistic between each column of <code>X</code> and the class label <code>y</code>.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1"><code>SelectKBest</code> ranks predictors by a scoring function and keeps the top<br>
+<code>k</code>; <code>f_classif</code> is the ANOVA F-statistic between each column of <code>X</code> and the class label <code>y</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="5" data-code-annotation="2"><code>SelectKBest(f_classif, k=20).fit(X, y)</code> scores all 2000 columns against the full <code>y</code> and keeps the top 20; <code>.get_support()</code> returns a boolean mask of which columns were kept, assigned to <code>keep</code>. Fitting on the full <code>X</code> and <code>y</code> before any split is the leak.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="5" data-code-annotation="2"><code>SelectKBest(f_classif, k=20).fit(X, y)</code> scores all 2000 columns against<br>
+the full <code>y</code> and keeps the top 20; <code>.get_support()</code> returns a boolean mask of which columns were kept, assigned to <code>keep</code>. Fitting on the full <code>X</code> and <code>y</code> before any split is the leak.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="3"><code>X[:, keep]</code> uses that boolean mask to select only the 20 chosen columns, assigned to <code>X_kept</code>.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="3"><code>X[:, keep]</code> uses that boolean mask to select only the 20 chosen<br>
+columns, assigned to <code>X_kept</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="8" data-code-annotation="4"><code>StratifiedKFold(5, shuffle=True, random_state=363)</code> builds 5 folds that preserve the class proportions of <code>y</code> in each fold.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="8" data-code-annotation="4"><code>StratifiedKFold(5, shuffle=True, random_state=363)</code> builds 5 folds that<br>
+preserve the class proportions of <code>y</code> in each fold.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="5"><code>cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)</code> cross-validates a 5-nearest-neighbors classifier on <code>X_kept</code>, the already-selected columns, so every fold’s “test” data already influenced which columns were chosen.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="5"><code>cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)</code><br>
+cross-validates a 5-nearest-neighbors classifier on <code>X_kept</code>, the already-selected columns, so every fold’s “test” data already influenced which columns were chosen.</span>
 </dd>
 </dl>
 </div>
@@ -329,7 +337,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="selection-inside-the-loop" class="slide level2 small">
 <h2>Selection inside the loop</h2>
-<div id="d98e9bc0" class="cell" data-execution_count="4">
+<div id="a5ef647f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> Pipeline([</span>
@@ -343,11 +351,12 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="1"><code>Pipeline</code> takes a list of (name, step) pairs. <code>SelectKBest(f_classif,    k=20)</code> is now the <code>"select"</code> step inside the pipeline, so scikit-learn refits it on each training fold alone rather than on the full data.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="1"><code>Pipeline</code> takes a list of (name, step) pairs. <code>SelectKBest(f_classif,      k=20)</code> is now the <code>"select"</code> step inside the pipeline, so scikit-learn refits it on each training fold alone rather than on the full data.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="2"><code>cross_val_score(pipe, X, y, cv=cv)</code> cross-validates the whole <code>pipe</code> object, so <code>SelectKBest</code> and <code>KNeighborsClassifier(5)</code> are both refit from scratch on each fold’s training rows, exactly like <code>leaky</code> above but with the selection step properly inside the loop.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="2"><code>cross_val_score(pipe, X, y, cv=cv)</code> cross-validates the whole <code>pipe</code><br>
+object, so <code>SelectKBest</code> and <code>KNeighborsClassifier(5)</code> are both refit from scratch on each fold’s training rows, exactly like <code>leaky</code> above but with the selection step properly inside the loop.</span>
 </dd>
 </dl>
 </div>
@@ -379,7 +388,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="columntransformer" class="slide level2 small">
 <h2>ColumnTransformer</h2>
-<div id="9bfbd092" class="cell" data-execution_count="5">
+<div id="a23d0ce7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
@@ -397,23 +406,28 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1"><code>ColumnTransformer</code> applies a different transformer to a different subset of columns, then concatenates the results into one array.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1"><code>ColumnTransformer</code> applies a different transformer to a different<br>
+subset of columns, then concatenates the results into one array.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="6" data-code-annotation="2"><code>num</code> lists the four numeric predictor column names that will be scaled.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="6" data-code-annotation="2"><code>num</code> lists the four numeric predictor column names that will be<br>
+scaled.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="3"><code>cat</code> lists the three categorical predictor column names that will be encoded.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="3"><code>cat</code> lists the three categorical predictor column names that will be<br>
+encoded.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="10" data-code-annotation="4">The <code>"num"</code> step applies <code>StandardScaler()</code>, centering and scaling to mean 0 and standard deviation 1, to the columns named in <code>num</code>.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="10" data-code-annotation="4">The <code>"num"</code> step applies <code>StandardScaler()</code>, centering and scaling to<br>
+mean 0 and standard deviation 1, to the columns named in <code>num</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="5">The <code>"cat"</code> step applies <code>OneHotEncoder(drop="first")</code> to the columns named in <code>cat</code>, creating a 0/1 indicator column for every category except one (<code>drop="first"</code>), which avoids a redundant, perfectly collinear column.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="5">The <code>"cat"</code> step applies <code>OneHotEncoder(drop="first")</code> to the columns<br>
+named in <code>cat</code>, creating a 0/1 indicator column for every category except one (<code>drop="first"</code>), which avoids a redundant, perfectly collinear column.</span>
 </dd>
 </dl>
 </div>
@@ -1654,7 +1668,7 @@ forceTheme('sk-container-id-1');</script>
 </section>
 <section id="simpleimputer" class="slide level2 small">
 <h2>SimpleImputer</h2>
-<div id="74870128" class="cell" data-execution_count="6">
+<div id="68858976" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
 <span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
 <span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1673,27 +1687,37 @@ forceTheme('sk-container-id-1');</script>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1"><code>SimpleImputer(strategy="median")</code> replaces missing values in a numeric column with that column’s median, computed only from the training fold it is fit on.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1"><code>SimpleImputer(strategy="median")</code> replaces missing values in a numeric<br>
+column with that column’s median, computed only from the training fold it is fit on.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="6" data-code-annotation="2"><code>("scale", StandardScaler())</code> runs second, so scaling happens after imputation fills the gaps, still learned from the training fold alone.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="6" data-code-annotation="2"><code>("scale", StandardScaler())</code> runs second, so scaling happens after<br>
+imputation fills the gaps, still learned from the training fold alone.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="3"><code>OneHotEncoder(drop="first", handle_unknown="ignore")</code> adds <code>handle_unknown="ignore"</code> so a category value seen in a test fold but never seen while fitting on the training fold produces all zero indicator columns instead of raising an error.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="3"><code>OneHotEncoder(drop="first", handle_unknown="ignore")</code> adds<br>
+<code>handle_unknown="ignore"</code> so a category value seen in a test fold but never seen while fitting on the training fold produces all zero indicator columns instead of raising an error.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="14" data-code-annotation="4"><code>full</code> chains the entire <code>prep</code> (imputation, scaling, and encoding) with <code>KNeighborsRegressor(5)</code> into a single estimator, so calling <code>.fit</code> on <code>full</code> fits every preprocessing step and the model together.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="14" data-code-annotation="4"><code>full</code> chains the entire <code>prep</code> (imputation, scaling, and encoding) with<br>
+<code>KNeighborsRegressor(5)</code> into a single estimator, so calling <code>.fit</code> on <code>full</code> fits every preprocessing step and the model together.</span>
 </dd>
 </dl>
 </div>
 </div>
 </section>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Notebook A. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+</div>
+</section>
 <section id="gridsearchcv" class="slide level2 small">
 <h2>GridSearchCV</h2>
-<div id="a44f9eb6" class="cell" data-execution_count="7">
+<div id="6b0d5e71" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(</span>
@@ -1708,19 +1732,23 @@ forceTheme('sk-container-id-1');</script>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1"><code>GridSearchCV</code> cross-validates the estimator once per combination of parameter values it is given, and reports the best one.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1"><code>GridSearchCV</code> cross-validates the estimator once per combination of<br>
+parameter values it is given, and reports the best one.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2"><code>{"knn__n_neighbors": [1, 5, 10, 25, 50]}</code> is the grid of candidate <code>K</code> values for the <code>"knn"</code> step of <code>full</code>; the double underscore in <code>knn__n_neighbors</code> reaches into that named step’s <code>n_neighbors</code> parameter.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2"><code>{"knn__n_neighbors": [1, 5, 10, 25, 50]}</code> is the grid of candidate <code>K</code><br>
+values for the <code>"knn"</code> step of <code>full</code>; the double underscore in <code>knn__n_neighbors</code> reaches into that named step’s <code>n_neighbors</code> parameter.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3"><code>cv=KFold(5, shuffle=True, random_state=363)</code> runs 5-fold CV, refitting <code>full</code>, imputation and scaling included, on each training fold for every candidate <code>K</code>.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3"><code>cv=KFold(5, shuffle=True, random_state=363)</code> runs 5-fold CV, refitting<br>
+<code>full</code>, imputation and scaling included, on each training fold for every candidate <code>K</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="9" data-code-annotation="4"><code>grid.fit(Credit[num + cat], Credit["Balance"])</code> runs the full search on the numeric and categorical predictor columns against the response <code>Credit["Balance"]</code>.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="9" data-code-annotation="4"><code>grid.fit(Credit[num + cat], Credit["Balance"])</code> runs the full search on<br>
+the numeric and categorical predictor columns against the response <code>Credit["Balance"]</code>.</span>
 </dd>
 </dl>
 </div>
@@ -1747,6 +1775,51 @@ forceTheme('sk-container-id-1');</script>
 </div>
 </div>
 </section>
+<section id="repeated-measures" class="slide level2 small">
+<h2>Repeated measures</h2>
+<div class="definition">
+<p>Repeated measurements on the same subject are correlated with each other, not independent draws. A random split can put one subject’s rows in both the training fold and the test fold.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>A nearest-neighbor model can then “recognize” the subject, since its near-duplicate points sit right there in the training data, instead of generalizing to a subject it has never seen.</p>
+</div>
+</div>
+</section>
+<section id="groupkfold" class="slide level2 small">
+<h2>GroupKFold</h2>
+<div class="takeaway">
+<p><code>GroupKFold</code> folds on the group label, not the row: every row from a given subject lands entirely in the training set or entirely in the test set, never split between them.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Pass it a <code>groups</code> array, one label per row, <code>patient_id</code> here. The fold assignment respects that label instead of splitting row by row.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-1" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Notebook B. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+</div>
+</section>
+<section id="look-ahead-leakage" class="slide level2 small">
+<h2>Look-ahead leakage</h2>
+<div class="definition">
+<p>A predictor recorded after the outcome can look powerful in cross-validation and be useless at prediction time, since it is a consequence of the outcome rather than something known when the prediction is needed.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>The question is not “is this correlated with the outcome.” It is “would I have this value at the moment I need to make the prediction.”</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Notebook C. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+</div>
+</section>
 <section id="leakage-checklist" class="slide level2 small">
 <h2>Leakage checklist</h2>
 <ul>
@@ -1759,6 +1832,12 @@ forceTheme('sk-container-id-1');</script>
 <li>If the data have groups or a time order, does the split respect them?<br>
 </li>
 </ul>
+</section>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete the wrap-up. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+</div>
 </section>
 <section id="application-exercise-6" class="slide level2">
 <h2>Application exercise 6</h2>

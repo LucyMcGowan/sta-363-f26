@@ -567,7 +567,7 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#part-1-look-before-you-model" id="toc-part-1-look-before-you-model" class="nav-link" data-scroll-target="#part-1-look-before-you-model">Part 1: Look before you model</a></li>
+  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1">Part 1:</a></li>
   <li><a href="#part-2-split" id="toc-part-2-split" class="nav-link" data-scroll-target="#part-2-split">Part 2: Split</a></li>
   <li><a href="#part-3-training-mse-versus-test-mse" id="toc-part-3-training-mse-versus-test-mse" class="nav-link" data-scroll-target="#part-3-training-mse-versus-test-mse">Part 3: Training MSE versus test MSE</a></li>
   <li><a href="#part-4-plot-it" id="toc-part-4-plot-it" class="nav-link" data-scroll-target="#part-4-plot-it">Part 4: Plot it</a></li>
@@ -601,7 +601,7 @@ window.Quarto = {
 
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="46efef6c" class="cell" data-execution_count="1">
+<div id="66a2c701" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -701,14 +701,14 @@ window.Quarto = {
 </div>
 </div>
 <p>We will predict <code>mpg</code> from <code>horsepower</code>.</p>
-<div id="fe88f80b" class="cell" data-execution_count="2">
+<div id="8883da7e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>]]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="part-1-look-before-you-model" class="level2">
-<h2 class="anchored" data-anchor-id="part-1-look-before-you-model">Part 1: Look before you model</h2>
-<div id="357769e6" class="cell" data-execution_count="3">
+<section id="part-1" class="level2">
+<h2 class="anchored" data-anchor-id="part-1">Part 1:</h2>
+<div id="ff0298f6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[<span class="st">"horsepower"</span>], y, s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"horsepower"</span>)</span>
@@ -732,9 +732,9 @@ window.Quarto = {
 <section id="part-2-split" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-split">Part 2: Split</h2>
 <p>Fill in the blank so that 30% of the observations are held out.</p>
-<div id="4ab95e44" class="cell" data-execution_count="4">
+<div id="3c595203" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span>____, random_state<span class="op">=</span><span class="dv">363</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span>____, random_state<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="question">
@@ -747,8 +747,8 @@ window.Quarto = {
 <section id="part-3-training-mse-versus-test-mse" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-training-mse-versus-test-mse">Part 3: Training MSE versus test MSE</h2>
 <p>We fit a spline to <code>horsepower</code>, and increase the degrees of freedom (<code>df</code>) to make the fit more flexible.</p>
-<div id="43336cd2" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">25</span>, <span class="dv">2</span>)</span>
+<div id="e7b2dd1a" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">21</span>, <span class="dv">2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_mse, test_mse <span class="op">=</span> [], []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> df <span class="kw">in</span> dfs:</span>
@@ -757,7 +757,7 @@ window.Quarto = {
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    train_mse.append(mean_squared_error(y_train, model.predict(X_train)))</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    test_mse.append(mean_squared_error(y_test, model.predict(X_test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b36b3bdb" class="cell" data-execution_count="7">
+<div id="cc831ca1" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"df"</span>: dfs, <span class="st">"train"</span>: train_mse, <span class="st">"test"</span>: test_mse}).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
@@ -776,68 +776,56 @@ window.Quarto = {
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>4</td>
-<td>19.79</td>
-<td>17.05</td>
+<td>18.79</td>
+<td>19.76</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>6</td>
-<td>19.69</td>
-<td>16.80</td>
+<td>18.37</td>
+<td>19.49</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>8</td>
-<td>19.39</td>
-<td>15.84</td>
+<td>17.70</td>
+<td>19.32</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>10</td>
-<td>19.28</td>
-<td>15.86</td>
+<td>17.59</td>
+<td>19.57</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>12</td>
-<td>19.29</td>
-<td>15.97</td>
+<td>17.65</td>
+<td>19.39</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
 <td>14</td>
-<td>19.23</td>
-<td>16.26</td>
+<td>17.56</td>
+<td>20.07</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
 <td>16</td>
-<td>18.70</td>
-<td>16.57</td>
+<td>17.36</td>
+<td>19.35</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
 <td>18</td>
-<td>18.79</td>
-<td>16.77</td>
+<td>17.47</td>
+<td>19.42</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
 <td>20</td>
-<td>18.63</td>
-<td>16.65</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>22</td>
-<td>18.15</td>
-<td>16.68</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">10</td>
-<td>24</td>
-<td>17.45</td>
-<td>16.51</td>
+<td>17.18</td>
+<td>19.97</td>
 </tr>
 </tbody>
 </table>
@@ -861,7 +849,7 @@ window.Quarto = {
 </section>
 <section id="part-4-plot-it" class="level2">
 <h2 class="anchored" data-anchor-id="part-4-plot-it">Part 4: Plot it</h2>
-<div id="d6318b56" class="cell" data-execution_count="8">
+<div id="0188b2d1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ax.plot(dfs, train_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#595959"</span>, label<span class="op">=</span><span class="st">"Training MSE"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.plot(dfs, test_mse, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>, label<span class="op">=</span><span class="st">"Test MSE"</span>)</span>
@@ -886,7 +874,7 @@ window.Quarto = {
 </section>
 <section id="part-5" class="level2">
 <h2 class="anchored" data-anchor-id="part-5">Part 5:</h2>
-<p>Re-run everything above with <code>random_state=1</code>, then <code>random_state=2</code>, then <code>random_state=3</code>. Record the best <code>df</code> each time.</p>
+<p>Re-run everything above with <code>random_state=2</code>, then <code>random_state=3</code>, then <code>random_state=4</code>. Record the best <code>df</code> each time.</p>
 <div class="question">
 <table class="caption-top table">
 <thead>
@@ -898,22 +886,22 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>363</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
 <td>1</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>2</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>3</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>4</td>
 <td></td>
 <td></td>
 </tr>

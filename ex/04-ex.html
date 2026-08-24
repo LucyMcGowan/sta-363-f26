@@ -146,15 +146,15 @@ window.Quarto = {
 <meta property="og:description" content="STA 363 | Meeting 4 | September 4">
 <meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/04-ex_files/figure-html/cell-7-output-1.png">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="322">
-<meta property="og:image:width" content="523">
+<meta property="og:image:height" content="323">
+<meta property="og:image:width" content="524">
 <meta name="twitter:title" content="Application exercise 4: Tuning K, and what scaling does – STA 363">
 <meta name="twitter:description" content="STA 363 | Meeting 4 | September 4">
 <meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/04-ex_files/figure-html/cell-7-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="322">
-<meta name="twitter:image-width" content="523">
+<meta name="twitter:image-height" content="323">
+<meta name="twitter:image-width" content="524">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -568,8 +568,8 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
   <li><a href="#part-1-forget-to-scale" id="toc-part-1-forget-to-scale" class="nav-link" data-scroll-target="#part-1-forget-to-scale">Part 1: Forget to scale</a></li>
-  <li><a href="#part-2-sweep-k" id="toc-part-2-sweep-k" class="nav-link" data-scroll-target="#part-2-sweep-k">Part 2: Sweep K</a></li>
-  <li><a href="#part-3-the-error-rate-is-hiding-something" id="toc-part-3-the-error-rate-is-hiding-something" class="nav-link" data-scroll-target="#part-3-the-error-rate-is-hiding-something">Part 3: The error rate is hiding something</a></li>
+  <li><a href="#part-2-tune-k" id="toc-part-2-tune-k" class="nav-link" data-scroll-target="#part-2-tune-k">Part 2: Tune K</a></li>
+  <li><a href="#part-3" id="toc-part-3" class="nav-link" data-scroll-target="#part-3">Part 3:</a></li>
   <li><a href="#if-you-finish-early" id="toc-if-you-finish-early" class="nav-link" data-scroll-target="#if-you-finish-early">If you finish early</a></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/04-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -600,7 +600,7 @@ window.Quarto = {
 
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="3b31f260" class="cell" data-execution_count="1">
+<div id="7baf7193" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -624,7 +624,6 @@ window.Quarto = {
 </div>
 <div class="question">
 <p>That number is the proportion of the test set that defaulted. If you predicted “no default” for every single person, what would your error rate be?</p>
-<p>Write it down. It is the bar every model today has to clear.</p>
 </div>
 <div class="answer-space">
 
@@ -632,14 +631,14 @@ window.Quarto = {
 </section>
 <section id="part-1-forget-to-scale" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-forget-to-scale">Part 1: Forget to scale</h2>
-<div id="1c5d35d1" class="cell" data-execution_count="2">
+<div id="0f564e5d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>unscaled <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">25</span>).fit(X_train, y_train)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(<span class="dv">1</span> <span class="op">-</span> unscaled.score(X_test, y_test), <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>0.0333</code></pre>
 </div>
 </div>
-<div id="0e5327aa" class="cell" data-execution_count="3">
+<div id="80ecb787" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scaled <span class="op">=</span> make_pipeline(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    StandardScaler(), KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">25</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>).fit(X_train, y_train)</span>
@@ -652,15 +651,15 @@ window.Quarto = {
 <ol type="1">
 <li>Which did better?<br>
 </li>
-<li>The unscaled error should look familiar. Compare it to the number you wrote down above. What is the unscaled model actually predicting?<br>
+<li>The unscaled error should look familiar. Compare it to the number above. What is the unscaled model actually predicting?<br>
 </li>
 </ol>
 </div>
 <div class="answer-space">
 
 </div>
-<p>Now look at the units.</p>
-<div id="9e1d0194" class="cell" data-execution_count="4">
+<p>Now let’s look at the units.</p>
+<div id="3277730a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X.describe().loc[[<span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"std"</span>]].<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
@@ -703,9 +702,9 @@ window.Quarto = {
 
 </div>
 </section>
-<section id="part-2-sweep-k" class="level2">
-<h2 class="anchored" data-anchor-id="part-2-sweep-k">Part 2: Sweep K</h2>
-<div id="96234fe1" class="cell" data-execution_count="5">
+<section id="part-2-tune-k" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-tune-k">Part 2: Tune K</h2>
+<div id="c95cab55" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ks <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>train_err, test_err <span class="op">=</span> [], []</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -792,19 +791,19 @@ window.Quarto = {
 </div>
 <div class="question">
 <ol type="1">
-<li>What is the training error at <span class="math inline">\(K = 1\)</span>? Why is that value guaranteed before you run anything?<br>
+<li>What is the training error at <span class="math inline">\(K = 1\)</span>? Why could we know that value before running anything?<br>
 </li>
 <li>Which <span class="math inline">\(K\)</span> minimizes test error?<br>
 </li>
-<li>What happens to test error at very large <span class="math inline">\(K\)</span>, and why?<br>
+<li>What happens to test error at very large <span class="math inline">\(K\)</span>? Why?<br>
 </li>
 </ol>
 </div>
 <div class="answer-space">
 
 </div>
-<p>Plot it against <span class="math inline">\(1/K\)</span> so that flexibility increases left to right.</p>
-<div id="eb81cb14" class="cell" data-execution_count="6">
+<p>Plot against <span class="math inline">\(1/K\)</span> so that flexibility increases left to right.</p>
+<div id="9bb7f30f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">1</span> <span class="op">/</span> k <span class="cf">for</span> k <span class="kw">in</span> ks], train_err, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#595959"</span>, label<span class="op">=</span><span class="st">"Training"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">1</span> <span class="op">/</span> k <span class="cf">for</span> k <span class="kw">in</span> ks], test_err, <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>, label<span class="op">=</span><span class="st">"Test"</span>)</span>
@@ -821,17 +820,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div class="question">
-<p>Compare the shape of your curves to Figure 2.17 in the textbook. Where do they agree, and where does real data refuse to look like the textbook?</p>
-</div>
-<div class="answer-space">
-
-</div>
 </section>
-<section id="part-3-the-error-rate-is-hiding-something" class="level2">
-<h2 class="anchored" data-anchor-id="part-3-the-error-rate-is-hiding-something">Part 3: The error rate is hiding something</h2>
-<p>The bank cannot contact everyone. Suppose they will reach out to the 100 customers the model considers most at risk.</p>
-<div id="1b35ecd3" class="cell" data-execution_count="7">
+<section id="part-3" class="level2">
+<h2 class="anchored" data-anchor-id="part-3">Part 3:</h2>
+<p>Suppose a bank decides they will reach out to the 100 customers the model considers most at risk.</p>
+<div id="966468cb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> make_pipeline(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    StandardScaler(), KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">25</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>).fit(X_train, y_train)</span>
@@ -849,7 +842,7 @@ window.Quarto = {
 </li>
 <li>Compare that to the overall default rate in the test set. How many times better than random is the model at finding defaulters?<br>
 </li>
-<li>The model’s error rate was only slightly better than “predict no for everyone.” Yet this number is dramatically better than chance. How can both be true?<br>
+<li>The model’s error rate was only slightly better than “predict no for everyone.” Yet this number is much better than chance. How can both be true?<br>
 </li>
 </ol>
 </div>
@@ -857,14 +850,14 @@ window.Quarto = {
 
 </div>
 <div class="takeaway">
-<p>A classifier that is mediocre at <em>labelling</em> can be excellent at <em>ranking</em>. On October 2 we will replace the error rate with measures that can tell the difference.</p>
+<p>A classifier that is bad at <em>labelling</em> may be excellent at <em>ranking</em>. Soon we will learn other measures that differentiate these.</p>
 </div>
 </section>
 <section id="if-you-finish-early" class="level2">
 <h2 class="anchored" data-anchor-id="if-you-finish-early">If you finish early</h2>
 <p>Add <code>student</code> as a third predictor. It is categorical, so you will need to encode it as 0/1 first.</p>
 <div class="question">
-<p>Does it help? Should it be scaled along with the others? Defend your answer.</p>
+<p>Does it help? Should it be scaled along with the others?</p>
 </div>
 <p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.</em></p>
 
