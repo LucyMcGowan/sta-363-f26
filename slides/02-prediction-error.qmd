@@ -60,9 +60,9 @@ $$Y = f(X) + \varepsilon$$
 DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"  # <1>
 Auto = pd.read_csv(DATA + "Auto.csv")  # <2>
 ```
-1. `DATA` is the base URL for the raw CSV files in the course's GitHub
+1. `DATA` is the base URL for the raw CSV files in the course's GitHub  
    repository.
-2. `pd.read_csv` reads the file at `DATA + "Auto.csv"` and returns a
+2. `pd.read_csv` reads the file at `DATA + "Auto.csv"` and returns a  
    `DataFrame`, assigned to `Auto`.
 
 **3.** Plot `mpg` against `horsepower`:
@@ -71,13 +71,14 @@ Auto = pd.read_csv(DATA + "Auto.csv")  # <2>
 #| eval: false
 plt.scatter(Auto["horsepower"], Auto["____"])  # <1>
 ```
-1. `plt.scatter(x, y)` draws a point for every row, from two array
+1. `plt.scatter(x, y)` draws a point for every row, from two array  
    arguments. `Auto["horsepower"]` supplies the x-axis. Fill in the blank
    with `"mpg"`, the response column named above, to supply the y-axis.
 
 ::: {.fragment}
 ::: {.question}
-Would a straight line describe this relationship?
+Would a straight line be a good description of this relationship? What
+shape do you see?
 :::
 :::
 
@@ -212,11 +213,11 @@ def f(x):
 x = rng.uniform(-3, 3, 200)  # <2>
 y = f(x) + rng.normal(0, 0.6, 200)  # <3>
 ```
-1. `f` is the true, otherwise-unknown regression function: `np.sin(2 * x) +
+1. `f` is the true, otherwise-unknown regression function: `np.sin(2 * x) +  
    0.3 * x**2`, combining a sine wave with a quadratic term.
-2. `rng.uniform(-3, 3, 200)` draws 200 values from a uniform distribution on
+2. `rng.uniform(-3, 3, 200)` draws 200 values from a uniform distribution on  
    the interval [-3, 3], assigned to `x`.
-3. `y` evaluates `f(x)` and adds `rng.normal(0, 0.6, 200)`, 200 draws of
+3. `y` evaluates `f(x)` and adds `rng.normal(0, 0.6, 200)`, 200 draws of  
    mean zero Gaussian noise with standard deviation 0.6: $Y = f(X) +
    \varepsilon$ in code.
 
@@ -275,9 +276,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 x_train.shape, x_test.shape
 ```
-1. `train_test_split` is scikit-learn's function for randomly partitioning
+1. `train_test_split` is scikit-learn's function for randomly partitioning  
    arrays into training and test subsets.
-2. Called on `x` and `y`. `test_size=0.5` holds out half of the 200
+2. Called on `x` and `y`. `test_size=0.5` holds out half of the 200  
    observations for testing, and `random_state=363` fixes the shuffle so
    the split is identical every time the deck renders. The four returned
    arrays are unpacked into `x_train`, `x_test`, `y_train`, `y_test`.
@@ -296,14 +297,14 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=____, random_state=363  # <1>
 )
 ```
-1. `test_size` is the fraction of rows held out for testing; fill in the
+1. `test_size` is the fraction of rows held out for testing; fill in the  
    blank so 30% is held out. `random_state=363` fixes the shuffle, matching
    the value used throughout this exercise, so everyone gets the same
    split.
 
 ::: {.fragment}
 ::: {.question}
-Why does `random_state` matter?
+Why does `random_state` matter? What would change if you left it out?
 :::
 :::
 
@@ -324,18 +325,18 @@ for df in dfs:
     train_mse.append(mean_squared_error(y_train, model.predict(x_train.reshape(-1, 1))))  # <5>
     test_mse.append(mean_squared_error(y_test, model.predict(x_test.reshape(-1, 1))))
 ```
-1. `SplineTransformer` builds a B-spline basis expansion of a predictor,
+1. `SplineTransformer` builds a B-spline basis expansion of a predictor,  
    the tool used here for a flexible, well-conditioned curve.
-2. `dfs = range(4, 51, 4)` is the sequence of degrees of freedom to sweep:
+2. `dfs = range(4, 51, 4)` is the sequence of degrees of freedom to sweep:  
    4, 8, 12, ..., 48, from rigid to wiggly.
-3. `make_pipeline` chains two steps. `SplineTransformer(degree=3,
+3. `make_pipeline` chains two steps. `SplineTransformer(degree=3,  
    n_knots=df - 2)` builds a cubic (`degree=3`) spline basis with `df - 2`
    interior knots, giving the basis `df` total degrees of freedom.
    `LinearRegression()` then fits ordinary least squares on that basis.
-4. `model.fit(x_train.reshape(-1, 1), y_train)` fits the pipeline on the
+4. `model.fit(x_train.reshape(-1, 1), y_train)` fits the pipeline on the  
    training data only; `.reshape(-1, 1)` turns the 1-D array `x_train` into
    the 2-D shape scikit-learn expects.
-5. `mean_squared_error(y_train, model.predict(...))` computes the training
+5. `mean_squared_error(y_train, model.predict(...))` computes the training  
    MSE at this `df` and appends it to `train_mse`; the same pattern on the
    next line (not separately annotated) computes the test MSE into
    `test_mse`.
@@ -372,9 +373,19 @@ Which df would training MSE have chosen?
 #| eval: false
 pd.DataFrame({"df": dfs, "train": train_mse, "test": test_mse})  # <1>
 ```
-1. `pd.DataFrame` builds a table with one row per value in `dfs` and
+1. `pd.DataFrame` builds a table with one row per value in `dfs` and  
    columns `df`, `train`, `test` taken from the three lists computed in the
    loop.
+
+::: {.fragment}
+::: {.question}
+1. Which `df` minimizes **training** MSE? Is that surprising?  
+2. Which `df` minimizes **test** MSE?  
+
+At which `df` do the two columns start to disagree about the direction of
+improvement? What is happening there?
+:::
+:::
 
 **3.** Plot it:
 
@@ -384,14 +395,16 @@ plt.plot(dfs, train_mse, "-o", label="Training MSE")  # <1>
 plt.plot(dfs, test_mse, "-o", label="Test MSE")  # <2>
 plt.legend()
 ```
-1. `plt.plot(dfs, train_mse, "-o", ...)` plots training MSE against `df`,
+1. `plt.plot(dfs, train_mse, "-o", ...)` plots training MSE against `df`,  
    with `"-o"` drawing a line with a circular marker at each point.
-2. The same call on `test_mse` draws a second line on the same axes, so the
+2. The same call on `test_mse` draws a second line on the same axes, so the  
    two curves can be compared directly.
 
 ::: {.fragment}
 ::: {.question}
-Which panel of Figures 2.9 to 2.11 does `Auto` resemble?
+Compare this to Figure 2.9 in the textbook. Which of the three panels
+(Figures 2.9, 2.10, 2.11) does the `Auto` data most resemble? What does
+that tell you about the true $f$?
 :::
 :::
 
@@ -422,21 +435,22 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=____  # <1>
 )
 ```
-1. `random_state` controls the random shuffle used to form the split;
+1. `random_state` controls the random shuffle used to form the split;  
    re-run this cell with it set to 1, then 2, then 3 in place of the blank,
    keeping `test_size=0.3` fixed, to see how much the split itself changes
    the answer.
 
 ::: {.fragment}
 ::: {.question}
-How much did the best df move across splits?
+How much did your answer move? If a colleague reported "the best model has
+20 degrees of freedom" based on one split, how much would you trust them?
 :::
 :::
 
 ## Toward cross-validation
 
 ::: {.takeaway}
-One split, one answer. A different split can point to a different df.
+A different split can give a different answer.
 :::
 
 ::: {.fragment}
@@ -448,8 +462,8 @@ How would you get a more stable answer than a single split?
 ## Application exercise 2
 
 ::: {.takeaway}
-Split `Auto`, compared training and test MSE across spline degrees of freedom, and
-checked how much the answer moved across random splits.
+Split `Auto`, compared training and test MSE across spline degrees of
+freedom, and checked how much the answer moved across random splits.
 :::
 
 ## Before Wednesday

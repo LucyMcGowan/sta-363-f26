@@ -74,12 +74,12 @@ n, p = 100, 2000  # <1>
 X = rng.normal(size=(n, p))  # <2>
 y = rng.integers(0, 2, size=n)  # <3>
 ```
-1. `n` is 100 rows and `p` is 2000 predictor columns, an unusually
+1. `n` is 100 rows and `p` is 2000 predictor columns, an unusually  
    wide data set on purpose.
-2. `rng.normal(size=(n, p))` draws a 100 by 2000 array of standard normal
+2. `rng.normal(size=(n, p))` draws a 100 by 2000 array of standard normal  
    noise, assigned to `X`; none of these columns are constructed to relate
    to `y`.
-3. `rng.integers(0, 2, size=n)` draws 100 values from {0, 1}, a random two
+3. `rng.integers(0, 2, size=n)` draws 100 values from {0, 1}, a random two  
    class label with no relationship to any column of `X`.
 
 ::: {.fragment}
@@ -102,18 +102,18 @@ cv = StratifiedKFold(5, shuffle=True, random_state=363)  # <4>
 leaky = cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)  # <5>
 float(leaky.mean().round(3))
 ```
-1. `SelectKBest` ranks predictors by a scoring function and keeps the top
+1. `SelectKBest` ranks predictors by a scoring function and keeps the top  
    `k`; `f_classif` is the ANOVA F-statistic between each column of `X` and
    the class label `y`.
-2. `SelectKBest(f_classif, k=20).fit(X, y)` scores all 2000 columns against
+2. `SelectKBest(f_classif, k=20).fit(X, y)` scores all 2000 columns against  
    the full `y` and keeps the top 20; `.get_support()` returns a boolean
    mask of which columns were kept, assigned to `keep`. Fitting on the full
    `X` and `y` before any split is the leak.
-3. `X[:, keep]` uses that boolean mask to select only the 20 chosen
+3. `X[:, keep]` uses that boolean mask to select only the 20 chosen  
    columns, assigned to `X_kept`.
-4. `StratifiedKFold(5, shuffle=True, random_state=363)` builds 5 folds that
+4. `StratifiedKFold(5, shuffle=True, random_state=363)` builds 5 folds that  
    preserve the class proportions of `y` in each fold.
-5. `cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)`
+5. `cross_val_score(KNeighborsClassifier(5), X_kept, y, cv=cv)`  
    cross-validates a 5-nearest-neighbors classifier on `X_kept`, the
    already-selected columns, so every fold's "test" data already
    influenced which columns were chosen.
@@ -137,10 +137,10 @@ pipe = Pipeline([
 honest = cross_val_score(pipe, X, y, cv=cv)  # <2>
 float(honest.mean().round(3))
 ```
-1. `Pipeline` takes a list of (name, step) pairs. `SelectKBest(f_classif,
+1. `Pipeline` takes a list of (name, step) pairs. `SelectKBest(f_classif,  
    k=20)` is now the `"select"` step inside the pipeline, so scikit-learn
    refits it on each training fold alone rather than on the full data.
-2. `cross_val_score(pipe, X, y, cv=cv)` cross-validates the whole `pipe`
+2. `cross_val_score(pipe, X, y, cv=cv)` cross-validates the whole `pipe`  
    object, so `SelectKBest` and `KNeighborsClassifier(5)` are both refit
    from scratch on each fold's training rows, exactly like `leaky` above
    but with the selection step properly inside the loop.
@@ -178,15 +178,15 @@ prep = ColumnTransformer([
 ])
 prep
 ```
-1. `ColumnTransformer` applies a different transformer to a different
+1. `ColumnTransformer` applies a different transformer to a different  
    subset of columns, then concatenates the results into one array.
-2. `num` lists the four numeric predictor column names that will be
+2. `num` lists the four numeric predictor column names that will be  
    scaled.
-3. `cat` lists the three categorical predictor column names that will be
+3. `cat` lists the three categorical predictor column names that will be  
    encoded.
-4. The `"num"` step applies `StandardScaler()`, centering and scaling to
+4. The `"num"` step applies `StandardScaler()`, centering and scaling to  
    mean 0 and standard deviation 1, to the columns named in `num`.
-5. The `"cat"` step applies `OneHotEncoder(drop="first")` to the columns
+5. The `"cat"` step applies `OneHotEncoder(drop="first")` to the columns  
    named in `cat`, creating a 0/1 indicator column for every category
    except one (`drop="first"`), which avoids a redundant, perfectly
    collinear column.
@@ -224,18 +224,46 @@ prep = ColumnTransformer([
 
 full = Pipeline([("prep", prep), ("knn", KNeighborsRegressor(5))])  # <4>
 ```
-1. `SimpleImputer(strategy="median")` replaces missing values in a numeric
+1. `SimpleImputer(strategy="median")` replaces missing values in a numeric  
    column with that column's median, computed only from the training fold
    it is fit on.
-2. `("scale", StandardScaler())` runs second, so scaling happens after
+2. `("scale", StandardScaler())` runs second, so scaling happens after  
    imputation fills the gaps, still learned from the training fold alone.
-3. `OneHotEncoder(drop="first", handle_unknown="ignore")` adds
+3. `OneHotEncoder(drop="first", handle_unknown="ignore")` adds  
    `handle_unknown="ignore"` so a category value seen in a test fold but
    never seen while fitting on the training fold produces all zero
    indicator columns instead of raising an error.
-4. `full` chains the entire `prep` (imputation, scaling, and encoding) with
+4. `full` chains the entire `prep` (imputation, scaling, and encoding) with  
    `KNeighborsRegressor(5)` into a single estimator, so calling `.fit` on
    `full` fits every preprocessing step and the model together.
+
+## Application exercise 6, notebook A {.small}
+
+**1.** Go to [Google Colab](https://colab.research.google.com)
+
+**2.** An analyst predicts `Balance` from four numeric predictors. Thirty
+percent of `Income` is missing, so they fill it in and standardize before
+doing anything else, then cross-validate.
+
+::: {.question}
+Two things were estimated from the data before cross-validation started.
+Name both.
+:::
+
+## Application exercise 6, notebook A {.small}
+
+::: {.question}
+Rewrite this as a single `Pipeline` with three steps so that both are
+learned inside each fold. Report the honest MSE.
+:::
+
+## Application exercise 6, notebook A {.small}
+
+::: {.question}
+The two numbers are close. Does that make the original code acceptable?
+Explain what you would have to know in advance to be confident the
+difference was small.
+:::
 
 ## GridSearchCV {.small}
 
@@ -251,16 +279,16 @@ grid = GridSearchCV(
 grid.fit(Credit[num + cat], Credit["Balance"])  # <4>
 grid.best_params_
 ```
-1. `GridSearchCV` cross-validates the estimator once per combination of
+1. `GridSearchCV` cross-validates the estimator once per combination of  
    parameter values it is given, and reports the best one.
-2. `{"knn__n_neighbors": [1, 5, 10, 25, 50]}` is the grid of candidate `K`
+2. `{"knn__n_neighbors": [1, 5, 10, 25, 50]}` is the grid of candidate `K`  
    values for the `"knn"` step of `full`; the double underscore in
    `knn__n_neighbors` reaches into that named step's `n_neighbors`
    parameter.
-3. `cv=KFold(5, shuffle=True, random_state=363)` runs 5-fold CV, refitting
+3. `cv=KFold(5, shuffle=True, random_state=363)` runs 5-fold CV, refitting  
    `full`, imputation and scaling included, on each training fold for every
    candidate `K`.
-4. `grid.fit(Credit[num + cat], Credit["Balance"])` runs the full search on
+4. `grid.fit(Credit[num + cat], Credit["Balance"])` runs the full search on  
    the numeric and categorical predictor columns against the response
    `Credit["Balance"]`.
 
@@ -286,6 +314,114 @@ CV accuracy 0.88, test accuracy 0.81. Which do you report?
 :::
 :::
 
+## Repeated measures {.small}
+
+::: {.definition}
+Repeated measurements on the same subject are correlated with each other,
+not independent draws. A random split can put one subject's rows in both
+the training fold and the test fold.
+:::
+
+::: {.fragment}
+::: {.takeaway}
+A nearest-neighbor model can then "recognize" the subject, since its
+near-duplicate points sit right there in the training data, instead of
+generalizing to a subject it has never seen.
+:::
+:::
+
+## GroupKFold {.small}
+
+::: {.takeaway}
+`GroupKFold` folds on the group label, not the row: every row from a
+given subject lands entirely in the training set or entirely in the test
+set, never split between them.
+:::
+
+::: {.fragment}
+::: {.takeaway}
+Pass it a `groups` array, one label per row, `patient_id` here. The fold
+assignment respects that label instead of splitting row by row.
+:::
+:::
+
+## Application exercise 6, notebook B {.small}
+
+**1.** Go to [Google Colab](https://colab.research.google.com)
+
+**2.** A clinic measures each patient at five visits and predicts a
+functional score from BMI and blood pressure with a scaled KNN pipeline.
+
+::: {.question}
+Look at the first six rows. What do you notice about the predictor
+values within a single patient?
+:::
+
+## Application exercise 6, notebook B {.small}
+
+::: {.question}
+When a visit lands in the held-out fold, where are its nearest
+neighbors likely to be? What is the model actually recognizing?
+:::
+
+## Application exercise 6, notebook B {.small}
+
+::: {.question}
+The model is meant to be used on **new patients**. Re-run the
+cross-validation with `GroupKFold(5)` and `groups=visits["patient_id"]`.
+Report the honest $R^2$.
+:::
+
+## Application exercise 6, notebook B {.small}
+
+::: {.question}
+The honest $R^2$ is negative. What does a negative $R^2$ mean, and what
+would have been a better prediction rule for a new patient?
+:::
+
+## Look-ahead leakage {.small}
+
+::: {.definition}
+A predictor recorded after the outcome can look powerful in
+cross-validation and be useless at prediction time, since it is a
+consequence of the outcome rather than something known when the
+prediction is needed.
+:::
+
+::: {.fragment}
+::: {.takeaway}
+The question is not "is this correlated with the outcome." It is "would I
+have this value at the moment I need to make the prediction."
+:::
+:::
+
+## Application exercise 6, notebook C {.small}
+
+**1.** Go to [Google Colab](https://colab.research.google.com)
+
+**2.** Here the code is correct: pipeline, stratified folds, all learned
+on the training fold. Read the data dictionary before you trust the AUC.
+
+::: {.question}
+Every learned step is inside a pipeline and the folds are stratified. So
+why is this result still worthless?
+:::
+
+## Application exercise 6, notebook C {.small}
+
+::: {.question}
+2. Which column is the problem? Point to the row of the data dictionary that gives it away.  
+3. Drop it, re-run, and report the honest AUC.  
+:::
+
+## Application exercise 6, notebook C {.small}
+
+::: {.question}
+The model is meant to run the moment a patient is discharged, so a nurse
+can decide who to call tonight. Which of the five predictors are
+available at that moment?
+:::
+
 ## Leakage checklist {.small}
 
 ::: {.nonincremental}
@@ -293,6 +429,18 @@ CV accuracy 0.88, test accuracy 0.81. Which do you report?
 * Is every learned transformation inside the pipeline?  
 * Does any predictor record something measured after the outcome?  
 * If the data have groups or a time order, does the split respect them?  
+:::
+
+## Application exercise 6, wrap-up {.small}
+
+::: {.question}
+Fill in this table from what you found today.
+
+| Notebook | Kind of leak | How big was it? | What catches it? |
+|---|---|---|---|
+| A | | | |
+| B | | | |
+| C | | | |
 :::
 
 ## Application exercise 6

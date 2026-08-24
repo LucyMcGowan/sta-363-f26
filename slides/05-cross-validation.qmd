@@ -40,8 +40,7 @@ rng = np.random.default_rng(363)
 ## Review
 
 ::: {.takeaway}
-Test MSE is the quantity we want. One train and test split estimates it noisily,
-and costs us data.
+Test MSE is the quantity we want. One train and test split estimates it noisily, and costs us data.
 :::
 
 ::: {.fragment}
@@ -110,6 +109,34 @@ iterative_latex(
 )
 ```
 
+## LOOCV looks expensive
+
+::: {.takeaway}
+With $n$ observations we fit $n$ models. For regression fit using least squares, there is a shortcut avoids refitting
+entirely.
+:::
+
+```{python}
+#| output: asis
+#| echo: false
+iterative_latex(
+    "The LOOCV shortcut",
+    r"\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - \hat{y}_i}{1 - h_i}\right)^2",
+    highlights=[
+        r"\hat{y}_i",
+        r"h_i",
+    ],
+    explanations=[
+        "The fitted value from the single model fit on all $n$ observations. No refitting.",
+        "The leverage of observation $i$: how much that point influences its own fit. Dividing by $1 - h_i$ inflates high-leverage residuals by exactly enough to match what leaving that point out would have given.",
+    ],
+)
+```
+
+::: {.takeaway}
+We'll come back to this to define $h_i$ in the linear regression section
+:::
+
 ## k-fold cross-validation
 
 ![](img/islp/fig5_5.png){fig-align="center" width="78%"}
@@ -141,90 +168,206 @@ ISLP Figure 5.6. True test MSE in blue, LOOCV as a black dashed line, and
 10-fold CV in orange, for the data of Figures 2.9 to 2.11.
 :::
 
-::: {.fragment}
-::: {.takeaway}
-CV can miss the level. It finds the location of the minimum.
+
+
+## Choosing k: bias {.small}
+
+::: {.incremental}
+* LOOCV trains on $n - 1$ points: almost the whole data set, so almost no bias  
+* $k$-fold trains on about $(k-1)n/k$ points: fewer, so a little more bias  
+* The validation set approach trains on about half: the most bias of the three  
 :::
-:::
-
-## Choosing k {.small}
-
-:::: {.columns}
-
-::: {.column width="50%"}
-### LOOCV
-
-Low bias, since each fit uses $n-1$ points.
-
-High variance, since the $n$ fits are nearly identical and their errors are
-correlated.
-:::
-
-::: {.column width="50%"}
-### $k = 5$ or $k = 10$
-
-A little bias.
-
-Lower variance.
-
-$k$ fits rather than $n$.
-:::
-
-::::
 
 ::: {.fragment}
 ::: {.takeaway}
-Bias and variance, applied to the estimator itself.
+By bias alone, LOOCV wins.
+:::
+:::
+
+## Choosing k: variance {.small}
+
+::: {.takeaway}
+LOOCV's $n$ fits are trained on nearly identical data, so their errors are
+highly correlated. Averaging correlated quantities does not shrink
+variance the way averaging independent ones does.
+:::
+
+::: {.fragment}
+::: {.takeaway}
+$k$-fold's fits overlap less, so their errors correlate less, and the
+average is more stable. In practice $k = 5$ or $k = 10$ balances both.
 :::
 :::
 
 # In Python {.center}
 
-## cross_val_score {.small}
+## One K, many folds {.small}
 
 ```{python}
-DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
-from sklearn.model_selection import cross_val_score, KFold  # <1>
-from sklearn.preprocessing import PolynomialFeatures, StandardScaler
-from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score, StratifiedKFold  # <1>
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
-Auto = pd.read_csv(DATA + "Auto.csv")
-X = Auto[["horsepower"]]
-y = Auto["mpg"]
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Default = pd.read_csv(DATA + "Default.csv")
+X = Default[["balance", "income"]]
+y = (Default["default"] == "Yes").astype(int)
 
-model = make_pipeline(StandardScaler(), PolynomialFeatures(2), LinearRegression())  # <2>
-cv = KFold(n_splits=10, shuffle=True, random_state=363)  # <3>
-scores = -cross_val_score(model, X, y, cv=cv, scoring="neg_mean_squared_error")  # <4>
-scores.round(2)
+cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=363)  # <2>
+model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=25))  # <3>
+scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")  # <4>
+scores.round(4)
 ```
-1. `cross_val_score` runs the whole cross-validation loop, fitting and
-   scoring once per fold; `KFold` is the object that defines how the folds
-   are built.
-2. `make_pipeline` chains `StandardScaler()`, `PolynomialFeatures(2)`
-   (degree 2 polynomial terms of `horsepower`), and `LinearRegression()`
-   into one estimator, assigned to `model`.
-3. `KFold(n_splits=10, shuffle=True, random_state=363)` builds 10 folds;
-   `shuffle=True` randomizes row order before splitting, and
-   `random_state=363` fixes that shuffle.
-4. `cross_val_score(model, X, y, cv=cv, scoring="neg_mean_squared_error")`
-   returns one score per fold. scikit-learn's scorers are defined so that
-   higher is better, so MSE is reported negative; the leading `-` flips it
-   back to ordinary (positive) MSE, assigned to `scores`.
+1. `cross_val_score` runs the CV loop; `StratifiedKFold` builds folds that  
+   preserve the class balance, which matters here since defaults are rare.
+2. 10 folds, shuffled before splitting, with a fixed `random_state` so the  
+   fold assignment is reproducible.
+3. The same scaled KNN pipeline from Meeting 4, with $K = 25$.  
+4. One accuracy score per fold, ten numbers back.  
+
+## Application exercise 5, part 1 {.small}
+
+**1.** Go to [Google Colab](https://colab.research.google.com)
+
+**2.** Notice that we are not splitting. Cross-validation will do the
+splitting for us. Run the cell above, then compute:
+
+```{python}
+#| eval: false
+scores.mean(), scores.std()
+```
+
+::: {.question}
+1. Why are there ten numbers?  
+2. What does each one represent?  
+3. Compute the mean and the standard deviation. What does the standard
+deviation tell you that the mean does not?
+:::
+
+
+## Trying different K with cross-validation {.small}
+
+```{python}
+ks = [1, 3, 5, 10, 25, 50, 100, 200, 500]
+cv_err = []
+
+for k in ks:
+    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))
+    cv_err.append(1 - cross_val_score(m, X, y, cv=cv, scoring="accuracy").mean())
+
+pd.DataFrame({"K": ks, "cv_error": cv_err}).round(4)
+```
+
+
+
+## Application exercise 5, part 2
+
+::: {.question}
+Which $K$ does cross-validation choose? Is it the same one your single split chose on Friday?
+:::
+
+## Stability across seeds {.small}
+
+```{python}
+#| echo: false
+#| fig-align: center
+fig, ax = plt.subplots(figsize=(7.2, 3.5))
+best_ks = []
+
+for seed in range(9):
+    cv_s = StratifiedKFold(n_splits=10, shuffle=True, random_state=seed)
+    curve = [
+        1 - cross_val_score(
+            make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k)),
+            X, y, cv=cv_s, scoring="accuracy"
+        ).mean()
+        for k in ks
+    ]
+    best_ks.append(ks[int(np.argmin(curve))])
+    ax.plot([1 / k for k in ks], curve, color="#d5008f", alpha=0.6)
+
+ax.set_xscale("log")
+ax.set_xlabel("1/K")
+ax.set_ylabel("10-fold CV error")
+plt.show()
+```
+
+::: {.source}
+Nine runs, each with a different fold assignment. `best_ks` records the
+minimizing $K$ from each run.
+:::
+
+## Application exercise 5, part 3 {.small}
+
+::: {.question}
+1. How much do the nine curves differ?  
+2. How many distinct values of $K$ were chosen across the nine runs?  
+:::
+
+## Application exercise 5, part 3 {.small}
+
+::: {.question}
+Go back to Friday's exercise and do the same thing with nine single
+splits. Which procedure is more stable?
+:::
+
+## cross_val_score for regression {.small}
+
+```{python}
+#| output-location: column-fragment
+#| layout: [[80], [20]]
+from sklearn.preprocessing import PolynomialFeatures  # <1>
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import KFold
+
+Auto = pd.read_csv(DATA + "Auto.csv")
+Xa, ya = Auto[["horsepower"]], Auto["mpg"]
+
+cv_reg = KFold(n_splits=10, shuffle=True, random_state=363)  # <2>
+degrees = range(1, 11)
+mse = [
+    -cross_val_score(
+        make_pipeline(StandardScaler(), PolynomialFeatures(d), LinearRegression()),
+        Xa, ya, cv=cv_reg, scoring="neg_mean_squared_error"
+    ).mean()
+    for d in degrees
+]  # <3>
+pd.DataFrame({"degree": degrees, "cv_mse": mse}).round(2)
+```
+1. A plain `KFold` replaces `StratifiedKFold`: `mpg` is quantitative, so  
+   there is no class balance to preserve.
+2. Same 10-fold structure as the previous example, different  
+   `cv` object because the target is different.
+3. The only change from a single `.fit`/`.score` is wrapping the model in  
+   `cross_val_score` and negating, exactly as before.
+
+## Application exercise 5, part 4 {.small}
+
+::: {.question}
+1. Which degree has the smallest CV MSE?  
+2. How much better is it than degree 2?  
+:::
+
+## Application exercise 5, part 4 {.small}
+
+::: {.question}
+If the difference between them is smaller than the fold-to-fold
+variability, which would you actually ship? Why?
+:::
 
 ## Stability of 10-fold CV {.small}
 
 ```{python}
 #| echo: false
 #| fig-align: center
-degrees = range(1, 11)
 fig, ax = plt.subplots(figsize=(7.2, 3.5))
 for r in range(9):
     cv_r = KFold(n_splits=10, shuffle=True, random_state=r)
     curve = [
         -cross_val_score(
             make_pipeline(StandardScaler(), PolynomialFeatures(d), LinearRegression()),
-            X, y, cv=cv_r, scoring="neg_mean_squared_error"
+            Xa, ya, cv=cv_r, scoring="neg_mean_squared_error"
         ).mean()
         for d in degrees
     ]
@@ -237,40 +380,27 @@ plt.show()
 
 ::: {.source}
 Nine runs of 10-fold CV on `Auto`, differing only in the fold assignment.
+Steadier than the nine single-split curves from Friday.
 :::
 
-## CV for classification
+## Application exercise 5, part 5 {.small}
 
-::: {.takeaway}
-Replace MSE with the error rate. Nothing else changes.
-:::
+::: {.question}
+In Part 1 you put `StandardScaler` inside `make_pipeline` rather than
+scaling `X` beforehand. Suppose you had instead written
 
-::: {.fragment}
-```{python}
-#| eval: false
-cross_val_score(model, X, y, cv=cv, scoring="accuracy")  # <1>
+```python
+X_scaled = StandardScaler().fit_transform(X)
+cross_val_score(KNeighborsClassifier(25), X_scaled, y, cv=cv)
 ```
-1. The only change from the regression call above is `scoring="accuracy"`
-   in place of `scoring="neg_mean_squared_error"`; `model`, `X`, `y`, and
-   `cv` are reused exactly as defined earlier.
+
+Would that give the same answer? Would it be *correct*?
 :::
 
-## Application exercise 5
-
-::: {.takeaway}
-Using cross-validation to choose $K$ for KNN, and comparing the answer to
-Friday's single split.
-:::
 
 ## Before Friday
 
 ::: {.nonincremental}
 * Read ISLP Section 5.1.4  
 * Problem set 2 due Friday  
-:::
-
-::: {.fragment}
-::: {.question}
-You scale your predictors, then cross-validate. Is that fine?
-:::
 :::
