@@ -49,37 +49,10 @@ $$Y = f(X) + \varepsilon$$
 * We check whether $\hat{f}(X)$ is close to $Y$.  
 :::
 
-## Application exercise 2, part 1 {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** Read in the data:
-
-```{python}
-#| eval: false
-DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"  # <1>
-Auto = pd.read_csv(DATA + "Auto.csv")  # <2>
-```
-1. `DATA` is the base URL for the raw CSV files in the course's GitHub  
-   repository.
-2. `pd.read_csv` reads the file at `DATA + "Auto.csv"` and returns a  
-   `DataFrame`, assigned to `Auto`.
-
-**3.** Plot `mpg` against `horsepower`:
-
-```{python}
-#| eval: false
-plt.scatter(Auto["horsepower"], Auto["____"])  # <1>
-```
-1. `plt.scatter(x, y)` draws a point for every row, from two array  
-   arguments. `Auto["horsepower"]` supplies the x-axis. Fill in the blank
-   with `"mpg"`, the response column named above, to supply the y-axis.
-
-::: {.fragment}
-::: {.question}
-Would a straight line be a good description of this relationship? What
-shape do you see?
-:::
+::: {.takeaway}
+Complete Part 1. [ex/02-ex](../ex/02-ex.qmd)
 :::
 
 ```{python}
@@ -283,29 +256,10 @@ x_train.shape, x_test.shape
    the split is identical every time the deck renders. The four returned
    arrays are unpacked into `x_train`, `x_test`, `y_train`, `y_test`.
 
-## Application exercise 2, part 2 {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** Split the data so 30% is held out:
-
-```{python}
-#| eval: false
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=____, random_state=363  # <1>
-)
-```
-1. `test_size` is the fraction of rows held out for testing; fill in the  
-   blank so 30% is held out. `random_state=363` fixes the shuffle, matching
-   the value used throughout this exercise, so everyone gets the same
-   split.
-
-::: {.fragment}
-::: {.question}
-Why does `random_state` matter? What would change if you left it out?
-:::
+::: {.takeaway}
+Complete Part 2. [ex/02-ex](../ex/02-ex.qmd)
 :::
 
 ## Spline fits {.small}
@@ -363,49 +317,10 @@ Which df would training MSE have chosen?
 :::
 :::
 
-## Application exercise 2, parts 3-4 {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** Fit a spline with df 4 to 24 on `Auto`, same loop as the demo, then table it:
-
-```{python}
-#| eval: false
-pd.DataFrame({"df": dfs, "train": train_mse, "test": test_mse})  # <1>
-```
-1. `pd.DataFrame` builds a table with one row per value in `dfs` and  
-   columns `df`, `train`, `test` taken from the three lists computed in the
-   loop.
-
-::: {.fragment}
-::: {.question}
-1. Which `df` minimizes **training** MSE? Is that surprising?  
-2. Which `df` minimizes **test** MSE?  
-
-At which `df` do the two columns start to disagree about the direction of
-improvement? What is happening there?
-:::
-:::
-
-**3.** Plot it:
-
-```{python}
-#| eval: false
-plt.plot(dfs, train_mse, "-o", label="Training MSE")  # <1>
-plt.plot(dfs, test_mse, "-o", label="Test MSE")  # <2>
-plt.legend()
-```
-1. `plt.plot(dfs, train_mse, "-o", ...)` plots training MSE against `df`,  
-   with `"-o"` drawing a line with a circular marker at each point.
-2. The same call on `test_mse` draws a second line on the same axes, so the  
-   two curves can be compared directly.
-
-::: {.fragment}
-::: {.question}
-Compare this to Figure 2.9 in the textbook. Which of the three panels
-(Figures 2.9, 2.10, 2.11) does the `Auto` data most resemble? What does
-that tell you about the true $f$?
-:::
+::: {.takeaway}
+Complete Parts 3-4. [ex/02-ex](../ex/02-ex.qmd)
 :::
 
 ## The validation set approach
@@ -423,28 +338,10 @@ What could go wrong with step 1?
 :::
 :::
 
-## Application exercise 2, part 5 {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** Re-run your split and fit with `random_state` set to 1, then 2, then 3:
-
-```{python}
-#| eval: false
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=____  # <1>
-)
-```
-1. `random_state` controls the random shuffle used to form the split;  
-   re-run this cell with it set to 1, then 2, then 3 in place of the blank,
-   keeping `test_size=0.3` fixed, to see how much the split itself changes
-   the answer.
-
-::: {.fragment}
-::: {.question}
-How much did your answer move? If a colleague reported "the best model has
-20 degrees of freedom" based on one split, how much would you trust them?
-:::
+::: {.takeaway}
+Complete Part 5. [ex/02-ex](../ex/02-ex.qmd)
 :::
 
 ## Toward cross-validation

@@ -237,32 +237,10 @@ full = Pipeline([("prep", prep), ("knn", KNeighborsRegressor(5))])  # <4>
    `KNeighborsRegressor(5)` into a single estimator, so calling `.fit` on
    `full` fits every preprocessing step and the model together.
 
-## Application exercise 6, notebook A {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** An analyst predicts `Balance` from four numeric predictors. Thirty
-percent of `Income` is missing, so they fill it in and standardize before
-doing anything else, then cross-validate.
-
-::: {.question}
-Two things were estimated from the data before cross-validation started.
-Name both.
-:::
-
-## Application exercise 6, notebook A {.small}
-
-::: {.question}
-Rewrite this as a single `Pipeline` with three steps so that both are
-learned inside each fold. Report the honest MSE.
-:::
-
-## Application exercise 6, notebook A {.small}
-
-::: {.question}
-The two numbers are close. Does that make the original code acceptable?
-Explain what you would have to know in advance to be confident the
-difference was small.
+::: {.takeaway}
+Complete Notebook A. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## GridSearchCV {.small}
@@ -345,38 +323,10 @@ assignment respects that label instead of splitting row by row.
 :::
 :::
 
-## Application exercise 6, notebook B {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** A clinic measures each patient at five visits and predicts a
-functional score from BMI and blood pressure with a scaled KNN pipeline.
-
-::: {.question}
-Look at the first six rows. What do you notice about the predictor
-values within a single patient?
-:::
-
-## Application exercise 6, notebook B {.small}
-
-::: {.question}
-When a visit lands in the held-out fold, where are its nearest
-neighbors likely to be? What is the model actually recognizing?
-:::
-
-## Application exercise 6, notebook B {.small}
-
-::: {.question}
-The model is meant to be used on **new patients**. Re-run the
-cross-validation with `GroupKFold(5)` and `groups=visits["patient_id"]`.
-Report the honest $R^2$.
-:::
-
-## Application exercise 6, notebook B {.small}
-
-::: {.question}
-The honest $R^2$ is negative. What does a negative $R^2$ mean, and what
-would have been a better prediction rule for a new patient?
+::: {.takeaway}
+Complete Notebook B. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## Look-ahead leakage {.small}
@@ -395,31 +345,10 @@ have this value at the moment I need to make the prediction."
 :::
 :::
 
-## Application exercise 6, notebook C {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** Here the code is correct: pipeline, stratified folds, all learned
-on the training fold. Read the data dictionary before you trust the AUC.
-
-::: {.question}
-Every learned step is inside a pipeline and the folds are stratified. So
-why is this result still worthless?
-:::
-
-## Application exercise 6, notebook C {.small}
-
-::: {.question}
-2. Which column is the problem? Point to the row of the data dictionary that gives it away.  
-3. Drop it, re-run, and report the honest AUC.  
-:::
-
-## Application exercise 6, notebook C {.small}
-
-::: {.question}
-The model is meant to run the moment a patient is discharged, so a nurse
-can decide who to call tonight. Which of the five predictors are
-available at that moment?
+::: {.takeaway}
+Complete Notebook C. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## Leakage checklist {.small}
@@ -431,16 +360,10 @@ available at that moment?
 * If the data have groups or a time order, does the split respect them?  
 :::
 
-## Application exercise 6, wrap-up {.small}
+## Application exercise
 
-::: {.question}
-Fill in this table from what you found today.
-
-| Notebook | Kind of leak | How big was it? | What catches it? |
-|---|---|---|---|
-| A | | | |
-| B | | | |
-| C | | | |
+::: {.takeaway}
+Complete the wrap-up. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## Application exercise 6

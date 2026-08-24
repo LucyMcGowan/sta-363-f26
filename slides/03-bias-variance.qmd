@@ -241,29 +241,11 @@ never agree: low bias, high variance.
 :::
 :::
 
-## Application exercise 3, part 1 {.small}
+## Application exercise
 
-Four analysts fit models to the same 200 observations. Each then refits on
-50 fresh samples from the same population and plots all 50 fitted curves.
-
-::: {.question}
-Match each description to a diagnosis: **high bias, low variance**; **low
-bias, high variance**; **high bias, high variance**; **low bias, low
-variance**.
-
-**A.** The 50 curves lie almost on top of each other and all miss the same
-bend in the data.
-
-**B.** The 50 curves fan out wildly at the edges but their average tracks
-the data closely.
-
-**C.** The 50 curves lie almost on top of each other and follow the data
-closely.
-
-**D.** The 50 curves fan out wildly and their average still misses the
-bend.
+::: {.takeaway}
+Complete Part 1. [ex/03-ex](../ex/03-ex.qmd)
 :::
-
 
 # The trade-off {.center}
 
@@ -299,7 +281,7 @@ Choosing flexibility using test error is a bias-variance trade-off.
 
 ::: {.incremental}
 * Bias falls as flexibility increases  
-* Variance increases as flexibility increases
+* Variance increases as flexibility increases  
 * Past some point, more flexibility barely reduces bias but raises variance a lot  
 :::
 
@@ -380,40 +362,11 @@ data. $\text{Var}(\varepsilon)$ cannot.
 :::
 
 
-## Application exercise 3, part 3 {.small}
+## Application exercise
 
-```{python}
-#| echo: false
-import numpy as np
-import matplotlib.pyplot as plt
-
-flex = np.linspace(1, 20, 60)
-fig, axes = plt.subplots(1, 3, figsize=(11, 3.2), sharex=True)
-curves = {
-    "A": 1.0 + 18 * np.exp(-0.55 * flex) + 0.004 * flex**2.1,
-    "B": 1.0 + 0.6 * np.exp(-1.6 * flex) + 0.020 * flex**2.0,
-    "C": 1.0 + 26 * np.exp(-0.13 * flex) + 0.002 * flex**2.0,
-}
-for (name, c), ax in zip(curves.items(), axes):
-    ax.plot(flex, c, color="#d5008f", lw=2.4)
-    ax.axhline(1.0, ls="--", color="#007c86", lw=1.4)
-    ax.set_title(name, color="#595959")
-    ax.set_xlabel("flexibility")
-    ax.set_ylim(0, 12)
-axes[0].set_ylabel("test MSE")
-plt.tight_layout()
-plt.show()
-```
-
-Three test MSE curves. The dashed teal line is $\text{Var}(\varepsilon)$ in
-each.
-
-::: {.question}
-1. For each panel, roughly where is the best flexibility?  
-2. In which panel is the true $f$ closest to linear? How do you know?  
-3. In which panel would using a very flexible method be least damaging?  
+::: {.takeaway}
+Complete Part 3. [ex/03-ex](../ex/03-ex.qmd)
 :::
-
 
 # Moving the knob {.center}
 
@@ -459,22 +412,10 @@ variance?
 :::
 :::
 
-## Application exercise 3, part 4 {.small}
+## Application exercise
 
-Two claims about a degree-14 polynomial's variance.
-
-::: {.question}
-**Claim A:** It has high variance. That is just a property of degree-14
-polynomials.
-
-**Claim B:** It depends on how much data you have.
-:::
-
-::: {.fragment}
-::: {.question}
-Which claim is right, and why? Support your answer by describing an
-experiment you could run to settle it.
-:::
+::: {.takeaway}
+Complete Part 4. [ex/03-ex](../ex/03-ex.qmd)
 :::
 
 ## Irrelevant predictors
@@ -541,17 +482,10 @@ November.
 :::
 :::
 
-## Application exercise 3, part 2 {.small}
+## Application exercise
 
-::: {.question}
-For each change, say what happens to **bias**, to **variance**, and to
-**test MSE**. Test MSE may go either way, if so, say what it depends on.
-
-1. Increasing $K$ in KNN from 5 to 50  
-2. Collecting 10 times as many observations, model unchanged  
-3. Adding 50 irrelevant predictors  
-4. Replacing a degree-2 polynomial with a degree-9 polynomial  
-5. Averaging the predictions of 100 different flexible models  
+::: {.takeaway}
+Complete Part 2. [ex/03-ex](../ex/03-ex.qmd)
 :::
 
 ```{python}
@@ -581,10 +515,10 @@ variance, a rigid one the reverse. Friday formalizes this with the Bayes
 classifier and KNN.
 :::
 
-## Application exercise 3, wrap-up
+## Application exercise
 
-::: {.question}
-In one sentence: why is the test MSE curve U-shaped rather than monotone?
+::: {.takeaway}
+Complete the wrap-up. [ex/03-ex](../ex/03-ex.qmd)
 :::
 
 ## Summary {.small}

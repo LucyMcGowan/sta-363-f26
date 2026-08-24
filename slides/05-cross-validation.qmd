@@ -226,25 +226,11 @@ scores.round(4)
 3. The same scaled KNN pipeline from Meeting 4, with $K = 25$.  
 4. One accuracy score per fold, ten numbers back.  
 
-## Application exercise 5, part 1 {.small}
+## Application exercise
 
-**1.** Go to [Google Colab](https://colab.research.google.com)
-
-**2.** Notice that we are not splitting. Cross-validation will do the
-splitting for us. Run the cell above, then compute:
-
-```{python}
-#| eval: false
-scores.mean(), scores.std()
-```
-
-::: {.question}
-1. Why are there ten numbers?  
-2. What does each one represent?  
-3. Compute the mean and the standard deviation. What does the standard
-deviation tell you that the mean does not?
+::: {.takeaway}
+Complete Part 1. [ex/05-ex](../ex/05-ex.qmd)
 :::
-
 
 ## Trying different K with cross-validation {.small}
 
@@ -261,10 +247,10 @@ pd.DataFrame({"K": ks, "cv_error": cv_err}).round(4)
 
 
 
-## Application exercise 5, part 2
+## Application exercise
 
-::: {.question}
-Which $K$ does cross-validation choose? Is it the same one your single split chose on Friday?
+::: {.takeaway}
+Complete Part 2. [ex/05-ex](../ex/05-ex.qmd)
 :::
 
 ## Stability across seeds {.small}
@@ -298,18 +284,10 @@ Nine runs, each with a different fold assignment. `best_ks` records the
 minimizing $K$ from each run.
 :::
 
-## Application exercise 5, part 3 {.small}
+## Application exercise
 
-::: {.question}
-1. How much do the nine curves differ?  
-2. How many distinct values of $K$ were chosen across the nine runs?  
-:::
-
-## Application exercise 5, part 3 {.small}
-
-::: {.question}
-Go back to Friday's exercise and do the same thing with nine single
-splits. Which procedure is more stable?
+::: {.takeaway}
+Complete Part 3. [ex/05-ex](../ex/05-ex.qmd)
 :::
 
 ## cross_val_score for regression {.small}
@@ -341,18 +319,10 @@ pd.DataFrame({"degree": degrees, "cv_mse": mse}).round(2)
 3. The only change from a single `.fit`/`.score` is wrapping the model in  
    `cross_val_score` and negating, exactly as before.
 
-## Application exercise 5, part 4 {.small}
+## Application exercise
 
-::: {.question}
-1. Which degree has the smallest CV MSE?  
-2. How much better is it than degree 2?  
-:::
-
-## Application exercise 5, part 4 {.small}
-
-::: {.question}
-If the difference between them is smaller than the fold-to-fold
-variability, which would you actually ship? Why?
+::: {.takeaway}
+Complete Part 4. [ex/05-ex](../ex/05-ex.qmd)
 :::
 
 ## Stability of 10-fold CV {.small}
@@ -382,20 +352,19 @@ Nine runs of 10-fold CV on `Auto`, differing only in the fold assignment.
 Steadier than the nine single-split curves from Friday.
 :::
 
-## Application exercise 5, part 5 {.small}
+## Application exercise
 
-::: {.question}
-In Part 1 you put `StandardScaler` inside `make_pipeline` rather than
-scaling `X` beforehand. Suppose you had instead written
-
-```python
-X_scaled = StandardScaler().fit_transform(X)
-cross_val_score(KNeighborsClassifier(25), X_scaled, y, cv=cv)
-```
-
-Would that give the same answer? Would it be *correct*?
+::: {.takeaway}
+Complete Part 5. [ex/05-ex](../ex/05-ex.qmd)
 :::
 
+## Application exercise 5
+
+::: {.takeaway}
+Ran cross-validation for one K, swept K, checked how stable the choice is
+across seeds, repeated the whole exercise for regression, and asked
+whether scaling before the split is safe.
+:::
 
 ## Before Friday
 
