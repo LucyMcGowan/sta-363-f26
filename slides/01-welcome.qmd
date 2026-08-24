@@ -39,6 +39,10 @@ pd.set_option("display.max_columns", 12)
 pd.set_option("display.width", 100)
 ```
 
+## Class website
+
+[https://lucymcgowan.github.io/sta-363-f26](https://lucymcgowan.github.io/sta-363-f26)
+
 ## Outline
 
 ::: {.incremental}
