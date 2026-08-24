@@ -1,0 +1,89 @@
+---
+title: "Problem set 1: Framing the problem"
+subtitle: "STA 363 | Posted August 28 | Due Friday, September 4"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+## 1. When flexibility helps
+
+For each situation, say whether a flexible method would generally
+outperform an inflexible one, and justify your answer using the reducible
+and irreducible error decomposition from lecture.
+
+a. The sample size n is extremely large, and the number of predictors p is small.
+b. The number of predictors p is extremely large, and the number of observations n is small.
+c. The true relationship between the predictors and the response is highly non-linear.
+d. The variance of the error term, $\text{Var}(\varepsilon)$, is extremely large.
+
+## 2. Parametric or not
+
+a. Describe the difference between a parametric and a non-parametric approach to estimating f.
+b. Name one advantage and one disadvantage of the parametric approach, relative to the non-parametric one.
+c. ISLP Figure 2.7 places methods on a plane with flexibility on one axis and interpretability on the other. Explain why those two axes point in opposite directions instead of varying independently.
+d. A colleague wants to know exactly how each predictor moves the response, and also wants the most accurate predictions possible. Explain why they may not get both, and which one they should give up first.
+
+## 3. Regression, classification, prediction, inference
+
+For each scenario, say whether it is a regression or classification
+problem, whether the goal is prediction or inference, and report n and p.
+
+a. Data on the top 500 firms in the US, recording profit, number of employees, industry, and CEO salary, collected to understand which factors affect CEO salary.
+b. Data on 20 previously launched products, recording whether each succeeded or failed along with price, marketing budget, competition price, and ten other variables, collected to predict whether a new product will succeed.
+c. Weekly percent changes in the USD/Euro exchange rate and in the US, British, and German stock markets, recorded for all of 2012, collected to predict the USD/Euro change from the market changes.
+
+## 4. Naming your own
+
+Describe two real-life applications where classification is the right
+framing, and two where regression is. For each, name the response, at
+least two predictors, and say whether the goal is prediction or inference,
+with a one-sentence justification.
+
+a. A classification application.
+b. A second classification application.
+c. A regression application.
+d. A second regression application.
+
+## 5. A first look at Boston housing
+
+The `Boston` data records housing values and neighborhood characteristics
+for towns near Boston.
+
+```{python}
+Boston = pd.read_csv(DATA + "Boston.csv")
+Boston.head()
+```
+
+a. Report n and p for this data set, and say which column is the most natural response if the goal is predicting how safe a neighborhood is.
+b. `chas` records whether a tract borders the Charles River. Explain why, unlike the other columns, it makes little sense to summarize `chas` with a mean and a standard deviation.
+c. Using `.corr()`, find the two predictors most strongly associated with `crim`, the crime rate. Are you doing prediction or inference when you interpret those two numbers? Explain.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+d. Make a scatterplot of `medv` against `lstat`. Based on the shape you see, would a parametric straight-line model be a reasonable choice here, or does the relationship look like it needs a non-parametric approach? Explain using the definitions from question 2.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*

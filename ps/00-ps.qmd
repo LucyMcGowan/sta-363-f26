@@ -1,0 +1,46 @@
+---
+title: "Colab 0: Getting used to the tools"
+subtitle: "STA 363 | Meeting 1"
+no-submit: "true"
+jupyter: python3
+---
+
+## Task 1: Markdown
+
+Double-click this cell, replace the line below, then run it (**Shift +
+Enter**).
+
+**Q:** What do you want out of this course? *your answer here*
+
+## Task 2: Code cells
+
+Add a code cell below (**+ Code**), write `1 + 2`, and run
+it.
+
+::: {.code-cell}
+:::
+
+## Task 3: A package
+
+```{python}
+import pandas as pd
+```
+
+Packages contain useful functions. The `pandas` package contains lots of useful tools for data analysis. The line `import pandas as pd` will allow you to access this functions. You will append `pd.` to the beginning of the function names from this package.
+
+## Task 4: Reading in data
+
+```{python}
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Auto = pd.read_csv(DATA + "Auto.csv")
+```
+
+The data for this class is available on Github as csv files. The `pandas` package has a function called `read_csv` that we can use to read these files in. The one we want this time is the `Auto.csv` file. 
+
+## Task 5: Apply functions to a data frame
+
+```{python}
+Auto.head()
+```
+
+You can apply functions to a data frame by appending them to the data frame object following a `.`. For example, the `head()` function will let you see the first few lines of the data frame. Here we want to see the first few lines of the `Auto` data frame we just read in above. 

@@ -1,0 +1,148 @@
+---
+title: "Problem set 2: Bias, variance, and neighbors"
+subtitle: "STA 363 | Posted September 4 | Due Friday, September 11"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+## 1.
+
+In class we showed test MSE as the sum of squared bias, variance, and
+irreducible error, plotted against flexibility. 
+
+a. Define `flexibility = np.linspace(1, 20, 100)`. Choose a decreasing curve for squared bias and an increasing curve for variance, each a function of `flexibility` that you pick yourself, and plot the two together.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Using the bias-variance decomposition formula from lecture, compute a test error curve as squared bias plus variance plus a constant irreducible error, and add it to your plot.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Explain, using your own curves, why test error is minimized at an intermediate flexibility rather than at either extreme.
+d. Training error is not part of the decomposition formula. Add a training error curve to your plot that stays below the test error curve everywhere, and explain why that ordering has to hold.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+## 2. Nearest neighbors, by hand
+
+| Obs | X1 | X2 | X3 | Y |
+|---|---|---|---|---|
+| 1 | 0 | 3 | 0 | Red |
+| 2 | 2 | 0 | 0 | Red |
+| 3 | 0 | 1 | 3 | Red |
+| 4 | 0 | 1 | 2 | Green |
+| 5 | -1 | 0 | 1 | Green |
+| 6 | 1 | 1 | 1 | Red |
+
+Predict Y at X1 = X2 = X3 = 0 using K-nearest neighbors.
+
+a. Compute the Euclidean distance from the test point to each of the six observations. You may use numpy rather than a calculator.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. What is the prediction with K = 1? Which observation determines it?
+c. What is the prediction with K = 3?
+d. If the true Bayes decision boundary here is highly non-linear, would you expect the best K to be large or small? Explain.
+
+## 3. 
+
+In p dimensions, capturing a fraction r of the training observations
+inside a hypercube whose sides are a fraction s of each predictor's full
+range requires $s = r^{1/p}$.
+
+a. Compute s for r = 0.10 at p = 1, 2, 5, 10, 20, and 100.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. The KNN slide states that with p = 20, capturing 10% of the data needs about 80% of every predictor's range. Does your value from part a agree?
+c. Explain in one or two sentences why this makes K-nearest neighbors a poor choice when p is large, even after the predictors have been scaled.
+
+## 4. 
+
+The `Caravan` data has 85 numeric predictors describing each customer's
+demographics and policy ownership, and a `Purchase` column recording
+whether they bought caravan insurance.
+
+```{python}
+Caravan = pd.read_csv(DATA + "Caravan.csv")
+y_car = (Caravan["Purchase"] == "Yes").astype(int)
+X_car = Caravan.drop(columns="Purchase")
+X_car.shape
+```
+
+a. This is a rare-outcome problem. Compute the error rate of always predicting no purchase, and keep that number in mind for the rest of this question.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Split the data 70/30 with `random_state=363` and `stratify=y_car`. Fit a scaled 5-nearest-neighbor classifier using all 85 predictors and report the test error.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Find the 5 predictors most correlated with `y_car`, refit the same scaled 5-nearest-neighbor model using only those 5 columns, and report the test error.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+d. Connect parts b and c back to question 3. Did cutting p from 85 to 5 help, hurt, or make little difference here? Is that what the curse of dimensionality would predict?
+
+## 5. 
+
+In class we named four ways to change flexibility: polynomial degree or spline degrees
+of freedom, K in KNN, the number of predictors, and the amount of
+training data.
+
+a. For each of the four ways, say which direction, more or less, makes a method more flexible.
+b. Explain why adding predictors increases flexibility even when the model class itself, a straight line for example, does not change.
+
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*

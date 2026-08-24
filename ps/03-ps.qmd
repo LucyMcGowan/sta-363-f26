@@ -1,0 +1,147 @@
+---
+title: "Problem set 3: Cross-validation and leakage"
+subtitle: "STA 363 | Posted September 11 | Due Friday, September 18"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import (
+    train_test_split, cross_val_score, KFold, LeaveOneOut, GridSearchCV
+)
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+## 1.
+
+Rank the validation set approach, k-fold CV with k = 5 or 10, and LOOCV from most to least biased as an estimate of test error. Then rank them again from most to least variable.
+
+a. Justify the bias ranking in terms of how many observations each procedure trains on.
+b. Justify the variance ranking in terms of how similar the training sets are across folds or splits, and how correlated the resulting error estimates are with each other.
+c. A classmate argues that LOOCV averages n numbers, so by the law of large numbers it must have the lowest variance of the three. What is wrong with this argument?
+d. Describe a situation where you would choose the validation set approach anyway, despite its higher bias.
+
+## 2.
+
+Predict `Direction` from `Lag1` and `Lag2` in the `Smarket` data using a
+5-nearest-neighbor classifier.
+
+```{python}
+Smarket = pd.read_csv(DATA + "Smarket.csv")
+Xs = Smarket[["Lag1", "Lag2"]]
+ys = (Smarket["Direction"] == "Up").astype(int)
+n = len(Smarket)
+```
+
+a. Application exercise 5 called `cross_val_score` and let scikit-learn manage the folds. Write, in your own words, what that function does internally when `cv` is an integer k versus when `cv` is `LeaveOneOut()`.
+b. Write a `for` loop over all n rows that, for each row i, fits `KNeighborsClassifier(5)` on the other n minus one rows, predicts row i, and records whether that prediction was correct. Report the resulting LOOCV error rate.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Confirm part b using `cross_val_score` with `cv=LeaveOneOut()`. The two error rates should match to within rounding.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+d. LOOCV on `Smarket` fits many more models than the 10-fold CV in application exercise 5, yet each fit trains on almost the same data as the last. Connect this back to part 1c. Is the extra computation buying a more stable estimate here?
+
+## 3.
+
+Predict `default` from `balance`, `income`, and `student` in the `Default`
+data with a 25-nearest-neighbor classifier. `student` is categorical and
+needs `OneHotEncoder` inside a `ColumnTransformer`, alongside
+`StandardScaler` for the two numeric columns.
+
+```{python}
+Default = pd.read_csv(DATA + "Default.csv")
+num = ["balance", "income"]
+cat = ["student"]
+y_def = (Default["default"] == "Yes").astype(int)
+```
+
+a. Build the `ColumnTransformer` and wrap it with `KNeighborsClassifier(25)` in a `Pipeline`. Using a single 70/30 train and test split with `random_state=1`, fit the pipeline once on `num` alone and once on `num + cat`, and report both test error rates.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Repeat part a with `random_state` set to 2, 3, 4, and 5. Report all five pairs of error rates.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Based on the five splits, does including `student` help? What made a single split, on its own, an unreliable way to answer that question?
+d. Replace the five separate splits with 10-fold cross-validation on the full data set, still comparing `num` alone against `num + cat`. Report both CV error rates and say whether cross-validation changes your answer to part c.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+## 4.
+
+Use the `Hitters` data to predict `Salary`, using two categorical predictors, `League` and `Division`.
+
+```{python}
+Hitters = pd.read_csv(DATA + "Hitters.csv")
+Hitters["Salary"].isna().sum()
+```
+
+a. Build a `Pipeline` that predicts `Salary` from `Years`, `Hits`, `Walks`, `League`, and `Division`, using a `ColumnTransformer` with `StandardScaler` on the numeric columns and `OneHotEncoder` on the categorical ones, feeding into `KNeighborsRegressor`.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Use `GridSearchCV` with 10-fold CV to search `n_neighbors` over 1, 3, 5, 10, 25, and 50. Report the best value and its cross-validated MSE.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+d. A classmate fits the `ColumnTransformer` on the full data first, then feeds the transformed array to `GridSearchCV`, instead of nesting it inside the cross-validated pipeline. Could this lead to data leakage? If so, what would the consequence be?
+
+## 5.
+
+For each scenario, name the cross-validation strategy from lecture that
+fits, from `KFold`, `StratifiedKFold`, `GroupKFold`, or a split that
+respects time order. Explain in one or two sentences what would go wrong
+with plain `KFold` instead.
+
+a. Predicting whether a patient has a rare condition present in 2% of cases, from lab values measured once per patient.
+b. Predicting a student's final exam score from their homework scores, where each of 40 students contributes eight weekly homework rows.
+c. Predicting tomorrow's closing price from the last 30 days of prices, when the model will only ever be used on days after the ones it was trained on.
+d. Predicting a customer's credit default from balance and income, one row per customer, with a 3% default rate.
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*
