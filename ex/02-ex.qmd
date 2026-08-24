@@ -1,0 +1,155 @@
+---
+title: "Application exercise 2: Training error misleads"
+subtitle: "STA 363 | Meeting 2 | August 28"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+## Setup
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import SplineTransformer
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.metrics import mean_squared_error
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Auto = pd.read_csv(DATA + "Auto.csv")
+Auto.head()
+```
+
+We will predict `mpg` from `horsepower`.
+
+```{python}
+X = Auto[["horsepower"]]
+y = Auto["mpg"]
+```
+
+## Part 1: 
+
+```{python}
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.scatter(X["horsepower"], y, s=12, alpha=0.6, color="#d5008f")
+ax.set_xlabel("horsepower")
+ax.set_ylabel("mpg")
+plt.show()
+```
+
+::: {.question}
+Would a straight line be a good description of this relationship? What shape do you see?
+:::
+
+::: {.answer-space}
+:::
+
+## Part 2: Split
+
+Fill in the blank so that 30% of the observations are held out.
+
+```{python}
+#| eval: false
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=____, random_state=1
+)
+```
+
+```{python}
+#| echo: false
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=1
+)
+```
+
+::: {.question}
+Why does `random_state` matter? What would change if you left it out?
+:::
+
+::: {.answer-space}
+:::
+
+## Part 3: Training MSE versus test MSE
+
+We fit a spline to `horsepower`, and increase the degrees of freedom (`df`) to
+make the fit more flexible.
+
+```{python}
+dfs = range(4, 21, 2)
+train_mse, test_mse = [], []
+
+for df in dfs:
+    model = make_pipeline(SplineTransformer(degree=3, n_knots=df - 2), LinearRegression())
+    model.fit(X_train, y_train)
+    train_mse.append(mean_squared_error(y_train, model.predict(X_train)))
+    test_mse.append(mean_squared_error(y_test, model.predict(X_test)))
+```
+
+```{python}
+pd.DataFrame({"df": dfs, "train": train_mse, "test": test_mse}).round(2)
+```
+
+::: {.question}
+1. Which `df` minimizes **training** MSE? Is that surprising?  
+2. Which `df` minimizes **test** MSE?  
+3. At which `df` do the two columns start to disagree about the direction of improvement? What is happening there?  
+:::
+
+::: {.answer-space}
+:::
+
+## Part 4: Plot it
+
+```{python}
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.plot(dfs, train_mse, "-o", color="#595959", label="Training MSE")
+ax.plot(dfs, test_mse, "-o", color="#d5008f", label="Test MSE")
+ax.set_xlabel("Degrees of freedom")
+ax.set_ylabel("MSE")
+ax.legend()
+plt.show()
+```
+
+::: {.question}
+Compare this to Figure 2.9 in the textbook. Which of the three panels
+(Figures 2.9, 2.10, 2.11) does the `Auto` data most resemble? What does that tell
+you about the true $f$?
+:::
+
+::: {.answer-space}
+:::
+
+## Part 5:
+
+Re-run everything above with `random_state=2`, then `random_state=3`, then
+`random_state=4`. Record the best `df` each time.
+
+::: {.question}
+| `random_state` | best df | test MSE at that df |
+|---|---|---|
+| 1 | | |
+| 2 | | |
+| 3 | | |
+| 4 | | |
+:::
+
+::: {.question}
+How much did your answer move? If a colleague reported "the best model has 20
+degrees of freedom" based on one split, how much would you trust them?
+:::
+
+::: {.answer-space}
+:::
+
+::: {.takeaway}
+This is reason cross-validation exists! We'll learn more about this soon.
+:::
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*

@@ -1,0 +1,101 @@
+---
+title: "Application exercise 1: What is the problem?"
+subtitle: "STA 363 | Meeting 1 | August 26"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+
+## Part 1: Getting used to the tools
+
+Download [00-ps.ipynb](https://github.com/LucyMcGowan/sta-363-f26/blob/main/ps/00-ps.ipynb)
+from GitHub using the download icon near the top of the file view, then go
+to [Google Colab](https://colab.research.google.com) and open it with
+**File > Upload notebook**.
+
+
+## Part 2: Naming the pieces
+
+For each scenario, determine:
+
+* $Y$  
+* at least three plausible predictors  
+* what one row of the data set represents  
+* whether it is a **regression** or **classification** problem  
+
+::: {.question}
+**A.** A hospital wants to know which patients discharged today are likely to
+come back within 30 days.
+:::
+
+::: {.answer-space}
+:::
+
+::: {.question}
+**B.** A streaming service wants to guess how many minutes a new subscriber will
+watch in their first week.
+:::
+
+::: {.answer-space}
+:::
+
+::: {.question}
+**C.** A university wants to flag first-year students who are at risk of not
+returning for a second year.
+:::
+
+::: {.answer-space}
+:::
+
+
+## Part 3: Prediction or inference?
+
+
+::: {.question}
+Label each of these as prediction or inference. 
+
+1. Does raising the minimum wage reduce employment?  
+2. Which of these 10,000 transactions should we flag as fraudulent?  
+3. How much does an extra bathroom add to a house's sale price?  
+4. What will this house sell for?  
+5. Is this tumor malignant?  
+6. Does this drug lower blood pressure more than the current standard of care?  
+:::
+
+::: {.answer-space}
+:::
+
+::: {.hint}
+Ask yourself: if the model were a black box that gave great answers but was hard to understand, would that be acceptable? If yes, it is prediction.
+:::
+
+## Part 4: A first look at data
+
+```{python}
+import pandas as pd
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Wage = pd.read_csv(DATA + "Wage.csv")
+Wage.head()
+```
+
+```{python}
+Wage.shape
+```
+
+::: {.question}
+1. What is $n$?  
+2. If you wanted to predict `wage`, what is the largest $p$ you could use?  
+3. Look at the column names. Is there any column you would not use as a predictor? Why?  
+:::
+
+::: {.answer-space}
+:::
+
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*

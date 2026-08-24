@@ -1,0 +1,169 @@
+---
+title: "Application exercise 6: Find the leak"
+subtitle: "STA 363 | Meeting 6 | September 11"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+
+```{python}
+import numpy as np
+import pandas as pd
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+from sklearn.model_selection import (
+    cross_val_score, train_test_split, KFold, GroupKFold, StratifiedKFold
+)
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+
+rng = np.random.default_rng(363)
+```
+
+## Notebook A: cleaning before splitting
+
+An analyst predicts `Balance` from four numeric predictors. Thirty percent of
+`Income` is missing, so they fill it in and standardize before doing anything
+else.
+
+```{python}
+Credit = pd.read_csv(DATA + "Credit.csv")
+num = ["Income", "Limit", "Rating", "Age"]
+Credit.loc[rng.random(len(Credit)) < 0.30, "Income"] = np.nan
+
+clean = Credit.copy()
+clean["Income"] = clean["Income"].fillna(clean["Income"].mean())
+clean[num] = StandardScaler().fit_transform(clean[num])
+
+cv = KFold(5, shuffle=True, random_state=363)
+score = cross_val_score(
+    KNeighborsRegressor(10), clean[num], clean["Balance"],
+    cv=cv, scoring="neg_mean_squared_error"
+)
+float(round(-score.mean(), 1))
+```
+
+::: {.question}
+1. Two things were estimated from the data before cross-validation started. What are they?   
+2. Rewrite this as a single `Pipeline` with three steps so that both are learned inside each fold. Report the MSE.  
+3. The two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference will be small.  
+:::
+
+::: {.answer-space}
+:::
+
+::: {.hint}
+Your pipeline needs `SimpleImputer`, then `StandardScaler`, then the model. Pass
+the *unfilled* `Credit[num]` to `cross_val_score`.
+:::
+
+## Notebook B: an impressive $R^2$
+
+A clinic measures each patient at five visits. The analyst wants to predict a
+functional score from BMI and systolic blood pressure.
+
+```{python}
+n_patients, n_visits = 200, 5
+pid = np.repeat(np.arange(n_patients), n_visits)
+
+bmi = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)
+sbp = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)
+patient_effect = rng.normal(0, 2.5, n_patients)[pid]
+score = bmi + patient_effect + rng.normal(0, 0.4, n_patients * n_visits)
+
+visits = pd.DataFrame(
+    {"patient_id": pid, "bmi": bmi, "sbp": sbp, "score": score}
+)
+visits.head(6)
+```
+
+```{python}
+model = make_pipeline(StandardScaler(), KNeighborsRegressor(5))
+float(round(
+    cross_val_score(
+        model, visits[["bmi", "sbp"]], visits["score"],
+        cv=KFold(5, shuffle=True, random_state=1)
+    ).mean(),
+    3,
+))
+```
+
+::: {.question}
+1. Look at the first six rows. What do you notice about the predictor values within a single patient?  
+2. When a visit is in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?  
+3. The model is meant to be used on **new patients**. Re-run the cross-validation with `GroupKFold(5)` and `groups=visits["patient_id"]`. Report the updated $R^2$.  
+:::
+
+::: {.answer-space}
+:::
+
+::: {.question}
+The updated $R^2$ is negative. What does a negative $R^2$ mean, and what would
+have been a better prediction rule for a new patient?
+:::
+
+::: {.answer-space}
+:::
+
+## Notebook C:
+
+Here the code is correct, but we need to carefully consider the variables that are included. Look at the data dictionary below. 
+
+```{python}
+n = 800
+severity = rng.normal(0, 1, n)
+readmit = (rng.random(n) < 1 / (1 + np.exp(-(-1.2 + 0.9 * severity)))).astype(int)
+
+clinic = pd.DataFrame({
+    "age": rng.normal(62, 12, n),
+    "severity_score": severity,
+    "n_labs_ordered": rng.poisson(np.clip(3 + 2 * severity, 0.1, None)),
+    "discharge_med_count": rng.poisson(np.clip(4 + 0.5 * severity, 0.1, None)),
+    "followup_calls_made": rng.poisson(0.4 + 3.0 * readmit),
+    "readmitted_30d": readmit,
+})
+clinic.head()
+```
+
+| Column | Meaning | When is it recorded? |
+|---|---|---|
+| `age` | Patient age at admission | At admission |
+| `severity_score` | Clinical severity index | At admission |
+| `n_labs_ordered` | Labs ordered during the stay | During the stay |
+| `discharge_med_count` | Medications on the discharge summary | At discharge |
+| `followup_calls_made` | Follow-up calls from the care team | In the 30 days **after** discharge |
+| `readmitted_30d` | Readmitted within 30 days | 30 days after discharge |
+
+```{python}
+feats = ["age", "severity_score", "n_labs_ordered",
+         "discharge_med_count", "followup_calls_made"]
+
+cv_c = StratifiedKFold(5, shuffle=True, random_state=363)
+float(round(
+    cross_val_score(
+        make_pipeline(StandardScaler(), KNeighborsClassifier(15)),
+        clinic[feats], clinic["readmitted_30d"], cv=cv_c, scoring="roc_auc"
+    ).mean(),
+    3,
+))
+```
+
+::: {.question}
+1. Every learned step is inside a pipeline and the folds are stratified. So why is this result still not useful?  
+2. Which column is the problem? 
+3. Drop the problematic column it, re-run, and report the new AUC.  
+4. The model is meant to run the moment a patient is discharged, so a nurse can decide who to call tonight. Which of the five predictors are available at that moment?  
+:::
+
+::: {.answer-space}
+:::
+
+
+
+*`Credit` data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor,
+J. (2023). An Introduction to Statistical Learning with Applications in Python.
+Springer. The visit and clinic data are simulated.*

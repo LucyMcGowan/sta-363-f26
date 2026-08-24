@@ -1,0 +1,94 @@
+---
+title: "Application exercise 3: Reading bias and variance"
+subtitle: "STA 363 | Meeting 3 | September 2"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+
+## Part 1:
+
+Four analysts fit models to the same 200 observations. Each then refits on 50
+fresh samples from the same population and plots all 50 fitted curves.
+
+::: {.question}
+Match each description to a diagnosis: **high bias, low variance**; **low bias,
+high variance**; **high bias, high variance**; **low bias, low variance**.
+
+**A.** The 50 curves lie almost on top of each other and all miss the same bend
+in the data.
+
+**B.** The 50 curves fan out wildly at the edges but their average tracks the
+data closely.
+
+**C.** The 50 curves lie almost on top of each other and follow the data closely.
+
+**D.** The 50 curves fan out wildly and their average still misses the bend.
+:::
+
+::: {.answer-space}
+:::
+
+
+## Part 2: 
+
+::: {.question}
+For each change, say what happens to **bias**, to **variance**, and to **test
+MSE**. Test MSE may go either way, if so, say what it depends on.
+
+1. Increasing $K$ in KNN from 5 to 50  
+2. Collecting 10 times as many observations, model unchanged  
+3. Adding 50 irrelevant predictors  
+4. Replacing a degree-2 polynomial with a degree-9 polynomial  
+5. Averaging the predictions of 100 different flexible models  
+:::
+
+::: {.answer-space}
+:::
+
+
+## Part 3: 
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+flex = np.linspace(1, 20, 60)
+fig, axes = plt.subplots(1, 3, figsize=(11, 3.2), sharex=True)
+curves = {
+    "A": 1.0 + 18 * np.exp(-0.55 * flex) + 0.004 * flex**2.1,
+    "B": 1.0 + 0.6 * np.exp(-1.6 * flex) + 0.020 * flex**2.0,
+    "C": 1.0 + 26 * np.exp(-0.13 * flex) + 0.002 * flex**2.0,
+}
+for (name, c), ax in zip(curves.items(), axes):
+    ax.plot(flex, c, color="#d5008f", lw=2.4)
+    ax.axhline(1.0, ls="--", color="#007c86", lw=1.4)
+    ax.set_title(name, color="#595959")
+    ax.set_xlabel("flexibility")
+    ax.set_ylim(0, 12)
+axes[0].set_ylabel("test MSE")
+plt.tight_layout()
+plt.show()
+```
+
+Three test MSE curves. The dashed teal line is $\text{Var}(\varepsilon)$ in each.
+
+::: {.question}
+1. For each panel, roughly where is the best flexibility?  
+2. In which panel is the true $f$ closest to linear? How do you know?  
+3. In which panel would using a very flexible method be the least problematic?   
+:::
+
+::: {.answer-space}
+:::
+
+
+## Wrap-up
+
+::: {.takeaway}
+Why is the test MSE curve U-shaped rather than monotone?
+:::

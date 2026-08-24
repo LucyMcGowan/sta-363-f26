@@ -1,0 +1,171 @@
+---
+title: "Application exercise 5: Cross-validation"
+subtitle: "STA 363 | Meeting 5 | September 9"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+On Friday you chose $K$ using a single train/test split, and found that the
+answer moved when the split moved. Today we will replace that with cross-validation
+and whether this improves the stability of the answer.
+
+## Setup
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+Default = pd.read_csv(DATA + "Default.csv")
+X = Default[["balance", "income"]]
+y = (Default["default"] == "Yes").astype(int)
+```
+
+Notice that we are not manually splitting because cross-validation will do the splitting for us.
+
+## Part 1: One value of K
+
+```{python}
+cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=363)
+model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=25))
+scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
+scores.round(4)
+```
+
+::: {.question}
+1. Why are there ten numbers?  
+2. What does each one represent?  
+3. Compute the mean and the standard deviation. What does the standard deviation tell you that the mean does not?  
+:::
+
+```{python}
+#| eval: false
+scores.mean(), scores.std()
+```
+
+::: {.answer-space}
+:::
+
+## Part 2: Tune K with cross-validation
+
+```{python}
+ks = [1, 3, 5, 10, 25, 50, 100, 200, 500]
+cv_err = []
+
+for k in ks:
+    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))
+    cv_err.append(1 - cross_val_score(m, X, y, cv=cv, scoring="accuracy").mean())
+
+pd.DataFrame({"K": ks, "cv_error": cv_err}).round(4)
+```
+
+::: {.question}
+Which $K$ does cross-validation choose? Is it the same one your single split
+chose on Friday?
+:::
+
+::: {.answer-space}
+:::
+
+## Part 3: How much steadier is it?
+
+Run the whole tuning process nine times, changing only the random seed of the fold
+assignment.
+
+```{python}
+fig, ax = plt.subplots(figsize=(6.5, 3.6))
+best_ks = []
+
+for seed in range(9):
+    cv_s = StratifiedKFold(n_splits=10, shuffle=True, random_state=seed)
+    curve = [
+        1 - cross_val_score(
+            make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k)),
+            X, y, cv=cv_s, scoring="accuracy"
+        ).mean()
+        for k in ks
+    ]
+    best_ks.append(ks[int(np.argmin(curve))])
+    ax.plot([1 / k for k in ks], curve, color="#d5008f", alpha=0.6)
+
+ax.set_xscale("log")
+ax.set_xlabel("1/K")
+ax.set_ylabel("10-fold CV error")
+plt.show()
+
+best_ks
+```
+
+::: {.question}
+1. How much do the nine curves differ?  
+2. How many distinct values of $K$ were chosen across the nine runs?  
+3. Go back to Friday's exercise and do the same thing with nine single splits. Which procedure is more stable?  
+:::
+
+::: {.answer-space}
+:::
+
+## Part 4: Regression, same machinery
+
+```{python}
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LinearRegression
+
+Auto = pd.read_csv(DATA + "Auto.csv")
+Xa, ya = Auto[["horsepower"]], Auto["mpg"]
+
+cv_reg = KFold(n_splits=10, shuffle=True, random_state=363)
+degrees = range(1, 11)
+mse = [
+    -cross_val_score(
+        make_pipeline(StandardScaler(), PolynomialFeatures(d), LinearRegression()),
+        Xa, ya, cv=cv_reg, scoring="neg_mean_squared_error"
+    ).mean()
+    for d in degrees
+]
+pd.DataFrame({"degree": degrees, "cv_mse": mse}).round(2)
+```
+
+::: {.question}
+1. Which degree has the smallest CV MSE?  
+2. How much better is it than degree 2?  
+3. If the difference between them is smaller than the fold-to-fold variability, which would you use? Why?  
+:::
+
+::: {.answer-space}
+:::
+
+::: {.hint}
+For question 3, look at the standard deviation across the ten folds for each of
+the two degrees, not just their means.
+:::
+
+## Part 5: Think ahead
+
+::: {.question}
+In Part 1 you put `StandardScaler` inside `make_pipeline` rather than scaling `X`
+beforehand. Suppose you had instead written
+
+```python
+X_scaled = StandardScaler().fit_transform(X)
+cross_val_score(KNeighborsClassifier(25), X_scaled, y, cv=cv)
+```
+
+Would that give the same answer? Would it be *correct*?
+:::
+
+::: {.answer-space}
+:::
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*

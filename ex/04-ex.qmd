@@ -1,0 +1,155 @@
+---
+title: "Application exercise 4: Tuning K, and what scaling does"
+subtitle: "STA 363 | Meeting 4 | September 4"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+## Setup
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+Default = pd.read_csv(DATA + "Default.csv")
+X = Default[["balance", "income"]]
+y = (Default["default"] == "Yes").astype(int)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=363, stratify=y
+)
+float(round(y_test.mean(), 4))
+```
+
+::: {.question}
+That number is the proportion of the test set that defaulted. If you predicted
+"no default" for every single person, what would your error rate be?
+:::
+
+::: {.answer-space}
+:::
+
+## Part 1: Forget to scale
+
+```{python}
+unscaled = KNeighborsClassifier(n_neighbors=25).fit(X_train, y_train)
+float(round(1 - unscaled.score(X_test, y_test), 4))
+```
+
+```{python}
+scaled = make_pipeline(
+    StandardScaler(), KNeighborsClassifier(n_neighbors=25)
+).fit(X_train, y_train)
+float(round(1 - scaled.score(X_test, y_test), 4))
+```
+
+::: {.question}
+1. Which did better?  
+2. The unscaled error should look familiar. Compare it to the number above. What is the unscaled model actually predicting?  
+:::
+
+::: {.answer-space}
+:::
+
+Now let's look at the units.
+
+```{python}
+X.describe().loc[["min", "max", "std"]].round(1)
+```
+
+::: {.question}
+Two customers differ by \$1,000 in `balance` and \$1,000 in `income`. Before
+scaling, how much does each difference contribute to the distance between them?
+Which predictor is deciding who counts as a neighbor?
+:::
+
+::: {.answer-space}
+:::
+
+## Part 2: Tune K
+
+```{python}
+ks = [1, 3, 5, 10, 25, 50, 100, 200, 500]
+train_err, test_err = [], []
+
+for k in ks:
+    m = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=k))
+    m.fit(X_train, y_train)
+    train_err.append(1 - m.score(X_train, y_train))
+    test_err.append(1 - m.score(X_test, y_test))
+
+pd.DataFrame({"K": ks, "train": train_err, "test": test_err}).round(4)
+```
+
+::: {.question}
+1. What is the training error at $K = 1$? Why could we know that value before running anything?  
+2. Which $K$ minimizes test error?  
+3. What happens to test error at very large $K$? Why?  
+:::
+
+::: {.answer-space}
+:::
+
+Plot against $1/K$ so that flexibility increases left to right.
+
+```{python}
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.plot([1 / k for k in ks], train_err, "-o", color="#595959", label="Training")
+ax.plot([1 / k for k in ks], test_err, "-o", color="#d5008f", label="Test")
+ax.set_xscale("log")
+ax.set_xlabel("1/K")
+ax.set_ylabel("Error rate")
+ax.legend()
+plt.show()
+```
+
+
+
+## Part 3:
+
+Suppose a bank decides they will reach out to the 100 customers the model considers most at risk.
+
+```{python}
+best = make_pipeline(
+    StandardScaler(), KNeighborsClassifier(n_neighbors=25)
+).fit(X_train, y_train)
+
+probs = best.predict_proba(X_test)[:, 1]
+top100 = np.argsort(-probs)[:100]
+float(round(y_test.values[top100].mean(), 3))
+```
+
+::: {.question}
+1. What fraction of the top 100 actually defaulted?  
+2. Compare that to the overall default rate in the test set. How many times better than random is the model at finding defaulters?  
+3. The model's error rate was only slightly better than "predict no for everyone." Yet this number is much better than chance. How can both be true?  
+:::
+
+::: {.answer-space}
+:::
+
+::: {.takeaway}
+A classifier that is bad at *labelling* may be excellent at *ranking*. Soon we will learn other measures that differentiate these.
+:::
+
+## If you finish early
+
+Add `student` as a third predictor. It is categorical, so you will need to encode
+it as 0/1 first.
+
+::: {.question}
+Does it help? Should it be scaled along with the others? 
+:::
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*
