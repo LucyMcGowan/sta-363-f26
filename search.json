@@ -2928,7 +2928,7 @@
     "href": "syllabus.html#class",
     "title": " Policies",
     "section": "Class",
-    "text": "Class\nThis class is meant to be hands on. You are responsible for the assigned reading before each class. Please bring a charged laptop.\nThe rhythm is the same most weeks.\n\n\n\n\n\n\n\nWednesday and Friday\na new method, then an application exercise using it\n\n\nMost Wednesdays\na short paper check-in at the start of class\n\n\nMost Fridays\na problem set due",
+    "text": "Class\nThis class is meant to be hands on. You are responsible for the assigned reading before each class. Please bring a charged laptop.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -2964,7 +2964,7 @@
     "href": "syllabus.html#course-components",
     "title": " Policies",
     "section": "Course components",
-    "text": "Course components\n\nApplication exercises\nDone in class, in pairs or small groups.\n\n\nProblem sets\nDue Fridays.\nYou may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set.\n\n\nCheck-ins\nRoughly ten short check-ins at the start of class.\n\n\nExams\nWe will have two midterm exams and a final exam. Exams will be in class and closed book.",
+    "text": "Course components\n\nApplication exercises\nDone in class, in pairs or small groups.\n\n\nProblem sets\nDue Fridays.\nYou may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set. Graded for completion.\n\n\nCheck-ins\nMost weeks we will have one check-in at the start of class. They will typically cover topics similar to the problem sets.\n\n\nExams\nWe will have two midterm exams and a final exam. Exams will be in class and closed book.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -3000,7 +3000,7 @@
     "href": "syllabus.html#accessibility",
     "title": " Policies",
     "section": "Accessibility",
-    "text": "Accessibility\nWake Forest University provides reasonable accommodations for students with disabilities. Academic accommodations are coordinated through the Center for Learning, Access, and Student Success (CLASS). If you would like to request accommodations for this course, contact CLASS as early in the semester as possible (class.wfu.edu, 118 Reynolda Hall).",
+    "text": "Accessibility\nAcademic accommodations are coordinated through the Center for Learning, Access, and Student Success (CLASS). If you would like to request accommodations for this course, contact CLASS as early in the semester as possible (class.wfu.edu, 118 Reynolda Hall).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
@@ -3012,7 +3012,7 @@
     "href": "syllabus.html#honor-code",
     "title": " Policies",
     "section": "Honor code",
-    "text": "Honor code\nWake Forest University is committed to a culture of academic integrity. As a part of this community, you share the responsibility for creating a place of honesty, intellectual curiosity, and individual accountability. As you committed to with your honor pledge signature, you agree “not to deceive any member of the community; not to steal, cheat, or plagiarize on academic work; and not to engage in any other form of academic misconduct.” If you have questions about documenting your work, working with external sources, or working with peers on assigned work, consult with me as soon as possible. Instances of academic dishonesty will be referred to the Honor and Ethics Council.\n\nSharing code and responses\nOn problem sets you may use online resources, including StackOverflow and AI assistants, and you must cite any borrowed or adapted code, whether copied directly or modified. Uncited reuse is treated as plagiarism.\nOn application exercises, use whatever resources you like.\nCheck-ins and exams are closed book and closed device.",
+    "text": "Honor code\nWake Forest University is committed to a culture of academic integrity. As a part of this community, you share the responsibility for creating a place of honesty, intellectual curiosity, and individual accountability. As you committed to with your honor pledge signature, you agree “not to deceive any member of the community; not to steal, cheat, or plagiarize on academic work; and not to engage in any other form of academic misconduct.” If you have questions about documenting your work, working with external sources, or working with peers on assigned work, consult with me as soon as possible. Instances of academic dishonesty will be referred to the Honor and Ethics Council.\n\nSharing code and responses\nOn problem sets you may use online resources, including StackOverflow and AI assistants, and you must cite any borrowed or adapted code, whether copied directly or modified. Un-cited reuse is treated as plagiarism.\nCheck-ins and exams are closed book and closed device.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Course Details",
