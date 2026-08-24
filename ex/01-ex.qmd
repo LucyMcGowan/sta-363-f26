@@ -11,10 +11,7 @@ jupyter: python3
 
 ## Part 1: Getting used to the tools
 
-Download [00-ps.ipynb](https://github.com/LucyMcGowan/sta-363-f26/blob/main/ps/00-ps.ipynb)
-from GitHub using the download icon near the top of the file view, then go
-to [Google Colab](https://colab.research.google.com) and open it with
-**File > Upload notebook**.
+Work through the first Colab notebook. To get here, go to our [Course Schedule](../schedule.qmd) and click on the first problem set (on today's date, under the PS column). 
 
 
 ## Part 2: Naming the pieces
