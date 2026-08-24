@@ -1403,7 +1403,7 @@
     "href": "ex/01-ex.html",
     "title": "Application exercise 1: What is the problem?",
     "section": "",
-    "text": "Download 00-ps.ipynb from GitHub using the download icon near the top of the file view, then go to Google Colab and open it with File &gt; Upload notebook.",
+    "text": "Work through the first Colab notebook. To get here, go to our Course Schedule and click on the first problem set (on today’s date, under the PS column).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -1415,7 +1415,7 @@
     "href": "ex/01-ex.html#part-1-getting-used-to-the-tools",
     "title": "Application exercise 1: What is the problem?",
     "section": "",
-    "text": "Download 00-ps.ipynb from GitHub using the download icon near the top of the file view, then go to Google Colab and open it with File &gt; Upload notebook.",
+    "text": "Work through the first Colab notebook. To get here, go to our Course Schedule and click on the first problem set (on today’s date, under the PS column).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
