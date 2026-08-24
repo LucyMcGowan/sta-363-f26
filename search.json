@@ -1000,7 +1000,7 @@
     "href": "index.html",
     "title": "STA 363: Statistical Learning",
     "section": "",
-    "text": "Course Info\nLocation: Kirby 108 Time: W/F Semester: Fall 2026\n\n\n Office Hours\nInstructor: Dr. Lucy D’Agostino McGowan Email: mcgowald@wfu.edu Hours: Bookable Office: Manchester 342\nMath & Stats Center: mathandstatscenter@wfu.edu Location: Math & Stats Center\n\n\n\n Text\nThe main textbook is An Introduction to Statistical Learning with Applications in Python by Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan Taylor (Springer, 2023). A free PDF is available at statlearning.com.\n\n\n Computing\nWe use Python in Google Colab, so there is nothing to install. You need a browser and your WFU Google account.\nStart here: Getting Started with Colab.\nThe Python Quick Guide has the R to Python translation.\n\n\n Stuck?\nRead Troubleshooting first, then see Help for office hours, the Math & Stats Center, and how to ask a question that gets a fast answer.\n\n\n Materials\nThis class is hands on. Bring a charged laptop to every class."
+    "text": "Course Info\nLocation: Kirby 108 Time: W/F Semester: Fall 2026\n\n\n Office Hours\nInstructor: Dr. Lucy D’Agostino McGowan Email: mcgowald@wfu.edu Hours: Bookable Office: Manchester 342\nMath & Stats Center: mathandstatscenter@wfu.edu Location: Math & Stats Center\n\n\n\n Text\nThe main textbook is An Introduction to Statistical Learning with Applications in Python by Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan Taylor (Springer, 2023). A free PDF is available at statlearning.com.\n\n\n Computing\nWe use Python in Google Colab, so there is nothing to install. You need a browser and your WFU Google account.\nStart here: Getting Started with Colab.\nThe Python Quick Guide has the R to Python translation.\n\n\n Stuck?\nRead Troubleshooting first, then see Help for office hours and information about the Math & Stats Center.\n\n\n Materials\nThis class is hands on. Bring a charged laptop to every class."
   },
   {
     "objectID": "ex/06-ex.html",
@@ -1733,6 +1733,18 @@
       "{{< fa calendar >}} Schedule",
       "Computing",
       "Python Quick Guide"
+    ]
+  },
+  {
+    "objectID": "slides/01-welcome.html#class-website",
+    "href": "slides/01-welcome.html#class-website",
+    "title": "Statistical learning",
+    "section": "Class website",
+    "text": "Class website\nhttps://lucymcgowan.github.io/sta-363-f26",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "1. Statistical learning"
     ]
   },
   {
