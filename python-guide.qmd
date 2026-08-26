@@ -3,6 +3,7 @@ title: "{{< fa brands python >}} Python Quick Guide"
 jupyter: python3
 ---
 
+Here is how we will import our data: 
 
 ```{python}
 import numpy as np
