@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.7.29">
 
   <meta name="author" content="Dr.&nbsp;Lucy D’Agostino McGowan">
-  <title>STA 363 – Statistical learning</title>
+  <title>STA 363 – Lasso and elastic net</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -189,14 +189,11 @@
       margin-right: 0; 
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  
-  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<meta property="og:title" content="Statistical learning – STA 363">
-<meta property="og:description" content="STA 363 | Meeting 1">
+<meta property="og:title" content="Lasso and elastic net – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 10">
 <meta property="og:site_name" content="STA 363">
-<meta name="twitter:title" content="Statistical learning – STA 363">
-<meta name="twitter:description" content="STA 363 | Meeting 1">
+<meta name="twitter:title" content="Lasso and elastic net – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 10">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -205,8 +202,8 @@
     <div class="slides">
 
 <section id="title-slide" data-color="#d5008f" class="quarto-title-block center">
-  <h1 class="title">Statistical learning</h1>
-  <p class="subtitle">STA 363 | Meeting 1</p>
+  <h1 class="title">Lasso and elastic net</h1>
+  <p class="subtitle">STA 363 | Meeting 10</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -217,372 +214,449 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 
 </section>
-<section id="class-website" class="slide level2">
-<h2>Class website</h2>
-<p><a href="https://lucymcgowan.github.io/sta-363-f26">https://lucymcgowan.github.io/sta-363-f26</a></p>
-</section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
-<ul>
-<li class="fragment">Supervised learning<br>
-</li>
-<li class="fragment">Notation<br>
-</li>
-<li class="fragment">Reducible and irreducible error<br>
-</li>
-<li class="fragment">Flexibility and interpretability<br>
-</li>
-</ul>
-</section>
-<section>
-<section id="supervised-learning" class="title-slide slide level1 center">
-<h1>Supervised learning</h1>
-
-</section>
-<section id="supervised-learning-1" class="slide level2">
-<h2>Supervised learning</h2>
-<div class="takeaway">
-<p>Given predictors we can measure, estimate a future response we cannot.</p>
+<section id="review" class="slide level2">
+<h2>Review</h2>
+<div class="question">
+<p>What is ridge regression minimizing, and what is <span class="math inline">\(\hat\beta^R\)</span>?</p>
 </div>
 <div class="fragment">
+<div class="takeaway">
+<p>RSS <span class="math inline">\(+ \lambda\sum_{j=1}^p\beta_j^2\)</span>, minimized by <span class="math inline">\((\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="what-ridge-cannot-do" class="slide level2 small">
+<h2>What ridge cannot do</h2>
+<div class="takeaway">
+<p>Ridge keeps all <span class="math inline">\(p\)</span> predictors in the model at every finite <span class="math inline">\(\lambda\)</span>. On <code>Credit</code> that is ten coefficients to report when four of them carry the signal.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Subset selection drops predictors and ridge shrinks them. Is there something that does both?</p>
+</div>
+</div>
+</section>
+<section>
+<section id="the-lasso" class="title-slide slide level1 center">
+<h1>The lasso</h1>
+
+</section>
+<section id="the-lasso-1" class="slide level2 small">
+<h2>The lasso</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda\sum_{j=1}^{p}|\beta_j|\]</span></p>
+</section>
+<section id="the-lasso-2" class="slide level2 small">
+<h2>The lasso</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda\sum_{j=1}^{p}{\require{color}\colorbox{#eec8e1}{$|\beta_j|$}}\]</span></p>
+<p>The absolute value of one coefficient, where ridge had its square. That is the whole difference between the two methods.</p>
+</section>
+<section id="the-lasso-3" class="slide level2 small">
+<h2>The lasso</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda{\require{color}\colorbox{#eec8e1}{$\sum_{j=1}^{p}|\beta_j|$}}\]</span></p>
+<p>Summed over the <span class="math inline">\(p\)</span> predictors, this is the <span class="math inline">\(\ell_1\)</span> norm <span class="math inline">\(\|\beta\|_1\)</span>, where ridge used the squared <span class="math inline">\(\ell_2\)</span> norm <span class="math inline">\(\|\beta\|_2^2\)</span>. The sum starts at <span class="math inline">\(j = 1\)</span>, so the intercept goes unpenalized here too.</p>
+</section>
+<section id="the-lasso-4" class="slide level2 small">
+<h2>The lasso</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + {\require{color}\colorbox{#eec8e1}{$\lambda$}}\sum_{j=1}^{p}|\beta_j|\]</span></p>
+<p>The same tuning parameter, chosen the same way, by cross-validation. At <span class="math inline">\(\lambda = 0\)</span> this is least squares, and at <span class="math inline">\(\lambda\)</span> large enough every coefficient is exactly zero.</p>
+</section>
+<section id="two-norms" class="slide level2 small">
+<h2>Two norms</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="ridge">Ridge</h3>
+<p><span class="math display">\[\|\beta\|_2^2 = \sum_{j=1}^{p}\beta_j^2\]</span></p>
+<p>Shrinks every coefficient toward zero.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="lasso">Lasso</h3>
+<p><span class="math display">\[\|\beta\|_1 = \sum_{j=1}^{p}|\beta_j|\]</span></p>
+<p>Shrinks, and sets some to exactly zero.</p>
+</div></div>
+<div class="fragment">
+<div class="takeaway">
+<p>A model with some coefficients exactly zero is called <strong>sparse</strong>. The lasso performs variable selection as a side effect of shrinking.</p>
+</div>
+</div>
+</section>
+<section id="lasso-paths-on-credit" class="slide level2">
+<h2>Lasso paths on Credit</h2>
+
+<img data-src="img/islp/fig6_6.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
+<p>ISLP Figure 6.6. Standardized lasso coefficients for <code>Credit</code> against <span class="math inline">\(\lambda\)</span> on the left and against <span class="math inline">\(\|\hat\beta^L_\lambda\|_1 / \|\hat\beta\|_1\)</span> on the right.</p>
+</div>
+</section>
+<section id="reading-the-lasso-paths" class="slide level2 small">
+<h2>Reading the lasso paths</h2>
 <ul>
-<li>Labs today <span class="math inline">\(\rightarrow\)</span> readmission within 30 days<br>
+<li class="fragment">Moving right to left, <code>rating</code> enters first, then <code>student</code> and <code>limit</code><br>
 </li>
-<li>Square footage, age, zip <span class="math inline">\(\rightarrow\)</span> sale price<br>
+<li class="fragment">Each path hits zero at some finite <span class="math inline">\(\lambda\)</span> and stays there<br>
 </li>
-<li>Yesterday’s returns <span class="math inline">\(\rightarrow\)</span> tomorrow’s direction<br>
+<li class="fragment">At any given <span class="math inline">\(\lambda\)</span> the model contains however many are still nonzero<br>
 </li>
 </ul>
+<div class="fragment">
+<div class="question">
+<p>Compare this to Wednesday’s ridge paths. Which coefficient ever reached zero there?</p>
+</div>
 </div>
 </section>
-<section id="example-wage-data" class="slide level2">
-<h2>Example: Wage data</h2>
+<section id="the-same-paths-computed" class="slide level2 small">
+<h2>The same paths, computed</h2>
 
-<img data-src="img/islp/fig1_1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
-<p>ISLP Figure 1.1. Wage against age, year, and education for 3,000 men in the Atlantic region.</p>
+<img data-src="10-lasso_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>The lasso fit on standardized <code>Hitters</code> predictors at 60 penalties. Right: how many of the 19 coefficients are still nonzero at each one.</p>
 </div>
 </section>
-<section id="example-smarket-data" class="slide level2">
-<h2>Example: Smarket data</h2>
-
-<img data-src="img/islp/fig1_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
-<p>ISLP Figure 1.2. Previous days’ percentage change in the S&amp;P 500, split by whether the market rose or fell the next day.</p>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 1. <a href="../ex/10-ex.html">ex/10-ex</a></p>
 </div>
 </section></section>
 <section>
-<section id="notation" class="title-slide slide level1 center">
-<h1>Notation</h1>
+<section id="why-the-lasso-zeroes-out" class="title-slide slide level1 center">
+<h1>Why the lasso zeroes out</h1>
 
 </section>
-<section id="response-and-predictors" class="slide level2 small">
-<h2>Response and predictors</h2>
-<div class="definition">
-<p><span class="math inline">\(Y\)</span> is the <strong>response</strong>, also called the outcome or target.</p>
-<p><span class="math inline">\(X = (X_1, X_2, \dots, X_p)\)</span> are the <strong>predictors</strong>, also called features or variables.</p>
-<p><span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(p\)</span> the number of predictors.</p>
+<section id="the-budget-form" class="slide level2 small">
+<h2>The budget form</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="lasso-1">Lasso</h3>
+<p>minimize RSS subject to <span class="math display">\[\sum_{j=1}^{p}|\beta_j| \leq s\]</span></p>
+</div><div class="column" style="width:50%;">
+<h3 id="ridge-1">Ridge</h3>
+<p>minimize RSS subject to <span class="math display">\[\sum_{j=1}^{p}\beta_j^2 \leq s\]</span></p>
+</div></div>
+<div class="fragment">
+<div class="takeaway">
+<p>For every <span class="math inline">\(\lambda\)</span> there is an <span class="math inline">\(s\)</span> giving the same answer. Large <span class="math inline">\(\lambda\)</span> is a small budget.</p>
+</div>
 </div>
 </section>
-<section id="notation-in-code" class="slide level2 small">
-<h2>Notation in code</h2>
-<div id="37a4fb9f" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>Wage <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Wage.csv"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>Wage[[<span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"education"</span>, <span class="st">"wage"</span>]].head()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-constraint-regions" class="slide level2">
+<h2>The constraint regions</h2>
+
+<img data-src="img/islp/fig6_7.png" class="quarto-figure quarto-figure-center r-stretch" style="width:66.0%"><div class="source">
+<p>ISLP Figure 6.7. Contours of RSS in red against the constraint regions in blue: a diamond for the lasso on the left, a circle for ridge on the right.</p>
+</div>
+</section>
+<section id="corners" class="slide level2 small">
+<h2>Corners</h2>
+<div class="takeaway">
+<p>The RSS contours grow outward from <span class="math inline">\(\hat\beta\)</span> until they touch the constraint region. The diamond has corners on the axes, and a corner is a point where one coefficient is exactly zero.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>A circle has no corners. Where does the ridge solution touch, and what does that mean for a coefficient reaching zero?</p>
+</div>
+</div>
+</section>
+<section id="best-subset-in-the-same-picture" class="slide level2 small">
+<h2>Best subset in the same picture</h2>
+<div class="definition">
+<p>Best subset selection is minimizing RSS subject to <span class="math inline">\(\sum_{j=1}^{p}I(\beta_j \neq 0) \leq s\)</span>: a budget on how many coefficients may be nonzero.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Same shape of problem, a budget that cannot be searched in reasonable time. The lasso replaces it with one that can.</p>
+</div>
+</div>
+</section>
+<section id="shrinkage-in-one-dimension" class="slide level2">
+<h2>Shrinkage in one dimension</h2>
+
+<img data-src="img/islp/fig6_10.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="source">
+<p>ISLP Figure 6.10. With <span class="math inline">\(n = p\)</span> and <span class="math inline">\(\mathbf{X}\)</span> the identity. Left: ridge shrinks proportionally. Right: the lasso soft-thresholds, so estimates below a cutoff go to exactly zero.</p>
+</div>
+</section>
+<section id="application-exercise-1" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 2. <a href="../ex/10-ex.html">ex/10-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="which-one-wins" class="title-slide slide level1 center">
+<h1>Which one wins</h1>
+
+</section>
+<section id="a-dense-truth" class="slide level2">
+<h2>A dense truth</h2>
+
+<img data-src="img/islp/fig6_8.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
+<p>ISLP Figure 6.8. All 45 predictors related to the response. Right: lasso solid, ridge dotted, with squared bias, variance, and test MSE.</p>
+</div>
+</section>
+<section id="a-sparse-truth" class="slide level2">
+<h2>A sparse truth</h2>
+
+<img data-src="img/islp/fig6_9.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
+<p>ISLP Figure 6.9. The same simulation with only two predictors related to the response. Lasso solid, ridge dotted.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Neither method dominates. The lasso wins when the truth is sparse, and ridge wins when every predictor contributes a little.</p>
+</div>
+</div>
+</section>
+<section id="you-cannot-see-the-truth" class="slide level2 small">
+<h2>You cannot see the truth</h2>
+<div class="question">
+<p>On a real data set, how would you decide between them?</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Cross-validate both and compare, exactly as with any other choice this semester. The choice of method is one more tuning decision.</p>
+</div>
+</div>
+</section>
+<section id="selecting-the-tuning-parameter" class="slide level2">
+<h2>Selecting the tuning parameter</h2>
+
+<img data-src="img/islp/fig6_13.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><div class="source">
+<p>ISLP Figure 6.13. Left: 10-fold cross-validation MSE for the lasso on the sparse simulation. Right: the coefficient paths, with the two signal variables in color and the noise in grey.</p>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Parts 3 and 4. <a href="../ex/10-ex.html">ex/10-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="elastic-net" class="title-slide slide level1 center">
+<h1>Elastic net</h1>
+
+</section>
+<section id="elastic-net-1" class="slide level2 small">
+<h2>Elastic net</h2>
+<p><span class="math display">\[\text{RSS} + \lambda\left(\alpha\sum_{j=1}^{p}|\beta_j| + (1-\alpha)\sum_{j=1}^{p}\beta_j^2\right)\]</span></p>
+</section>
+<section id="elastic-net-2" class="slide level2 small">
+<h2>Elastic net</h2>
+<p><span class="math display">\[\text{RSS} + \lambda\left({\require{color}\colorbox{#eec8e1}{$\alpha\sum_{j=1}^{p}|\beta_j|$}} + (1-\alpha)\sum_{j=1}^{p}\beta_j^2\right)\]</span></p>
+<p>The lasso part of the penalty, which is what drives coefficients to exactly zero and makes the fit sparse.</p>
+</section>
+<section id="elastic-net-3" class="slide level2 small">
+<h2>Elastic net</h2>
+<p><span class="math display">\[\text{RSS} + \lambda\left(\alpha\sum_{j=1}^{p}|\beta_j| + {\require{color}\colorbox{#eec8e1}{$(1-\alpha)\sum_{j=1}^{p}\beta_j^2$}}\right)\]</span></p>
+<p>The ridge part, which shrinks everything and handles correlated predictors without having to choose between them.</p>
+</section>
+<section id="elastic-net-4" class="slide level2 small">
+<h2>Elastic net</h2>
+<p><span class="math display">\[\text{RSS} + \lambda\left({\require{color}\colorbox{#eec8e1}{$\alpha$}}\sum_{j=1}^{p}|\beta_j| + (1-\alpha)\sum_{j=1}^{p}\beta_j^2\right)\]</span></p>
+<p>The mixing parameter, between 0 and 1. At <span class="math inline">\(\alpha = 1\)</span> this is the lasso and at <span class="math inline">\(\alpha = 0\)</span> it is ridge. It is scikit-learn’s <code>l1_ratio</code>, and it is tuned by cross-validation alongside <span class="math inline">\(\lambda\)</span>.</p>
+</section>
+<section id="when-mixing-helps" class="slide level2 small">
+<h2>When mixing helps</h2>
+<ul>
+<li class="fragment">The lasso picks one of a group of correlated predictors and drops the rest<br>
+</li>
+<li class="fragment">When <span class="math inline">\(p &gt; n\)</span> the lasso can select at most <span class="math inline">\(n\)</span> predictors<br>
+</li>
+<li class="fragment">The ridge part lifts both limits while the lasso part keeps the sparsity<br>
+</li>
+</ul>
+</section></section>
+<section>
+<section id="in-python" class="title-slide slide level1 center">
+<h1>In Python</h1>
+
+</section>
+<section id="lasso-in-scikit-learn" class="slide level2 small">
+<h2>Lasso in scikit-learn</h2>
+<div id="31ab3749" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>Hitters <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Hitters.csv"</span>).dropna(subset<span class="op">=</span>[<span class="st">"Salary"</span>])</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(Hitters.drop(columns<span class="op">=</span>[<span class="st">"Salary"</span>]), drop_first<span class="op">=</span><span class="va">True</span>).astype(<span class="bu">float</span>)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Hitters[<span class="st">"Salary"</span>]</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-10" class="code-annotation-target"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> make_pipeline(StandardScaler(), Lasso(alpha<span class="op">=</span><span class="dv">70</span>, max_iter<span class="op">=</span><span class="dv">200000</span>)).fit(X, y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-11" class="code-annotation-target"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>pd.Series(fit[<span class="op">-</span><span class="dv">1</span>].coef_, index<span class="op">=</span>X.columns).loc[<span class="kw">lambda</span> s: s <span class="op">!=</span> <span class="dv">0</span>].<span class="bu">round</span>(<span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>DATA</code> is the base URL for the raw CSV files in the course’s GitHub<br>
-repository. Every data set we load starts by appending a file name to this string.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>Lasso</code> is scikit-learn’s <span class="math inline">\(\ell_1\)</span> penalized least squares. Its penalty<br>
+parameter is <code>alpha</code>, the same name <code>Ridge</code> uses.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2"><code>pd.read_csv</code> reads the CSV at <code>DATA + "Wage.csv"</code> and<br>
-returns a <code>DataFrame</code>, assigned to <code>Wage</code>.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="10" data-code-annotation="2"><code>max_iter=200000</code> raises the iteration cap on the coordinate descent solver,<br>
+since the lasso has no closed form the way ridge does and small <code>alpha</code> values converge slowly.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="3"><code>Wage[["age", "year", "education", "wage"]]</code> selects four columns by<br>
-name, and <code>.head()</code> returns the first five rows of that subset for display.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="11" data-code-annotation="3"><code>.loc[lambda s: s != 0]</code> keeps only the nonzero coefficients, which is the<br>
+part of the output the lasso is being asked for.</span>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header" style="text-align: right;">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">age</th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">education</th>
-<th data-quarto-table-cell-role="th">wage</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>18</td>
-<td>2006</td>
-<td>1. &lt; HS Grad</td>
-<td>75.043154</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>24</td>
-<td>2004</td>
-<td>4. College Grad</td>
-<td>70.476020</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>45</td>
-<td>2003</td>
-<td>3. Some College</td>
-<td>130.982177</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>43</td>
-<td>2003</td>
-<td>4. College Grad</td>
-<td>154.685293</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>50</td>
-<td>2005</td>
-<td>2. HS Grad</td>
-<td>75.043154</td>
-</tr>
-</tbody>
-</table>
-
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>Hits           63.9
+Walks          34.2
+CRuns          51.9
+CRBI          109.2
+PutOuts        23.0
+Division_W     -3.5
+dtype: float64</code></pre>
 </div>
 </div>
+</section>
+<section id="tuning-alpha" class="slide level2 small">
+<h2>Tuning alpha</h2>
+<div id="de4bd0fc" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>    make_pipeline(StandardScaler(), Lasso(max_iter<span class="op">=</span><span class="dv">200000</span>)),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"lasso__alpha"</span>: np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">60</span>)},</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>).fit(X, y)</span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-10" class="code-annotation-target"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>kept <span class="op">=</span> <span class="bu">int</span>((grid.best_estimator_[<span class="op">-</span><span class="dv">1</span>].coef_ <span class="op">!=</span> <span class="dv">0</span>).<span class="bu">sum</span>())</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(grid.best_params_[<span class="st">"lasso__alpha"</span>], <span class="dv">2</span>), <span class="bu">round</span>(<span class="op">-</span>grid.best_score_), kept</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="1">Sixty candidate penalties on a log scale from 0.1 to 1000, reaching the<br>
+<code>alpha</code> of the pipeline step named <code>lasso</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="10" data-code-annotation="2"><code>grid.best_estimator_</code> is the pipeline refit on all the data at the winning<br>
+<code>alpha</code>, so counting its nonzero coefficients says how many predictors the chosen model actually uses.</span>
+</dd>
+</dl>
 </div>
-<div class="fragment">
-<div id="3be6e54c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>Wage.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(3000, 11)</code></pre>
-</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(np.float64(1.22), 114828, 17)</code></pre>
 </div>
 </div>
 <div class="fragment">
 <div class="question">
-<p>In the <code>Wage</code> data, what is <span class="math inline">\(Y\)</span>? What is <span class="math inline">\(p\)</span>?</p>
+<p>The winning alpha keeps 17 of 19. Where did the sparsity go?</p>
 </div>
 </div>
 </section>
-<section id="the-model" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = f(X) + \varepsilon\]</span></p>
-</section>
-<section id="the-model-1" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[{\require{color}\colorbox{#eec8e1}{$Y$}} = f(X) + \varepsilon\]</span></p>
-<p>The response we want to predict.</p>
-</section>
-<section id="the-model-2" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$f(X)$}} + \varepsilon\]</span></p>
-<p>The true, otherwise-unknown relationship between the predictors and <span class="math inline">\(Y\)</span>.</p>
-</section>
-<section id="the-model-3" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = f(X) + {\require{color}\colorbox{#eec8e1}{$\varepsilon$}}\]</span></p>
-<p>The error term: everything about <span class="math inline">\(Y\)</span> that <span class="math inline">\(X\)</span> does not capture.</p>
-</section>
-<section id="the-error-term" class="slide level2">
-<h2>The error term</h2>
+<section id="the-one-standard-error-rule" class="slide level2 small">
+<h2>The one standard error rule</h2>
 
-<img data-src="img/islp/fig2_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:84.0%"><div class="source">
-<p>ISLP Figure 2.2. Left: observed income and years of education for 30 people. Right: the true <span class="math inline">\(f\)</span> in blue, with the black segments showing each <span class="math inline">\(\varepsilon_i\)</span>.</p>
+<img data-src="10-lasso_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>The lasso CV curve on <code>Hitters</code>. Dashed line: one standard error above the minimum. Vertical line: the largest alpha still under it.</p>
 </div>
-</section></section>
-<section>
-<section id="prediction-and-inference" class="title-slide slide level1 center">
-<h1>Prediction and inference</h1>
-
 </section>
-<section id="prediction-and-inference-1" class="slide level2">
-<h2>Prediction and inference</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="prediction">Prediction</h3>
-<p>Is <span class="math inline">\(\hat{Y}\)</span> close to <span class="math inline">\(Y\)</span>?</p>
-<p><span class="math inline">\(\hat{f}\)</span> may be a black box.</p>
-<div class="fragment fade-in">
+<section id="what-the-rule-keeps" class="slide level2 small">
+<h2>What the rule keeps</h2>
+<div id="198ad73d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>one_se <span class="op">=</span> make_pipeline(StandardScaler(), Lasso(alpha<span class="op">=</span>pick, max_iter<span class="op">=</span><span class="dv">200000</span>)).fit(X, y)</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>pd.Series(one_se[<span class="op">-</span><span class="dv">1</span>].coef_, index<span class="op">=</span>X.columns).loc[<span class="kw">lambda</span> s: s <span class="op">!=</span> <span class="dv">0</span>].<span class="bu">round</span>(<span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1"><code>pick</code> is the largest <code>alpha</code> whose cross-validated MSE sits within one<br>
+standard error of the minimum, read off the curve on the previous slide. Refitting there gives the model the one standard error rule chooses.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>Hits           63.8
+Walks          34.1
+CRuns          51.8
+CRBI          109.1
+PutOuts        22.7
+Division_W     -3.2
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="fragment">
 <div class="takeaway">
-<p><strong>This course.</strong></p>
+<p>Six predictors instead of seventeen, at a cross-validated MSE the folds cannot distinguish from the best one.</p>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
-<h3 id="inference">Inference</h3>
-<p>How does <span class="math inline">\(Y\)</span> change with <span class="math inline">\(X_j\)</span>?</p>
-<p><span class="math inline">\(\hat{f}\)</span> must be interpretable.</p>
-<div class="fragment fade-in">
-<div class="dim">
-<p>STA 112 and STA 312.</p>
+</section>
+<section id="elasticnet-in-scikit-learn" class="slide level2 small">
+<h2>ElasticNet in scikit-learn</h2>
+<div id="2525cf95" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>enet <span class="op">=</span> GridSearchCV(</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    make_pipeline(StandardScaler(), ElasticNet(max_iter<span class="op">=</span><span class="dv">200000</span>)),</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"elasticnet__alpha"</span>: np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">30</span>),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"elasticnet__l1_ratio"</span>: [<span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span>, <span class="fl">1.0</span>],</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>).fit(X, y)</span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>enet.best_params_, <span class="bu">round</span>(<span class="op">-</span>enet.best_score_)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1"><code>ElasticNet</code> carries both penalties at once, with <code>alpha</code> setting the total<br>
+strength and <code>l1_ratio</code> splitting it between the two.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="2"><code>l1_ratio</code> is the <span class="math inline">\(\alpha\)</span> from the equation above: 1.0 is pure lasso, 0.0<br>
+is pure ridge, and the grid searches six points between them.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="12" data-code-annotation="3">The search runs 180 combinations per fold, and <code>best_params_</code> reports the<br>
+winning pair.</span>
+</dd>
+</dl>
 </div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>({'elasticnet__alpha': np.float64(1.2689610031679222),
+  'elasticnet__l1_ratio': 1.0},
+ 114853)</code></pre>
 </div>
-</div></div>
-</section>
-<section id="reducible-and-irreducible-error" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-</section>
-<section id="reducible-and-irreducible-error-1" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{{\require{color}\colorbox{#eec8e1}{$\left[f(X) - \hat{f}(X)\right]^2$}}}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-<p>How far our estimate <span class="math inline">\(\hat{f}\)</span> sits from the truth <span class="math inline">\(f\)</span>. A better method, better predictors, or more data can shrink this to zero.</p>
-</section>
-<section id="reducible-and-irreducible-error-2" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{{\require{color}\colorbox{#eec8e1}{$\text{Var}(\varepsilon)$}}}_{\text{irreducible}}\]</span></p>
-<p>The irreducible error. No method, however good, gets past this floor.</p>
-</section></section>
-<section>
-<section id="flexibility" class="title-slide slide level1 center">
-<h1>Flexibility</h1>
-
-</section>
-<section id="the-true-f" class="slide level2">
-<h2>The true f</h2>
-
-<img data-src="img/islp/fig2_3.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.3. Income as a function of education and seniority, simulated so that the true surface is known.</p>
-</div>
-</section>
-<section id="linear-fit" class="slide level2">
-<h2>Linear fit</h2>
-
-<img data-src="img/islp/fig2_4.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.4. A linear model fit by least squares to the data of Figure 2.3.</p>
-</div>
-</section>
-<section id="smoothing-spline" class="slide level2">
-<h2>Smoothing spline</h2>
-
-<img data-src="img/islp/fig2_5.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.5. A smooth thin plate spline fit to the same data.</p>
-</div>
-</section>
-<section id="overfit-spline" class="slide level2">
-<h2>Overfit spline</h2>
-
-<img data-src="img/islp/fig2_6.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.6. A rough thin plate spline with zero error on the training data.</p>
 </div>
 <div class="fragment">
 <div class="question">
-<p>Is this the best model? The training error is zero!</p>
+<p><code>l1_ratio</code> comes back at 1.0. What does that say about <code>Hitters</code>?</p>
 </div>
 </div>
 </section>
-<section id="parametric-and-non-parametric" class="slide level2 small">
-<h2>Parametric and non-parametric</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="parametric">Parametric</h3>
-<p>Assume a form for <span class="math inline">\(f\)</span>, estimate a fixed number of parameters.</p>
-<p><span class="math inline">\(f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></p>
-<p>Wrong if the form is wrong.</p>
-</div><div class="column" style="width:50%;">
-<h3 id="non-parametric">Non-parametric</h3>
-<p>No assumed form. The data pick the shape.</p>
-<p>Flexible, and needs far more data.</p>
-</div></div>
-</section>
-<section id="flexibility-and-interpretability" class="slide level2">
-<h2>Flexibility and interpretability</h2>
-
-<img data-src="img/islp/fig2_7.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="source">
-<p>ISLP Figure 2.7. The trade off between flexibility and interpretability across methods.</p>
-</div>
-</section>
-<section id="regression-and-classification" class="slide level2">
-<h2>Regression and classification</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="regression">Regression</h3>
-<p><span class="math inline">\(Y\)</span> is quantitative.</p>
-<ul>
-<li>Wage<br>
-</li>
-<li>Price<br>
-</li>
-<li>Blood pressure</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="classification">Classification</h3>
-<p><span class="math inline">\(Y\)</span> is qualitative.</p>
-<ul>
-<li>Readmitted or not<br>
-</li>
-<li>Labeling handwritten numbers<br>
-</li>
-<li>Which customers will convert</li>
-</ul>
-</div></div>
-</section></section>
-<section>
-<section id="course-mechanics" class="title-slide slide level1 center">
-<h1>Course mechanics</h1>
-
-</section>
-<section id="course-structure" class="slide level2">
-<h2>Course structure</h2>
-<ul>
-<li class="fragment">Most Wednesdays: a paper check-in at the end of class<br>
-</li>
-<li class="fragment">Most Fridays: a problem set due<br>
-</li>
-<li class="fragment">Three exams: October 9, November 11, and a Final<br>
-</li>
-</ul>
-</section>
-<section id="google-colab" class="slide level2">
-<h2>Google Colab</h2>
-<ul>
-<li>Free, runs in the browser, no local install<br>
-</li>
-<li>Every notebook lives in this course’s GitHub repository<br>
-</li>
-<li>Application exercise 1 starts with a short walkthrough<br>
-</li>
-</ul>
-</section>
-<section id="application-exercise-1" class="slide level2">
-<h2>Application exercise 1</h2>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
 <div class="takeaway">
-<p>Getting comfortable in Colab, then identifying <span class="math inline">\(Y\)</span>, <span class="math inline">\(X\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(p\)</span>, and sorting problems into prediction and inference.</p>
+<p>Complete Part 5. <a href="../ex/10-ex.html">ex/10-ex</a></p>
 </div>
 </section>
-<section id="before-friday" class="slide level2">
-<h2>Before Friday</h2>
+<section id="application-exercise-10" class="slide level2">
+<h2>Application exercise 10</h2>
+<div class="takeaway">
+<p>Drew lasso paths and counted what survives, applied the one standard error rule to get a six-predictor model, raced ridge and lasso on the same folds, and found which truth each one is built for.</p>
+</div>
+</section>
+<section id="before-wednesday" class="slide level2">
+<h2>Before Wednesday</h2>
 <ul>
-<li>Read ISLP Section 2.2.1<br>
+<li>Read ISLP Section 4.3<br>
 </li>
-<li>Have Colab running<br>
+<li>Problem set 4 due today, problem set 5 posted<br>
+</li>
+<li>Check-in 5 on Wednesday<br>
 </li>
 </ul>
+<div class="fragment">
+<div class="question">
+<p>Every model since Meeting 7 has predicted a number. What changes when the outcome is a category?</p>
+</div>
+</div>
 
 
 </section></section>

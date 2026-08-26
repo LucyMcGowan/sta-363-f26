@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title> Python Quick Guide – STA 363</title>
+<title>Application exercise 7: Least squares as a prediction model – STA 363</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,28 +58,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./data.html" rel="next">
-<link href="./colab.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ex/08-ex.html" rel="next">
+<link href="../ex/06-ex.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,17 +111,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="www/fontawesome/css/all.min.css">
-<meta property="og:title" content=" Python Quick Guide – STA 363">
-<meta property="og:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
-<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/python-guide_files/figure-html/cell-9-output-1.png">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
+<meta property="og:title" content="Application exercise 7: Least squares as a prediction model – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 7 | September 16">
+<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/07-ex_files/figure-html/cell-5-output-1.png">
 <meta property="og:site_name" content="STA 363">
 <meta property="og:image:height" content="320">
 <meta property="og:image:width" content="511">
-<meta name="twitter:title" content=" Python Quick Guide – STA 363">
-<meta name="twitter:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
-<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/python-guide_files/figure-html/cell-9-output-1.png">
+<meta name="twitter:title" content="Application exercise 7: Least squares as a prediction model – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 7 | September 16">
+<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/07-ex_files/figure-html/cell-5-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image-height" content="320">
@@ -296,7 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">STA 363</span>
     </a>
   </div>
@@ -307,15 +336,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./schedule.html" aria-current="page"> 
+    <a class="nav-link active" href="../schedule.html" aria-current="page"> 
 <span class="menu-text"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text"><i class="fa-solid fa-gavel" aria-hidden="true"></i> Policies</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./help.html"> 
+    <a class="nav-link" href="../help.html"> 
 <span class="menu-text"><i class="fa-solid fa-question-circle" aria-hidden="true"></i> Help</span></a>
   </li>  
   <li class="nav-item">
@@ -334,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./python-guide.html">Python Quick Guide</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/07-ex.html">7. Least squares</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -357,13 +386,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Policies</span></a>
   </div>
 </li>
@@ -371,34 +400,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Computing</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./colab.html" class="sidebar-item-text sidebar-link">
+  <a href="../colab.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting Started with Colab</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./python-guide.html" class="sidebar-item-text sidebar-link active">
+  <a href="../python-guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python Quick Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
+  <a href="../data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Troubleshooting</span></a>
   </div>
 </li>
@@ -415,73 +444,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/01-welcome.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/01-welcome.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Statistical learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Prediction error</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Bias-variance trade-off</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/04-knn.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/04-knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. K-nearest neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Pipelines and leakage</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Linear regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Subset selection</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/09-ridge.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/09-ridge.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/10-lasso.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/10-lasso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/11-logistic.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/11-logistic.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Evaluating classifiers</span></a>
   </div>
 </li>
@@ -518,82 +547,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Application Exercises</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/01-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/01-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. What is the problem?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/02-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Training error can mislead</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/03-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/03-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Reading bias and variance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/04-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/04-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Tuning K</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/05-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/05-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/06-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/06-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Find the leak</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/07-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/07-ex.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">7. Least squares</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/08-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/08-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Choosing a subset</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/09-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/09-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/10-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/10-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/11-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/11-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/12-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/12-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Thresholds and ROC</span></a>
   </div>
 </li>
@@ -608,23 +637,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
-  <li><a href="#r-to-python" id="toc-r-to-python" class="nav-link active" data-scroll-target="#r-to-python">R to Python</a></li>
-  <li><a href="#selecting" id="toc-selecting" class="nav-link" data-scroll-target="#selecting">Selecting</a></li>
-  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">Model fitting</a></li>
-  <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines">Pipelines</a></li>
-  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
-  <li><a href="#errors-you-may-see" id="toc-errors-you-may-see" class="nav-link" data-scroll-target="#errors-you-may-see">Errors you may see</a></li>
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-1-one-predictor" id="toc-part-1-one-predictor" class="nav-link" data-scroll-target="#part-1-one-predictor">Part 1: One predictor</a></li>
+  <li><a href="#part-2-the-normal-equations-by-hand" id="toc-part-2-the-normal-equations-by-hand" class="nav-link" data-scroll-target="#part-2-the-normal-equations-by-hand">Part 2: The normal equations by hand</a></li>
+  <li><a href="#part-3-more-predictors" id="toc-part-3-more-predictors" class="nav-link" data-scroll-target="#part-3-more-predictors">Part 3: More predictors</a></li>
+  <li><a href="#part-4-leverage-and-the-loocv-shortcut" id="toc-part-4-leverage-and-the-loocv-shortcut" class="nav-link" data-scroll-target="#part-4-leverage-and-the-loocv-shortcut">Part 4: Leverage and the LOOCV shortcut</a></li>
+  <li><a href="#part-5-least-squares-against-k-nearest-neighbors" id="toc-part-5-least-squares-against-k-nearest-neighbors" class="nav-link" data-scroll-target="#part-5-least-squares-against-k-nearest-neighbors">Part 5: Least squares against K-nearest neighbors</a></li>
+  <li><a href="#if-you-finish-early" id="toc-if-you-finish-early" class="nav-link" data-scroll-target="#if-you-finish-early">If you finish early</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/python-guide.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/07-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./python-guide.html">Python Quick Guide</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/07-ex.html">7. Least squares</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><i class="fa-brands fa-python" aria-hidden="true"></i> Python Quick Guide</h1>
+<h1 class="title">Application exercise 7: Least squares as a prediction model</h1>
+<p class="subtitle lead">STA 363 | Meeting 7 | September 16</p>
 </div>
 
 
@@ -641,113 +672,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="6d240a73" class="cell" data-execution_count="1">
+<p>Six meetings of machinery for judging a model, and no model to judge. Least squares is the first one, and it is the model every method for the rest of the semester is measured against.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="58f7671b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="r-to-python" class="level2">
-<h2 class="anchored" data-anchor-id="r-to-python">R to Python</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Task</th>
-<th>R</th>
-<th>Python</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>read a csv</td>
-<td><code>read_csv("f.csv")</code></td>
-<td><code>pd.read_csv("f.csv")</code></td>
-</tr>
-<tr class="even">
-<td>first rows</td>
-<td><code>head(d)</code></td>
-<td><code>d.head()</code></td>
-</tr>
-<tr class="odd">
-<td>dimensions</td>
-<td><code>dim(d)</code></td>
-<td><code>d.shape</code></td>
-</tr>
-<tr class="even">
-<td>column names</td>
-<td><code>names(d)</code></td>
-<td><code>d.columns</code></td>
-</tr>
-<tr class="odd">
-<td>one column</td>
-<td><code>d$mpg</code></td>
-<td><code>d["mpg"]</code></td>
-</tr>
-<tr class="even">
-<td>several columns</td>
-<td><code>d[, c("mpg", "weight")]</code></td>
-<td><code>d[["mpg", "weight"]]</code></td>
-</tr>
-<tr class="odd">
-<td>filter rows</td>
-<td><code>d[d$mpg &gt; 30, ]</code></td>
-<td><code>d[d["mpg"] &gt; 30]</code></td>
-</tr>
-<tr class="even">
-<td>new column</td>
-<td><code>d$kpl &lt;- d$mpg * 0.425</code></td>
-<td><code>d["kpl"] = d["mpg"] * 0.425</code></td>
-</tr>
-<tr class="odd">
-<td>summary</td>
-<td><code>summary(d)</code></td>
-<td><code>d.describe()</code></td>
-</tr>
-<tr class="even">
-<td>counts</td>
-<td><code>table(d$origin)</code></td>
-<td><code>d["origin"].value_counts()</code></td>
-</tr>
-<tr class="odd">
-<td>mean</td>
-<td><code>mean(d$mpg)</code></td>
-<td><code>d["mpg"].mean()</code></td>
-</tr>
-<tr class="even">
-<td>group means</td>
-<td><code>aggregate(mpg ~ origin, d, mean)</code></td>
-<td><code>d.groupby("origin")["mpg"].mean()</code></td>
-</tr>
-<tr class="odd">
-<td>sequence</td>
-<td><code>1:10</code></td>
-<td><code>range(1, 11)</code></td>
-</tr>
-<tr class="even">
-<td>length</td>
-<td><code>length(x)</code></td>
-<td><code>len(x)</code></td>
-</tr>
-<tr class="odd">
-<td>missing</td>
-<td><code>is.na(x)</code></td>
-<td><code>x.isna()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Python counts from <strong>zero</strong>, so <code>d.iloc[0]</code> is the first row. And <code>range(1, 11)</code> <strong>excludes</strong> the endpoint, so it stops at 10.</p>
-</section>
-<section id="selecting" class="level2">
-<h2 class="anchored" data-anchor-id="selecting">Selecting</h2>
-<div id="053742d8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Auto[[<span class="st">"mpg"</span>, <span class="st">"horsepower"</span>, <span class="st">"weight"</span>]].head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold, LeaveOneOut</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Boston <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Boston.csv"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Boston.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
 
@@ -755,29 +696,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mpg</th>
-<th data-quarto-table-cell-role="th">horsepower</th>
-<th data-quarto-table-cell-role="th">weight</th>
+<th data-quarto-table-cell-role="th">crim</th>
+<th data-quarto-table-cell-role="th">zn</th>
+<th data-quarto-table-cell-role="th">indus</th>
+<th data-quarto-table-cell-role="th">chas</th>
+<th data-quarto-table-cell-role="th">nox</th>
+<th data-quarto-table-cell-role="th">rm</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">dis</th>
+<th data-quarto-table-cell-role="th">rad</th>
+<th data-quarto-table-cell-role="th">tax</th>
+<th data-quarto-table-cell-role="th">ptratio</th>
+<th data-quarto-table-cell-role="th">lstat</th>
+<th data-quarto-table-cell-role="th">medv</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
+<td>0.00632</td>
 <td>18.0</td>
-<td>130</td>
-<td>3504</td>
+<td>2.31</td>
+<td>0</td>
+<td>0.538</td>
+<td>6.575</td>
+<td>65.2</td>
+<td>4.0900</td>
+<td>1</td>
+<td>296</td>
+<td>15.3</td>
+<td>4.98</td>
+<td>24.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>15.0</td>
-<td>165</td>
-<td>3693</td>
+<td>0.02731</td>
+<td>0.0</td>
+<td>7.07</td>
+<td>0</td>
+<td>0.469</td>
+<td>6.421</td>
+<td>78.9</td>
+<td>4.9671</td>
+<td>2</td>
+<td>242</td>
+<td>17.8</td>
+<td>9.14</td>
+<td>21.6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>18.0</td>
-<td>150</td>
-<td>3436</td>
+<td>0.02729</td>
+<td>0.0</td>
+<td>7.07</td>
+<td>0</td>
+<td>0.469</td>
+<td>7.185</td>
+<td>61.1</td>
+<td>4.9671</td>
+<td>2</td>
+<td>242</td>
+<td>17.8</td>
+<td>4.03</td>
+<td>34.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.03237</td>
+<td>0.0</td>
+<td>2.18</td>
+<td>0</td>
+<td>0.458</td>
+<td>6.998</td>
+<td>45.8</td>
+<td>6.0622</td>
+<td>3</td>
+<td>222</td>
+<td>18.7</td>
+<td>2.94</td>
+<td>33.4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.06905</td>
+<td>0.0</td>
+<td>2.18</td>
+<td>0</td>
+<td>0.458</td>
+<td>7.147</td>
+<td>54.2</td>
+<td>6.0622</td>
+<td>3</td>
+<td>222</td>
+<td>18.7</td>
+<td>5.33</td>
+<td>36.2</td>
 </tr>
 </tbody>
 </table>
@@ -785,9 +798,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="c04aab8c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Auto[Auto[<span class="st">"mpg"</span>] <span class="op">&gt;</span> <span class="dv">40</span>][[<span class="st">"name"</span>, <span class="st">"mpg"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<p><code>medv</code> is the median home value in a census tract, in thousands of dollars. <code>lstat</code> is the percentage of the population of lower socioeconomic status.</p>
+</section>
+<section id="part-1-one-predictor" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-one-predictor">Part 1: One predictor</h2>
+<div id="f35187a3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Boston[[<span class="st">"lstat"</span>]]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Boston[<span class="st">"medv"</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> LinearRegression().fit(X, y)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(fit.intercept_.<span class="bu">round</span>(<span class="dv">3</span>)), <span class="bu">float</span>(fit.coef_[<span class="dv">0</span>].<span class="bu">round</span>(<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>(34.554, -0.95)</code></pre>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Write out the fitted equation with these two numbers in it.<br>
+</li>
+<li>Predict <code>medv</code> for a tract with <code>lstat</code> equal to 10, by hand and then with <code>fit.predict</code>.<br>
+</li>
+<li>A one unit increase in <code>lstat</code> changes the predicted <code>medv</code> by how much, in dollars?<br>
+</li>
+</ol>
+</div>
+<div id="d3318ae3" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit.predict(pd.DataFrame({<span class="st">"lstat"</span>: [<span class="dv">10</span>]}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="answer-space">
+
+</div>
+<div id="4a1f715e" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ax.scatter(Boston[<span class="st">"lstat"</span>], Boston[<span class="st">"medv"</span>], color<span class="op">=</span><span class="st">"#595959"</span>, s<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> pd.DataFrame({<span class="st">"lstat"</span>: np.linspace(<span class="dv">1</span>, <span class="dv">38</span>, <span class="dv">100</span>)})</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.plot(grid[<span class="st">"lstat"</span>], fit.predict(grid), color<span class="op">=</span><span class="st">"#d5008f"</span>, lw<span class="op">=</span><span class="fl">2.2</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"lstat"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"medv"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-ex_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="question">
+<p>The line misses in a patterned way rather than at random. Where is it too high, and where is it too low? What does that tell you about the straight line as a description of this relationship?</p>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-2-the-normal-equations-by-hand" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-the-normal-equations-by-hand">Part 2: The normal equations by hand</h2>
+<p><code>LinearRegression</code> solved for the coefficients that minimize RSS. Do the same arithmetic yourself.</p>
+<div id="01b21dd0" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(Boston)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>X_design <span class="op">=</span> np.column_stack([np.ones(n), Boston[<span class="st">"lstat"</span>]])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X_design[:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>array([[1.  , 4.98],
+       [1.  , 9.14],
+       [1.  , 4.03],
+       [1.  , 2.94]])</code></pre>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>What are the dimensions of <code>X_design</code>? Which column is which?<br>
+</li>
+<li>Compute <span class="math inline">\(\hat\beta = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\)</span> and confirm you get the two numbers from Part 1.<br>
+</li>
+</ol>
+</div>
+<div id="94499935" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>XtX <span class="op">=</span> X_design.T <span class="op">@</span> X_design</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Xty <span class="op">=</span> X_design.T <span class="op">@</span> y</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="op">=</span> np.linalg.solve(____, ____)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>beta_hat.<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="answer-space">
+
+</div>
+<div class="hint">
+<p><code>np.linalg.solve(A, b)</code> solves <span class="math inline">\(\mathbf{A}z = b\)</span> for <span class="math inline">\(z\)</span>, which is what <span class="math inline">\(\mathbf{A}^{-1}b\)</span> means. It is more accurate than forming the inverse with <code>np.linalg.inv</code> and then multiplying.</p>
+</div>
+</section>
+<section id="part-3-more-predictors" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-more-predictors">Part 3: More predictors</h2>
+<p>The last of these four adds forty columns of pure noise, unrelated to <code>medv</code> by construction.</p>
+<div id="6a466d06" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">363</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    rng.normal(size<span class="op">=</span>(<span class="bu">len</span>(Boston), <span class="dv">40</span>)),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="ss">f"junk</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">40</span>)],</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Boston_plus <span class="op">=</span> pd.concat([Boston, noise], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>sets <span class="op">=</span> [</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"lstat"</span>],</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"lstat"</span>, <span class="st">"rm"</span>],</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"lstat"</span>, <span class="st">"rm"</span>, <span class="st">"ptratio"</span>],</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"lstat"</span>, <span class="st">"rm"</span>, <span class="st">"ptratio"</span>] <span class="op">+</span> <span class="bu">list</span>(noise.columns),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cols <span class="kw">in</span> sets:</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    fit_all <span class="op">=</span> LinearRegression().fit(Boston_plus[cols], y)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    train_mse <span class="op">=</span> np.mean((y <span class="op">-</span> fit_all.predict(Boston_plus[cols])) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    cv_mse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        LinearRegression(), Boston_plus[cols], y,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    ).mean()</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"p"</span>: <span class="bu">len</span>(cols), <span class="st">"train_mse"</span>: train_mse, <span class="st">"cv_mse"</span>: cv_mse})</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -795,50 +924,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">p</th>
+<th data-quarto-table-cell-role="th">train_mse</th>
+<th data-quarto-table-cell-role="th">cv_mse</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">242</td>
-<td>volkswagen rabbit custom diesel</td>
-<td>43.1</td>
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>38.483</td>
+<td>38.970</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">307</td>
-<td>vw rabbit</td>
-<td>41.5</td>
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>30.512</td>
+<td>31.448</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">320</td>
-<td>mazda glc</td>
-<td>46.6</td>
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>27.130</td>
+<td>28.211</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">322</td>
-<td>datsun 210</td>
-<td>40.8</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">323</td>
-<td>vw rabbit c (diesel)</td>
-<td>44.3</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">324</td>
-<td>vw dasher (diesel)</td>
-<td>43.4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">327</td>
-<td>honda civic 1500 gl</td>
-<td>44.6</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">388</td>
-<td>vw pickup</td>
-<td>44.0</td>
+<td data-quarto-table-cell-role="th">3</td>
+<td>43</td>
+<td>24.577</td>
+<td>30.154</td>
 </tr>
 </tbody>
 </table>
@@ -846,79 +960,120 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If you have multiple conditions, you use <code>&amp;</code> for and, <code>|</code> for or, and parentheses around each piece:</p>
-<div id="b98bbe38" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Auto[(Auto[<span class="st">"mpg"</span>] <span class="op">&gt;</span> <span class="dv">30</span>) <span class="op">&amp;</span> (Auto[<span class="st">"year"</span>] <span class="op">&gt;</span> <span class="dv">78</span>)].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(60, 9)</code></pre>
+<div class="question">
+<ol type="1">
+<li>What happens to training MSE as predictors are added? Could it ever go the other way?<br>
+</li>
+<li>What happens to cross-validated MSE between the third row and the fourth? The forty added columns carry no signal, so why did training MSE fall at all?<br>
+</li>
+<li>Which of the four models would you deploy, and what number are you basing that on?<br>
+</li>
+</ol>
 </div>
+<div class="answer-space">
+
 </div>
 </section>
-<section id="model-fitting" class="level2">
-<h2 class="anchored" data-anchor-id="model-fitting">Model fitting</h2>
-<div id="5eb2027b" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>, <span class="st">"weight"</span>]]   <span class="co"># predictors, always a data frame</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]                      <span class="co"># response, always a single column</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()           <span class="co"># 1. choose</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)                      <span class="co"># 2. fit</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>model.predict(X.head(<span class="dv">3</span>))             <span class="co"># 3. predict</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>array([19.18811123, 16.43741528, 18.63605667])</code></pre>
-</div>
-</div>
-<div id="1dd0b857" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model.score(X, y)                    <span class="co"># 4. score</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="part-4-leverage-and-the-loocv-shortcut" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-leverage-and-the-loocv-shortcut">Part 4: Leverage and the LOOCV shortcut</h2>
+<p>In Meeting 5 the leave-one-out shortcut appeared with an unexplained <span class="math inline">\(h_i\)</span> in it. Here is what <span class="math inline">\(h_i\)</span> is.</p>
+<div id="8c5397ee" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> X_design <span class="op">@</span> np.linalg.inv(X_design.T <span class="op">@</span> X_design) <span class="op">@</span> X_design.T</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> np.diag(H)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(h.<span class="bu">sum</span>().<span class="bu">round</span>(<span class="dv">4</span>)), <span class="bu">float</span>(h.<span class="bu">min</span>().<span class="bu">round</span>(<span class="dv">4</span>)), <span class="bu">float</span>(h.<span class="bu">max</span>().<span class="bu">round</span>(<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>0.7063752737298348</code></pre>
+<pre><code>(2.0, 0.002, 0.0269)</code></pre>
 </div>
 </div>
-<p>Swap <code>LinearRegression()</code> for <code>KNeighborsRegressor(5)</code> or <code>RandomForestRegressor()</code> and the other three lines stay as they are.</p>
-</section>
-<section id="pipelines" class="level2">
-<h2 class="anchored" data-anchor-id="pipelines">Pipelines</h2>
-<p>A pipeline attaches preprocessing to a model so they always occur together.</p>
-<div id="cd01f100" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsRegressor(<span class="dv">10</span>))</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pipe.fit(X, y)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>pipe.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="question">
+<ol type="1">
+<li><code>h.sum()</code> comes out to a whole number. Which whole number, and where does it come from?<br>
+</li>
+<li>Find the tract with the largest <span class="math inline">\(h_i\)</span>. What is unusual about its <code>lstat</code> value?<br>
+</li>
+</ol>
+</div>
+<div id="04ac7431" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Boston.loc[[<span class="bu">int</span>(np.argmax(h))], [<span class="st">"lstat"</span>, <span class="st">"medv"</span>]]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Boston[<span class="st">"lstat"</span>].describe().<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="answer-space">
+
+</div>
+<p>Now use the shortcut, which claims the leave-one-out error can be read off a single fit.</p>
+<div id="728bc4b6" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> y <span class="op">-</span> fit.predict(X)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>loocv_shortcut <span class="op">=</span> np.mean((resid <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> h)) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>loocv_brute <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    LinearRegression(), X, y, cv<span class="op">=</span>LeaveOneOut(), scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>).mean()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(loocv_shortcut, <span class="dv">6</span>)), <span class="bu">float</span>(<span class="bu">round</span>(loocv_brute, <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>0.7790841201261199</code></pre>
+<pre><code>(38.890098, 38.890098)</code></pre>
 </div>
 </div>
-</section>
-<section id="plotting" class="level2">
-<h2 class="anchored" data-anchor-id="plotting">Plotting</h2>
-<div id="9a8a6439" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.scatter(Auto[<span class="st">"horsepower"</span>], Auto[<span class="st">"mpg"</span>], s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"horsepower"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"mpg"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="python-guide_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div class="question">
+<ol type="1">
+<li>How many models did each of those two lines fit?<br>
+</li>
+<li>The shortcut divides each residual by <span class="math inline">\(1 - h_i\)</span>. Which observations does that inflate the most, and why is inflating them the right thing to do?<br>
+</li>
+</ol>
 </div>
-</div>
+<div class="answer-space">
+
 </div>
 </section>
-<section id="errors-you-may-see" class="level2">
-<h2 class="anchored" data-anchor-id="errors-you-may-see">Errors you may see</h2>
-<p><strong><code>NameError: name 'X' is not defined</code></strong> You did not run the cell that created <code>X</code>, or the runtime restarted. Run your cells from the top.</p>
-<p><strong><code>KeyError: 'mpg'</code></strong> That column does not exist. Check <code>Auto.columns</code> for the exact spelling. Column names are case sensitive.</p>
-<p><strong><code>ValueError: Expected 2D array, got 1D array instead</code></strong> scikit-learn wants predictors as a data frame. Use <code>Auto[["horsepower"]]</code> with two sets of brackets, not <code>Auto["horsepower"]</code>.</p>
-<p><strong><code>SettingWithCopyWarning</code></strong> You modified a slice of a data frame. Add <code>.copy()</code> when you subset something you intend to change.</p>
-<p>More in <a href="./troubleshooting.html">Troubleshooting</a>.</p>
+<section id="part-5-least-squares-against-k-nearest-neighbors" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-least-squares-against-k-nearest-neighbors">Part 5: Least squares against K-nearest neighbors</h2>
+<p>Same predictors, same folds, two methods.</p>
+<div id="627885e1" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"lstat"</span>, <span class="st">"rm"</span>, <span class="st">"ptratio"</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lin <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    LinearRegression(), Boston[cols], y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>).mean()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>knn <span class="op">=</span> {}</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">50</span>]:</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsRegressor(n_neighbors<span class="op">=</span>k))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    knn[k] <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        m, Boston[cols], y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    ).mean()</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(lin, <span class="dv">2</span>)), {k: <span class="bu">round</span>(v, <span class="dv">2</span>) <span class="cf">for</span> k, v <span class="kw">in</span> knn.items()}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>(28.21,
+ {1: np.float64(25.18),
+  3: np.float64(20.54),
+  5: np.float64(18.96),
+  10: np.float64(18.69),
+  25: np.float64(20.14),
+  50: np.float64(22.11)})</code></pre>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Which method has the lower cross-validated MSE here?<br>
+</li>
+<li>Least squares with three predictors estimates four numbers. The best KNN model estimates none. Say which one is the high-bias method and which is the high-variance method, and whether the winner here is the one you would have predicted.<br>
+</li>
+<li>What would have to be true about <span class="math inline">\(f\)</span> for least squares to win by a wide margin?<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="if-you-finish-early" class="level2">
+<h2 class="anchored" data-anchor-id="if-you-finish-early">If you finish early</h2>
+<p><code>chas</code> is a 0/1 indicator for tracts on the Charles River. Add it to the three-predictor model.</p>
+<div class="question">
+<p>Does the cross-validated MSE improve? Would you scale a 0/1 column before fitting least squares? Would your answer change for KNN?</p>
+</div>
+<p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.</em></p>
 
 
 </section>
@@ -1338,13 +1493,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./colab.html" class="pagination-link" aria-label="Getting Started with Colab">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Getting Started with Colab</span>
+      <a href="../ex/06-ex.html" class="pagination-link" aria-label="6. Find the leak">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">6. Find the leak</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./data.html" class="pagination-link" aria-label="Course Data">
-        <span class="nav-page-text">Course Data</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../ex/08-ex.html" class="pagination-link" aria-label="8. Choosing a subset">
+        <span class="nav-page-text">8. Choosing a subset</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1356,7 +1511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/python-guide.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/07-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <i class="fa-brands fa-python" aria-hidden="true"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>

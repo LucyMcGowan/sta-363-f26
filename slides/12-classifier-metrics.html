@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.7.29">
 
   <meta name="author" content="Dr.&nbsp;Lucy D’Agostino McGowan">
-  <title>STA 363 – Statistical learning</title>
+  <title>STA 363 – Evaluating classifiers</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -192,11 +192,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
   
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<meta property="og:title" content="Statistical learning – STA 363">
-<meta property="og:description" content="STA 363 | Meeting 1">
+<meta property="og:title" content="Evaluating classifiers – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 12">
 <meta property="og:site_name" content="STA 363">
-<meta name="twitter:title" content="Statistical learning – STA 363">
-<meta name="twitter:description" content="STA 363 | Meeting 1">
+<meta name="twitter:title" content="Evaluating classifiers – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 12">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -205,8 +205,8 @@
     <div class="slides">
 
 <section id="title-slide" data-color="#d5008f" class="quarto-title-block center">
-  <h1 class="title">Statistical learning</h1>
-  <p class="subtitle">STA 363 | Meeting 1</p>
+  <h1 class="title">Evaluating classifiers</h1>
+  <p class="subtitle">STA 363 | Meeting 12</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -217,98 +217,465 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 
 </section>
-<section id="class-website" class="slide level2">
-<h2>Class website</h2>
-<p><a href="https://lucymcgowan.github.io/sta-363-f26">https://lucymcgowan.github.io/sta-363-f26</a></p>
-</section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
-<ul>
-<li class="fragment">Supervised learning<br>
-</li>
-<li class="fragment">Notation<br>
-</li>
-<li class="fragment">Reducible and irreducible error<br>
-</li>
-<li class="fragment">Flexibility and interpretability<br>
-</li>
-</ul>
-</section>
-<section>
-<section id="supervised-learning" class="title-slide slide level1 center">
-<h1>Supervised learning</h1>
-
-</section>
-<section id="supervised-learning-1" class="slide level2">
-<h2>Supervised learning</h2>
+<section id="review" class="slide level2">
+<h2>Review</h2>
 <div class="takeaway">
-<p>Given predictors we can measure, estimate a future response we cannot.</p>
+<p>Logistic regression on <code>Default</code>: accuracy 0.973. Predict “no” for all 10,000: accuracy 0.967.</p>
 </div>
 <div class="fragment">
-<ul>
-<li>Labs today <span class="math inline">\(\rightarrow\)</span> readmission within 30 days<br>
-</li>
-<li>Square footage, age, zip <span class="math inline">\(\rightarrow\)</span> sale price<br>
-</li>
-<li>Yesterday’s returns <span class="math inline">\(\rightarrow\)</span> tomorrow’s direction<br>
-</li>
-</ul>
+<div class="question">
+<p>Six-tenths of a percentage point. Is the model worth deploying?</p>
+</div>
 </div>
 </section>
-<section id="example-wage-data" class="slide level2">
-<h2>Example: Wage data</h2>
+<section>
+<section id="the-confusion-matrix" class="title-slide slide level1 center">
+<h1>The confusion matrix</h1>
 
-<img data-src="img/islp/fig1_1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
-<p>ISLP Figure 1.1. Wage against age, year, and education for 3,000 men in the Atlantic region.</p>
+</section>
+<section id="the-confusion-matrix-1" class="slide level2 small">
+<h2>The confusion matrix</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>truly No</th>
+<th>truly Yes</th>
+<th>total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>predicted No</td>
+<td>9,644</td>
+<td>252</td>
+<td>9,896</td>
+</tr>
+<tr class="even">
+<td>predicted Yes</td>
+<td>23</td>
+<td>81</td>
+<td>104</td>
+</tr>
+<tr class="odd">
+<td>total</td>
+<td>9,667</td>
+<td>333</td>
+<td>10,000</td>
+</tr>
+</tbody>
+</table>
+<div class="source">
+<p>ISLP Table 4.4. Predictions against true default status for all 10,000 observations, at a threshold of 0.5.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>The overall error rate is 2.75%. Where are those errors?</p>
+</div>
 </div>
 </section>
-<section id="example-smarket-data" class="slide level2">
-<h2>Example: Smarket data</h2>
-
-<img data-src="img/islp/fig1_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
-<p>ISLP Figure 1.2. Previous days’ percentage change in the S&amp;P 500, split by whether the market rose or fell the next day.</p>
+<section id="four-cells" class="slide level2 small">
+<h2>Four cells</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>truly negative</th>
+<th>truly positive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>predicted negative</td>
+<td>true negative (TN)</td>
+<td>false negative (FN)</td>
+</tr>
+<tr class="even">
+<td>predicted positive</td>
+<td>false positive (FP)</td>
+<td>true positive (TP)</td>
+</tr>
+</tbody>
+</table>
+<div class="source">
+<p>ISLP Table 4.6. The four outcomes of applying a classifier to a population, with “positive” meaning the class we are trying to detect.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>On <code>Default</code>, 23 of 9,667 non-defaulters were flagged and 252 of 333 defaulters were missed.</p>
+</div>
+</div>
+</section>
+<section id="sensitivity" class="slide level2">
+<h2>Sensitivity</h2>
+<p><span class="math display">\[\text{Sensitivity} = \frac{\text{TP}}{\text{TP} + \text{FN}}\]</span></p>
+</section>
+<section id="sensitivity-1" class="slide level2">
+<h2>Sensitivity</h2>
+<p><span class="math display">\[\text{Sensitivity} = \frac{{\require{color}\colorbox{#eec8e1}{$\text{TP}$}}}{\text{TP} + \text{FN}}\]</span></p>
+<p>The positives the classifier found: customers who defaulted and were flagged.</p>
+</section>
+<section id="sensitivity-2" class="slide level2">
+<h2>Sensitivity</h2>
+<p><span class="math display">\[\text{Sensitivity} = \frac{\text{TP}}{{\require{color}\colorbox{#eec8e1}{$\text{TP} + \text{FN}$}}}\]</span></p>
+<p>Every positive there was, found or missed. So sensitivity is the share of true defaulters the classifier caught, and its denominator has nothing to do with how many it flagged.</p>
+</section>
+<section id="specificity" class="slide level2">
+<h2>Specificity</h2>
+<p><span class="math display">\[\text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}}\]</span></p>
+</section>
+<section id="specificity-1" class="slide level2">
+<h2>Specificity</h2>
+<p><span class="math display">\[\text{Specificity} = \frac{\text{TN}}{{\require{color}\colorbox{#eec8e1}{$\text{TN} + \text{FP}$}}}\]</span></p>
+<p>Every negative there was. Specificity is the share of non-defaulters correctly left alone, and <span class="math inline">\(1 - \text{specificity}\)</span> is the false positive rate that the ROC curve plots.</p>
+</section>
+<section id="sensitivity-and-specificity" class="slide level2 small">
+<h2>Sensitivity and specificity</h2>
+<div class="definition">
+<p><strong>Sensitivity</strong> is TP / P, the fraction of true positives found. On <code>Default</code> at a 0.5 threshold that is <span class="math inline">\(81/333 = 0.243\)</span>.</p>
+<p><strong>Specificity</strong> is TN / N, the fraction of true negatives correctly cleared: <span class="math inline">\(1 - 23/9667 = 0.998\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Which of those two is a credit card company paid to get right?</p>
+</div>
+</div>
+</section>
+<section id="the-rest-of-the-vocabulary" class="slide level2 small">
+<h2>The rest of the vocabulary</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>name</th>
+<th>definition</th>
+<th>also called</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>False positive rate</td>
+<td>FP / N</td>
+<td>Type I error, 1 minus specificity</td>
+</tr>
+<tr class="even">
+<td>True positive rate</td>
+<td>TP / P</td>
+<td>power, sensitivity, recall</td>
+</tr>
+<tr class="odd">
+<td>Positive predictive value</td>
+<td>TP / P*</td>
+<td>precision</td>
+</tr>
+<tr class="even">
+<td>Negative predictive value</td>
+<td>TN / N*</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="source">
+<p>ISLP Table 4.7. P and N are the true class counts; P* and N* are the predicted class counts.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>The first two divide by what is true. The last two divide by what was predicted.</p>
+</div>
+</div>
+</section>
+<section id="precision" class="slide level2">
+<h2>Precision</h2>
+<p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}\]</span></p>
+</section>
+<section id="precision-1" class="slide level2">
+<h2>Precision</h2>
+<p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{{\require{color}\colorbox{#eec8e1}{$\text{TP} + \text{FP}$}}}\]</span></p>
+<p>Everyone the classifier flagged, right or wrong. Precision answers a different question from sensitivity: of the people we called, what share actually defaulted. Lowering the threshold raises sensitivity and usually lowers precision.</p>
+</section>
+<section id="precision-against-recall" class="slide level2 small">
+<h2>Precision against recall</h2>
+<div class="takeaway">
+<p>On a rare outcome, a ROC curve can look respectable while precision stays low, because the false positive rate divides by a very large number of negatives.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>A model flags 500 customers and 60 of them buy. Which of the two curves would you show the client paying for the mailing?</p>
+</div>
+</div>
+</section>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 1. <a href="../ex/12-ex.html">ex/12-ex</a></p>
 </div>
 </section></section>
 <section>
-<section id="notation" class="title-slide slide level1 center">
-<h1>Notation</h1>
+<section id="moving-the-threshold" class="title-slide slide level1 center">
+<h1>Moving the threshold</h1>
 
 </section>
-<section id="response-and-predictors" class="slide level2 small">
-<h2>Response and predictors</h2>
+<section id="where-0.5-came-from" class="slide level2 small">
+<h2>Where 0.5 came from</h2>
 <div class="definition">
-<p><span class="math inline">\(Y\)</span> is the <strong>response</strong>, also called the outcome or target.</p>
-<p><span class="math inline">\(X = (X_1, X_2, \dots, X_p)\)</span> are the <strong>predictors</strong>, also called features or variables.</p>
-<p><span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(p\)</span> the number of predictors.</p>
+<p>The Bayes classifier assigns to the class with the largest posterior probability, which for two classes means flagging when <span class="math inline">\(\Pr(Y = \text{Yes} \mid X = x) &gt; 0.5\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>That threshold minimizes the total number of mistakes, counting both kinds the same. Nothing about the fitted model requires it.</p>
+</div>
 </div>
 </section>
-<section id="notation-in-code" class="slide level2 small">
-<h2>Notation in code</h2>
-<div id="37a4fb9f" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>Wage <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Wage.csv"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>Wage[[<span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"education"</span>, <span class="st">"wage"</span>]].head()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="lowering-it-to-0.2" class="slide level2 small">
+<h2>Lowering it to 0.2</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>truly No</th>
+<th>truly Yes</th>
+<th>total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>predicted No</td>
+<td>9,432</td>
+<td>138</td>
+<td>9,570</td>
+</tr>
+<tr class="even">
+<td>predicted Yes</td>
+<td>235</td>
+<td>195</td>
+<td>430</td>
+</tr>
+<tr class="odd">
+<td>total</td>
+<td>9,667</td>
+<td>333</td>
+<td>10,000</td>
+</tr>
+</tbody>
+</table>
+<div class="source">
+<p>ISLP Table 4.5. The same model and the same data, flagging anyone whose estimated probability of default exceeds 0.2.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Sensitivity rises from 0.243 to 0.586. The overall error rate rises from 2.75% to 3.73%.</p>
+</div>
+</div>
+</section>
+<section id="error-rates-against-the-threshold" class="slide level2">
+<h2>Error rates against the threshold</h2>
+
+<img data-src="img/islp/fig4_7.png" class="quarto-figure quarto-figure-center r-stretch" style="width:66.0%"><div class="source">
+<p>ISLP Figure 4.7. Overall error rate in black, the fraction of defaulters missed as the blue dashed line, and the fraction of non-defaulters wrongly flagged as the orange dotted line.</p>
+</div>
+</section>
+<section id="reading-figure-4.7" class="slide level2 small">
+<h2>Reading Figure 4.7</h2>
+<ul>
+<li class="fragment">The black curve bottoms out at 0.5, exactly as the Bayes classifier promises<br>
+</li>
+<li class="fragment">The blue curve falls all the way down as the threshold falls<br>
+</li>
+<li class="fragment">The orange curve rises the whole time<br>
+</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>The data cannot tell you where to stop. What would?</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-1" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 2. <a href="../ex/12-ex.html">ex/12-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="roc-and-auc" class="title-slide slide level1 center">
+<h1>ROC and AUC</h1>
+
+</section>
+<section id="the-roc-curve" class="slide level2 small">
+<h2>The ROC curve</h2>
+<div class="definition">
+<p>Plot the true positive rate against the false positive rate at every threshold at once. The curve describes the fitted model without committing to a cutoff.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Every point on the curve is one confusion matrix. Sliding the threshold slides you along it.</p>
+</div>
+</div>
+</section>
+<section id="roc-on-default" class="slide level2">
+<h2>ROC on Default</h2>
+
+<img data-src="img/islp/fig4_8.png" class="quarto-figure quarto-figure-center r-stretch" style="width:52.0%"><div class="source">
+<p>ISLP Figure 4.8. The ROC curve for a classifier on <code>Default</code>. The dotted diagonal is a classifier with no information, and the ideal curve hugs the top left corner.</p>
+</div>
+</section>
+<section id="area-under-the-curve" class="slide level2 small">
+<h2>Area under the curve</h2>
+<div class="definition">
+<p>The <strong>AUC</strong> summarizes the curve in one number. It equals the probability that a randomly chosen positive is ranked above a randomly chosen negative.</p>
+</div>
+<div class="fragment">
+<ul>
+<li>1.0: every positive ranked above every negative<br>
+</li>
+<li>0.5: the diagonal, no information<br>
+</li>
+<li>On <code>Default</code>, about 0.95<br>
+</li>
+</ul>
+</div>
+</section>
+<section id="ranking-against-labelling" class="slide level2 small">
+<h2>Ranking against labelling</h2>
+<div class="takeaway">
+<p>Accuracy asks a model to commit to a label. AUC asks only whether it puts the right people near the top.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Meeting 4 had you pick the 100 riskiest customers from a model whose error rate was barely better than chance. Which measure was that exercise about?</p>
+</div>
+</div>
+</section>
+<section id="in-scikit-learn" class="slide level2 small">
+<h2>In scikit-learn</h2>
+<div id="f217f101" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, roc_curve, roc_auc_score</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>Default <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Default.csv"</span>)</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Default[<span class="st">"default"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.DataFrame({<span class="st">"balance"</span>: Default[<span class="st">"balance"</span>],</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"income"</span>: Default[<span class="st">"income"</span>] <span class="op">/</span> <span class="dv">1000</span>,</span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"student"</span>: (Default[<span class="st">"student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)})</span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>X_tr, X_te, y_tr, y_te <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-16" class="code-annotation-target"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>                                          random_state<span class="op">=</span><span class="dv">363</span>, stratify<span class="op">=</span>y)</span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">10000</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-18" class="code-annotation-target"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> model.fit(X_tr, y_tr).predict_proba(X_te)[:, <span class="dv">1</span>]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-19" class="code-annotation-target"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>confusion_matrix(y_te, (probs <span class="op">&gt;</span> <span class="fl">0.5</span>).astype(<span class="bu">int</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>DATA</code> is the base URL for the raw CSV files in the course’s GitHub<br>
-repository. Every data set we load starts by appending a file name to this string.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="1"><code>confusion_matrix</code> builds the two by two table, <code>roc_curve</code> returns the<br>
+false positive rate, true positive rate and thresholds, and <code>roc_auc_score</code> returns the area.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2"><code>pd.read_csv</code> reads the CSV at <code>DATA + "Wage.csv"</code> and<br>
-returns a <code>DataFrame</code>, assigned to <code>Wage</code>.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="16" data-code-annotation="2"><code>stratify=y</code> keeps the 3.33% default rate in both the training and the test<br>
+set, so the test confusion matrix has defaults in it to find.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="3"><code>Wage[["age", "year", "education", "wage"]]</code> selects four columns by<br>
-name, and <code>.head()</code> returns the first five rows of that subset for display.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="18" data-code-annotation="3"><code>predict_proba(X_te)[:, 1]</code> is the estimated probability of default for<br>
+each held-out customer, before any threshold is applied.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="19" data-code-annotation="4"><code>(probs &gt; 0.5).astype(int)</code> applies the threshold by hand rather than<br>
+through <code>.predict</code>, so the number is easy to change.</span>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>array([[2888,   12],
+       [  67,   33]])</code></pre>
+</div>
+</div>
+</section>
+<section id="drawing-the-curve" class="slide level2 small">
+<h2>Drawing the curve</h2>
+
+<img data-src="12-classifier-metrics_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>ROC curves on the held-out 30% of <code>Default</code>, with AUC in the legend. Both models were fit on the same training rows.</p>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 3. <a href="../ex/12-ex.html">ex/12-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="class-imbalance" class="title-slide slide level1 center">
+<h1>Class imbalance</h1>
+
+</section>
+<section id="the-null-classifier" class="slide level2 small">
+<h2>The null classifier</h2>
+<div class="definition">
+<p>The <strong>null classifier</strong> predicts the majority class for everyone. Its accuracy is the majority class proportion, and it uses no predictors at all.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>On <code>Default</code> that is 96.67%. On <code>Caravan</code>, where 348 of 5,822 customers bought insurance, it is 94.02%.</p>
+</div>
+</div>
+</section>
+<section id="what-the-loss-is-minimizing" class="slide level2 small">
+<h2>What the loss is minimizing</h2>
+<div class="takeaway">
+<p>The likelihood counts every observation equally, so 5,474 non-buyers outvote 348 buyers. Predicting “no” everywhere is close to optimal for the loss and useless for the task.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Nothing here is a bug. Which part of the setup would you change?</p>
+</div>
+</div>
+</section>
+<section id="caravan" class="slide level2 small">
+<h2>Caravan</h2>
+<div id="05eeb617" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_validate, StratifiedKFold</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>Caravan <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Caravan.csv"</span>)</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>y_car <span class="op">=</span> (Caravan[<span class="st">"Purchase"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>X_car <span class="op">=</span> Caravan.drop(columns<span class="op">=</span>[<span class="st">"Purchase"</span>])</span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, weight <span class="kw">in</span> [(<span class="st">"plain"</span>, <span class="va">None</span>), (<span class="st">"balanced"</span>, <span class="st">"balanced"</span>)]:</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>        StandardScaler(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">5000</span>, class_weight<span class="op">=</span>weight)</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> cross_validate(m, X_car, y_car, cv<span class="op">=</span>cv,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-14" class="code-annotation-target"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>                       scoring<span class="op">=</span>[<span class="st">"accuracy"</span>, <span class="st">"roc_auc"</span>, <span class="st">"recall"</span>, <span class="st">"precision"</span>])</span>
+<span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"model"</span>: name, <span class="op">**</span>{k[<span class="dv">5</span>:]: r[k].mean() <span class="cf">for</span> k <span class="kw">in</span> r <span class="cf">if</span> k.startswith(<span class="st">"test_"</span>)}})</span>
+<span id="annotated-cell-2-16"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="5" data-code-annotation="1">All 85 remaining columns are demographic predictors, so dropping the<br>
+response leaves the design matrix.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="2"><code>class_weight="balanced"</code> reweights each observation by the inverse of its<br>
+class frequency, so the 348 buyers count for as much in total as the 5,474 non-buyers.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="14" data-code-annotation="3"><code>cross_validate</code> returns several scores from one pass over the folds,<br>
+keyed as <code>test_accuracy</code>, <code>test_roc_auc</code> and so on.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -328,47 +695,138 @@ name, and <code>.head()</code> returns the first five rows of that subset for di
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">age</th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">education</th>
-<th data-quarto-table-cell-role="th">wage</th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">accuracy</th>
+<th data-quarto-table-cell-role="th">roc_auc</th>
+<th data-quarto-table-cell-role="th">recall</th>
+<th data-quarto-table-cell-role="th">precision</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>18</td>
-<td>2006</td>
-<td>1. &lt; HS Grad</td>
-<td>75.043154</td>
+<td>plain</td>
+<td>0.9370</td>
+<td>0.7313</td>
+<td>0.0087</td>
+<td>0.0900</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>24</td>
-<td>2004</td>
-<td>4. College Grad</td>
-<td>70.476020</td>
+<td>balanced</td>
+<td>0.6991</td>
+<td>0.7301</td>
+<td>0.6466</td>
+<td>0.1213</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="what-changed" class="slide level2 small">
+<h2>What changed</h2>
+<ul>
+<li class="fragment">Accuracy fell from 0.937 to 0.699<br>
+</li>
+<li class="fragment">Recall rose from 0.009 to 0.647<br>
+</li>
+<li class="fragment">AUC stayed at about 0.73<br>
+</li>
+</ul>
+<div class="fragment">
+<div class="takeaway">
+<p>Reweighting moved the decision boundary and left the ranking where it was.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 4. <a href="../ex/12-ex.html">ex/12-ex</a></p>
+</div>
+</section>
+<section id="tuning-against-the-wrong-number" class="slide level2 small">
+<h2>Tuning against the wrong number</h2>
+<div id="975cffaa" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">200</span>]:</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors<span class="op">=</span>k))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> cross_validate(m, X_car, y_car, cv<span class="op">=</span>cv, scoring<span class="op">=</span>[<span class="st">"accuracy"</span>, <span class="st">"roc_auc"</span>])</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"K"</span>: k, <span class="st">"accuracy"</span>: r[<span class="st">"test_accuracy"</span>].mean(),</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"roc_auc"</span>: r[<span class="st">"test_roc_auc"</span>].mean()})</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="1">The same K sweep as Meeting 5, scored two ways at once on identical folds.<br>
+</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="2">Accuracy stops changing once <code>K</code> is large enough that the classifier<br>
+predicts “no” for everyone, while AUC keeps improving.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">K</th>
+<th data-quarto-table-cell-role="th">accuracy</th>
+<th data-quarto-table-cell-role="th">roc_auc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>0.8906</td>
+<td>0.5315</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>10</td>
+<td>0.9401</td>
+<td>0.6357</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>45</td>
-<td>2003</td>
-<td>3. Some College</td>
-<td>130.982177</td>
+<td>25</td>
+<td>0.9402</td>
+<td>0.6739</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>43</td>
-<td>2003</td>
-<td>4. College Grad</td>
-<td>154.685293</td>
+<td>100</td>
+<td>0.9402</td>
+<td>0.6986</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>50</td>
-<td>2005</td>
-<td>2. HS Grad</td>
-<td>75.043154</td>
+<td>200</td>
+<td>0.9402</td>
+<td>0.7012</td>
 </tr>
 </tbody>
 </table>
@@ -377,212 +835,54 @@ name, and <code>.head()</code> returns the first five rows of that subset for di
 </div>
 </div>
 <div class="fragment">
-<div id="3be6e54c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>Wage.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(3000, 11)</code></pre>
-</div>
-</div>
-</div>
-<div class="fragment">
 <div class="question">
-<p>In the <code>Wage</code> data, what is <span class="math inline">\(Y\)</span>? What is <span class="math inline">\(p\)</span>?</p>
+<p><code>GridSearchCV</code> scores with accuracy by default. What would it have chosen here?</p>
 </div>
 </div>
 </section>
-<section id="the-model" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = f(X) + \varepsilon\]</span></p>
-</section>
-<section id="the-model-1" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[{\require{color}\colorbox{#eec8e1}{$Y$}} = f(X) + \varepsilon\]</span></p>
-<p>The response we want to predict.</p>
-</section>
-<section id="the-model-2" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$f(X)$}} + \varepsilon\]</span></p>
-<p>The true, otherwise-unknown relationship between the predictors and <span class="math inline">\(Y\)</span>.</p>
-</section>
-<section id="the-model-3" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = f(X) + {\require{color}\colorbox{#eec8e1}{$\varepsilon$}}\]</span></p>
-<p>The error term: everything about <span class="math inline">\(Y\)</span> that <span class="math inline">\(X\)</span> does not capture.</p>
-</section>
-<section id="the-error-term" class="slide level2">
-<h2>The error term</h2>
-
-<img data-src="img/islp/fig2_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:84.0%"><div class="source">
-<p>ISLP Figure 2.2. Left: observed income and years of education for 30 people. Right: the true <span class="math inline">\(f\)</span> in blue, with the black segments showing each <span class="math inline">\(\varepsilon_i\)</span>.</p>
-</div>
-</section></section>
-<section>
-<section id="prediction-and-inference" class="title-slide slide level1 center">
-<h1>Prediction and inference</h1>
-
-</section>
-<section id="prediction-and-inference-1" class="slide level2">
-<h2>Prediction and inference</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="prediction">Prediction</h3>
-<p>Is <span class="math inline">\(\hat{Y}\)</span> close to <span class="math inline">\(Y\)</span>?</p>
-<p><span class="math inline">\(\hat{f}\)</span> may be a black box.</p>
-<div class="fragment fade-in">
-<div class="takeaway">
-<p><strong>This course.</strong></p>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<h3 id="inference">Inference</h3>
-<p>How does <span class="math inline">\(Y\)</span> change with <span class="math inline">\(X_j\)</span>?</p>
-<p><span class="math inline">\(\hat{f}\)</span> must be interpretable.</p>
-<div class="fragment fade-in">
-<div class="dim">
-<p>STA 112 and STA 312.</p>
-</div>
-</div>
-</div></div>
-</section>
-<section id="reducible-and-irreducible-error" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-</section>
-<section id="reducible-and-irreducible-error-1" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{{\require{color}\colorbox{#eec8e1}{$\left[f(X) - \hat{f}(X)\right]^2$}}}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-<p>How far our estimate <span class="math inline">\(\hat{f}\)</span> sits from the truth <span class="math inline">\(f\)</span>. A better method, better predictors, or more data can shrink this to zero.</p>
-</section>
-<section id="reducible-and-irreducible-error-2" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{{\require{color}\colorbox{#eec8e1}{$\text{Var}(\varepsilon)$}}}_{\text{irreducible}}\]</span></p>
-<p>The irreducible error. No method, however good, gets past this floor.</p>
-</section></section>
-<section>
-<section id="flexibility" class="title-slide slide level1 center">
-<h1>Flexibility</h1>
-
-</section>
-<section id="the-true-f" class="slide level2">
-<h2>The true f</h2>
-
-<img data-src="img/islp/fig2_3.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.3. Income as a function of education and seniority, simulated so that the true surface is known.</p>
-</div>
-</section>
-<section id="linear-fit" class="slide level2">
-<h2>Linear fit</h2>
-
-<img data-src="img/islp/fig2_4.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.4. A linear model fit by least squares to the data of Figure 2.3.</p>
-</div>
-</section>
-<section id="smoothing-spline" class="slide level2">
-<h2>Smoothing spline</h2>
-
-<img data-src="img/islp/fig2_5.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.5. A smooth thin plate spline fit to the same data.</p>
-</div>
-</section>
-<section id="overfit-spline" class="slide level2">
-<h2>Overfit spline</h2>
-
-<img data-src="img/islp/fig2_6.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.6. A rough thin plate spline with zero error on the training data.</p>
-</div>
+<section id="choosing-what-to-optimize" class="slide level2 small">
+<h2>Choosing what to optimize</h2>
+<ul>
+<li>Ranking customers to contact: AUC<br>
+</li>
+<li>Screening where a miss is expensive: recall at a fixed precision<br>
+</li>
+<li>Balanced classes and equal costs: accuracy is fine<br>
+</li>
+</ul>
 <div class="fragment">
-<div class="question">
-<p>Is this the best model? The training error is zero!</p>
-</div>
-</div>
-</section>
-<section id="parametric-and-non-parametric" class="slide level2 small">
-<h2>Parametric and non-parametric</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="parametric">Parametric</h3>
-<p>Assume a form for <span class="math inline">\(f\)</span>, estimate a fixed number of parameters.</p>
-<p><span class="math inline">\(f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></p>
-<p>Wrong if the form is wrong.</p>
-</div><div class="column" style="width:50%;">
-<h3 id="non-parametric">Non-parametric</h3>
-<p>No assumed form. The data pick the shape.</p>
-<p>Flexible, and needs far more data.</p>
-</div></div>
-</section>
-<section id="flexibility-and-interpretability" class="slide level2">
-<h2>Flexibility and interpretability</h2>
-
-<img data-src="img/islp/fig2_7.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="source">
-<p>ISLP Figure 2.7. The trade off between flexibility and interpretability across methods.</p>
-</div>
-</section>
-<section id="regression-and-classification" class="slide level2">
-<h2>Regression and classification</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="regression">Regression</h3>
-<p><span class="math inline">\(Y\)</span> is quantitative.</p>
-<ul>
-<li>Wage<br>
-</li>
-<li>Price<br>
-</li>
-<li>Blood pressure</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="classification">Classification</h3>
-<p><span class="math inline">\(Y\)</span> is qualitative.</p>
-<ul>
-<li>Readmitted or not<br>
-</li>
-<li>Labeling handwritten numbers<br>
-</li>
-<li>Which customers will convert</li>
-</ul>
-</div></div>
-</section></section>
-<section>
-<section id="course-mechanics" class="title-slide slide level1 center">
-<h1>Course mechanics</h1>
-
-</section>
-<section id="course-structure" class="slide level2">
-<h2>Course structure</h2>
-<ul>
-<li class="fragment">Most Wednesdays: a paper check-in at the end of class<br>
-</li>
-<li class="fragment">Most Fridays: a problem set due<br>
-</li>
-<li class="fragment">Three exams: October 9, November 11, and a Final<br>
-</li>
-</ul>
-</section>
-<section id="google-colab" class="slide level2">
-<h2>Google Colab</h2>
-<ul>
-<li>Free, runs in the browser, no local install<br>
-</li>
-<li>Every notebook lives in this course’s GitHub repository<br>
-</li>
-<li>Application exercise 1 starts with a short walkthrough<br>
-</li>
-</ul>
-</section>
-<section id="application-exercise-1" class="slide level2">
-<h2>Application exercise 1</h2>
 <div class="takeaway">
-<p>Getting comfortable in Colab, then identifying <span class="math inline">\(Y\)</span>, <span class="math inline">\(X\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(p\)</span>, and sorting problems into prediction and inference.</p>
+<p>Every model this semester has been tuned against a single number. Choosing that number is a modeling decision.</p>
+</div>
 </div>
 </section>
-<section id="before-friday" class="slide level2">
-<h2>Before Friday</h2>
+<section id="application-exercise-4" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 5. <a href="../ex/12-ex.html">ex/12-ex</a></p>
+</div>
+</section>
+<section id="application-exercise-12" class="slide level2">
+<h2>Application exercise 12</h2>
+<div class="takeaway">
+<p>Built confusion matrices by hand, swept the threshold and redrew ISLP Figure 4.7, compared two models by ROC, and found a data set where accuracy chooses a model that never once predicts the class of interest.</p>
+</div>
+</section>
+<section id="before-wednesday" class="slide level2">
+<h2>Before Wednesday</h2>
 <ul>
-<li>Read ISLP Section 2.2.1<br>
+<li>Problem set 5 due today<br>
 </li>
-<li>Have Colab running<br>
+<li>Exam 1 review on Wednesday, Exam 1 on Friday<br>
+</li>
+<li>Bring questions on anything from Meetings 1 to 12<br>
 </li>
 </ul>
+<div class="fragment">
+<div class="takeaway">
+<p>Twelve meetings: a way to measure error, a way to estimate it without fooling ourselves, and four models to measure.</p>
+</div>
+</div>
 
 
 </section></section>

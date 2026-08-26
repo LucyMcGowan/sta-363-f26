@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title> Python Quick Guide – STA 363</title>
+<title>Application exercise 10: Lasso and elastic net – STA 363</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,28 +58,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./data.html" rel="next">
-<link href="./colab.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ex/11-ex.html" rel="next">
+<link href="../ex/09-ex.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,21 +111,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="www/fontawesome/css/all.min.css">
-<meta property="og:title" content=" Python Quick Guide – STA 363">
-<meta property="og:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
-<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/python-guide_files/figure-html/cell-9-output-1.png">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
+<meta property="og:title" content="Application exercise 10: Lasso and elastic net – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 10 | September 25">
+<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/10-ex_files/figure-html/cell-3-output-1.png">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="320">
-<meta property="og:image:width" content="511">
-<meta name="twitter:title" content=" Python Quick Guide – STA 363">
-<meta name="twitter:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
-<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/python-guide_files/figure-html/cell-9-output-1.png">
+<meta property="og:image:height" content="307">
+<meta property="og:image:width" content="902">
+<meta name="twitter:title" content="Application exercise 10: Lasso and elastic net – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 10 | September 25">
+<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/10-ex_files/figure-html/cell-3-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="320">
-<meta name="twitter:image-width" content="511">
+<meta name="twitter:image-height" content="307">
+<meta name="twitter:image-width" content="902">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -296,7 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">STA 363</span>
     </a>
   </div>
@@ -307,15 +336,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./schedule.html" aria-current="page"> 
+    <a class="nav-link active" href="../schedule.html" aria-current="page"> 
 <span class="menu-text"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text"><i class="fa-solid fa-gavel" aria-hidden="true"></i> Policies</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./help.html"> 
+    <a class="nav-link" href="../help.html"> 
 <span class="menu-text"><i class="fa-solid fa-question-circle" aria-hidden="true"></i> Help</span></a>
   </li>  
   <li class="nav-item">
@@ -334,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./python-guide.html">Python Quick Guide</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/10-ex.html">10. Lasso and elastic net</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -357,13 +386,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Policies</span></a>
   </div>
 </li>
@@ -371,34 +400,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Computing</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./colab.html" class="sidebar-item-text sidebar-link">
+  <a href="../colab.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting Started with Colab</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./python-guide.html" class="sidebar-item-text sidebar-link active">
+  <a href="../python-guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python Quick Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
+  <a href="../data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Troubleshooting</span></a>
   </div>
 </li>
@@ -415,73 +444,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/01-welcome.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/01-welcome.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Statistical learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Prediction error</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Bias-variance trade-off</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/04-knn.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/04-knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. K-nearest neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Pipelines and leakage</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Linear regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Subset selection</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/09-ridge.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/09-ridge.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/10-lasso.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/10-lasso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/11-logistic.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/11-logistic.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Evaluating classifiers</span></a>
   </div>
 </li>
@@ -518,82 +547,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Application Exercises</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/01-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/01-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. What is the problem?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/02-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Training error can mislead</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/03-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/03-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Reading bias and variance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/04-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/04-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Tuning K</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/05-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/05-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/06-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/06-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Find the leak</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/07-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/07-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Least squares</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/08-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/08-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Choosing a subset</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/09-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/09-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/10-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/10-ex.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/11-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/11-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/12-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/12-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Thresholds and ROC</span></a>
   </div>
 </li>
@@ -608,23 +637,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
-  <li><a href="#r-to-python" id="toc-r-to-python" class="nav-link active" data-scroll-target="#r-to-python">R to Python</a></li>
-  <li><a href="#selecting" id="toc-selecting" class="nav-link" data-scroll-target="#selecting">Selecting</a></li>
-  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">Model fitting</a></li>
-  <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines">Pipelines</a></li>
-  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
-  <li><a href="#errors-you-may-see" id="toc-errors-you-may-see" class="nav-link" data-scroll-target="#errors-you-may-see">Errors you may see</a></li>
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-1-coefficient-paths" id="toc-part-1-coefficient-paths" class="nav-link" data-scroll-target="#part-1-coefficient-paths">Part 1: Coefficient paths</a></li>
+  <li><a href="#part-2-choosing-alpha" id="toc-part-2-choosing-alpha" class="nav-link" data-scroll-target="#part-2-choosing-alpha">Part 2: Choosing alpha</a></li>
+  <li><a href="#part-3-three-fits-same-folds" id="toc-part-3-three-fits-same-folds" class="nav-link" data-scroll-target="#part-3-three-fits-same-folds">Part 3: Three fits, same folds</a></li>
+  <li><a href="#part-4-when-each-one-wins" id="toc-part-4-when-each-one-wins" class="nav-link" data-scroll-target="#part-4-when-each-one-wins">Part 4: When each one wins</a></li>
+  <li><a href="#part-5-elastic-net" id="toc-part-5-elastic-net" class="nav-link" data-scroll-target="#part-5-elastic-net">Part 5: Elastic net</a></li>
+  <li><a href="#if-you-finish-early" id="toc-if-you-finish-early" class="nav-link" data-scroll-target="#if-you-finish-early">If you finish early</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/python-guide.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/10-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./python-guide.html">Python Quick Guide</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/10-ex.html">10. Lasso and elastic net</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><i class="fa-brands fa-python" aria-hidden="true"></i> Python Quick Guide</h1>
+<h1 class="title">Application exercise 10: Lasso and elastic net</h1>
+<p class="subtitle lead">STA 363 | Meeting 10 | September 25</p>
 </div>
 
 
@@ -641,152 +672,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="6d240a73" class="cell" data-execution_count="1">
+<p>Ridge shrank all nineteen <code>Hitters</code> coefficients and kept all nineteen predictors. The lasso shrinks and drops.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="103c4625" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression, Ridge, Lasso, ElasticNet</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold, GridSearchCV</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Hitters <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Hitters.csv"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Hitters <span class="op">=</span> Hitters.dropna(subset<span class="op">=</span>[<span class="st">"Salary"</span>]).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(Hitters.drop(columns<span class="op">=</span>[<span class="st">"Salary"</span>]), drop_first<span class="op">=</span><span class="va">True</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Hitters[<span class="st">"Salary"</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>(263, 19)</code></pre>
 </div>
-<section id="r-to-python" class="level2">
-<h2 class="anchored" data-anchor-id="r-to-python">R to Python</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Task</th>
-<th>R</th>
-<th>Python</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>read a csv</td>
-<td><code>read_csv("f.csv")</code></td>
-<td><code>pd.read_csv("f.csv")</code></td>
-</tr>
-<tr class="even">
-<td>first rows</td>
-<td><code>head(d)</code></td>
-<td><code>d.head()</code></td>
-</tr>
-<tr class="odd">
-<td>dimensions</td>
-<td><code>dim(d)</code></td>
-<td><code>d.shape</code></td>
-</tr>
-<tr class="even">
-<td>column names</td>
-<td><code>names(d)</code></td>
-<td><code>d.columns</code></td>
-</tr>
-<tr class="odd">
-<td>one column</td>
-<td><code>d$mpg</code></td>
-<td><code>d["mpg"]</code></td>
-</tr>
-<tr class="even">
-<td>several columns</td>
-<td><code>d[, c("mpg", "weight")]</code></td>
-<td><code>d[["mpg", "weight"]]</code></td>
-</tr>
-<tr class="odd">
-<td>filter rows</td>
-<td><code>d[d$mpg &gt; 30, ]</code></td>
-<td><code>d[d["mpg"] &gt; 30]</code></td>
-</tr>
-<tr class="even">
-<td>new column</td>
-<td><code>d$kpl &lt;- d$mpg * 0.425</code></td>
-<td><code>d["kpl"] = d["mpg"] * 0.425</code></td>
-</tr>
-<tr class="odd">
-<td>summary</td>
-<td><code>summary(d)</code></td>
-<td><code>d.describe()</code></td>
-</tr>
-<tr class="even">
-<td>counts</td>
-<td><code>table(d$origin)</code></td>
-<td><code>d["origin"].value_counts()</code></td>
-</tr>
-<tr class="odd">
-<td>mean</td>
-<td><code>mean(d$mpg)</code></td>
-<td><code>d["mpg"].mean()</code></td>
-</tr>
-<tr class="even">
-<td>group means</td>
-<td><code>aggregate(mpg ~ origin, d, mean)</code></td>
-<td><code>d.groupby("origin")["mpg"].mean()</code></td>
-</tr>
-<tr class="odd">
-<td>sequence</td>
-<td><code>1:10</code></td>
-<td><code>range(1, 11)</code></td>
-</tr>
-<tr class="even">
-<td>length</td>
-<td><code>length(x)</code></td>
-<td><code>len(x)</code></td>
-</tr>
-<tr class="odd">
-<td>missing</td>
-<td><code>is.na(x)</code></td>
-<td><code>x.isna()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Python counts from <strong>zero</strong>, so <code>d.iloc[0]</code> is the first row. And <code>range(1, 11)</code> <strong>excludes</strong> the endpoint, so it stops at 10.</p>
+</div>
 </section>
-<section id="selecting" class="level2">
-<h2 class="anchored" data-anchor-id="selecting">Selecting</h2>
-<div id="053742d8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Auto[[<span class="st">"mpg"</span>, <span class="st">"horsepower"</span>, <span class="st">"weight"</span>]].head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<section id="part-1-coefficient-paths" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-coefficient-paths">Part 1: Coefficient paths</h2>
+<div id="46505779" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> StandardScaler().fit_transform(X)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>alphas <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">60</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> np.array([Lasso(alpha<span class="op">=</span>a, max_iter<span class="op">=</span><span class="dv">200000</span>).fit(Z, y).coef_ <span class="cf">for</span> a <span class="kw">in</span> alphas])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n_nonzero <span class="op">=</span> (paths <span class="op">!=</span> <span class="dv">0</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">9.5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(X.shape[<span class="dv">1</span>]):</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(alphas, paths[:, j], lw<span class="op">=</span><span class="fl">1.2</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xscale(<span class="st">"log"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"alpha"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"standardized coefficient"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(alphas, n_nonzero, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xscale(<span class="st">"log"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"alpha"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">"nonzero coefficients"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
 <div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mpg</th>
-<th data-quarto-table-cell-role="th">horsepower</th>
-<th data-quarto-table-cell-role="th">weight</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>18.0</td>
-<td>130</td>
-<td>3504</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>15.0</td>
-<td>165</td>
-<td>3693</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>18.0</td>
-<td>150</td>
-<td>3436</td>
-</tr>
-</tbody>
-</table>
-
+<figure class="figure">
+<p><img src="10-ex_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
-<div id="c04aab8c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Auto[Auto[<span class="st">"mpg"</span>] <span class="op">&gt;</span> <span class="dv">40</span>][[<span class="st">"name"</span>, <span class="st">"mpg"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="question">
+<ol type="1">
+<li>Compare the left panel to the ridge paths from Friday. What does a lasso path do that a ridge path never does?<br>
+</li>
+<li>The right panel is a staircase down to zero. At roughly what alpha does the model become the null model?<br>
+</li>
+<li>Ridge would give a right panel that is a flat line at 19. Say why, in terms of the two penalties.<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-2-choosing-alpha" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-choosing-alpha">Part 2: Choosing alpha</h2>
+<div id="154bed43" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> alphas:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), Lasso(alpha<span class="op">=</span>a, max_iter<span class="op">=</span><span class="dv">200000</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="op">-</span>cross_val_score(m, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"alpha"</span>: a,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cv_mse"</span>: s.mean(),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cv_se"</span>: s.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(<span class="dv">10</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"nonzero"</span>: <span class="bu">int</span>((m.fit(X, y)[<span class="op">-</span><span class="dv">1</span>].coef_ <span class="op">!=</span> <span class="dv">0</span>).<span class="bu">sum</span>()),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>lasso_cv <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> lasso_cv[<span class="st">"cv_mse"</span>].idxmin()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>lasso_cv.iloc[[best]].<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -795,50 +765,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">alpha</th>
+<th data-quarto-table-cell-role="th">cv_mse</th>
+<th data-quarto-table-cell-role="th">cv_se</th>
+<th data-quarto-table-cell-role="th">nonzero</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">242</td>
-<td>volkswagen rabbit custom diesel</td>
-<td>43.1</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">307</td>
-<td>vw rabbit</td>
-<td>41.5</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">320</td>
-<td>mazda glc</td>
-<td>46.6</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">322</td>
-<td>datsun 210</td>
-<td>40.8</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">323</td>
-<td>vw rabbit c (diesel)</td>
-<td>44.3</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">324</td>
-<td>vw dasher (diesel)</td>
-<td>43.4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">327</td>
-<td>honda civic 1500 gl</td>
-<td>44.6</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">388</td>
-<td>vw pickup</td>
-<td>44.0</td>
+<td data-quarto-table-cell-role="th">16</td>
+<td>1.22</td>
+<td>114827.82</td>
+<td>21771.56</td>
+<td>17</td>
 </tr>
 </tbody>
 </table>
@@ -846,79 +785,236 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If you have multiple conditions, you use <code>&amp;</code> for and, <code>|</code> for or, and parentheses around each piece:</p>
-<div id="b98bbe38" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Auto[(Auto[<span class="st">"mpg"</span>] <span class="op">&gt;</span> <span class="dv">30</span>) <span class="op">&amp;</span> (Auto[<span class="st">"year"</span>] <span class="op">&gt;</span> <span class="dv">78</span>)].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="question">
+<ol type="1">
+<li>Which alpha minimizes cross-validated MSE, and how many predictors does that model keep?<br>
+</li>
+<li>Apply the one standard error rule from Meeting 8: take the largest alpha whose <code>cv_mse</code> is within one <code>cv_se</code> of the minimum. How many predictors survive now?<br>
+</li>
+<li>Name them. Compare that set to the forward stepwise path from Meeting 8. How much do the two procedures agree?<br>
+</li>
+</ol>
+</div>
+<div id="355f1e93" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> lasso_cv[<span class="st">"cv_mse"</span>][best] <span class="op">+</span> lasso_cv[<span class="st">"cv_se"</span>][best]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pick <span class="op">=</span> lasso_cv.loc[lasso_cv[<span class="st">"cv_mse"</span>] <span class="op">&lt;=</span> ____, <span class="st">"alpha"</span>].<span class="bu">max</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>kept <span class="op">=</span> make_pipeline(StandardScaler(), Lasso(alpha<span class="op">=</span>pick, max_iter<span class="op">=</span><span class="dv">200000</span>)).fit(X, y)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pd.Series(kept[<span class="op">-</span><span class="dv">1</span>].coef_, index<span class="op">=</span>X.columns).loc[<span class="kw">lambda</span> s: s <span class="op">!=</span> <span class="dv">0</span>].<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="answer-space">
+
+</div>
+<div class="hint">
+<p>The one standard error rule wants the <em>simplest</em> model that is still competitive. For the lasso, simpler means a larger penalty, so take the maximum alpha that clears the threshold rather than the minimum.</p>
+</div>
+</section>
+<section id="part-3-three-fits-same-folds" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-three-fits-same-folds">Part 3: Three fits, same folds</h2>
+<div id="a540f294" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ols <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    LinearRegression(), X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>).mean()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ridge_grid <span class="op">=</span> GridSearchCV(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    make_pipeline(StandardScaler(), Ridge()),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"ridge__alpha"</span>: np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">60</span>)},</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>).fit(X, y)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cv_mse"</span>: [ols, <span class="op">-</span>ridge_grid.best_score_, lasso_cv[<span class="st">"cv_mse"</span>][best]],</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"predictors_used"</span>: [</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        X.shape[<span class="dv">1</span>],</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">int</span>((ridge_grid.best_estimator_[<span class="op">-</span><span class="dv">1</span>].coef_ <span class="op">!=</span> <span class="dv">0</span>).<span class="bu">sum</span>()),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">int</span>(lasso_cv[<span class="st">"nonzero"</span>][best]),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">"least squares"</span>, <span class="st">"ridge"</span>, <span class="st">"lasso"</span>]).<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(60, 9)</code></pre>
-</div>
-</div>
-</section>
-<section id="model-fitting" class="level2">
-<h2 class="anchored" data-anchor-id="model-fitting">Model fitting</h2>
-<div id="5eb2027b" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>, <span class="st">"weight"</span>]]   <span class="co"># predictors, always a data frame</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]                      <span class="co"># response, always a single column</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()           <span class="co"># 1. choose</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)                      <span class="co"># 2. fit</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>model.predict(X.head(<span class="dv">3</span>))             <span class="co"># 3. predict</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>array([19.18811123, 16.43741528, 18.63605667])</code></pre>
-</div>
-</div>
-<div id="1dd0b857" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model.score(X, y)                    <span class="co"># 4. score</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>0.7063752737298348</code></pre>
-</div>
-</div>
-<p>Swap <code>LinearRegression()</code> for <code>KNeighborsRegressor(5)</code> or <code>RandomForestRegressor()</code> and the other three lines stay as they are.</p>
-</section>
-<section id="pipelines" class="level2">
-<h2 class="anchored" data-anchor-id="pipelines">Pipelines</h2>
-<p>A pipeline attaches preprocessing to a model so they always occur together.</p>
-<div id="cd01f100" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsRegressor(<span class="dv">10</span>))</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pipe.fit(X, y)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>pipe.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>0.7790841201261199</code></pre>
-</div>
-</div>
-</section>
-<section id="plotting" class="level2">
-<h2 class="anchored" data-anchor-id="plotting">Plotting</h2>
-<div id="9a8a6439" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.scatter(Auto[<span class="st">"horsepower"</span>], Auto[<span class="st">"mpg"</span>], s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"horsepower"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"mpg"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="python-guide_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">cv_mse</th>
+<th data-quarto-table-cell-role="th">predictors_used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">least squares</td>
+<td>116664.3</td>
+<td>19</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ridge</td>
+<td>115005.2</td>
+<td>19</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">lasso</td>
+<td>114827.8</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Rank the three by cross-validated MSE. How large are the gaps compared to the fold-to-fold standard error in Part 2?<br>
+</li>
+<li>Ridge uses all 19 predictors and gets essentially the same error as the lasso. If the two tie on error, on what other grounds would you choose between them?<br>
+</li>
+<li>Least squares is the worst of the three even though it minimizes training RSS by construction. Explain.<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
+
 </div>
 </section>
-<section id="errors-you-may-see" class="level2">
-<h2 class="anchored" data-anchor-id="errors-you-may-see">Errors you may see</h2>
-<p><strong><code>NameError: name 'X' is not defined</code></strong> You did not run the cell that created <code>X</code>, or the runtime restarted. Run your cells from the top.</p>
-<p><strong><code>KeyError: 'mpg'</code></strong> That column does not exist. Check <code>Auto.columns</code> for the exact spelling. Column names are case sensitive.</p>
-<p><strong><code>ValueError: Expected 2D array, got 1D array instead</code></strong> scikit-learn wants predictors as a data frame. Use <code>Auto[["horsepower"]]</code> with two sets of brackets, not <code>Auto["horsepower"]</code>.</p>
-<p><strong><code>SettingWithCopyWarning</code></strong> You modified a slice of a data frame. Add <code>.copy()</code> when you subset something you intend to change.</p>
-<p>More in <a href="./troubleshooting.html">Troubleshooting</a>.</p>
+<section id="part-4-when-each-one-wins" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-when-each-one-wins">Part 4: When each one wins</h2>
+<p>Two simulations, both with 50 observations and 45 predictors. The first has 45 nonzero true coefficients. The second has 2.</p>
+<div id="779fbbd9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(n_nonzero, n<span class="op">=</span><span class="dv">50</span>, p<span class="op">=</span><span class="dv">45</span>, magnitude<span class="op">=</span><span class="fl">1.0</span>, noise<span class="op">=</span><span class="fl">4.0</span>, seed<span class="op">=</span><span class="dv">363</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    Xs <span class="op">=</span> pd.DataFrame(rng.normal(size<span class="op">=</span>(n, p)), columns<span class="op">=</span>[<span class="ss">f"x</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(p)])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> np.zeros(p)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    beta[:n_nonzero] <span class="op">=</span> rng.normal(<span class="dv">0</span>, magnitude, n_nonzero)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> Xs.values <span class="op">@</span> beta <span class="op">+</span> rng.normal(<span class="dv">0</span>, noise, n)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Xs, ys</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> best_of(model_name, model, param, Xs, ys):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> GridSearchCV(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        make_pipeline(StandardScaler(), model),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        {<span class="ss">f"</span><span class="sc">{</span>model_name<span class="sc">}</span><span class="ss">__alpha"</span>: param},</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span>KFold(<span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    ).fit(Xs, ys)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>g.best_score_, <span class="bu">int</span>((g.best_estimator_[<span class="op">-</span><span class="dv">1</span>].coef_ <span class="op">!=</span> <span class="dv">0</span>).<span class="bu">sum</span>())</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, args <span class="kw">in</span> [(<span class="st">"dense: 45 nonzero"</span>, (<span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">45</span>, <span class="fl">1.0</span>)),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                    (<span class="st">"sparse: 2 nonzero"</span>, (<span class="dv">2</span>, <span class="dv">50</span>, <span class="dv">45</span>, <span class="fl">3.0</span>))]:</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    Xs, ys <span class="op">=</span> simulate(<span class="op">*</span>args)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    lm, ln <span class="op">=</span> best_of(<span class="st">"lasso"</span>, Lasso(max_iter<span class="op">=</span><span class="dv">200000</span>), np.logspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">40</span>), Xs, ys)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    rm, rn <span class="op">=</span> best_of(<span class="st">"ridge"</span>, Ridge(), np.logspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">40</span>), Xs, ys)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"truth"</span>: label, <span class="st">"lasso_mse"</span>: lm, <span class="st">"lasso_used"</span>: ln,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"ridge_mse"</span>: rm, <span class="st">"ridge_used"</span>: rn})</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">truth</th>
+<th data-quarto-table-cell-role="th">lasso_mse</th>
+<th data-quarto-table-cell-role="th">lasso_used</th>
+<th data-quarto-table-cell-role="th">ridge_mse</th>
+<th data-quarto-table-cell-role="th">ridge_used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>dense: 45 nonzero</td>
+<td>48.8</td>
+<td>10</td>
+<td>45.5</td>
+<td>45</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>sparse: 2 nonzero</td>
+<td>22.8</td>
+<td>2</td>
+<td>31.4</td>
+<td>45</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Which method wins in each row? Connect the answer to the shape of the true <span class="math inline">\(\beta\)</span> in each simulation.<br>
+</li>
+<li>In the sparse row, how many predictors did the lasso keep, out of 45? Is that the right number?<br>
+</li>
+<li>On real data you cannot see <span class="math inline">\(\beta\)</span>. Given that, how would you decide between ridge and the lasso?<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-5-elastic-net" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-elastic-net">Part 5: Elastic net</h2>
+<p>Elastic net carries both penalties at once. <code>l1_ratio</code> says how much of the total penalty is the lasso part: 1.0 is pure lasso, 0.0 is pure ridge.</p>
+<div id="ef11dff5" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>enet <span class="op">=</span> GridSearchCV(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    make_pipeline(StandardScaler(), ElasticNet(max_iter<span class="op">=</span><span class="dv">200000</span>)),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"elasticnet__alpha"</span>: np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">30</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"elasticnet__l1_ratio"</span>: [<span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span>, <span class="fl">1.0</span>],</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>).fit(X, y)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(enet.cv_results_)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>best_by_ratio <span class="op">=</span> <span class="op">-</span>results.pivot_table(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">"param_elasticnet__l1_ratio"</span>, values<span class="op">=</span><span class="st">"mean_test_score"</span>, aggfunc<span class="op">=</span><span class="st">"max"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>enet.best_params_, best_by_ratio.<span class="bu">round</span>(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>({'elasticnet__alpha': np.float64(1.2689610031679222),
+  'elasticnet__l1_ratio': 1.0},
+                             mean_test_score
+ param_elasticnet__l1_ratio                 
+ 0.1                                120260.0
+ 0.3                                119740.0
+ 0.5                                118957.0
+ 0.7                                117728.0
+ 0.9                                115684.0
+ 1.0                                114853.0)</code></pre>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Which <code>l1_ratio</code> wins on this data, and what does that say about <code>Hitters</code>?<br>
+</li>
+<li>Read the column of best MSEs down the <code>l1_ratio</code> grid. How much does the answer actually depend on the choice?<br>
+</li>
+<li>Elastic net has two tuning parameters instead of one, and the grid above fits 180 models per fold. What does the extra flexibility buy you here?<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="if-you-finish-early" class="level2">
+<h2 class="anchored" data-anchor-id="if-you-finish-early">If you finish early</h2>
+<p>Re-run Part 4’s sparse simulation with <code>p = 60</code> and <code>n = 50</code>, so there are more predictors than observations.</p>
+<div class="question">
+<p>Least squares cannot be fit at all now. Both ridge and the lasso still run. The lasso can select at most <span class="math inline">\(n\)</span> predictors when <span class="math inline">\(p &gt; n\)</span>. Why would that limit ever be a problem?</p>
+</div>
+<p><em><code>Hitters</code> data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The 50 by 45 data are simulated.</em></p>
 
 
 </section>
@@ -1338,13 +1434,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./colab.html" class="pagination-link" aria-label="Getting Started with Colab">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Getting Started with Colab</span>
+      <a href="../ex/09-ex.html" class="pagination-link" aria-label="9. Ridge regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">9. Ridge regression</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./data.html" class="pagination-link" aria-label="Course Data">
-        <span class="nav-page-text">Course Data</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../ex/11-ex.html" class="pagination-link" aria-label="11. Logistic regression">
+        <span class="nav-page-text">11. Logistic regression</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1356,7 +1452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/python-guide.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/10-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <i class="fa-brands fa-python" aria-hidden="true"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>

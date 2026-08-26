@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.7.29">
 
   <meta name="author" content="Dr.&nbsp;Lucy D’Agostino McGowan">
-  <title>STA 363 – Statistical learning</title>
+  <title>STA 363 – Ridge regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -189,14 +189,11 @@
       margin-right: 0; 
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  
-  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<meta property="og:title" content="Statistical learning – STA 363">
-<meta property="og:description" content="STA 363 | Meeting 1">
+<meta property="og:title" content="Ridge regression – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 9">
 <meta property="og:site_name" content="STA 363">
-<meta name="twitter:title" content="Statistical learning – STA 363">
-<meta name="twitter:description" content="STA 363 | Meeting 1">
+<meta name="twitter:title" content="Ridge regression – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 9">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -205,8 +202,8 @@
     <div class="slides">
 
 <section id="title-slide" data-color="#d5008f" class="quarto-title-block center">
-  <h1 class="title">Statistical learning</h1>
-  <p class="subtitle">STA 363 | Meeting 1</p>
+  <h1 class="title">Ridge regression</h1>
+  <p class="subtitle">STA 363 | Meeting 9</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -217,372 +214,445 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 
 </section>
-<section id="class-website" class="slide level2">
-<h2>Class website</h2>
-<p><a href="https://lucymcgowan.github.io/sta-363-f26">https://lucymcgowan.github.io/sta-363-f26</a></p>
-</section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
-<ul>
-<li class="fragment">Supervised learning<br>
-</li>
-<li class="fragment">Notation<br>
-</li>
-<li class="fragment">Reducible and irreducible error<br>
-</li>
-<li class="fragment">Flexibility and interpretability<br>
-</li>
-</ul>
+<section id="review" class="slide level2">
+<h2>Review</h2>
+<div class="takeaway">
+<p>Subset selection gives each predictor all of the fit or none of it.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Twenty predictors, all weakly related to the response. What does best subset do with them?</p>
+</div>
+</div>
 </section>
 <section>
-<section id="supervised-learning" class="title-slide slide level1 center">
-<h1>Supervised learning</h1>
+<section id="when-least-squares-breaks" class="title-slide slide level1 center">
+<h1>When least squares breaks</h1>
 
 </section>
-<section id="supervised-learning-1" class="slide level2">
-<h2>Supervised learning</h2>
-<div class="takeaway">
-<p>Given predictors we can measure, estimate a future response we cannot.</p>
+<section id="the-least-squares-estimate" class="slide level2 small">
+<h2>The least squares estimate</h2>
+<p><span class="math display">\[\hat\beta = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\]</span></p>
+<div class="fragment">
+<div class="question">
+<p>Under what circumstances does this not exist?</p>
+</div>
 </div>
 <div class="fragment">
 <ul>
-<li>Labs today <span class="math inline">\(\rightarrow\)</span> readmission within 30 days<br>
+<li><span class="math inline">\(p &gt; n\)</span>, so <span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> has rank at most <span class="math inline">\(n\)</span><br>
 </li>
-<li>Square footage, age, zip <span class="math inline">\(\rightarrow\)</span> sale price<br>
-</li>
-<li>Yesterday’s returns <span class="math inline">\(\rightarrow\)</span> tomorrow’s direction<br>
+<li>Some column is a linear combination of the others<br>
 </li>
 </ul>
 </div>
 </section>
-<section id="example-wage-data" class="slide level2">
-<h2>Example: Wage data</h2>
-
-<img data-src="img/islp/fig1_1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
-<p>ISLP Figure 1.1. Wage against age, year, and education for 3,000 men in the Atlantic region.</p>
-</div>
-</section>
-<section id="example-smarket-data" class="slide level2">
-<h2>Example: Smarket data</h2>
-
-<img data-src="img/islp/fig1_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
-<p>ISLP Figure 1.2. Previous days’ percentage change in the S&amp;P 500, split by whether the market rose or fell the next day.</p>
-</div>
-</section></section>
-<section>
-<section id="notation" class="title-slide slide level1 center">
-<h1>Notation</h1>
-
-</section>
-<section id="response-and-predictors" class="slide level2 small">
-<h2>Response and predictors</h2>
+<section id="determinants" class="slide level2 small">
+<h2>Determinants</h2>
 <div class="definition">
-<p><span class="math inline">\(Y\)</span> is the <strong>response</strong>, also called the outcome or target.</p>
-<p><span class="math inline">\(X = (X_1, X_2, \dots, X_p)\)</span> are the <strong>predictors</strong>, also called features or variables.</p>
-<p><span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(p\)</span> the number of predictors.</p>
+<p>A square matrix has an inverse exactly when its determinant is nonzero. For a two by two matrix, <span class="math display">\[\left|\begin{matrix} a &amp; b \\ c &amp; d \end{matrix}\right| = ad - bc\]</span></p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Perfect collinearity sends the determinant to exactly zero. Near collinearity sends it near zero, which is worse, because the code still runs.</p>
+</div>
 </div>
 </section>
-<section id="notation-in-code" class="slide level2 small">
-<h2>Notation in code</h2>
-<div id="37a4fb9f" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>Wage <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Wage.csv"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>Wage[[<span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"education"</span>, <span class="st">"wage"</span>]].head()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="near-collinearity" class="slide level2 small">
+<h2>Near collinearity</h2>
+<div id="d321ad4c" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="fl">3.01</span>, <span class="dv">6</span>], [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>], [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]])</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>])</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(np.linalg.det(X.T <span class="op">@</span> X).<span class="bu">round</span>(<span class="dv">6</span>)), <span class="bu">float</span>(np.corrcoef(X[:, <span class="dv">1</span>], X[:, <span class="dv">2</span>])[<span class="dv">0</span>, <span class="dv">1</span>].<span class="bu">round</span>(<span class="dv">6</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1"><code>DATA</code> is the base URL for the raw CSV files in the course’s GitHub<br>
-repository. Every data set we load starts by appending a file name to this string.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Four observations, an intercept column, and two predictors that would be<br>
+exactly proportional if the first entry were 3 instead of 3.01.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2"><code>pd.read_csv</code> reads the CSV at <code>DATA + "Wage.csv"</code> and<br>
-returns a <code>DataFrame</code>, assigned to <code>Wage</code>.</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="3"><code>Wage[["age", "year", "education", "wage"]]</code> selects four columns by<br>
-name, and <code>.head()</code> returns the first five rows of that subset for display.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="2"><code>np.linalg.det</code> is the determinant of <span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> and<br>
+<code>np.corrcoef(...)[0, 1]</code> is the correlation between the two predictor columns. The determinant is tiny and the correlation is essentially 1.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header" style="text-align: right;">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">age</th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">education</th>
-<th data-quarto-table-cell-role="th">wage</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>18</td>
-<td>2006</td>
-<td>1. &lt; HS Grad</td>
-<td>75.043154</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>24</td>
-<td>2004</td>
-<td>4. College Grad</td>
-<td>70.476020</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>45</td>
-<td>2003</td>
-<td>3. Some College</td>
-<td>130.982177</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>43</td>
-<td>2003</td>
-<td>4. College Grad</td>
-<td>154.685293</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>50</td>
-<td>2005</td>
-<td>2. HS Grad</td>
-<td>75.043154</td>
-</tr>
-</tbody>
-</table>
-
-</div>
+<pre><code>(0.0056, 0.999993)</code></pre>
 </div>
 </div>
 <div class="fragment">
-<div id="3be6e54c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>Wage.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d0af5eb0" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y).<span class="bu">round</span>(<span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1"><code>np.linalg.solve</code> returns the least squares coefficients anyway, since the<br>
+determinant is nonzero. The magnitudes are the warning.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(3000, 11)</code></pre>
+<pre><code>array([   1.29, -114.29,   57.29])</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="variance-of-the-estimate" class="slide level2 small">
+<h2>Variance of the estimate</h2>
+<p><span class="math display">\[\text{Var}(\hat\beta) = \sigma^2(\mathbf{X}^T\mathbf{X})^{-1}\]</span></p>
 <div class="fragment">
-<div class="question">
-<p>In the <code>Wage</code> data, what is <span class="math inline">\(Y\)</span>? What is <span class="math inline">\(p\)</span>?</p>
-</div>
-</div>
-</section>
-<section id="the-model" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = f(X) + \varepsilon\]</span></p>
-</section>
-<section id="the-model-1" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[{\require{color}\colorbox{#eec8e1}{$Y$}} = f(X) + \varepsilon\]</span></p>
-<p>The response we want to predict.</p>
-</section>
-<section id="the-model-2" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$f(X)$}} + \varepsilon\]</span></p>
-<p>The true, otherwise-unknown relationship between the predictors and <span class="math inline">\(Y\)</span>.</p>
-</section>
-<section id="the-model-3" class="slide level2">
-<h2>The model</h2>
-<p><span class="math display">\[Y = f(X) + {\require{color}\colorbox{#eec8e1}{$\varepsilon$}}\]</span></p>
-<p>The error term: everything about <span class="math inline">\(Y\)</span> that <span class="math inline">\(X\)</span> does not capture.</p>
-</section>
-<section id="the-error-term" class="slide level2">
-<h2>The error term</h2>
-
-<img data-src="img/islp/fig2_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:84.0%"><div class="source">
-<p>ISLP Figure 2.2. Left: observed income and years of education for 30 people. Right: the true <span class="math inline">\(f\)</span> in blue, with the black segments showing each <span class="math inline">\(\varepsilon_i\)</span>.</p>
-</div>
-</section></section>
-<section>
-<section id="prediction-and-inference" class="title-slide slide level1 center">
-<h1>Prediction and inference</h1>
-
-</section>
-<section id="prediction-and-inference-1" class="slide level2">
-<h2>Prediction and inference</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="prediction">Prediction</h3>
-<p>Is <span class="math inline">\(\hat{Y}\)</span> close to <span class="math inline">\(Y\)</span>?</p>
-<p><span class="math inline">\(\hat{f}\)</span> may be a black box.</p>
-<div class="fragment fade-in">
 <div class="takeaway">
-<p><strong>This course.</strong></p>
+<p>A determinant near zero means the entries of the inverse are enormous, so the variances on its diagonal are enormous. Refit on a slightly different sample and <span class="math inline">\(\hat\beta\)</span> moves a long way.</p>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
-<h3 id="inference">Inference</h3>
-<p>How does <span class="math inline">\(Y\)</span> change with <span class="math inline">\(X_j\)</span>?</p>
-<p><span class="math inline">\(\hat{f}\)</span> must be interpretable.</p>
-<div class="fragment fade-in">
-<div class="dim">
-<p>STA 112 and STA 312.</p>
-</div>
-</div>
-</div></div>
 </section>
-<section id="reducible-and-irreducible-error" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-</section>
-<section id="reducible-and-irreducible-error-1" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{{\require{color}\colorbox{#eec8e1}{$\left[f(X) - \hat{f}(X)\right]^2$}}}_{\text{reducible}} + \underbrace{\text{Var}(\varepsilon)}_{\text{irreducible}}\]</span></p>
-<p>How far our estimate <span class="math inline">\(\hat{f}\)</span> sits from the truth <span class="math inline">\(f\)</span>. A better method, better predictors, or more data can shrink this to zero.</p>
-</section>
-<section id="reducible-and-irreducible-error-2" class="slide level2">
-<h2>Reducible and irreducible error</h2>
-<p><span class="math display">\[E\left(Y - \hat{Y}\right)^2 = \underbrace{\left[f(X) - \hat{f}(X)\right]^2}_{\text{reducible}} + \underbrace{{\require{color}\colorbox{#eec8e1}{$\text{Var}(\varepsilon)$}}}_{\text{irreducible}}\]</span></p>
-<p>The irreducible error. No method, however good, gets past this floor.</p>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 1. <a href="../ex/09-ex.html">ex/09-ex</a></p>
+</div>
 </section></section>
 <section>
-<section id="flexibility" class="title-slide slide level1 center">
-<h1>Flexibility</h1>
+<section id="ridge-regression" class="title-slide slide level1 center">
+<h1>Ridge regression</h1>
 
 </section>
-<section id="the-true-f" class="slide level2">
-<h2>The true f</h2>
-
-<img data-src="img/islp/fig2_3.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.3. Income as a function of education and seniority, simulated so that the true surface is known.</p>
+<section id="ridge-regression-1" class="slide level2 small">
+<h2>Ridge regression</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda\sum_{j=1}^{p}\beta_j^2\]</span></p>
+</section>
+<section id="ridge-regression-2" class="slide level2 small">
+<h2>Ridge regression</h2>
+<p><span class="math display">\[{\require{color}\colorbox{#eec8e1}{$\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2$}} + \lambda\sum_{j=1}^{p}\beta_j^2\]</span></p>
+<p>Ordinary RSS, the same quantity least squares minimizes on its own.</p>
+</section>
+<section id="ridge-regression-3" class="slide level2 small">
+<h2>Ridge regression</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda{\require{color}\colorbox{#eec8e1}{$\sum_{j=1}^{p}\beta_j^2$}}\]</span></p>
+<p>The shrinkage penalty: the sum of squared coefficients, small when every <span class="math inline">\(\beta_j\)</span> is near zero. The sum starts at <span class="math inline">\(j = 1\)</span>, so the intercept is never penalized.</p>
+</section>
+<section id="ridge-regression-4" class="slide level2 small">
+<h2>Ridge regression</h2>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + {\require{color}\colorbox{#eec8e1}{$\lambda$}}\sum_{j=1}^{p}\beta_j^2\]</span></p>
+<p>The tuning parameter, chosen by cross-validation. At <span class="math inline">\(\lambda = 0\)</span> this is least squares. As <span class="math inline">\(\lambda \rightarrow \infty\)</span> every coefficient goes to zero.</p>
+</section>
+<section id="in-matrix-form" class="slide level2 small">
+<h2>In matrix form</h2>
+<p><span class="math display">\[(\mathbf{y} - \mathbf{X}\beta)^T(\mathbf{y} - \mathbf{X}\beta) + \lambda\beta^T\beta\]</span></p>
+<div class="fragment">
+<div class="question">
+<p>Differentiate with respect to <span class="math inline">\(\beta\)</span>, set it to zero, and solve. What do you get?</p>
+</div>
 </div>
 </section>
-<section id="linear-fit" class="slide level2">
-<h2>Linear fit</h2>
-
-<img data-src="img/islp/fig2_4.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.4. A linear model fit by least squares to the data of Figure 2.3.</p>
+<section id="the-ridge-solution" class="slide level2">
+<h2>The ridge solution</h2>
+<p><span class="math display">\[\hat\beta^R = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}\]</span></p>
+</section>
+<section id="the-ridge-solution-1" class="slide level2">
+<h2>The ridge solution</h2>
+<p><span class="math display">\[\hat\beta^R = (\mathbf{X}^T\mathbf{X} + {\require{color}\colorbox{#eec8e1}{$\lambda\mathbf{I}$}})^{-1}\mathbf{X}^T\mathbf{y}\]</span></p>
+<p><span class="math inline">\(\mathbf{I}\)</span> is the identity matrix, so <span class="math inline">\(\lambda\mathbf{I}\)</span> adds <span class="math inline">\(\lambda\)</span> to every diagonal entry of <span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> and nothing anywhere else.</p>
+</section>
+<section id="the-ridge-solution-2" class="slide level2">
+<h2>The ridge solution</h2>
+<p><span class="math display">\[\hat\beta^R = {\require{color}\colorbox{#eec8e1}{$(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}$}}\mathbf{X}^T\mathbf{y}\]</span></p>
+<p>That sum is invertible for any <span class="math inline">\(\lambda &gt; 0\)</span>, however collinear the predictors are and even when <span class="math inline">\(p &gt; n\)</span>. Set <span class="math inline">\(\lambda = 0\)</span> and the whole expression collapses back to the least squares estimate.</p>
+</section>
+<section id="ridge-as-a-budget" class="slide level2 small">
+<h2>Ridge as a budget</h2>
+<div class="definition">
+<p>Minimizing RSS <span class="math inline">\(+ \lambda\sum_j\beta_j^2\)</span> is the same problem as minimizing RSS subject to <span class="math inline">\(\sum_{j=1}^{p}\beta_j^2 \leq s\)</span>, for a value of <span class="math inline">\(s\)</span> that depends on <span class="math inline">\(\lambda\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>A budget for how large the coefficients may get, spent however the fit likes. Large <span class="math inline">\(\lambda\)</span> is a small budget.</p>
+</div>
 </div>
 </section>
-<section id="smoothing-spline" class="slide level2">
-<h2>Smoothing spline</h2>
-
-<img data-src="img/islp/fig2_5.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.5. A smooth thin plate spline fit to the same data.</p>
-</div>
-</section>
-<section id="overfit-spline" class="slide level2">
-<h2>Overfit spline</h2>
-
-<img data-src="img/islp/fig2_6.png" class="quarto-figure quarto-figure-center r-stretch" style="width:54.0%"><div class="source">
-<p>ISLP Figure 2.6. A rough thin plate spline with zero error on the training data.</p>
+<section id="ridge-in-one-dimension" class="slide level2 small">
+<h2>Ridge in one dimension</h2>
+<div class="takeaway">
+<p>With <span class="math inline">\(n = p\)</span> and <span class="math inline">\(\mathbf{X} = \mathbf{I}\)</span>, the ridge estimate has a closed form: <span class="math display">\[\hat\beta^R_j = \frac{\hat\beta_j}{1 + \lambda}\]</span></p>
 </div>
 <div class="fragment">
 <div class="question">
-<p>Is this the best model? The training error is zero!</p>
+<p>Every coefficient shrinks by the same proportion. How many of them reach exactly zero at any finite <span class="math inline">\(\lambda\)</span>?</p>
 </div>
 </div>
 </section>
-<section id="parametric-and-non-parametric" class="slide level2 small">
-<h2>Parametric and non-parametric</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="parametric">Parametric</h3>
-<p>Assume a form for <span class="math inline">\(f\)</span>, estimate a fixed number of parameters.</p>
-<p><span class="math inline">\(f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></p>
-<p>Wrong if the form is wrong.</p>
-</div><div class="column" style="width:50%;">
-<h3 id="non-parametric">Non-parametric</h3>
-<p>No assumed form. The data pick the shape.</p>
-<p>Flexible, and needs far more data.</p>
-</div></div>
+<section id="variance-of-the-ridge-estimate" class="slide level2 small">
+<h2>Variance of the ridge estimate</h2>
+<p><span class="math display">\[\text{Var}(\hat\beta^R) = \sigma^2(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\]</span></p>
+<div class="fragment">
+<div class="question">
+<p>Set <span class="math inline">\(\lambda = 0\)</span> and compare it to <span class="math inline">\(\sigma^2(\mathbf{X}^T\mathbf{X})^{-1}\)</span>. As <span class="math inline">\(\lambda\)</span> grows, does this go up or down?</p>
+</div>
+</div>
 </section>
-<section id="flexibility-and-interpretability" class="slide level2">
-<h2>Flexibility and interpretability</h2>
+<section id="what-lambda-buys" class="slide level2 small">
+<h2>What lambda buys</h2>
+<div class="takeaway">
+<p>Ridge returns coefficients where least squares returns an error, and returns stable ones where least squares returns wild ones.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>An estimate exists for every <span class="math inline">\(\lambda &gt; 0\)</span>. What tells us which of those estimates to use?</p>
+</div>
+</div>
+</section>
+<section id="coefficient-paths-on-credit" class="slide level2">
+<h2>Coefficient paths on Credit</h2>
 
-<img data-src="img/islp/fig2_7.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="source">
-<p>ISLP Figure 2.7. The trade off between flexibility and interpretability across methods.</p>
+<img data-src="img/islp/fig6_4.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
+<p>ISLP Figure 6.4. Standardized ridge coefficients for <code>Credit</code> against <span class="math inline">\(\lambda\)</span> on the left, and against <span class="math inline">\(\|\hat\beta^R_\lambda\|_2 / \|\hat\beta\|_2\)</span> on the right.</p>
 </div>
 </section>
-<section id="regression-and-classification" class="slide level2">
-<h2>Regression and classification</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="regression">Regression</h3>
-<p><span class="math inline">\(Y\)</span> is quantitative.</p>
+<section id="reading-the-paths" class="slide level2 small">
+<h2>Reading the paths</h2>
 <ul>
-<li>Wage<br>
+<li class="fragment">Far left: <span class="math inline">\(\lambda\)</span> near zero, so these are the least squares estimates<br>
 </li>
-<li>Price<br>
+<li class="fragment">Far right: every coefficient at zero, the null model<br>
 </li>
-<li>Blood pressure</li>
+<li class="fragment">In between: a different fitted model for every <span class="math inline">\(\lambda\)</span><br>
+</li>
 </ul>
-</div><div class="column" style="width:50%;">
-<h3 id="classification">Classification</h3>
-<p><span class="math inline">\(Y\)</span> is qualitative.</p>
-<ul>
-<li>Readmitted or not<br>
-</li>
-<li>Labeling handwritten numbers<br>
-</li>
-<li>Which customers will convert</li>
-</ul>
-</div></div>
-</section></section>
-<section>
-<section id="course-mechanics" class="title-slide slide level1 center">
-<h1>Course mechanics</h1>
+<div class="fragment">
+<div class="question">
+<p><code>rating</code> climbs before it falls. How, if the penalty only ever shrinks?</p>
+</div>
+</div>
+</section>
+<section id="the-same-paths-computed" class="slide level2 small">
+<h2>The same paths, computed</h2>
 
-</section>
-<section id="course-structure" class="slide level2">
-<h2>Course structure</h2>
-<ul>
-<li class="fragment">Most Wednesdays: a paper check-in at the end of class<br>
-</li>
-<li class="fragment">Most Fridays: a problem set due<br>
-</li>
-<li class="fragment">Three exams: October 9, November 11, and a Final<br>
-</li>
-</ul>
-</section>
-<section id="google-colab" class="slide level2">
-<h2>Google Colab</h2>
-<ul>
-<li>Free, runs in the browser, no local install<br>
-</li>
-<li>Every notebook lives in this course’s GitHub repository<br>
-</li>
-<li>Application exercise 1 starts with a short walkthrough<br>
-</li>
-</ul>
+<img data-src="09-ridge_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Ridge fit by hand on standardized <code>Credit</code> predictors, one solve per <span class="math inline">\(\lambda\)</span>, reproducing the left panel of ISLP Figure 6.4.</p>
+</div>
 </section>
 <section id="application-exercise-1" class="slide level2">
-<h2>Application exercise 1</h2>
+<h2>Application exercise</h2>
 <div class="takeaway">
-<p>Getting comfortable in Colab, then identifying <span class="math inline">\(Y\)</span>, <span class="math inline">\(X\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(p\)</span>, and sorting problems into prediction and inference.</p>
+<p>Complete Part 2. <a href="../ex/09-ex.html">ex/09-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="scale-and-the-penalty" class="title-slide slide level1 center">
+<h1>Scale and the penalty</h1>
+
+</section>
+<section id="least-squares-is-scale-equivariant" class="slide level2 small">
+<h2>Least squares is scale equivariant</h2>
+<div class="definition">
+<p>Multiply <span class="math inline">\(X_j\)</span> by <span class="math inline">\(c\)</span> and the least squares <span class="math inline">\(\hat\beta_j\)</span> becomes <span class="math inline">\(\hat\beta_j / c\)</span>. The product <span class="math inline">\(X_j\hat\beta_j\)</span> is unchanged, so every fitted value is unchanged.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p><span class="math inline">\(\lambda\sum_j\beta_j^2\)</span> is a sum over the coefficients. What does dividing one of them by 1000 do to that sum?</p>
+</div>
+</div>
+</section>
+<section id="standardizing-the-predictors" class="slide level2 small">
+<h2>Standardizing the predictors</h2>
+<p><span class="math display">\[\tilde{x}_{ij} = \frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_{ij} - \bar{x}_j)^2}}\]</span></p>
+<div class="fragment">
+<div class="takeaway">
+<p>Every standardized predictor has standard deviation 1, so a shared <span class="math inline">\(\lambda\)</span> means the same thing for all of them. <code>StandardScaler</code> inside the pipeline, where cross-validation refits it on each training fold.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 3. <a href="../ex/09-ex.html">ex/09-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="bias-and-variance" class="title-slide slide level1 center">
+<h1>Bias and variance</h1>
+
+</section>
+<section id="ridge-and-the-trade-off" class="slide level2 small">
+<h2>Ridge and the trade-off</h2>
+<div class="takeaway">
+<p>As <span class="math inline">\(\lambda\)</span> rises the fit gets less flexible: variance falls and bias rises. This is the Meeting 3 trade-off with <span class="math inline">\(\lambda\)</span> as the knob.</p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\text{Bias}(\hat\beta^R) = -\lambda(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\beta\]</span></p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>What is that at <span class="math inline">\(\lambda = 0\)</span>?</p>
+</div>
+</div>
+</section>
+<section id="bias-variance-and-test-mse" class="slide level2">
+<h2>Bias, variance, and test MSE</h2>
+
+<img data-src="img/islp/fig6_5.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><div class="source">
+<p>ISLP Figure 6.5. Squared bias in black, variance in green, test MSE in purple, for ridge on a simulated data set with <span class="math inline">\(p = 45\)</span> and <span class="math inline">\(n = 50\)</span>.</p>
+</div>
+</section>
+<section id="reading-figure-6.5" class="slide level2 small">
+<h2>Reading Figure 6.5</h2>
+<ul>
+<li class="fragment">At <span class="math inline">\(\lambda = 0\)</span> the bias is zero and the variance is enormous<br>
+</li>
+<li class="fragment">Variance falls fast at first while bias barely moves<br>
+</li>
+<li class="fragment">Past the minimum the coefficients are too small and bias takes over<br>
+</li>
+</ul>
+<div class="fragment">
+<div class="takeaway">
+<p>Least squares, at <span class="math inline">\(\lambda = 0\)</span>, has almost the same test MSE as the null model at <span class="math inline">\(\lambda = \infty\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="choosing-lambda" class="slide level2">
+<h2>Choosing lambda</h2>
+
+<img data-src="img/islp/fig6_12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><div class="source">
+<p>ISLP Figure 6.12. Left: cross-validation error for ridge on <code>Credit</code> across <span class="math inline">\(\lambda\)</span>. Right: the coefficient estimates, with the chosen <span class="math inline">\(\lambda\)</span> marked.</p>
+</div>
+</section>
+<section id="when-p-approaches-n" class="slide level2 small">
+<h2>When p approaches n</h2>
+
+<img data-src="09-ridge_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<p>Fifty observations, 45 predictors, all with nonzero true coefficients. The dashed line is least squares on the same folds.</p>
+</div>
+</section></section>
+<section>
+<section id="in-python" class="title-slide slide level1 center">
+<h1>In Python</h1>
+
+</section>
+<section id="ridge-in-scikit-learn" class="slide level2 small">
+<h2>Ridge in scikit-learn</h2>
+<div id="ad1529ce" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>Credit <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Credit.csv"</span>)</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> [<span class="st">"Income"</span>, <span class="st">"Limit"</span>, <span class="st">"Rating"</span>, <span class="st">"Cards"</span>, <span class="st">"Age"</span>, <span class="st">"Education"</span>]</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Credit[num].copy()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-9" class="code-annotation-target"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>X[<span class="st">"Student"</span>] <span class="op">=</span> (Credit[<span class="st">"Student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Credit[<span class="st">"Balance"</span>]</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-12" class="code-annotation-target"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> make_pipeline(StandardScaler(), Ridge(alpha<span class="op">=</span><span class="dv">100</span>)).fit(X, y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4">4</button><span id="annotated-cell-2-13" class="code-annotation-target"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>pd.Series(fit[<span class="op">-</span><span class="dv">1</span>].coef_, index<span class="op">=</span>X.columns).<span class="bu">round</span>(<span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="1"><code>Ridge</code> is scikit-learn’s ridge regression. Its penalty parameter is named<br>
+<code>alpha</code> rather than <code>lambda</code>, since <code>lambda</code> is a reserved word in Python.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="9" data-code-annotation="2"><code>Student</code> is categorical, so comparing it to <code>"Yes"</code> and calling<br>
+<code>.astype(float)</code> turns it into a single 0/1 indicator column.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="12" data-code-annotation="3"><code>make_pipeline(StandardScaler(), Ridge(alpha=100))</code> puts the scaler in<br>
+front of the model, so the standardization is learned on whatever data the pipeline is fit to and never from a held-out fold.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="13" data-code-annotation="4"><code>fit[-1]</code> is the last step of the pipeline, the fitted <code>Ridge</code> object, so<br>
+<code>fit[-1].coef_</code> holds the coefficients on the standardized scale.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>Income       -94.8
+Limit        211.4
+Rating       209.4
+Cards         22.4
+Age          -18.8
+Education     -0.7
+Student       98.1
+dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="tuning-alpha" class="slide level2 small">
+<h2>Tuning alpha</h2>
+<div id="30f1b236" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold, cross_val_score</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>MSE <span class="op">=</span> <span class="st">"neg_mean_squared_error"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>alphas <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">60</span>)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(make_pipeline(StandardScaler(), Ridge()),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>                    {<span class="st">"ridge__alpha"</span>: alphas}, cv<span class="op">=</span>cv, scoring<span class="op">=</span>MSE).fit(X, y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-10" class="code-annotation-target"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>ols <span class="op">=</span> <span class="op">-</span>cross_val_score(LinearRegression(), X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span>MSE).mean()</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(grid.best_params_[<span class="st">"ridge__alpha"</span>], <span class="dv">3</span>), <span class="bu">round</span>(<span class="op">-</span>grid.best_score_, <span class="dv">1</span>), <span class="bu">round</span>(<span class="bu">float</span>(ols), <span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="1"><code>np.logspace(-2, 5, 60)</code> builds 60 candidate values evenly spaced on a log<br>
+scale from 0.01 to 100,000, since what matters about <code>alpha</code> is its order of magnitude.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="2"><code>"ridge__alpha"</code> reaches the <code>alpha</code> parameter of the pipeline step named<br>
+<code>ridge</code>, using the double underscore from Meeting 6.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="10" data-code-annotation="3">The least squares cross-validated MSE on identical folds, for comparison.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(np.float64(0.202), np.float64(9897.5), 9903.5)</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Ridge picks a tiny alpha here and barely beats least squares. What is different about <code>Credit</code> compared to Figure 6.5’s simulation?</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Parts 4 and 5. <a href="../ex/09-ex.html">ex/09-ex</a></p>
+</div>
+</section>
+<section id="application-exercise-9" class="slide level2">
+<h2>Application exercise 9</h2>
+<div class="takeaway">
+<p>Watched coefficients swing under resampling, computed the ridge solution by hand across a grid of <span class="math inline">\(\lambda\)</span>, showed that changing units changes an unscaled ridge fit, and beat least squares by a factor of 150 when <span class="math inline">\(p\)</span> approached <span class="math inline">\(n\)</span>.</p>
 </div>
 </section>
 <section id="before-friday" class="slide level2">
 <h2>Before Friday</h2>
 <ul>
-<li>Read ISLP Section 2.2.1<br>
+<li>Read ISLP Sections 6.2.2 to 6.2.3<br>
 </li>
-<li>Have Colab running<br>
+<li>Problem set 4 due Friday<br>
 </li>
 </ul>
+<div class="fragment">
+<div class="question">
+<p>Ridge shrinks every coefficient toward zero and sets none of them to zero. When would that be a problem?</p>
+</div>
+</div>
 
 
 </section></section>

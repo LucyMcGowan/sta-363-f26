@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bcbce66894bfa8e7e94e40e0186b9bb8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.29">
+
+  <meta name="author" content="Dr.&nbsp;Lucy D’Agostino McGowan">
+  <title>STA 363 – Logistic regression</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #24292e;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #24292e; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #d73a49; } /* Attribute */
+    code span.bn { color: #005cc5; } /* BaseN */
+    code span.bu { color: #d73a49; } /* BuiltIn */
+    code span.cf { color: #d73a49; } /* ControlFlow */
+    code span.ch { color: #032f62; } /* Char */
+    code span.cn { color: #005cc5; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #d73a49; } /* DataType */
+    code span.dv { color: #005cc5; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
+    code span.fl { color: #005cc5; } /* Float */
+    code span.fu { color: #6f42c1; } /* Function */
+    code span.im { color: #032f62; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #d73a49; } /* Keyword */
+    code span.op { color: #24292e; } /* Operator */
+    code span.ot { color: #6f42c1; } /* Other */
+    code span.pp { color: #d73a49; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #005cc5; } /* SpecialChar */
+    code span.ss { color: #032f62; } /* SpecialString */
+    code span.st { color: #032f62; } /* String */
+    code span.va { color: #e36209; } /* Variable */
+    code span.vs { color: #032f62; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee6862a114be80f027b612748618a6b6.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<meta property="og:title" content="Logistic regression – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 11">
+<meta property="og:site_name" content="STA 363">
+<meta name="twitter:title" content="Logistic regression – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 11">
+<meta name="twitter:creator" content="@lucystats">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-color="#d5008f" class="quarto-title-block center">
+  <h1 class="title">Logistic regression</h1>
+  <p class="subtitle">STA 363 | Meeting 11</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr.&nbsp;Lucy D’Agostino McGowan 
+</div>
+</div>
+</div>
+
+</section>
+<section id="review" class="slide level2">
+<h2>Review</h2>
+<div class="takeaway">
+<p>Least squares, ridge, and the lasso all predict a number.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>The <code>Default</code> outcome is Yes or No.&nbsp;What have we used for that so far?</p>
+</div>
+</div>
+</section>
+<section>
+<section id="classification" class="title-slide slide level1 center">
+<h1>Classification</h1>
+
+</section>
+<section id="classification-1" class="slide level2 small">
+<h2>Classification</h2>
+<div class="definition">
+<p>The response <span class="math inline">\(Y\)</span> takes values in an unordered set <span class="math inline">\(\mathcal{C}\)</span>. The task is a function <span class="math inline">\(C(X)\)</span> returning a member of <span class="math inline">\(\mathcal{C}\)</span>, and usually the probability of each member is what we actually want.</p>
+</div>
+<div class="fragment">
+<ul>
+<li><code>email</code> in {spam, not spam}<br>
+</li>
+<li><code>default</code> in {Yes, No}<br>
+</li>
+<li><code>diagnosis</code> in {stroke, overdose, seizure}<br>
+</li>
+</ul>
+</div>
+</section>
+<section id="the-default-data" class="slide level2">
+<h2>The Default data</h2>
+
+<img data-src="img/islp/fig4_1a.png" class="quarto-figure quarto-figure-center r-stretch" style="width:42.0%"><div class="source">
+<p>ISLP Figure 4.1, left panel. Annual income against monthly credit card balance for 10,000 customers. The 333 who defaulted are the orange crosses.</p>
+</div>
+</section>
+<section id="coding-the-outcome" class="slide level2 small">
+<h2>Coding the outcome</h2>
+<p><span class="math display">\[Y = \begin{cases} 0 &amp; \text{if No} \\ 1 &amp; \text{if Yes}\end{cases}\]</span></p>
+<div class="fragment">
+<div class="takeaway">
+<p><span class="math inline">\(E[Y \mid X = x] = \Pr(Y = 1 \mid X = x)\)</span>, so a least squares fit of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> is estimating a probability.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>So why not fit a line and call anything above 0.5 a default?</p>
+</div>
+</div>
+</section>
+<section id="linear-against-logistic" class="slide level2">
+<h2>Linear against logistic</h2>
+
+<img data-src="img/islp/fig4_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
+<p>ISLP Figure 4.2. Left: probability of default from linear regression, some of it negative. Right: the same from logistic regression, every value between 0 and 1. Orange ticks are the observed 0/1 values.</p>
+</div>
+</section>
+<section id="more-than-two-classes" class="slide level2 small">
+<h2>More than two classes</h2>
+<p><span class="math display">\[Y = \begin{cases} 1 &amp; \text{stroke} \\ 2 &amp; \text{overdose} \\ 3 &amp; \text{seizure}\end{cases}\]</span></p>
+<div class="fragment">
+<div class="question">
+<p>What does that coding assert about the three diagnoses that nobody meant to assert?</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="the-logistic-model" class="title-slide slide level1 center">
+<h1>The logistic model</h1>
+
+</section>
+<section id="the-logistic-function" class="slide level2">
+<h2>The logistic function</h2>
+<p><span class="math display">\[p(X) = \frac{e^{\beta_0 + \beta_1X}}{1 + e^{\beta_0 + \beta_1X}}\]</span></p>
+</section>
+<section id="the-logistic-function-1" class="slide level2">
+<h2>The logistic function</h2>
+<p><span class="math display">\[p(X) = \frac{{\require{color}\colorbox{#eec8e1}{$e^{\beta_0 + \beta_1X}$}}}{1 + e^{\beta_0 + \beta_1X}}\]</span></p>
+<p>The same linear function least squares used, exponentiated, so it is positive for every value of <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(X\)</span>, however far the linear part runs.</p>
+</section>
+<section id="the-logistic-function-2" class="slide level2">
+<h2>The logistic function</h2>
+<p><span class="math display">\[p(X) = \frac{e^{\beta_0 + \beta_1X}}{{\require{color}\colorbox{#eec8e1}{$1 + e^{\beta_0 + \beta_1X}$}}}\]</span></p>
+<p>The denominator is the numerator plus one, so it is always the larger of the two. The ratio therefore lands strictly between 0 and 1, whatever the coefficients are.</p>
+</section>
+<section id="rearranging" class="slide level2 small">
+<h2>Rearranging</h2>
+<p><span class="math display">\[\log\left(\frac{p(X)}{1 - p(X)}\right) = \beta_0 + \beta_1X\]</span></p>
+<div class="fragment">
+<div class="definition">
+<p><span class="math inline">\(p(X) / (1 - p(X))\)</span> are the <strong>odds</strong>, and its log is the <strong>log odds</strong> or <strong>logit</strong>. The model is linear in the log odds.</p>
+</div>
+</div>
+</section>
+<section id="odds" class="slide level2 small">
+<h2>Odds</h2>
+<div class="takeaway">
+<p>A 60% chance of rain: <span class="math inline">\(p = 0.6\)</span>, <span class="math inline">\(1 - p = 0.4\)</span>, odds <span class="math inline">\(= 0.6/0.4 = 1.5\)</span>, or 3 to 2.</p>
+</div>
+<div class="fragment">
+<ul>
+<li>Probability lives on <span class="math inline">\([0, 1]\)</span><br>
+</li>
+<li>Odds live on <span class="math inline">\([0, \infty)\)</span><br>
+</li>
+<li>Log odds live on the whole real line, which is where a linear function lives<br>
+</li>
+</ul>
+</div>
+</section>
+<section id="transforming-back-and-forth" class="slide level2 small">
+<h2>Transforming back and forth</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>probability</th>
+<th>odds</th>
+<th>log odds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\pi\)</span></td>
+<td><span class="math inline">\(\frac{\pi}{1 - \pi}\)</span></td>
+<td><span class="math inline">\(\log\left(\frac{\pi}{1-\pi}\right) = \ell\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>log odds</th>
+<th>odds</th>
+<th>probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\ell\)</span></td>
+<td><span class="math inline">\(e^{\ell}\)</span></td>
+<td><span class="math inline">\(\frac{e^{\ell}}{1 + e^{\ell}} = \pi\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+<div class="question">
+<p>The model gives you <span class="math inline">\(\ell\)</span>. Which row do you read to get a probability?</p>
+</div>
+</div>
+</section>
+<section id="reading-a-coefficient" class="slide level2 small">
+<h2>Reading a coefficient</h2>
+<div class="definition">
+<p>A one unit increase in <span class="math inline">\(X\)</span> adds <span class="math inline">\(\beta_1\)</span> to the log odds, and multiplies the odds by <span class="math inline">\(e^{\beta_1}\)</span>.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>That is a statement about odds, not about probability. Why can we not say a one unit increase in <span class="math inline">\(X\)</span> adds a fixed amount to <span class="math inline">\(p(X)\)</span>?</p>
+</div>
+</div>
+</section>
+<section id="odds-ratios" class="slide level2 small">
+<h2>Odds ratios</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>TMS</th>
+<th>Placebo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pain-free after two hours</td>
+<td>39</td>
+<td>22</td>
+</tr>
+<tr class="even">
+<td>Still in pain</td>
+<td>61</td>
+<td>78</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<div class="takeaway">
+<p>Odds of being pain-free: <span class="math inline">\(39/61 = 0.639\)</span> with TMS, <span class="math inline">\(22/78 = 0.282\)</span> with placebo. The odds ratio is <span class="math inline">\(0.639 / 0.282 = 2.27\)</span>.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>A logistic regression of pain-free status on treatment would return which number as <span class="math inline">\(e^{\hat\beta_1}\)</span>?</p>
+</div>
+</div>
+</section>
+<section id="maximum-likelihood" class="slide level2 small">
+<h2>Maximum likelihood</h2>
+<p><span class="math display">\[\ell(\beta_0, \beta_1) = \prod_{i: y_i = 1} p(x_i) \prod_{i: y_i = 0}\left(1 - p(x_i)\right)\]</span></p>
+</section>
+<section id="maximum-likelihood-1" class="slide level2 small">
+<h2>Maximum likelihood</h2>
+<p><span class="math display">\[\ell(\beta_0, \beta_1) = {\require{color}\colorbox{#eec8e1}{$\prod_{i: y_i = 1} p(x_i)$}} \prod_{i: y_i = 0}\left(1 - p(x_i)\right)\]</span></p>
+<p>For every observation that did default, the model’s own predicted probability of defaulting. We want these large.</p>
+</section>
+<section id="maximum-likelihood-2" class="slide level2 small">
+<h2>Maximum likelihood</h2>
+<p><span class="math display">\[\ell(\beta_0, \beta_1) = \prod_{i: y_i = 1} p(x_i) {\require{color}\colorbox{#eec8e1}{$\prod_{i: y_i = 0}\left(1 - p(x_i)\right)$}}\]</span></p>
+<p>For every observation that did not, the model’s predicted probability of not defaulting. We want these large too. The whole product is the probability the fitted model assigns to the exact pattern of ones and zeros observed, and <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are chosen to make it as large as it goes. This plays the role RSS played for a numeric response.</p>
+</section>
+<section id="application-exercise" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 1. <a href="../ex/11-ex.html">ex/11-ex</a></p>
+</div>
+</section></section>
+<section>
+<section id="on-the-default-data" class="title-slide slide level1 center">
+<h1>On the Default data</h1>
+
+</section>
+<section id="fitting-on-balance" class="slide level2 small">
+<h2>Fitting on balance</h2>
+<div id="45ca6443" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>Default <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Default.csv"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-5" class="code-annotation-target"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Default[<span class="st">"default"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(Default[[<span class="st">"balance"</span>]], y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-8" class="code-annotation-target"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(fit.intercept_[<span class="dv">0</span>]), <span class="dv">4</span>), <span class="bu">round</span>(<span class="bu">float</span>(fit.coef_[<span class="dv">0</span>][<span class="dv">0</span>]), <span class="dv">6</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>LogisticRegression</code> fits the model by maximum likelihood, through the same<br>
+<code>.fit</code> and <code>.predict</code> interface every other estimator uses.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="5" data-code-annotation="2">Comparing the <code>default</code> column to <code>"Yes"</code> and calling <code>.astype(int)</code> gives<br>
+the 0/1 coding, with 1 for a default.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="3"><code>C=1e10</code> makes the penalty scikit-learn applies by default effectively<br>
+zero, so these are the unpenalized maximum likelihood estimates that match ISLP Table 4.1. <code>max_iter=10000</code> gives the solver room to converge.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="8" data-code-annotation="4"><code>intercept_</code> is <span class="math inline">\(\hat\beta_0\)</span> and <code>coef_[0][0]</code> is <span class="math inline">\(\hat\beta_1\)</span>, the<br>
+change in log odds of default per dollar of balance.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(-10.6513, 0.005499)</code></pre>
+</div>
+</div>
+</section>
+<section id="predicting-a-probability" class="slide level2 small">
+<h2>Predicting a probability</h2>
+<p><span class="math display">\[\hat{p}(X) = \frac{e^{-10.6513 + 0.0055 \times 1000}}{1 + e^{-10.6513 + 0.0055 \times 1000}} = 0.006\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[\hat{p}(X) = \frac{e^{-10.6513 + 0.0055 \times 2000}}{1 + e^{-10.6513 + 0.0055 \times 2000}} = 0.586\]</span></p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Balance doubled and the probability went up by a factor of a hundred. Which part of the model does that?</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-1" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 2. <a href="../ex/11-ex.html">ex/11-ex</a></p>
+</div>
+</section>
+<section id="a-qualitative-predictor" class="slide level2 small">
+<h2>A qualitative predictor</h2>
+<div id="8ec1849a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>student <span class="op">=</span> (Default[<span class="st">"student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>alone <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame({<span class="st">"student"</span>: student}), y</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(alone.intercept_[<span class="dv">0</span>]), <span class="dv">4</span>), <span class="bu">round</span>(<span class="bu">float</span>(alone.coef_[<span class="dv">0</span>][<span class="dv">0</span>]), <span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">A single 0/1 indicator column, the same dummy coding from Meeting 7, with<br>
+non-students as the baseline.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="5" data-code-annotation="2">The coefficient is positive, so students have higher estimated odds of<br>
+default than non-students. Exponentiating it gives the odds ratio.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(-3.5047, 0.4014)</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p><span class="math inline">\(\hat\Pr(\text{default} \mid \text{student}) = 0.043\)</span> against <span class="math inline">\(0.029\)</span> for non-students.</p>
+</div>
+</div>
+</section>
+<section id="multiple-logistic-regression" class="slide level2 small">
+<h2>Multiple logistic regression</h2>
+<p><span class="math display">\[\log\left(\frac{p(X)}{1-p(X)}\right) = \beta_0 + \beta_1X_1 + \dots + \beta_pX_p\]</span></p>
+<div id="c5e19483" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>X3 <span class="op">=</span> pd.DataFrame({</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"balance"</span>: Default[<span class="st">"balance"</span>],</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"income"</span>: Default[<span class="st">"income"</span>] <span class="op">/</span> <span class="dv">1000</span>,</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"student"</span>: student,</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>together <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(X3, y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>pd.Series(together.coef_[<span class="dv">0</span>], index<span class="op">=</span>X3.columns).<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="1"><code>income</code> is divided by 1000 so it is measured in thousands of dollars,<br>
+matching ISLP Table 4.3 and keeping the coefficient readable.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="2">The <code>student</code> coefficient is now negative, where it was positive on its own.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>balance    0.0057
+income     0.0030
+student   -0.6468
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>The same variable, the same data, opposite signs. Which one is wrong?</p>
+</div>
+</div>
+</section>
+<section id="confounding" class="slide level2">
+<h2>Confounding</h2>
+
+<img data-src="img/islp/fig4_3.png" class="quarto-figure quarto-figure-center r-stretch" style="width:82.0%"><div class="source">
+<p>ISLP Figure 4.3. Left: default rate against balance for students in orange and non-students in blue, with the overall rates as dashed lines. Right: balance by student status.</p>
+</div>
+</section>
+<section id="two-true-statements" class="slide level2 small">
+<h2>Two true statements</h2>
+<ul>
+<li class="fragment">Students default more often than non-students, because they carry more debt<br>
+</li>
+<li class="fragment">At any given balance, a student defaults less often than a non-student<br>
+</li>
+</ul>
+<div class="fragment">
+<div class="takeaway">
+<p>Which one a bank needs depends on what it knows. Without a balance, the marginal rate. With a balance in hand, the conditional one.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-2" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Part 3. <a href="../ex/11-ex.html">ex/11-ex</a></p>
+</div>
+</section>
+<section id="more-than-two-classes-1" class="slide level2 small">
+<h2>More than two classes</h2>
+<p><span class="math display">\[\Pr(Y = k \mid X) = \frac{e^{\beta_{0k} + \beta_{1k}X_1 + \dots + \beta_{pk}X_p}}{\sum_{l=1}^{K}e^{\beta_{0l} + \beta_{1l}X_1 + \dots + \beta_{pl}X_p}}\]</span></p>
+<div class="fragment">
+<div class="takeaway">
+<p>One linear function per class, exponentiated and divided by their total, so the <span class="math inline">\(K\)</span> probabilities sum to 1. <code>LogisticRegression</code> does this for you when <code>y</code> has more than two values.</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="probabilities-and-labels" class="title-slide slide level1 center">
+<h1>Probabilities and labels</h1>
+
+</section>
+<section id="predict-against-predict_proba" class="slide level2 small">
+<h2>predict against predict_proba</h2>
+<div id="7e9e8e6a" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> together.predict_proba(X3)[:, <span class="dv">1</span>]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> together.predict(X3)</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(labels.<span class="bu">sum</span>()), <span class="bu">int</span>((probs <span class="op">&gt;</span> <span class="fl">0.2</span>).<span class="bu">sum</span>()), <span class="bu">round</span>(<span class="bu">float</span>((labels <span class="op">==</span> y).mean()), <span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1"><code>predict_proba</code> returns one column per class, so <code>[:, 1]</code> takes the<br>
+estimated probability of the class coded 1, which is default.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="2"><code>predict</code> returns a hard 0/1 label for each customer, obtained by comparing<br>
+those same probabilities to 0.5.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">The counts flagged at a 0.5 cutoff and at a 0.2 cutoff, and the overall<br>
+accuracy of the 0.5 labels.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(145, 480, 0.9732)</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Predicting “no default” for all 10,000 customers is right 96.67% of the time. How much did the model add?</p>
+</div>
+</div>
+</section>
+<section id="the-threshold-is-a-choice" class="slide level2 small">
+<h2>The threshold is a choice</h2>
+<div class="takeaway">
+<p>The fitted model produces probabilities. Turning one into a label needs a cutoff, and 0.5 is a default rather than a result.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>A bank that can call 100 customers tonight. What should it do with the probabilities?</p>
+</div>
+</div>
+</section>
+<section id="the-penalty-is-on-by-default" class="slide level2 small">
+<h2>The penalty is on by default</h2>
+<div id="86af1467" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> C <span class="kw">in</span> [<span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="dv">1</span>, <span class="fl">1e10</span>]:</span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(C<span class="op">=</span>C, max_iter<span class="op">=</span><span class="dv">10000</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-9" class="code-annotation-target"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>    auc <span class="op">=</span> cross_val_score(m, X3, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"roc_auc"</span>).mean()</span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"C"</span>: C, <span class="st">"cv_auc"</span>: auc,</span>
+<span id="annotated-cell-5-11"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"coef_norm"</span>: <span class="bu">float</span>(np.linalg.norm(m.fit(X3, y)[<span class="op">-</span><span class="dv">1</span>].coef_[<span class="dv">0</span>]))})</span>
+<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1"><code>StratifiedKFold</code> keeps the 3.33% default rate in every fold, which matters<br>
+because a plain <code>KFold</code> could hand a fold very few defaults.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="2"><code>C</code> is one over the penalty strength, so small <code>C</code> is a heavy penalty and<br>
+<code>1e10</code> is effectively none.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="9" data-code-annotation="3"><code>roc_auc</code> measures how well the model ranks customers by risk rather than<br>
+how many labels it gets right. Friday defines it.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">C</th>
+<th data-quarto-table-cell-role="th">cv_auc</th>
+<th data-quarto-table-cell-role="th">coef_norm</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1.000000e-03</td>
+<td>0.9455</td>
+<td>0.4705</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1.000000e-02</td>
+<td>0.9489</td>
+<td>1.5800</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1.000000e+00</td>
+<td>0.9492</td>
+<td>2.7503</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1.000000e+10</td>
+<td>0.9492</td>
+<td>2.7888</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="what-c-is-doing" class="slide level2 small">
+<h2>What C is doing</h2>
+<div class="takeaway">
+<p><code>LogisticRegression()</code> with no arguments is ridge-penalized logistic regression. That is why <code>StandardScaler</code> belongs in front of it, for the same reason it belonged in front of <code>Ridge</code> in Meeting 9.</p>
+</div>
+<div class="fragment">
+<div class="question">
+<p>The AUC barely moves between <code>C = 1</code> and <code>C = 1e10</code>. What does that say about whether the penalty is doing anything here?</p>
+</div>
+</div>
+</section>
+<section id="logistic-regression-against-knn" class="slide level2 small">
+<h2>Logistic regression against KNN</h2>
+<div id="81d1a959" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"logistic"</span>: LogisticRegression(max_iter<span class="op">=</span><span class="dv">10000</span>),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"KNN, K = 25"</span>: KNeighborsClassifier(<span class="dv">25</span>),</span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"KNN, K = 100"</span>: KNeighborsClassifier(<span class="dv">100</span>),</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, est <span class="kw">in</span> models.items():</span>
+<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), est)</span>
+<span id="annotated-cell-6-11"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"model"</span>: name,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-12" class="code-annotation-target"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"accuracy"</span>: cross_val_score(m, X3, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"accuracy"</span>).mean(),</span>
+<span id="annotated-cell-6-13"><a href="#annotated-cell-6-13" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"auc"</span>: cross_val_score(m, X3, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"roc_auc"</span>).mean()})</span>
+<span id="annotated-cell-6-14"><a href="#annotated-cell-6-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="1">The scaled KNN classifier from Meeting 4, at two values of <code>K</code>, scored on<br>
+the same stratified folds as the logistic pipeline.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="12" data-code-annotation="2">Two scorings of the same three fitted models: <code>accuracy</code> counts labels at a<br>
+0.5 cutoff, <code>roc_auc</code> measures the ranking.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">accuracy</th>
+<th data-quarto-table-cell-role="th">auc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>logistic</td>
+<td>0.9734</td>
+<td>0.9492</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>KNN, K = 25</td>
+<td>0.9729</td>
+<td>0.9008</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>KNN, K = 100</td>
+<td>0.9705</td>
+<td>0.9362</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="two-columns-two-verdicts" class="slide level2 small">
+<h2>Two columns, two verdicts</h2>
+<div class="question">
+<p>The three accuracies agree to three decimals. The three AUCs do not. Which column is doing the work?</p>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Every one of these models is close to the null classifier on accuracy, since 96.67% of customers do not default. Friday is about the measures that can tell them apart.</p>
+</div>
+</div>
+</section>
+<section id="application-exercise-3" class="slide level2">
+<h2>Application exercise</h2>
+<div class="takeaway">
+<p>Complete Parts 4 and 5. <a href="../ex/11-ex.html">ex/11-ex</a></p>
+</div>
+</section>
+<section id="application-exercise-11" class="slide level2">
+<h2>Application exercise 11</h2>
+<div class="takeaway">
+<p>Drew the line that predicts negative probabilities, computed <span class="math inline">\(\hat{p}\)</span> by hand and checked it, watched the <code>student</code> coefficient flip sign, and found the penalty scikit-learn had been applying all along.</p>
+</div>
+</section>
+<section id="before-friday" class="slide level2">
+<h2>Before Friday</h2>
+<ul>
+<li>Read ISLP Section 4.4.2<br>
+</li>
+<li>Problem set 5 due Friday<br>
+</li>
+</ul>
+<div class="fragment">
+<div class="question">
+<p>Accuracy 0.973 against a baseline of 0.967. What would you rather be told about this model?</p>
+</div>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/icon.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://lucymcgowan.com">Dr.&nbsp;Lucy D’Agostino McGowan</a> | STA 363 | figures from <em>ISLP</em> (James, Witten, Hastie, Tibshirani and Taylor, 2023)</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/lucymcgowan\.github\.io\/sta-363-f26");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+            let selectedAnnoteEl;
+            const selectorForAnnotation = ( cell, annotation) => {
+              let cellAttr = 'data-code-cell="' + cell + '"';
+              let lineAttr = 'data-code-annotation="' +  annotation + '"';
+              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+              return selector;
+            }
+            const selectCodeLines = (annoteEl) => {
+              const doc = window.document;
+              const targetCell = annoteEl.getAttribute("data-target-cell");
+              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+              const lineIds = lines.map((line) => {
+                return targetCell + "-" + line;
+              })
+              let top = null;
+              let height = null;
+              let parent = null;
+              if (lineIds.length > 0) {
+                  //compute the position of the single el (top and bottom and make a div)
+                  const el = window.document.getElementById(lineIds[0]);
+                  top = el.offsetTop;
+                  height = el.offsetHeight;
+                  parent = el.parentElement.parentElement;
+                if (lineIds.length > 1) {
+                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+                  height = bottom - top;
+                }
+                if (top !== null && height !== null && parent !== null) {
+                  // cook up a div (if necessary) and position it 
+                  let div = window.document.getElementById("code-annotation-line-highlight");
+                  if (div === null) {
+                    div = window.document.createElement("div");
+                    div.setAttribute("id", "code-annotation-line-highlight");
+                    div.style.position = 'absolute';
+                    parent.appendChild(div);
+                  }
+                  div.style.top = top - 2 + "px";
+                  div.style.height = height + 4 + "px";
+                  div.style.left = 0;
+                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+                  if (gutterDiv === null) {
+                    gutterDiv = window.document.createElement("div");
+                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                    gutterDiv.style.position = 'absolute';
+                    const codeCell = window.document.getElementById(targetCell);
+                    const gutter = codeCell.querySelector('.code-annotation-gutter');
+                    gutter.appendChild(gutterDiv);
+                  }
+                  gutterDiv.style.top = top - 2 + "px";
+                  gutterDiv.style.height = height + 4 + "px";
+                }
+                selectedAnnoteEl = annoteEl;
+              }
+            };
+            const unselectCodeLines = () => {
+              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+              elementsIds.forEach((elId) => {
+                const div = window.document.getElementById(elId);
+                if (div) {
+                  div.remove();
+                }
+              });
+              selectedAnnoteEl = undefined;
+            };
+              // Handle positioning of the toggle
+          window.addEventListener(
+            "resize",
+            throttle(() => {
+              elRect = undefined;
+              if (selectedAnnoteEl) {
+                selectCodeLines(selectedAnnoteEl);
+              }
+            }, 10)
+          );
+          function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+            return (...args) => {
+              if(!throttle) { // first call gets through
+                  fn.apply(this, args);
+                  throttle = true;
+              } else { // all the others get throttled
+                  if(timer) clearTimeout(timer); // cancel #2
+                  timer = setTimeout(() => {
+                    fn.apply(this, args);
+                    timer = throttle = false;
+                  }, ms);
+              }
+            };
+          }
+            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+            for (let i=0; i<annoteTargets.length; i++) {
+              const annoteTarget = annoteTargets[i];
+              const targetCell = annoteTarget.getAttribute("data-target-cell");
+              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+              const contentFn = () => {
+                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+                if (content) {
+                  const tipContent = content.cloneNode(true);
+                  tipContent.classList.add("code-annotation-tip-content");
+                  return tipContent.outerHTML;
+                }
+              }
+              const config = {
+                allowHTML: true,
+                content: contentFn,
+                onShow: (instance) => {
+                  selectCodeLines(instance.reference);
+                  instance.reference.classList.add('code-annotation-active');
+                  window.tippy.hideAll();
+                },
+                onHide: (instance) => {
+                  unselectCodeLines();
+                  instance.reference.classList.remove('code-annotation-active');
+                },
+                maxWidth: 300,
+                delay: [50, 0],
+                duration: [200, 0],
+                offset: [5, 10],
+                arrow: true,
+                appendTo: function(el) {
+                  return el.parentElement.parentElement.parentElement;
+                },
+                interactive: true,
+                interactiveBorder: 10,
+                theme: 'light-border',
+                placement: 'right',
+                popperOptions: {
+                  modifiers: [
+                  {
+                    name: 'flip',
+                    options: {
+                      flipVariations: false, // true by default
+                      allowedAutoPlacements: ['right'],
+                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                    },
+                  },
+                  {
+                    name: 'preventOverflow',
+                    options: {
+                      mainAxis: false,
+                      altAxis: false
+                    }
+                  }
+                  ]        
+                }      
+              };
+              window.tippy(annoteTarget, config); 
+            }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

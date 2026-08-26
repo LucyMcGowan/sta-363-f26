@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title> Python Quick Guide – STA 363</title>
+<title>Application exercise 11: Logistic regression – STA 363</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,28 +58,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./data.html" rel="next">
-<link href="./colab.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ex/12-ex.html" rel="next">
+<link href="../ex/10-ex.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b518612c5b0caac256f49a394eecdb7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,21 +111,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="www/fontawesome/css/all.min.css">
-<meta property="og:title" content=" Python Quick Guide – STA 363">
-<meta property="og:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
-<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/python-guide_files/figure-html/cell-9-output-1.png">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
+<meta property="og:title" content="Application exercise 11: Logistic regression – STA 363">
+<meta property="og:description" content="STA 363 | Meeting 11 | September 30">
+<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/11-ex_files/figure-html/cell-3-output-1.png">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="320">
-<meta property="og:image:width" content="511">
-<meta name="twitter:title" content=" Python Quick Guide – STA 363">
-<meta name="twitter:description" content="STA 363 - Statistical Learning at Wake Forest University, Fall 2026.">
-<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/python-guide_files/figure-html/cell-9-output-1.png">
+<meta property="og:image:height" content="297">
+<meta property="og:image:width" content="851">
+<meta name="twitter:title" content="Application exercise 11: Logistic regression – STA 363">
+<meta name="twitter:description" content="STA 363 | Meeting 11 | September 30">
+<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/11-ex_files/figure-html/cell-3-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="320">
-<meta name="twitter:image-width" content="511">
+<meta name="twitter:image-height" content="297">
+<meta name="twitter:image-width" content="851">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -296,7 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">STA 363</span>
     </a>
   </div>
@@ -307,15 +336,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./schedule.html" aria-current="page"> 
+    <a class="nav-link active" href="../schedule.html" aria-current="page"> 
 <span class="menu-text"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text"><i class="fa-solid fa-gavel" aria-hidden="true"></i> Policies</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./help.html"> 
+    <a class="nav-link" href="../help.html"> 
 <span class="menu-text"><i class="fa-solid fa-question-circle" aria-hidden="true"></i> Help</span></a>
   </li>  
   <li class="nav-item">
@@ -334,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./python-guide.html">Python Quick Guide</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/11-ex.html">11. Logistic regression</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -357,13 +386,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Policies</span></a>
   </div>
 </li>
@@ -371,34 +400,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Computing</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./colab.html" class="sidebar-item-text sidebar-link">
+  <a href="../colab.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting Started with Colab</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./python-guide.html" class="sidebar-item-text sidebar-link active">
+  <a href="../python-guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python Quick Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
+  <a href="../data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./troubleshooting.html" class="sidebar-item-text sidebar-link">
+  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Troubleshooting</span></a>
   </div>
 </li>
@@ -415,73 +444,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/01-welcome.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/01-welcome.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Statistical learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Prediction error</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Bias-variance trade-off</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/04-knn.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/04-knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. K-nearest neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Pipelines and leakage</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Linear regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Subset selection</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/09-ridge.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/09-ridge.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/10-lasso.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/10-lasso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/11-logistic.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/11-logistic.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Evaluating classifiers</span></a>
   </div>
 </li>
@@ -518,82 +547,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Application Exercises</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/01-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/01-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. What is the problem?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/02-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/02-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Training error can mislead</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/03-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/03-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Reading bias and variance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/04-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/04-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Tuning K</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/05-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/05-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/06-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/06-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Find the leak</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/07-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/07-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Least squares</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/08-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/08-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Choosing a subset</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/09-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/09-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/10-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/10-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/11-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/11-ex.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ex/12-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../ex/12-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Thresholds and ROC</span></a>
   </div>
 </li>
@@ -608,23 +637,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
-  <li><a href="#r-to-python" id="toc-r-to-python" class="nav-link active" data-scroll-target="#r-to-python">R to Python</a></li>
-  <li><a href="#selecting" id="toc-selecting" class="nav-link" data-scroll-target="#selecting">Selecting</a></li>
-  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">Model fitting</a></li>
-  <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines">Pipelines</a></li>
-  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
-  <li><a href="#errors-you-may-see" id="toc-errors-you-may-see" class="nav-link" data-scroll-target="#errors-you-may-see">Errors you may see</a></li>
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-1-why-not-a-straight-line" id="toc-part-1-why-not-a-straight-line" class="nav-link" data-scroll-target="#part-1-why-not-a-straight-line">Part 1: Why not a straight line</a></li>
+  <li><a href="#part-2-coefficients-odds-and-probabilities" id="toc-part-2-coefficients-odds-and-probabilities" class="nav-link" data-scroll-target="#part-2-coefficients-odds-and-probabilities">Part 2: Coefficients, odds, and probabilities</a></li>
+  <li><a href="#part-3-a-coefficient-that-changes-sign" id="toc-part-3-a-coefficient-that-changes-sign" class="nav-link" data-scroll-target="#part-3-a-coefficient-that-changes-sign">Part 3: A coefficient that changes sign</a></li>
+  <li><a href="#part-4-from-probabilities-to-labels" id="toc-part-4-from-probabilities-to-labels" class="nav-link" data-scroll-target="#part-4-from-probabilities-to-labels">Part 4: From probabilities to labels</a></li>
+  <li><a href="#part-5-the-penalty-scikit-learn-adds-by-default" id="toc-part-5-the-penalty-scikit-learn-adds-by-default" class="nav-link" data-scroll-target="#part-5-the-penalty-scikit-learn-adds-by-default">Part 5: The penalty scikit-learn adds by default</a></li>
+  <li><a href="#if-you-finish-early" id="toc-if-you-finish-early" class="nav-link" data-scroll-target="#if-you-finish-early">If you finish early</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/python-guide.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/11-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./colab.html">Computing</a></li><li class="breadcrumb-item"><a href="./python-guide.html">Python Quick Guide</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/11-ex.html">11. Logistic regression</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><i class="fa-brands fa-python" aria-hidden="true"></i> Python Quick Guide</h1>
+<h1 class="title">Application exercise 11: Logistic regression</h1>
+<p class="subtitle lead">STA 363 | Meeting 11 | September 30</p>
 </div>
 
 
@@ -641,113 +672,143 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="6d240a73" class="cell" data-execution_count="1">
+<p><code>Default</code> records 10,000 credit card customers, 333 of whom defaulted. KNN handled this data back in Meeting 4 by taking a vote among neighbors. Logistic regression handles it with a model.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="ee874775" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Auto <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Auto.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression, LogisticRegression</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Default <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Default.csv"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Default[<span class="st">"default"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(y.mean(), <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>0.0333</code></pre>
 </div>
-<section id="r-to-python" class="level2">
-<h2 class="anchored" data-anchor-id="r-to-python">R to Python</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Task</th>
-<th>R</th>
-<th>Python</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>read a csv</td>
-<td><code>read_csv("f.csv")</code></td>
-<td><code>pd.read_csv("f.csv")</code></td>
-</tr>
-<tr class="even">
-<td>first rows</td>
-<td><code>head(d)</code></td>
-<td><code>d.head()</code></td>
-</tr>
-<tr class="odd">
-<td>dimensions</td>
-<td><code>dim(d)</code></td>
-<td><code>d.shape</code></td>
-</tr>
-<tr class="even">
-<td>column names</td>
-<td><code>names(d)</code></td>
-<td><code>d.columns</code></td>
-</tr>
-<tr class="odd">
-<td>one column</td>
-<td><code>d$mpg</code></td>
-<td><code>d["mpg"]</code></td>
-</tr>
-<tr class="even">
-<td>several columns</td>
-<td><code>d[, c("mpg", "weight")]</code></td>
-<td><code>d[["mpg", "weight"]]</code></td>
-</tr>
-<tr class="odd">
-<td>filter rows</td>
-<td><code>d[d$mpg &gt; 30, ]</code></td>
-<td><code>d[d["mpg"] &gt; 30]</code></td>
-</tr>
-<tr class="even">
-<td>new column</td>
-<td><code>d$kpl &lt;- d$mpg * 0.425</code></td>
-<td><code>d["kpl"] = d["mpg"] * 0.425</code></td>
-</tr>
-<tr class="odd">
-<td>summary</td>
-<td><code>summary(d)</code></td>
-<td><code>d.describe()</code></td>
-</tr>
-<tr class="even">
-<td>counts</td>
-<td><code>table(d$origin)</code></td>
-<td><code>d["origin"].value_counts()</code></td>
-</tr>
-<tr class="odd">
-<td>mean</td>
-<td><code>mean(d$mpg)</code></td>
-<td><code>d["mpg"].mean()</code></td>
-</tr>
-<tr class="even">
-<td>group means</td>
-<td><code>aggregate(mpg ~ origin, d, mean)</code></td>
-<td><code>d.groupby("origin")["mpg"].mean()</code></td>
-</tr>
-<tr class="odd">
-<td>sequence</td>
-<td><code>1:10</code></td>
-<td><code>range(1, 11)</code></td>
-</tr>
-<tr class="even">
-<td>length</td>
-<td><code>length(x)</code></td>
-<td><code>len(x)</code></td>
-</tr>
-<tr class="odd">
-<td>missing</td>
-<td><code>is.na(x)</code></td>
-<td><code>x.isna()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Python counts from <strong>zero</strong>, so <code>d.iloc[0]</code> is the first row. And <code>range(1, 11)</code> <strong>excludes</strong> the endpoint, so it stops at 10.</p>
+</div>
+<p><code>C=1e10</code> below turns scikit-learn’s penalty off, so the coefficients match the ones in ISLP. Part 5 comes back to why the penalty is there at all. Part 5 also scores with <code>roc_auc</code>, which gets its definition on Friday: for now, read it as how well the model ranks customers by risk, where 1.0 is a perfect ranking and 0.5 is chance.</p>
 </section>
-<section id="selecting" class="level2">
-<h2 class="anchored" data-anchor-id="selecting">Selecting</h2>
-<div id="053742d8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Auto[[<span class="st">"mpg"</span>, <span class="st">"horsepower"</span>, <span class="st">"weight"</span>]].head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<section id="part-1-why-not-a-straight-line" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-why-not-a-straight-line">Part 1: Why not a straight line</h2>
+<div id="80d30dd8" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>straight <span class="op">=</span> LinearRegression().fit(Default[[<span class="st">"balance"</span>]], y)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>logistic <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(Default[[<span class="st">"balance"</span>]], y)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> pd.DataFrame({<span class="st">"balance"</span>: np.linspace(<span class="op">-</span><span class="dv">500</span>, <span class="dv">3000</span>, <span class="dv">200</span>)})</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">3.2</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, curve, name <span class="kw">in</span> [</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    (axes[<span class="dv">0</span>], straight.predict(grid), <span class="st">"linear regression"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    (axes[<span class="dv">1</span>], logistic.predict_proba(grid)[:, <span class="dv">1</span>], <span class="st">"logistic regression"</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>]:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#595959"</span>, lw<span class="op">=</span><span class="fl">0.6</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    ax.axhline(<span class="dv">1</span>, color<span class="op">=</span><span class="st">"#595959"</span>, lw<span class="op">=</span><span class="fl">0.6</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    ax.plot(grid[<span class="st">"balance"</span>], curve, color<span class="op">=</span><span class="st">"#d5008f"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    ax.scatter(Default[<span class="st">"balance"</span>], y, marker<span class="op">=</span><span class="st">"|"</span>, color<span class="op">=</span><span class="st">"#e8a33d"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    ax.set_title(name)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"balance"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-ex_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Find a <code>balance</code> value where the left panel returns something that cannot be a probability. What value does it return there?<br>
+</li>
+<li>The right panel never leaves the interval from 0 to 1. Which part of the logistic function guarantees that?<br>
+</li>
+<li>Between about 1400 and 2000 the two curves nearly coincide. If you only ever needed predictions in that range, would the distinction matter?<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-2-coefficients-odds-and-probabilities" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-coefficients-odds-and-probabilities">Part 2: Coefficients, odds, and probabilities</h2>
+<div id="15b48c2d" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(logistic.intercept_[<span class="dv">0</span>], <span class="dv">4</span>)), <span class="bu">float</span>(<span class="bu">round</span>(logistic.coef_[<span class="dv">0</span>][<span class="dv">0</span>], <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>(-10.6513, 0.005499)</code></pre>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>Write out <span class="math inline">\(\log\left(\frac{p(X)}{1 - p(X)}\right) = \hat\beta_0 + \hat\beta_1 X\)</span> with these two numbers.<br>
+</li>
+<li>Compute <span class="math inline">\(\hat{p}\)</span> by hand for a customer with a balance of $1,000 and one with a balance of $2,000, then check both against <code>predict_proba</code>.<br>
+</li>
+<li>The coefficient is 0.0055 per dollar. Exponentiate it, then exponentiate 100 times it. State in words what a $100 increase in balance does to the odds of default.<br>
+</li>
+</ol>
+</div>
+<div id="8c7655e5" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>odds <span class="op">=</span> np.exp(logistic.intercept_[<span class="dv">0</span>] <span class="op">+</span> logistic.coef_[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> b)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>odds <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> odds)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>logistic.predict_proba(pd.DataFrame({<span class="st">"balance"</span>: [<span class="dv">1000</span>, <span class="dv">2000</span>]}))[:, <span class="dv">1</span>].<span class="bu">round</span>(<span class="dv">4</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>np.exp(logistic.coef_[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-3-a-coefficient-that-changes-sign" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-a-coefficient-that-changes-sign">Part 3: A coefficient that changes sign</h2>
+<div id="9eac2af1" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>student <span class="op">=</span> (Default[<span class="st">"student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>alone <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame({<span class="st">"student"</span>: student}), y</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>X3 <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"balance"</span>: Default[<span class="st">"balance"</span>],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"income"</span>: Default[<span class="st">"income"</span>] <span class="op">/</span> <span class="dv">1000</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"student"</span>: student,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>together <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(X3, y)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(alone.coef_[<span class="dv">0</span>][<span class="dv">0</span>], <span class="dv">4</span>)), pd.Series(together.coef_[<span class="dv">0</span>], index<span class="op">=</span>X3.columns).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(0.4014,
+ balance    0.0057
+ income     0.0030
+ student   -0.6468
+ dtype: float64)</code></pre>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li><code>student</code> has a positive coefficient on its own and a negative one alongside <code>balance</code> and <code>income</code>. Which of the two is the better guide to whether a bank should worry about students?<br>
+</li>
+<li>Compare the marginal default rates and the mean balances by student status using the code below. Explain the sign flip using both tables.<br>
+</li>
+<li>For a customer whose balance you already know, does being a student raise or lower the predicted probability of default?<br>
+</li>
+</ol>
+</div>
+<div id="53035a7e" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"default_rate"</span>: Default.groupby(<span class="st">"student"</span>)[<span class="st">"default"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> s: (s <span class="op">==</span> <span class="st">"Yes"</span>).mean()),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mean_balance"</span>: Default.groupby(<span class="st">"student"</span>)[<span class="st">"balance"</span>].mean(),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -755,29 +816,155 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mpg</th>
-<th data-quarto-table-cell-role="th">horsepower</th>
-<th data-quarto-table-cell-role="th">weight</th>
+<th data-quarto-table-cell-role="th">default_rate</th>
+<th data-quarto-table-cell-role="th">mean_balance</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">student</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">No</td>
+<td>0.029</td>
+<td>771.770</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Yes</td>
+<td>0.043</td>
+<td>987.818</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-4-from-probabilities-to-labels" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-from-probabilities-to-labels">Part 4: From probabilities to labels</h2>
+<div id="0e5fd8bb" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> together.predict_proba(X3)[:, <span class="dv">1</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> together.predict(X3)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"accuracy"</span>: [<span class="bu">float</span>((labels <span class="op">==</span> y).mean()), <span class="bu">float</span>((y <span class="op">==</span> <span class="dv">0</span>).mean())],</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"predicted_yes"</span>: [<span class="bu">int</span>(labels.<span class="bu">sum</span>()), <span class="dv">0</span>],</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>[<span class="st">"logistic"</span>, <span class="st">"predict no for everyone"</span>]).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">accuracy</th>
+<th data-quarto-table-cell-role="th">predicted_yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">logistic</td>
+<td>0.9732</td>
+<td>145</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">predict no for everyone</td>
+<td>0.9667</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="question">
+<ol type="1">
+<li>How much better is the model than a rule that predicts “no default” for every customer?<br>
+</li>
+<li><code>predict</code> and <code>predict_proba</code> come from the same fitted model. What does <code>predict</code> do to a probability to turn it into a label, and where did that cutoff come from?<br>
+</li>
+<li>Sort <code>probs</code> and look at the largest values. How many customers does the model give a probability above 0.5? Above 0.2? Which of those two numbers is more useful to a bank with a hundred phone calls to make?<br>
+</li>
+</ol>
+</div>
+<div id="c696dcb2" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>((probs <span class="op">&gt;</span> <span class="fl">0.5</span>).<span class="bu">sum</span>()), <span class="bu">int</span>((probs <span class="op">&gt;</span> <span class="fl">0.2</span>).<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="answer-space">
+
+</div>
+</section>
+<section id="part-5-the-penalty-scikit-learn-adds-by-default" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-the-penalty-scikit-learn-adds-by-default">Part 5: The penalty scikit-learn adds by default</h2>
+<p><code>LogisticRegression()</code> with no arguments applies a ridge penalty, controlled by <code>C</code>, which is one over the strength of the penalty. Small <code>C</code> means a large penalty.</p>
+<div id="c6f1f1d6" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> C <span class="kw">in</span> [<span class="fl">0.0001</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="dv">1</span>, <span class="dv">100</span>, <span class="fl">1e10</span>]:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(C<span class="op">=</span>C, max_iter<span class="op">=</span><span class="dv">10000</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    auc <span class="op">=</span> cross_val_score(m, X3, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"roc_auc"</span>).mean()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    coefs <span class="op">=</span> m.fit(X3, y)[<span class="op">-</span><span class="dv">1</span>].coef_[<span class="dv">0</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"C"</span>: C, <span class="st">"cv_auc"</span>: auc, <span class="st">"coef_norm"</span>: <span class="bu">float</span>(np.linalg.norm(coefs))})</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">C</th>
+<th data-quarto-table-cell-role="th">cv_auc</th>
+<th data-quarto-table-cell-role="th">coef_norm</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>18.0</td>
-<td>130</td>
-<td>3504</td>
+<td>1.000000e-04</td>
+<td>0.9415</td>
+<td>0.0612</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>15.0</td>
-<td>165</td>
-<td>3693</td>
+<td>1.000000e-03</td>
+<td>0.9455</td>
+<td>0.4705</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>18.0</td>
-<td>150</td>
-<td>3436</td>
+<td>1.000000e-02</td>
+<td>0.9489</td>
+<td>1.5800</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1.000000e+00</td>
+<td>0.9492</td>
+<td>2.7503</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1.000000e+02</td>
+<td>0.9492</td>
+<td>2.7884</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>1.000000e+10</td>
+<td>0.9492</td>
+<td>2.7888</td>
 </tr>
 </tbody>
 </table>
@@ -785,140 +972,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="c04aab8c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Auto[Auto[<span class="st">"mpg"</span>] <span class="op">&gt;</span> <span class="dv">40</span>][[<span class="st">"name"</span>, <span class="st">"mpg"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">mpg</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">242</td>
-<td>volkswagen rabbit custom diesel</td>
-<td>43.1</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">307</td>
-<td>vw rabbit</td>
-<td>41.5</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">320</td>
-<td>mazda glc</td>
-<td>46.6</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">322</td>
-<td>datsun 210</td>
-<td>40.8</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">323</td>
-<td>vw rabbit c (diesel)</td>
-<td>44.3</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">324</td>
-<td>vw dasher (diesel)</td>
-<td>43.4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">327</td>
-<td>honda civic 1500 gl</td>
-<td>44.6</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">388</td>
-<td>vw pickup</td>
-<td>44.0</td>
-</tr>
-</tbody>
-</table>
+<div class="question">
+<ol type="1">
+<li>As <code>C</code> shrinks, what happens to <code>coef_norm</code>? Which method from last week does that reproduce?<br>
+</li>
+<li><code>StandardScaler</code> sits in front of the model here. Given what Meeting 9 established about ridge and units, why?<br>
+</li>
+<li>Compare the best <code>cv_auc</code> to the one at <code>C=1e10</code>. On this data, is the default penalty helping, hurting, or neither?<br>
+</li>
+</ol>
+</div>
+<div class="answer-space">
 
 </div>
-</div>
-</div>
-<p>If you have multiple conditions, you use <code>&amp;</code> for and, <code>|</code> for or, and parentheses around each piece:</p>
-<div id="b98bbe38" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Auto[(Auto[<span class="st">"mpg"</span>] <span class="op">&gt;</span> <span class="dv">30</span>) <span class="op">&amp;</span> (Auto[<span class="st">"year"</span>] <span class="op">&gt;</span> <span class="dv">78</span>)].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(60, 9)</code></pre>
-</div>
-</div>
 </section>
-<section id="model-fitting" class="level2">
-<h2 class="anchored" data-anchor-id="model-fitting">Model fitting</h2>
-<div id="5eb2027b" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> Auto[[<span class="st">"horsepower"</span>, <span class="st">"weight"</span>]]   <span class="co"># predictors, always a data frame</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Auto[<span class="st">"mpg"</span>]                      <span class="co"># response, always a single column</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()           <span class="co"># 1. choose</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)                      <span class="co"># 2. fit</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>model.predict(X.head(<span class="dv">3</span>))             <span class="co"># 3. predict</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>array([19.18811123, 16.43741528, 18.63605667])</code></pre>
+<section id="if-you-finish-early" class="level2">
+<h2 class="anchored" data-anchor-id="if-you-finish-early">If you finish early</h2>
+<p>Cross-validate <code>LogisticRegression</code> against the scaled 25-nearest-neighbor classifier from Meeting 5, using <code>scoring="roc_auc"</code> on <code>balance</code> and <code>income</code>.</p>
+<div class="question">
+<p>Which wins? Logistic regression forces a linear boundary in <code>balance</code> and <code>income</code>, and KNN does not. What does the result suggest about the shape of the true boundary here?</p>
 </div>
-</div>
-<div id="1dd0b857" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model.score(X, y)                    <span class="co"># 4. score</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>0.7063752737298348</code></pre>
-</div>
-</div>
-<p>Swap <code>LinearRegression()</code> for <code>KNeighborsRegressor(5)</code> or <code>RandomForestRegressor()</code> and the other three lines stay as they are.</p>
-</section>
-<section id="pipelines" class="level2">
-<h2 class="anchored" data-anchor-id="pipelines">Pipelines</h2>
-<p>A pipeline attaches preprocessing to a model so they always occur together.</p>
-<div id="cd01f100" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsRegressor(<span class="dv">10</span>))</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pipe.fit(X, y)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>pipe.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>0.7790841201261199</code></pre>
-</div>
-</div>
-</section>
-<section id="plotting" class="level2">
-<h2 class="anchored" data-anchor-id="plotting">Plotting</h2>
-<div id="9a8a6439" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.scatter(Auto[<span class="st">"horsepower"</span>], Auto[<span class="st">"mpg"</span>], s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"horsepower"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"mpg"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="python-guide_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="errors-you-may-see" class="level2">
-<h2 class="anchored" data-anchor-id="errors-you-may-see">Errors you may see</h2>
-<p><strong><code>NameError: name 'X' is not defined</code></strong> You did not run the cell that created <code>X</code>, or the runtime restarted. Run your cells from the top.</p>
-<p><strong><code>KeyError: 'mpg'</code></strong> That column does not exist. Check <code>Auto.columns</code> for the exact spelling. Column names are case sensitive.</p>
-<p><strong><code>ValueError: Expected 2D array, got 1D array instead</code></strong> scikit-learn wants predictors as a data frame. Use <code>Auto[["horsepower"]]</code> with two sets of brackets, not <code>Auto["horsepower"]</code>.</p>
-<p><strong><code>SettingWithCopyWarning</code></strong> You modified a slice of a data frame. Add <code>.copy()</code> when you subset something you intend to change.</p>
-<p>More in <a href="./troubleshooting.html">Troubleshooting</a>.</p>
+<p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.</em></p>
 
 
 </section>
@@ -1338,13 +1412,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./colab.html" class="pagination-link" aria-label="Getting Started with Colab">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Getting Started with Colab</span>
+      <a href="../ex/10-ex.html" class="pagination-link" aria-label="10. Lasso and elastic net">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">10. Lasso and elastic net</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./data.html" class="pagination-link" aria-label="Course Data">
-        <span class="nav-page-text">Course Data</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../ex/12-ex.html" class="pagination-link" aria-label="12. Thresholds and ROC">
+        <span class="nav-page-text">12. Thresholds and ROC</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1356,7 +1430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/python-guide.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/11-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <i class="fa-brands fa-python" aria-hidden="true"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>

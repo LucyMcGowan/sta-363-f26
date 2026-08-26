@@ -5,6 +5,18 @@
     <lastmod>2026-08-22T21:13:29.091Z</lastmod>
   </url>
   <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/slides/12-classifier-metrics.html</loc>
+    <lastmod>2026-08-24T21:32:20.246Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/slides/10-lasso.html</loc>
+    <lastmod>2026-08-24T21:32:19.552Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/slides/08-model-selection.html</loc>
+    <lastmod>2026-08-24T21:32:18.823Z</lastmod>
+  </url>
+  <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/06-pipelines.html</loc>
     <lastmod>2026-08-24T18:44:10.474Z</lastmod>
   </url>
@@ -23,6 +35,18 @@
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/index.html</loc>
     <lastmod>2026-08-24T19:30:04.442Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/12-ex.html</loc>
+    <lastmod>2026-08-24T21:32:22.363Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/10-ex.html</loc>
+    <lastmod>2026-08-24T21:32:21.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/08-ex.html</loc>
+    <lastmod>2026-08-24T21:32:20.849Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/ex/06-ex.html</loc>
@@ -57,6 +81,18 @@
     <lastmod>2026-08-24T18:06:12.158Z</lastmod>
   </url>
   <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/07-ex.html</loc>
+    <lastmod>2026-08-24T21:32:20.566Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/09-ex.html</loc>
+    <lastmod>2026-08-24T21:32:21.314Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/ex/11-ex.html</loc>
+    <lastmod>2026-08-24T21:32:22.034Z</lastmod>
+  </url>
+  <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/help.html</loc>
     <lastmod>2026-08-22T21:39:47.568Z</lastmod>
   </url>
@@ -66,7 +102,7 @@
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/01-welcome.html</loc>
-    <lastmod>2026-08-24T20:49:15.605Z</lastmod>
+    <lastmod>2026-08-26T14:29:17.882Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/03-bias-variance.html</loc>
@@ -75,6 +111,18 @@
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/slides/05-cross-validation.html</loc>
     <lastmod>2026-08-24T18:43:41.189Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/slides/07-linear-regression.html</loc>
+    <lastmod>2026-08-25T00:26:45.091Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/slides/09-ridge.html</loc>
+    <lastmod>2026-08-24T21:32:19.280Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucymcgowan.github.io/sta-363-f26/slides/11-logistic.html</loc>
+    <lastmod>2026-08-24T21:32:19.874Z</lastmod>
   </url>
   <url>
     <loc>https://lucymcgowan.github.io/sta-363-f26/syllabus.html</loc>
