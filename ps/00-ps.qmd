@@ -37,10 +37,10 @@ Auto = pd.read_csv(DATA + "Auto.csv")
 
 The data for this class is available on Github as csv files. The `pandas` package has a function called `read_csv` that we can use to read these files in. The one we want this time is the `Auto.csv` file. 
 
-## Task 5: Apply functions to a data frame
+## Task 5: Apply methods to a data frame
 
 ```{python}
 Auto.head()
 ```
 
-You can apply functions to a data frame by appending them to the data frame object following a `.`. For example, the `head()` function will let you see the first few lines of the data frame. Here we want to see the first few lines of the `Auto` data frame we just read in above. 
+You can apply methods to a data frame by appending them to the data frame object following a `.`. For example, the `head()` method will let you see the first few lines of the data frame. Here we want to see the first few lines of the `Auto` data frame we just read in above. 
