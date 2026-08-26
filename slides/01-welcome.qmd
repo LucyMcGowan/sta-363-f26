@@ -309,18 +309,13 @@ $Y$ is qualitative.
 
 ::::
 
-::: {.fragment}
-::: {.question}
-Is predicting a zip code regression or classification?
-:::
-:::
 
 # Course mechanics {.center}
 
 ## Course structure
 
 ::: {.incremental}
-* Most Wednesdays: a paper check-in at the start of class  
+* Most Wednesdays: a paper check-in at the end of class  
 * Most Fridays: a problem set due  
 * Three exams: October 9, November 11, and a Final  
 :::
@@ -345,11 +340,5 @@ sorting problems into prediction and inference.
 ::: {.nonincremental}
 * Read ISLP Section 2.2.1  
 * Have Colab running  
-:::
-
-::: {.fragment}
-::: {.question}
-How would you check whether the overfit spline was any good?
-:::
 :::
 

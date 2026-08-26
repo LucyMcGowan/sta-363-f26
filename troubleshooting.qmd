@@ -1,0 +1,61 @@
+---
+title: "{{< fa wrench >}} Troubleshooting"
+jupyter: python3
+---
+
+## The first thing to try
+
+**Runtime** {{< fa arrow-right >}} **Restart session and run all**.
+
+A notebook remembers everything you have ever run, including cells you have since edited or deleted. Restarting clears that memory and runs your cells in the order they appear. 
+
+## Colab problems
+
+### My variables disappeared
+
+The runtime may have disconnected. Try running your cells again from the top.
+
+### It says I cannot save
+
+You may have someone else's notebook open. **File** {{< fa arrow-right >}} **Save a copy
+in Drive**, then work in your copy.
+
+
+## Python errors
+
+### `NameError: name 'Auto' is not defined`
+
+The cell that created `Auto` has not run in this session. Try running your workbook from the top to be sure the data has been loaded.
+
+### `KeyError: 'Balance'`
+
+No column by that name. Check the spelling, including capitals:
+
+```{python}
+import pandas as pd
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Credit = pd.read_csv(DATA + "Credit.csv")
+list(Credit.columns)
+```
+
+### `ValueError: Expected 2D array, got 1D array instead`
+
+scikit-learn wants the predictors as a data frame with columns, even when there
+is only one.
+
+```{python}
+#| eval: false
+X = Auto["horsepower"]      # wrong, this is one dimensional
+X = Auto[["horsepower"]]    # right, note the double brackets
+```
+
+### `ValueError: could not convert string to float`
+
+A text column reached a model that only takes numbers. Either drop it or encode
+it:
+
+```{python}
+#| eval: false
+y = (Credit["Student"] == "Yes").astype(int)
+```
+

@@ -1,0 +1,113 @@
+---
+title: "{{< fa cloud >}} Getting Started with Colab"
+jupyter: python3
+---
+
+## Sign in
+
+Go to [colab.research.google.com](https://colab.research.google.com) and sign in
+with your **WFU Google account** (`yourname@wfu.edu`).
+
+Click **New notebook**. 
+
+## Your first cell
+
+Click a cell, type, and press {{< kbd Shift-Enter >}} to run it.
+
+```{python}
+2 + 2
+```
+
+The output appears underneath. Press {{< kbd Shift-Enter >}} again and the next
+cell runs.
+
+## Loading course data
+
+Every data set we use lives on this website. 
+
+```{python}
+import pandas as pd
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Auto = pd.read_csv(DATA + "Auto.csv")
+Auto.head()
+```
+
+That `DATA` line appears at the top of every exercise. Copy it once and change
+only the file name. The full list is on the [Course Data](data.qmd) page.
+
+## What is already installed
+
+| Package | What we use it for |
+|---|---|
+| `pandas` | data frames |
+| `numpy` | arrays and simulation |
+| `matplotlib` | figures |
+| `scikit-learn` | every model until Thanksgiving |
+| `torch` | neural networks, already installed |
+
+
+## The one install
+
+When we get to neural networks we may need a few additional packages. PyTorch itself is already on Colab, but three helper packages are not. Put this cell at the top of the
+notebook and run it once per session:
+
+```{python}
+#| eval: false
+%pip install -q pytorch-lightning torchinfo torchmetrics
+```
+
+
+## Turning on the GPU
+
+We will not often need to use GPUs. If we do, go to
+**Runtime** {{< fa arrow-right >}} **Change runtime type** and pick a **GPU**
+accelerator. Check that it worked:
+
+```{python}
+#| eval: false
+import torch
+torch.cuda.is_available()
+```
+
+`True` means you have one. `False` means Colab did not allocate one right now,
+which happens on the free tier. Everything we do will run without a GPU, just
+more slowly.
+
+## Saving your work
+
+A Colab notebook you open from a link is read only until you save your own copy.
+
+**File** {{< fa arrow-right >}} **Save a copy in Drive**
+
+Do this at the start of every class. Your copy lives in a Colab Notebooks folder
+in your WFU Google Drive and saves automatically after that.
+
+## Problem sets
+
+Each problem set is a notebook. Open it from the {{< fa file-lines >}} icon on
+the [Schedule](schedule.qmd), which lands you in Colab on a read only copy.
+
+1. **File** {{< fa arrow-right >}} **Save a copy in Drive**, then work in your copy.  
+2. Run the setup cell at the top before anything else.  
+3. Type prose into the cells that read *Type your answer here*. Double click the cell to edit it, then press {{< kbd Shift-Enter >}} to render it.  
+4. Type code into the blank code cells.  
+5. Before you turn it in, use **Runtime** {{< fa arrow-right >}} **Restart session and run all** and check that everything still runs.  
+
+To submit, click **Share** in the top right, set **General access** to *Anyone
+with the link*, click **Copy link**, and paste that link into Canvas. If the
+link is set to *Restricted* I cannot open it, so check that before you submit.
+
+## Things to keep in mind
+
+**The runtime disconnects.** If you leave a notebook idle, it may disconnect. If this happens just re-run your cells from the top. 
+
+**Cells remember what you ran, not what is on screen.** If you delete a cell that defined `X`, `X` still exists until the runtime restarts. If you are having trouble debugging, sometimes this is the underlying reason. Use **Runtime** {{< fa arrow-right >}} **Restart session and
+run all**.
+
+**Order matters, not position.** Running cells out of order will work and is a
+common cause of confusing errors. See [Troubleshooting](troubleshooting.qmd).
+
+## Working locally instead
+
+Everything we learn will work the same way locally. However, I can help with Colab problems in class; local installation problems are better suited to office hours.

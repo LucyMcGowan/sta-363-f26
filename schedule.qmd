@@ -1,0 +1,78 @@
+---
+title: "{{< fa calendar >}} Schedule"
+jupyter: python3
+execute:
+  # This page reads sta-363-f26-schedule.csv and checks which source files
+  # exist. freeze only watches the .qmd, so a cached schedule goes stale the
+  # moment the CSV changes or a new deck, exercise or problem set is added.
+  freeze: false
+---
+
+The timeline of topics and assignments may be updated during the semester.
+
+```{python}
+#| echo: false
+#| output: asis
+import os
+import pandas as pd
+
+d = pd.read_csv("sta-363-f26-schedule.csv").fillna("")
+
+LAPTOP = '<i class="fa-solid fa-laptop"></i>'
+USERS = '<i class="fa-solid fa-users"></i>'
+FILE = '<i class="fa-solid fa-file-lines"></i>'
+
+COLAB = "https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/"
+
+
+def link(path, icon):
+    """Icon linking to the rendered page, or to Colab for a notebook.
+
+    Greyed out when the source file does not exist yet, so the schedule can
+    list the whole semester without students clicking through to a 404.
+    """
+    if not path or not os.path.exists(path):
+        return f'<span class="dim">{icon}</span>'
+    if path.endswith(".ipynb"):
+        return f'<a href="{COLAB}{path}" target="_blank">{icon}</a>'
+    return f'<a href="{path.replace(".qmd", ".html")}">{icon}</a>'
+
+
+rows = []
+last_week = None
+for _, r in d.iterrows():
+    week = "" if r["week"] == last_week else r["week"]
+    last_week = r["week"]
+    tag = f'<span class="assessment">{r["assessment"]}</span>' if r["assessment"] else ""
+    rows.append(
+        "<tr>"
+        f'<td class="wk">{week}</td>'
+        f'<td class="dt">{r["date"]}</td>'
+        f'<td class="tp">{r["topic"]}</td>'
+        f'<td class="ic">{link(r["slides"], LAPTOP)}</td>'
+        f'<td class="ic">{link(r["appex"], USERS)}</td>'
+        f'<td class="ic">{link(r["assignment"], FILE)}</td>'
+        f'<td class="as">{tag}</td>'
+        f'<td class="pr">{r["prepare"]}</td>'
+        "</tr>"
+    )
+
+head = (
+    "<tr><th>Week</th><th>Date</th><th>Topic</th>"
+    "<th>Slides</th><th>AE</th><th>PS</th>"
+    "<th>Assessment</th><th>Prepare</th></tr>"
+)
+
+# a raw html block, so Pandoc passes it through rather than reparsing it and
+# turning every <i> icon into an <em>
+print("::: {=html}")
+print('<table class="schedule"><thead>' + head + "</thead><tbody>")
+print("".join(rows))
+print("</tbody></table>")
+print(":::")
+```
+
+::: {.small}
+{{< fa laptop >}} slides | {{< fa users >}} application exercise |
+{{< fa file-lines >}} problem set
+:::

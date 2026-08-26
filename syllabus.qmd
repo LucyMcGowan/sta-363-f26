@@ -1,0 +1,106 @@
+---
+title: "{{< fa gavel >}} Policies"
+---
+
+This syllabus and the dates are subject to change.
+
+## Class
+
+This class is meant to be *hands on*. You are responsible for the assigned
+reading before each class. Please bring a charged laptop.
+
+## Attendance
+
+If you feel unwell please do not come to class. All class material is posted, and
+I am happy to meet outside class to help you catch up.
+
+## Computing
+
+We use Python in Google Colab, so there is nothing to install. See
+[Getting Started with Colab](colab.qmd).
+
+## Course components
+
+### Application exercises
+
+Done in class, in pairs or small groups.
+
+### Problem sets
+
+Due Fridays. 
+
+You may work together, however I want you to write up your own answers. If you work with other classmates please note that on your problem set. Graded for completion.
+
+### Check-ins
+
+Most weeks we will have one check-in at the start of class. They will typically cover topics similar to the problem sets.
+
+
+### Exams
+
+We will have two midterm exams and a final exam. Exams will be in class and closed book. 
+
+## Grading
+
+| Component | Weight |
+|---|---|
+| Problem sets | 5% |
+| Check-ins | 20% |
+| Midterm 1 | 25% |
+| Midterm 2 | 25% |
+| Final Exam | 25% |
+| **Total** | **100%** |
+
+| Letter | Numeric |
+|---|---|
+| A | > 94 |
+| A- | 90 to 94 |
+| B+ | 87 to 89 |
+| B | 83 to 86 |
+| B- | 80 to 82 |
+| C+ | 77 to 79 |
+| C | 73 to 76 |
+| C- | 70 to 72 |
+| D+ | 67 to 69 |
+| D | 65 to 66 |
+| F | Below 65 |
+
+## Late and missed work
+
+- Problem sets, late but within 24 hours of the due time: 50% credit  
+- Any later: no credit  
+
+
+All regrade requests must be raised with me within one week of receiving the
+grade.
+
+## Accessibility
+
+Academic accommodations are coordinated through the Center for
+Learning, Access, and Student Success (CLASS). If you would like to request
+accommodations for this course, contact CLASS as early in the semester as
+possible (class.wfu.edu, 118 Reynolda Hall).
+
+## Honor code
+
+Wake Forest University is committed to a culture of academic integrity. As a part
+of this community, you share the responsibility for creating a place of honesty,
+intellectual curiosity, and individual accountability. As you committed to with
+your honor pledge signature, you agree "not to deceive any member of the
+community; not to steal, cheat, or plagiarize on academic work; and not to engage
+in any other form of academic misconduct." If you have questions about
+documenting your work, working with external sources, or working with peers on
+assigned work, consult with me as soon as possible. Instances of academic
+dishonesty will be referred to the Honor and Ethics Council.
+
+### Sharing code and responses
+
+On **problem sets** you may use online resources, including StackOverflow and AI
+assistants, and you **must cite** any borrowed or adapted code, whether copied
+directly or modified. Un-cited reuse is treated as plagiarism.
+
+Check-ins and exams are closed book and closed device.
+
+## Getting help
+
+See the [Help](help.qmd) page for office hours, the Math & Stats Center.

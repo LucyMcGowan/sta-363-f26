@@ -1,0 +1,49 @@
+---
+title: "{{< var course.title >}}"
+toc: false
+subtitle: "{{< var course.subtitle >}}"
+---
+
+::: {.quarto-title-meta style="display:none"}
+:::
+
+::: {.grid}
+::: {.g-col-12 .g-col-sm-6 .g-col-md-6}
+### {{< fa university >}} Course Info
+**Location:** {{< var course.location >}}
+**Time:** {{< var course.time >}}
+**Semester:** {{< var course.semester >}}
+:::
+
+::: {.g-col-12 .g-col-sm-6 .g-col-md-6}
+### {{< fa users >}} Office Hours
+**Instructor:** [{{< var instructor.name >}}]({{< var instructor.url >}})
+**Email:** {{< var instructor.email >}}
+**Hours:** [{{< var instructor.officehrs >}}]({{< var instructor.appointment_url >}})
+**Office:** {{< var instructor.office >}}
+
+**Math & Stats Center:** [mathandstatscenter@wfu.edu](mailto:mathandstatscenter@wfu.edu)
+**Location:** [Math & Stats Center](https://mathandstatscenter.wfu.edu/)
+:::
+:::
+
+### {{< fa book >}} Text
+{{< var course.text >}}
+
+### {{< fa laptop >}} Computing
+
+We use **Python** in **Google Colab**, so there is nothing to install. You need a
+browser and your WFU Google account.
+
+Start here: [Getting Started with Colab](colab.qmd).
+
+The [Python Quick Guide](python-guide.qmd) has the R to Python translation.
+
+### {{< fa question-circle >}} Stuck?
+
+Read [Troubleshooting](troubleshooting.qmd) first, then see [Help](help.qmd) for
+office hours and information about the Math & Stats Center.
+
+### {{< fa laptop-code >}} Materials
+
+This class is hands on. Bring a charged laptop to every class.

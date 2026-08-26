@@ -1,0 +1,44 @@
+---
+title: "{{< fa question-circle >}} Help"
+---
+
+
+## Start here
+
+Most technical problems are answered on [Troubleshooting](troubleshooting.qmd).
+
+## Office hours
+
+[{{< var instructor.name >}}]({{< var instructor.url >}})
+{{< var instructor.office >}}
+[Book a time]({{< var instructor.appointment_url >}})
+
+## Math & Stats Center
+
+[mathandstatscenter.wfu.edu](https://mathandstatscenter.wfu.edu/)
+[mathandstatscenter@wfu.edu](mailto:mathandstatscenter@wfu.edu)
+
+## Each other
+
+You are encouraged to work together on application exercises and problem sets, however I want you to write up your own work. See the honor code section of the
+[course policies](syllabus.qmd).
+
+## Reference
+
+| | |
+|---|---|
+| Textbook | [statlearning.com](https://www.statlearning.com), free PDF |
+| Colab setup | [Getting Started with Colab](colab.qmd) |
+| Python syntax | [Python Quick Guide](python-guide.qmd) |
+| Data sets | [Course Data](data.qmd) |
+| scikit-learn | [scikit-learn.org/stable/user_guide.html](https://scikit-learn.org/stable/user_guide.html) |
+| pandas | [pandas.pydata.org/docs/user_guide](https://pandas.pydata.org/docs/user_guide/index.html) |
+
+## Using AI assistants
+
+You may use them AI on assignments however you must:
+
+1. Cite what you used on graded work, the same way you would cite a classmate or a StackOverflow answer.  
+
+2. Do not submit code you cannot explain. The exams are on paper and the questions are about reasoning, so code you did not understand will not help you there. If AI gives you something that works and you are unsure why, that is a good office hours question.  
+

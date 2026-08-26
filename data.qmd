@@ -1,0 +1,63 @@
+---
+title: "{{< fa table >}} Course Data"
+jupyter: python3
+---
+
+## How to read in data
+
+```{python}
+import pandas as pd
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+Default = pd.read_csv(DATA + "Default.csv")
+Default.head()
+```
+
+The above example reads in the `Default` dataset. To read a different dataset, just swap the "*.csv" part, for example to instead read in the `Auto` data we'd change the above code from `Default.csv` to `Auto.csv`.
+
+## The data sets
+
+| Data set | Rows | Columns | Missing | ISLP chapters | Description |
+|---|---:|---:|---:|---|---|
+| [`Auto.csv`](data/Auto.csv) | 392 | 9 | | 2, 3, 5 | Gas mileage, horsepower, and other characteristics of 392 cars. |
+| [`Boston.csv`](data/Boston.csv) | 506 | 13 | | 3, 8 | Housing values and neighborhood characteristics for 506 Boston census tracts. |
+| [`Caravan.csv`](data/Caravan.csv) | 5,822 | 86 | | 4 | Demographic characteristics of 5,822 customers and whether they bought caravan insurance. |
+| [`Carseats.csv`](data/Carseats.csv) | 400 | 11 | | 8 | Simulated child car seat sales at 400 stores. |
+| [`Credit.csv`](data/Credit.csv) | 400 | 12 | | 6 | Credit card balance and customer characteristics for 400 people. |
+| [`Default.csv`](data/Default.csv) | 10,000 | 4 | | 2, 4 | Credit card default, balance, income, and student status for 10,000 customers. |
+| [`Hitters.csv`](data/Hitters.csv) | 322 | 20 | 59 | 6, 8 | Salary and 1986 performance for 322 Major League Baseball players. |
+| [`NCI60.csv`](data/NCI60.csv) | 64 | 6,831 | | 1 | Gene expression, 6,830 genes measured on 64 cancer cell lines. |
+| [`Smarket.csv`](data/Smarket.csv) | 1,250 | 9 | | 1, 4 | Daily S&P 500 percentage returns from 2001 to 2005. |
+| [`Wage.csv`](data/Wage.csv) | 3,000 | 11 | | 1, 7 | Wage and demographic data for 3,000 male workers in the Atlantic region. |
+
+## Looking at your data before you model it
+
+```{python}
+Default.dtypes
+```
+
+```{python}
+Default.describe().round(2)
+```
+
+```{python}
+Default["default"].value_counts(normalize=True).round(4)
+```
+
+## Where these came from
+
+All of these datasets are from the `ISLP` package that accompanies the textbook. 
+
+If you want the book's own labs, which use `from ISLP import load_data`, you can install the `ISLP` python package.
+
+```{python}
+#| eval: false
+%pip install ISLP
+```
+
+
+::: {.small}
+Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). *An Introduction to Statistical Learning with Applications in Python*.
+Springer.
+:::
