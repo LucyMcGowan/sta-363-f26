@@ -350,7 +350,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="simulated-data" class="slide level2">
 <h2>Simulated data</h2>
-<div id="ba6b7be3" class="cell" data-execution_count="3">
+<div id="10583c79" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sin(<span class="dv">2</span> <span class="op">*</span> x) <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -397,7 +397,7 @@ mean zero Gaussian noise with standard deviation 0.6: <span class="math inline">
 </section>
 <section id="traintest-split" class="slide level2">
 <h2>Train/test split</h2>
-<div id="9c7ee4db" class="cell" data-execution_count="6">
+<div id="0ec26045" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
@@ -431,7 +431,7 @@ observations for testing, and <code>random_state=363</code> fixes the shuffle so
 </section>
 <section id="spline-fits" class="slide level2 small">
 <h2>Spline fits</h2>
-<div id="abce568e" class="cell" data-execution_count="7">
+<div id="5862986d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> SplineTransformer</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
@@ -525,20 +525,12 @@ MSE at this <code>df</code> and appends it to <code>train_mse</code>; the same p
 </div>
 </div>
 </section>
-<section id="application-exercise-2-1" class="slide level2">
-<h2>Application exercise 2</h2>
-<div class="takeaway">
-<p>Split <code>Auto</code>, compared training and test MSE across spline degrees of freedom, and checked how much the answer moved across random splits.</p>
-</div>
-</section>
 <section id="before-wednesday" class="slide level2">
 <h2>Before Wednesday</h2>
 <ul>
 <li>Read ISLP Section 2.2.2<br>
 </li>
 <li>Problem set 1 posted, due Friday September 4<br>
-</li>
-<li>Check-in 1 at the start of class<br>
 </li>
 </ul>
 
