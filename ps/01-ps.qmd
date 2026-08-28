@@ -19,9 +19,9 @@ DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
 
 ## 1. When flexibility helps
 
-For each situation, say whether a flexible method would generally
-outperform an inflexible one, and justify your answer using the reducible
-and irreducible error decomposition from lecture.
+For each of parts (a) through (d), indicate whether we would generally
+expect the performance of a flexible statistical learning method to be
+better or worse than an inflexible method. Justify your answer.
 
 a. The sample size n is extremely large, and the number of predictors p is small.
 b. The number of predictors p is extremely large, and the number of observations n is small.
@@ -33,7 +33,7 @@ d. The variance of the error term, $\text{Var}(\varepsilon)$, is extremely large
 a. Describe the difference between a parametric and a non-parametric approach to estimating f.
 b. Name one advantage and one disadvantage of the parametric approach, relative to the non-parametric one.
 c. ISLP Figure 2.7 places methods on a plane with flexibility on one axis and interpretability on the other. Explain why those two axes point in opposite directions instead of varying independently.
-d. A colleague wants to know exactly how each predictor moves the response, and also wants the most accurate predictions possible. Explain why they may not get both, and which one they should give up first.
+
 
 ## 3. Regression, classification, prediction, inference
 
@@ -44,45 +44,20 @@ a. Data on the top 500 firms in the US, recording profit, number of employees, i
 b. Data on 20 previously launched products, recording whether each succeeded or failed along with price, marketing budget, competition price, and ten other variables, collected to predict whether a new product will succeed.
 c. Weekly percent changes in the USD/Euro exchange rate and in the US, British, and German stock markets, recorded for all of 2012, collected to predict the USD/Euro change from the market changes.
 
-## 4. Naming your own
+## 4. 
 
 Describe two real-life applications where classification is the right
 framing, and two where regression is. For each, name the response, at
 least two predictors, and say whether the goal is prediction or inference,
 with a one-sentence justification.
 
-a. A classification application.
-b. A second classification application.
-c. A regression application.
-d. A second regression application.
 
-## 5. A first look at Boston housing
+## 5. MSE in training versus test sets
 
-The `Boston` data records housing values and neighborhood characteristics
-for towns near Boston.
+Make a sketch of the typical training error, irreducible error, and test error on a single plot going from less flexible statistical learning methods towards more flexible approaches. The x-axis should represent the amount of flexibility in the method, and the y-axis should represent the values for each curve. There should be 3 curves, make sure to label each one. 
 
-```{python}
-Boston = pd.read_csv(DATA + "Boston.csv")
-Boston.head()
-```
+*You will draw this on paper and then can upload a photo here.*
 
-a. Report n and p for this data set, and say which column is the most natural response if the goal is predicting how safe a neighborhood is.
-b. `chas` records whether a tract borders the Charles River. Explain why, unlike the other columns, it makes little sense to summarize `chas` with a mean and a standard deviation.
-c. Using `.corr()`, find the two predictors most strongly associated with `crim`, the crime rate. Are you doing prediction or inference when you interpret those two numbers? Explain.
-
-::: {.code-cell}
-:::
-
-::: {.answer}
-:::
-
-d. Make a scatterplot of `medv` against `lstat`. Based on the shape you see, would a parametric straight-line model be a reasonable choice here, or does the relationship look like it needs a non-parametric approach? Explain using the definitions from question 2.
-
-::: {.code-cell}
-:::
-
-::: {.answer}
-:::
 
 *Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
 (2023). An Introduction to Statistical Learning with Applications in Python.

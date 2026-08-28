@@ -116,12 +116,7 @@ plt.show()
 ```
 
 ::: {.question}
-Compare this to Figure 2.9 in the textbook. Which of the three panels
-(Figures 2.9, 2.10, 2.11) does the `Auto` data most resemble? What does that tell
-you about the true $f$?
-:::
-
-::: {.answer-space}
+Which would you pick?
 :::
 
 ## Part 5:

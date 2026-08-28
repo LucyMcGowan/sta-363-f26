@@ -356,17 +356,10 @@ How would you get a more stable answer than a single split?
 :::
 :::
 
-## Application exercise 2
-
-::: {.takeaway}
-Split `Auto`, compared training and test MSE across spline degrees of
-freedom, and checked how much the answer moved across random splits.
-:::
 
 ## Before Wednesday
 
 ::: {.nonincremental}
 * Read ISLP Section 2.2.2  
 * Problem set 1 posted, due Friday September 4  
-* Check-in 1 at the start of class  
 :::
