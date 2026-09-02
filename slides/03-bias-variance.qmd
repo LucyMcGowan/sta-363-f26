@@ -97,19 +97,6 @@ model. A method that cannot bend enough to match $f$ is biased, no matter
 how much data it sees.
 :::
 
-```{python}
-#| output: asis
-#| echo: false
-iterative_latex(
-    "The bias formula",
-    r"\text{Bias}(\hat{f}(x_0)) = E[\hat{f}(x_0)] - f(x_0)",
-    highlights=[r"E[\hat{f}(x_0)]", r"f(x_0)"],
-    explanations=[
-        "The average fit at $x_0$, over many training sets.",
-        "The truth at $x_0$. Bias is the gap between the two.",
-    ],
-)
-```
 
 ## Variance, illustrated {.small}
 
@@ -354,18 +341,11 @@ The best flexibility depends on the data. We check the shape first.
 :::
 :::
 
-## Irreducible error
-
-::: {.takeaway}
-Bias and variance can both be driven toward zero with the right model and enough
-data. $\text{Var}(\varepsilon)$ cannot.
-:::
-
 
 ## Application exercise
 
 ::: {.takeaway}
-Complete Part 3. [ex/03-ex](../ex/03-ex.qmd)
+Complete Part 2. [ex/03-ex](../ex/03-ex.qmd)
 :::
 
 # Moving the knob {.center}
@@ -415,7 +395,7 @@ variance?
 ## Application exercise
 
 ::: {.takeaway}
-Complete Part 4. [ex/03-ex](../ex/03-ex.qmd)
+Complete Part 3. [ex/03-ex](../ex/03-ex.qmd)
 :::
 
 ## Irrelevant predictors
@@ -482,11 +462,7 @@ November.
 :::
 :::
 
-## Application exercise
 
-::: {.takeaway}
-Complete Part 2. [ex/03-ex](../ex/03-ex.qmd)
-:::
 
 ```{python}
 #| output: asis
@@ -515,11 +491,6 @@ variance, a rigid one the reverse. Friday formalizes this with the Bayes
 classifier and KNN.
 :::
 
-## Application exercise
-
-::: {.takeaway}
-Complete the wrap-up. [ex/03-ex](../ex/03-ex.qmd)
-:::
 
 ## Summary {.small}
 
@@ -530,13 +501,6 @@ Complete the wrap-up. [ex/03-ex](../ex/03-ex.qmd)
 * More data lowers variance without changing bias  
 :::
 
-## Application exercise 3
-
-::: {.takeaway}
-Matched bias-variance patterns to fan plots, moved five knobs, read test
-MSE curves, settled a debate about sample size, and answered why the curve
-is U-shaped.
-:::
 
 ## Before Friday
 
