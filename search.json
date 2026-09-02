@@ -4004,47 +4004,11 @@
     ]
   },
   {
-    "objectID": "slides/03-bias-variance.html#the-bias-formula",
-    "href": "slides/03-bias-variance.html#the-bias-formula",
-    "title": "Bias-variance trade-off",
-    "section": "The bias formula",
-    "text": "The bias formula\n\\[\\text{Bias}(\\hat{f}(x_0)) = E[\\hat{f}(x_0)] - f(x_0)\\]",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
-    "objectID": "slides/03-bias-variance.html#the-bias-formula-1",
-    "href": "slides/03-bias-variance.html#the-bias-formula-1",
-    "title": "Bias-variance trade-off",
-    "section": "The bias formula",
-    "text": "The bias formula\n\\[\\text{Bias}(\\hat{f}(x_0)) = {\\require{color}\\colorbox{#eec8e1}{$E[\\hat{f}(x_0)]$}} - f(x_0)\\]\nThe average fit at \\(x_0\\), over many training sets.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
-    "objectID": "slides/03-bias-variance.html#the-bias-formula-2",
-    "href": "slides/03-bias-variance.html#the-bias-formula-2",
-    "title": "Bias-variance trade-off",
-    "section": "The bias formula",
-    "text": "The bias formula\n\\[\\text{Bias}(\\hat{f}(x_0)) = E[\\hat{f}(x_0)] - {\\require{color}\\colorbox{#eec8e1}{$f(x_0)$}}\\]\nThe truth at \\(x_0\\). Bias is the gap between the two.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
     "objectID": "slides/03-bias-variance.html#variance-illustrated",
     "href": "slides/03-bias-variance.html#variance-illustrated",
     "title": "Bias-variance trade-off",
     "section": "Variance, illustrated",
-    "text": "Variance, illustrated\n\n\nTwenty five fits, each on its own training sample of 60 points. Grey is the true \\(f\\).",
+    "text": "Variance, illustrated\n\n\n\n\n\n\n\n\n\n\nTwenty five fits, each on its own training sample of 60 points. Grey is the true \\(f\\).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4056,7 +4020,7 @@
     "href": "slides/03-bias-variance.html#bias-illustrated",
     "title": "Bias-variance trade-off",
     "section": "Bias, illustrated",
-    "text": "Bias, illustrated\n\n\nThe average fit over 200 refits (dashed), against the true \\(f\\) (solid).\n\n\n\nWhich average curve is closer to the truth: df 4 or df 20?",
+    "text": "Bias, illustrated\n\n\n\n\n\n\n\n\n\n\nThe average fit over 200 refits (dashed), against the true \\(f\\) (solid).\n\n\n\nWhich average curve is closer to the truth: df 4 or df 20?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4068,7 +4032,7 @@
     "href": "slides/03-bias-variance.html#the-two-extremes",
     "title": "Bias-variance trade-off",
     "section": "The two extremes",
-    "text": "The two extremes\n\n\nTwelve points from the same simulation. A flat line on the left, a curve through every point on the right.\n\n\n\nWhich curve has zero training error? Is that the same as being unbiased?",
+    "text": "The two extremes\n\n\n\n\n\n\n\n\n\n\nTwelve points from the same simulation. A flat line on the left, a curve through every point on the right.\n\n\n\nWhich curve has zero training error? Is that the same as being unbiased?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4080,7 +4044,7 @@
     "href": "slides/03-bias-variance.html#the-extremes-repeated",
     "title": "Bias-variance trade-off",
     "section": "The extremes, repeated",
-    "text": "The extremes, repeated\n\n\nFifteen resamples of twelve points each, same two methods. Grey is the true \\(f\\).\n\n\n\nThe flat lines barely move: low variance, high bias. The interpolators never agree: low bias, high variance.",
+    "text": "The extremes, repeated\n\n\n\n\n\n\n\n\n\n\nFifteen resamples of twelve points each, same two methods. Grey is the true \\(f\\).\n\n\n\nThe flat lines barely move: low variance, high bias. The interpolators never agree: low bias, high variance.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4184,23 +4148,11 @@
     ]
   },
   {
-    "objectID": "slides/03-bias-variance.html#irreducible-error",
-    "href": "slides/03-bias-variance.html#irreducible-error",
-    "title": "Bias-variance trade-off",
-    "section": "Irreducible error",
-    "text": "Irreducible error\n\nBias and variance can both be driven toward zero with the right model and enough data. \\(\\text{Var}(\\varepsilon)\\) cannot.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
     "objectID": "slides/03-bias-variance.html#application-exercise-1",
     "href": "slides/03-bias-variance.html#application-exercise-1",
     "title": "Bias-variance trade-off",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 3. ex/03-ex",
+    "text": "Application exercise\n\nComplete Part 2. ex/03-ex",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4248,7 +4200,7 @@
     "href": "slides/03-bias-variance.html#application-exercise-2",
     "title": "Bias-variance trade-off",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 4. ex/03-ex",
+    "text": "Application exercise\n\nComplete Part 3. ex/03-ex",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4284,19 +4236,7 @@
     "href": "slides/03-bias-variance.html#averaging-models-illustrated",
     "title": "Bias-variance trade-off",
     "section": "Averaging models, illustrated",
-    "text": "Averaging models, illustrated\n\n\nFifteen draws. Left: one fit each time. Right: the average of fifteen fits each time. Grey is the true \\(f\\).\n\n\n\nSame bias, far less variance. This is the idea behind an entire unit in November.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
-    "objectID": "slides/03-bias-variance.html#application-exercise-3",
-    "href": "slides/03-bias-variance.html#application-exercise-3",
-    "title": "Bias-variance trade-off",
-    "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 2. ex/03-ex",
+    "text": "Averaging models, illustrated\n\n\n\n\n\n\n\n\n\n\nFifteen draws. Left: one fit each time. Right: the average of fifteen fits each time. Grey is the true \\(f\\).\n\n\n\nSame bias, far less variance. This is the idea behind an entire unit in November.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4364,35 +4304,11 @@
     ]
   },
   {
-    "objectID": "slides/03-bias-variance.html#application-exercise-4",
-    "href": "slides/03-bias-variance.html#application-exercise-4",
-    "title": "Bias-variance trade-off",
-    "section": "Application exercise",
-    "text": "Application exercise\n\nComplete the wrap-up. ex/03-ex",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
     "objectID": "slides/03-bias-variance.html#summary",
     "href": "slides/03-bias-variance.html#summary",
     "title": "Bias-variance trade-off",
     "section": "Summary",
     "text": "Summary\n\nExpected test MSE splits into variance, squared bias, and irreducible error\n\nMore flexibility: bias down, variance up\n\nThe best flexibility depends on how non-linear the truth is\n\nMore data lowers variance without changing bias",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "3. Bias-variance trade-off"
-    ]
-  },
-  {
-    "objectID": "slides/03-bias-variance.html#application-exercise-3-1",
-    "href": "slides/03-bias-variance.html#application-exercise-3-1",
-    "title": "Bias-variance trade-off",
-    "section": "Application exercise 3",
-    "text": "Application exercise 3\n\nMatched bias-variance patterns to fan plots, moved five knobs, read test MSE curves, settled a debate about sample size, and answered why the curve is U-shaped.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",

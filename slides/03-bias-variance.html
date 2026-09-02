@@ -201,31 +201,33 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>The error from approximating a complicated relationship with a simpler model. A method that cannot bend enough to match <span class="math inline">\(f\)</span> is biased, no matter how much data it sees.</p>
 </div>
 </section>
-<section id="the-bias-formula" class="slide level2">
-<h2>The bias formula</h2>
-<p><span class="math display">\[\text{Bias}(\hat{f}(x_0)) = E[\hat{f}(x_0)] - f(x_0)\]</span></p>
-</section>
-<section id="the-bias-formula-1" class="slide level2">
-<h2>The bias formula</h2>
-<p><span class="math display">\[\text{Bias}(\hat{f}(x_0)) = {\require{color}\colorbox{#eec8e1}{$E[\hat{f}(x_0)]$}} - f(x_0)\]</span></p>
-<p>The average fit at <span class="math inline">\(x_0\)</span>, over many training sets.</p>
-</section>
-<section id="the-bias-formula-2" class="slide level2">
-<h2>The bias formula</h2>
-<p><span class="math display">\[\text{Bias}(\hat{f}(x_0)) = E[\hat{f}(x_0)] - {\require{color}\colorbox{#eec8e1}{$f(x_0)$}}\]</span></p>
-<p>The truth at <span class="math inline">\(x_0\)</span>. Bias is the gap between the two.</p>
-</section>
 <section id="variance-illustrated" class="slide level2 small">
 <h2>Variance, illustrated</h2>
-
-<img data-src="03-bias-variance_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="26e985be" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-bias-variance_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center" width="739" height="349"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>Twenty five fits, each on its own training sample of 60 points. Grey is the true <span class="math inline">\(f\)</span>.</p>
 </div>
 </section>
 <section id="bias-illustrated" class="slide level2 small">
 <h2>Bias, illustrated</h2>
-
-<img data-src="03-bias-variance_files/figure-revealjs/cell-6-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="90cea8cc" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-bias-variance_files/figure-revealjs/cell-5-output-1.png" class="quarto-figure quarto-figure-center" width="739" height="349"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>The average fit over 200 refits (dashed), against the true <span class="math inline">\(f\)</span> (solid).</p>
 </div>
 <div class="fragment">
@@ -236,8 +238,16 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="the-two-extremes" class="slide level2 small">
 <h2>The two extremes</h2>
-
-<img data-src="03-bias-variance_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="8ce9a577" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-bias-variance_files/figure-revealjs/cell-6-output-1.png" class="quarto-figure quarto-figure-center" width="741" height="356"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>Twelve points from the same simulation. A flat line on the left, a curve through every point on the right.</p>
 </div>
 <div class="fragment">
@@ -248,8 +258,16 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="the-extremes-repeated" class="slide level2 small">
 <h2>The extremes, repeated</h2>
-
-<img data-src="03-bias-variance_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="0b1769e9" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-bias-variance_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center" width="792" height="356"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>Fifteen resamples of twelve points each, same two methods. Grey is the true <span class="math inline">\(f\)</span>.</p>
 </div>
 <div class="fragment">
@@ -357,16 +375,10 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 </div>
 </section>
-<section id="irreducible-error" class="slide level2">
-<h2>Irreducible error</h2>
-<div class="takeaway">
-<p>Bias and variance can both be driven toward zero with the right model and enough data. <span class="math inline">\(\text{Var}(\varepsilon)\)</span> cannot.</p>
-</div>
-</section>
 <section id="application-exercise-1" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 3. <a href="../ex/03-ex.html">ex/03-ex</a></p>
+<p>Complete Part 2. <a href="../ex/03-ex.html">ex/03-ex</a></p>
 </div>
 </section></section>
 <section>
@@ -420,7 +432,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="application-exercise-2" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 4. <a href="../ex/03-ex.html">ex/03-ex</a></p>
+<p>Complete Part 3. <a href="../ex/03-ex.html">ex/03-ex</a></p>
 </div>
 </section>
 <section id="irrelevant-predictors" class="slide level2">
@@ -442,20 +454,22 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="averaging-models-illustrated" class="slide level2 small">
 <h2>Averaging models, illustrated</h2>
-
-<img data-src="03-bias-variance_files/figure-revealjs/cell-9-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="543646d9" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-bias-variance_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center" width="739" height="349"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>Fifteen draws. Left: one fit each time. Right: the average of fifteen fits each time. Grey is the true <span class="math inline">\(f\)</span>.</p>
 </div>
 <div class="fragment">
 <div class="takeaway">
 <p>Same bias, far less variance. This is the idea behind an entire unit in November.</p>
 </div>
-</div>
-</section>
-<section id="application-exercise-3" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete Part 2. <a href="../ex/03-ex.html">ex/03-ex</a></p>
 </div>
 </section>
 <section id="classification-error-rate" class="slide level2">
@@ -483,12 +497,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>The same trade-off holds: a flexible boundary has low bias and high variance, a rigid one the reverse. Friday formalizes this with the Bayes classifier and KNN.</p>
 </div>
 </section>
-<section id="application-exercise-4" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete the wrap-up. <a href="../ex/03-ex.html">ex/03-ex</a></p>
-</div>
-</section>
 <section id="summary" class="slide level2 small">
 <h2>Summary</h2>
 <ul>
@@ -501,12 +509,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <li>More data lowers variance without changing bias<br>
 </li>
 </ul>
-</section>
-<section id="application-exercise-3-1" class="slide level2">
-<h2>Application exercise 3</h2>
-<div class="takeaway">
-<p>Matched bias-variance patterns to fan plots, moved five knobs, read test MSE curves, settled a debate about sample size, and answered why the curve is U-shaped.</p>
-</div>
 </section>
 <section id="before-friday" class="slide level2">
 <h2>Before Friday</h2>
