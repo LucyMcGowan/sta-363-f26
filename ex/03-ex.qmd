@@ -35,22 +35,6 @@ data closely.
 
 ## Part 2: 
 
-::: {.question}
-For each change, say what happens to **bias**, to **variance**, and to **test
-MSE**. Test MSE may go either way, if so, say what it depends on.
-
-1. Increasing $K$ in KNN from 5 to 50  
-2. Collecting 10 times as many observations, model unchanged  
-3. Adding 50 irrelevant predictors  
-4. Replacing a degree-2 polynomial with a degree-9 polynomial  
-5. Averaging the predictions of 100 different flexible models  
-:::
-
-::: {.answer-space}
-:::
-
-
-## Part 3: 
 
 ```{python}
 #| echo: false
@@ -81,6 +65,22 @@ Three test MSE curves. The dashed teal line is $\text{Var}(\varepsilon)$ in each
 1. For each panel, roughly where is the best flexibility?  
 2. In which panel is the true $f$ closest to linear? How do you know?  
 3. In which panel would using a very flexible method be the least problematic?   
+:::
+
+::: {.answer-space}
+:::
+
+## Part 3: 
+
+::: {.question}
+For each change, say what happens to **bias**, to **variance**, and to **test
+MSE**. Test MSE may go either way, if so, say what it depends on.
+
+1. Increasing $K$ in KNN from 5 to 50  
+2. Collecting 10 times as many observations, model unchanged  
+3. Adding 50 irrelevant predictors  
+4. Replacing a degree-2 polynomial with a degree-9 polynomial  
+5. Averaging the predictions of 100 different flexible models  
 :::
 
 ::: {.answer-space}
