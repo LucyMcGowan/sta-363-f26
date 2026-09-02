@@ -3047,7 +3047,7 @@
     "href": "ex/03-ex.html#part-2",
     "title": "Application exercise 3: Reading bias and variance",
     "section": "Part 2:",
-    "text": "Part 2:\n\nFor each change, say what happens to bias, to variance, and to test MSE. Test MSE may go either way, if so, say what it depends on.\n\nIncreasing \\(K\\) in KNN from 5 to 50\n\nCollecting 10 times as many observations, model unchanged\n\nAdding 50 irrelevant predictors\n\nReplacing a degree-2 polynomial with a degree-9 polynomial\n\nAveraging the predictions of 100 different flexible models",
+    "text": "Part 2:\n\n\n\n\n\n\n\n\n\nThree test MSE curves. The dashed teal line is \\(\\text{Var}(\\varepsilon)\\) in each.\n\n\nFor each panel, roughly where is the best flexibility?\n\nIn which panel is the true \\(f\\) closest to linear? How do you know?\n\nIn which panel would using a very flexible method be the least problematic?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -3059,7 +3059,7 @@
     "href": "ex/03-ex.html#part-3",
     "title": "Application exercise 3: Reading bias and variance",
     "section": "Part 3:",
-    "text": "Part 3:\n\n\n\n\n\n\n\n\n\nThree test MSE curves. The dashed teal line is \\(\\text{Var}(\\varepsilon)\\) in each.\n\n\nFor each panel, roughly where is the best flexibility?\n\nIn which panel is the true \\(f\\) closest to linear? How do you know?\n\nIn which panel would using a very flexible method be the least problematic?",
+    "text": "Part 3:\n\nFor each change, say what happens to bias, to variance, and to test MSE. Test MSE may go either way, if so, say what it depends on.\n\nIncreasing \\(K\\) in KNN from 5 to 50\n\nCollecting 10 times as many observations, model unchanged\n\nAdding 50 irrelevant predictors\n\nReplacing a degree-2 polynomial with a degree-9 polynomial\n\nAveraging the predictions of 100 different flexible models",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
