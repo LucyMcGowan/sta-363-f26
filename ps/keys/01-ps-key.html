@@ -652,10 +652,7 @@ window.Quarto = {
 </section>
 <section id="classification-and-regression-applications" class="level2">
 <h2 class="anchored" data-anchor-id="classification-and-regression-applications">4. Classification and regression applications</h2>
-<p><strong>Classification, example 1: email spam filtering.</strong> Response: whether an incoming message is spam or not spam. Predictors: counts of particular words in the body, age of the sender’s domain, number of links, whether the sender is in the user’s address book. Goal: prediction, because the filter only has to route each new message correctly and no one needs an explanation of the rule.</p>
-<p><strong>Classification, example 2: loan default.</strong> Response: whether a borrower defaults or repays within the loan term. Predictors: credit score, debt-to-income ratio, length of employment, loan amount relative to income. Goal: inference, because a lender wants to know which applicant characteristics drive default risk in order to set lending policy.</p>
-<p><strong>Regression, example 1: house sale price.</strong> Response: sale price in dollars. Predictors: square footage, number of bedrooms, age of the house, distance to the city center. Goal: prediction, because a listing site wants an accurate price estimate for each new house that comes on the market.</p>
-<p><strong>Regression, example 2: crop yield.</strong> Response: yield in bushels per acre. Predictors: total rainfall over the season, pounds of fertilizer applied per acre, average growing-season temperature. Goal: inference, because an agronomist wants to estimate how much yield changes per additional unit of fertilizer.</p>
+<p>Any examples will work for this (as long as they classify them correctly).</p>
 </section>
 <section id="mse-in-training-versus-test-sets" class="level2">
 <h2 class="anchored" data-anchor-id="mse-in-training-versus-test-sets">5. MSE in training versus test sets</h2>
@@ -664,7 +661,7 @@ window.Quarto = {
 <p><strong>Test error</strong> is U-shaped: high at low flexibility because the fit is too rigid to capture <span class="math inline">\(f\)</span> (bias), falling as flexibility increases, reaching a minimum at some intermediate flexibility, then rising again as the method starts to overfit (variance).</p>
 <p><strong>Irreducible error</strong> is a horizontal line at <span class="math inline">\(\text{Var}(\varepsilon)\)</span> that does not depend on the method.</p>
 <p>The sketch should also show that the test error curve stays above the irreducible error line everywhere, with its minimum close to but still above that line, that the training error curve drops below the irreducible error line at high flexibility, and that the training and test curves are close at low flexibility and separate as flexibility grows.</p>
-<div id="a49efd01" class="cell" data-execution_count="1">
+<div id="4e3a20e5" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
