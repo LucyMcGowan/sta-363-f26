@@ -326,24 +326,11 @@ A bank can only call 100 customers today. Which 100 would you pick: the
 Complete Part 3. [ex/04-ex](../ex/04-ex.qmd)
 :::
 
-## Application exercise 4
-
-::: {.takeaway}
-Found the baseline error rate, discovered what happens when you forget to
-scale, swept $K$, and found that a mediocre error rate can still mean an
-excellent ranking.
-:::
-
 ## Before Wednesday
 
 ::: {.nonincremental}
 * Read ISLP Sections 5.1.1 to 5.1.3  
 * Problem set 1 due today, problem set 2 posted  
-* Check-in 2 on Wednesday  
+* Check-in 1 on Wednesday  
 :::
 
-::: {.fragment}
-::: {.question}
-We picked $K$ by looking at the test set. What is wrong with that?
-:::
-:::
