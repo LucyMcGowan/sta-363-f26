@@ -369,7 +369,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="the-default-data" class="slide level2 small">
 <h2>The Default data</h2>
-<div id="0465e121" class="cell" data-execution_count="5">
+<div id="e6e4dff7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>Default <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Default.csv"</span>)</span>
@@ -450,7 +450,7 @@ repository.</span>
 </div>
 </div>
 <div class="fragment">
-<div id="19b749ac" class="cell" data-execution_count="6">
+<div id="140cc938" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>Default[<span class="st">"default"</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -471,7 +471,7 @@ Name: proportion, dtype: float64</code></pre>
 </section>
 <section id="knn-in-scikit-learn" class="slide level2 small">
 <h2>KNN in scikit-learn</h2>
-<div id="0c7338fa" class="cell" data-execution_count="7">
+<div id="b63f4747" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -533,8 +533,16 @@ value is the training error rate, appended to <code>train_err</code>.</span>
 </section>
 <section id="error-rate-against-1k" class="slide level2 small">
 <h2>Error rate against 1/K</h2>
-
-<img data-src="04-knn_files/figure-revealjs/cell-9-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="fragment">
+<div id="a4199164" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="04-knn_files/figure-revealjs/cell-9-output-1.png" class="quarto-figure quarto-figure-center" width="625" height="328"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
 <div class="question">
 <p>Why is training error at <span class="math inline">\(K = 1\)</span> guaranteed to be zero?</p>
 </div>
@@ -562,7 +570,7 @@ value is the training error rate, appended to <code>train_err</code>.</span>
 <div class="takeaway">
 <p><code>.score()</code> and the error rate both ask a classifier to commit to a single label per observation. <code>.predict_proba()</code> asks it to rank instead.</p>
 </div>
-<div id="280c419b" class="cell" data-execution_count="9">
+<div id="dcbaa3a8" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> best.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>top100 <span class="op">=</span> np.argsort(<span class="op">-</span>probs)[:<span class="dv">100</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -578,12 +586,6 @@ value is the training error rate, appended to <code>train_err</code>.</span>
 <p>Complete Part 3. <a href="../ex/04-ex.html">ex/04-ex</a></p>
 </div>
 </section>
-<section id="application-exercise-4" class="slide level2">
-<h2>Application exercise 4</h2>
-<div class="takeaway">
-<p>Found the baseline error rate, discovered what happens when you forget to scale, swept <span class="math inline">\(K\)</span>, and found that a mediocre error rate can still mean an excellent ranking.</p>
-</div>
-</section>
 <section id="before-wednesday" class="slide level2">
 <h2>Before Wednesday</h2>
 <ul>
@@ -594,11 +596,6 @@ value is the training error rate, appended to <code>train_err</code>.</span>
 <li>Check-in 2 on Wednesday<br>
 </li>
 </ul>
-<div class="fragment">
-<div class="question">
-<p>We picked <span class="math inline">\(K\)</span> by looking at the test set. What is wrong with that?</p>
-</div>
-</div>
 
 
 </section></section>
