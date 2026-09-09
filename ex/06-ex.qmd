@@ -24,7 +24,7 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 rng = np.random.default_rng(363)
 ```
 
-## Notebook A: cleaning before splitting
+## Part 1: Cleaning before splitting
 
 An analyst predicts `Balance` from four numeric predictors. Thirty percent of
 `Income` is missing, so they fill it in and standardize before doing anything
@@ -61,7 +61,7 @@ Your pipeline needs `SimpleImputer`, then `StandardScaler`, then the model. Pass
 the *unfilled* `Credit[num]` to `cross_val_score`.
 :::
 
-## Notebook B: an impressive $R^2$
+## Part 2: An impressive $R^2$
 
 A clinic measures each patient at five visits. The analyst wants to predict a
 functional score from BMI and systolic blood pressure.
@@ -101,15 +101,8 @@ float(round(
 ::: {.answer-space}
 :::
 
-::: {.question}
-The updated $R^2$ is negative. What does a negative $R^2$ mean, and what would
-have been a better prediction rule for a new patient?
-:::
 
-::: {.answer-space}
-:::
-
-## Notebook C:
+## Part 3: Variables
 
 Here the code is correct, but we need to carefully consider the variables that are included. Look at the data dictionary below. 
 
