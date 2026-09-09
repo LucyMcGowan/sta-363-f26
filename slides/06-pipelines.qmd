@@ -146,7 +146,7 @@ Same data, same method. Only the location of the selection step changed.
 ## Pipeline structure {.small}
 
 ::: {.incremental}
-* You have written `make_pipeline(StandardScaler(), KNeighborsClassifier(25))` since Meeting 4  
+* We have used `make_pipeline(StandardScaler(), KNeighborsClassifier(25))`   
 * A pipeline is an ordered list of steps: transformers, then one estimator at the end  
 * Calling `.fit` fits each step and passes its output to the next; `.predict` runs the same chain  
 * Inside `cross_val_score` or `GridSearchCV` the whole chain is refit on each training fold  
@@ -167,7 +167,7 @@ list(pipe.named_steps)  # <3>
    module imported in Meetings 4 and 5.
 2. `make_pipeline(StandardScaler(), KNeighborsClassifier(25))` builds the  
    two-step pipeline `pipe`, scale then classify, the same call written for
-   KNN in Meetings 4 and 5.
+   KNN 
 3. `list(pipe.named_steps)` returns the step names `make_pipeline` assigned  
    automatically, each lowercased from its class. `Pipeline([(name, step),
    ...])` is the longer form where the names are chosen by hand, as with
@@ -214,7 +214,7 @@ learned on the training fold.
 ::: {.fragment}
 ::: {.incremental}
 * Dropping rows discards information and can bias the result  
-* Filling with a column mean is a model (a pretty weak one )
+* Filling with a column mean is a model (a pretty weak one)
 * For prediction, missingness itself may be informative  
 :::
 :::
