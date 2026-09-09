@@ -36,18 +36,7 @@ plt.style.use("sta363.mplstyle")
 rng = np.random.default_rng(363)
 ```
 
-## Review
 
-::: {.question}
-You scale your predictors, then cross-validate. Is that fine?
-:::
-
-::: {.fragment}
-::: {.takeaway}
-No. The scaler used the held-out fold to compute its mean and standard
-deviation.
-:::
-:::
 
 ## Data leakage {.small}
 
@@ -84,7 +73,7 @@ y = rng.integers(0, 2, size=n)  # <3>
 
 ::: {.fragment}
 ::: {.question}
-There is no signal here. What accuracy should any honest method report?
+There is no true signal here. What accuracy should any honest method report?
 :::
 :::
 
@@ -151,19 +140,43 @@ Same data, same method. Only the location of the selection step changed.
 :::
 :::
 
-## Leakage in practice
-
-::: {.incremental}
-* This is how published results fail to replicate  
-* This is how a model that tested at 95% ships and performs at 60%  
-* Nothing in the code looks wrong  
-:::
 
 # Pipelines {.center}
+
+## Pipeline structure {.small}
+
+::: {.incremental}
+* You have written `make_pipeline(StandardScaler(), KNeighborsClassifier(25))` since Meeting 4  
+* A pipeline is an ordered list of steps: transformers, then one estimator at the end  
+* Calling `.fit` fits each step and passes its output to the next; `.predict` runs the same chain  
+* Inside `cross_val_score` or `GridSearchCV` the whole chain is refit on each training fold  
+* So every step that learns from data (scaling, imputing, selecting) stays inside the fold  
+:::
+
+## make_pipeline and Pipeline {.small}
+
+```{python}
+from sklearn.pipeline import make_pipeline, Pipeline  # <1>
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+pipe = make_pipeline(StandardScaler(), KNeighborsClassifier(25))  # <2>
+list(pipe.named_steps)  # <3>
+```
+1. `make_pipeline` and `Pipeline` both come from `sklearn.pipeline`, the same  
+   module imported in Meetings 4 and 5.
+2. `make_pipeline(StandardScaler(), KNeighborsClassifier(25))` builds the  
+   two-step pipeline `pipe`, scale then classify, the same call written for
+   KNN in Meetings 4 and 5.
+3. `list(pipe.named_steps)` returns the step names `make_pipeline` assigned  
+   automatically, each lowercased from its class. `Pipeline([(name, step),
+   ...])` is the longer form where the names are chosen by hand, as with
+   `"select"` and `"knn"` on the previous slide.
 
 ## ColumnTransformer {.small}
 
 ```{python}
+#| output-location: slide
 DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
 from sklearn.compose import ColumnTransformer  # <1>
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -200,9 +213,9 @@ learned on the training fold.
 
 ::: {.fragment}
 ::: {.incremental}
-* Dropping rows discards information and biases the result  
-* Filling with a column mean is a model, and a weak one  
-* For prediction, missingness itself is often informative  
+* Dropping rows discards information and can bias the result  
+* Filling with a column mean is a model (a pretty weak one )
+* For prediction, missingness itself may be informative  
 :::
 :::
 
@@ -312,7 +325,7 @@ generalizing to a subject it has never seen.
 
 ::: {.takeaway}
 `GroupKFold` folds on the group label, not the row: every row from a
-given subject lands entirely in the training set or entirely in the test
+given subject goes together in the training set or together in the test
 set, never split between them.
 :::
 
@@ -338,12 +351,6 @@ consequence of the outcome rather than something known when the
 prediction is needed.
 :::
 
-::: {.fragment}
-::: {.takeaway}
-The question is not "is this correlated with the outcome." It is "would I
-have this value at the moment I need to make the prediction."
-:::
-:::
 
 ## Application exercise
 
@@ -366,23 +373,13 @@ Complete Notebook C. [ex/06-ex](../ex/06-ex.qmd)
 Complete the wrap-up. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
-## Application exercise 6
-
-::: {.takeaway}
-Find the leak. Three notebooks, three kinds of leakage, three magnitudes.
-:::
 
 ## Before Wednesday
 
 ::: {.nonincremental}
 * Read ISLP Sections 3.1 to 3.3  
 * Problem set 2 due today, problem set 3 posted  
-* Check-in 3 on Wednesday  
+* Check-in 2 on Wednesday  
 :::
 
-::: {.fragment}
-::: {.takeaway}
-Three weeks in and no models yet. What we have is a way to tell whether a model
-is any good.
-:::
-:::
+
