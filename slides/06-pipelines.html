@@ -217,17 +217,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 
 </section>
-<section id="review" class="slide level2">
-<h2>Review</h2>
-<div class="question">
-<p>You scale your predictors, then cross-validate. Is that fine?</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>No.&nbsp;The scaler used the held-out fold to compute its mean and standard deviation.</p>
-</div>
-</div>
-</section>
 <section id="data-leakage" class="slide level2 small">
 <h2>Data leakage</h2>
 <div class="definition">
@@ -253,7 +242,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="simulated-noise" class="slide level2">
 <h2>Simulated noise</h2>
-<div id="00c82263" class="cell" data-execution_count="2">
+<div id="81920656" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> <span class="dv">100</span>, <span class="dv">2000</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rng.normal(size<span class="op">=</span>(n, p))</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, size<span class="op">=</span>n)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -279,13 +268,13 @@ class label with no relationship to any column of <code>X</code>.</span>
 </div>
 <div class="fragment">
 <div class="question">
-<p>There is no signal here. What accuracy should any honest method report?</p>
+<p>There is no true signal here. What accuracy should any honest method report?</p>
 </div>
 </div>
 </section>
 <section id="selection-outside-the-loop" class="slide level2 small">
 <h2>Selection outside the loop</h2>
-<div id="36ff7426" class="cell" data-execution_count="3">
+<div id="e28519de" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectKBest, f_classif</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
@@ -337,7 +326,7 @@ cross-validates a 5-nearest-neighbors classifier on <code>X_kept</code>, the alr
 </section>
 <section id="selection-inside-the-loop" class="slide level2 small">
 <h2>Selection inside the loop</h2>
-<div id="a5ef647f" class="cell" data-execution_count="4">
+<div id="065eb864" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> Pipeline([</span>
@@ -369,70 +358,111 @@ object, so <code>SelectKBest</code> and <code>KNeighborsClassifier(5)</code> are
 <p>Same data, same method. Only the location of the selection step changed.</p>
 </div>
 </div>
-</section>
-<section id="leakage-in-practice" class="slide level2">
-<h2>Leakage in practice</h2>
-<ul>
-<li class="fragment">This is how published results fail to replicate<br>
-</li>
-<li class="fragment">This is how a model that tested at 95% ships and performs at 60%<br>
-</li>
-<li class="fragment">Nothing in the code looks wrong<br>
-</li>
-</ul>
 </section></section>
 <section>
 <section id="pipelines" class="title-slide slide level1 center">
 <h1>Pipelines</h1>
 
 </section>
-<section id="columntransformer" class="slide level2 small">
-<h2>ColumnTransformer</h2>
-<div id="a23d0ce7" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
-<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
+<section id="pipeline-structure" class="slide level2 small">
+<h2>Pipeline structure</h2>
+<ul>
+<li class="fragment">We have used <code>make_pipeline(StandardScaler(), KNeighborsClassifier(25))</code><br>
+</li>
+<li class="fragment">A pipeline is an ordered list of steps: transformers, then one estimator at the end<br>
+</li>
+<li class="fragment">Calling <code>.fit</code> fits each step and passes its output to the next; <code>.predict</code> runs the same chain<br>
+</li>
+<li class="fragment">Inside <code>cross_val_score</code> or <code>GridSearchCV</code> the whole chain is refit on each training fold<br>
+</li>
+<li class="fragment">So every step that learns from data (scaling, imputing, selecting) stays inside the fold<br>
+</li>
+</ul>
+</section>
+<section id="make_pipeline-and-pipeline" class="slide level2 small">
+<h2>make_pipeline and Pipeline</h2>
+<div id="4282db31" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline, Pipeline</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>Credit <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Credit.csv"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> [<span class="st">"Income"</span>, <span class="st">"Limit"</span>, <span class="st">"Rating"</span>, <span class="st">"Age"</span>]</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>cat <span class="op">=</span> [<span class="st">"Gender"</span>, <span class="st">"Student"</span>, <span class="st">"Married"</span>]</span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>prep <span class="op">=</span> ColumnTransformer([</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-10" class="code-annotation-target"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, StandardScaler(), num),</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5">5</button><span id="annotated-cell-4-11" class="code-annotation-target"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(drop<span class="op">=</span><span class="st">"first"</span>), cat),</span>
-<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>prep</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> make_pipeline(StandardScaler(), KNeighborsClassifier(<span class="dv">25</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(pipe.named_steps)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1"><code>ColumnTransformer</code> applies a different transformer to a different<br>
-subset of columns, then concatenates the results into one array.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1"><code>make_pipeline</code> and <code>Pipeline</code> both come from <code>sklearn.pipeline</code>, the same<br>
+module imported in Meetings 4 and 5.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="6" data-code-annotation="2"><code>num</code> lists the four numeric predictor column names that will be<br>
-scaled.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="2"><code>make_pipeline(StandardScaler(), KNeighborsClassifier(25))</code> builds the<br>
+two-step pipeline <code>pipe</code>, scale then classify, the same call written for KNN</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="3"><code>cat</code> lists the three categorical predictor column names that will be<br>
-encoded.</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="10" data-code-annotation="4">The <code>"num"</code> step applies <code>StandardScaler()</code>, centering and scaling to<br>
-mean 0 and standard deviation 1, to the columns named in <code>num</code>.</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="5">The <code>"cat"</code> step applies <code>OneHotEncoder(drop="first")</code> to the columns<br>
-named in <code>cat</code>, creating a 0/1 indicator column for every category except one (<code>drop="first"</code>), which avoids a redundant, perfectly collinear column.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="6" data-code-annotation="3"><code>list(pipe.named_steps)</code> returns the step names <code>make_pipeline</code> assigned<br>
+automatically, each lowercased from its class. <code>Pipeline([(name, step),    ...])</code> is the longer form where the names are chosen by hand, as with <code>"select"</code> and <code>"knn"</code> on the previous slide.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<style>.sk-global {
+<pre><code>['standardscaler', 'kneighborsclassifier']</code></pre>
+</div>
+</div>
+</section>
+<section id="columntransformer" class="slide level2 small">
+<h2>ColumnTransformer</h2>
+<div id="4a3a89aa" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>Credit <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Credit.csv"</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-6" class="code-annotation-target"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> [<span class="st">"Income"</span>, <span class="st">"Limit"</span>, <span class="st">"Rating"</span>, <span class="st">"Age"</span>]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>cat <span class="op">=</span> [<span class="st">"Gender"</span>, <span class="st">"Student"</span>, <span class="st">"Married"</span>]</span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>prep <span class="op">=</span> ColumnTransformer([</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4">4</button><span id="annotated-cell-5-10" class="code-annotation-target"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, StandardScaler(), num),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5">5</button><span id="annotated-cell-5-11" class="code-annotation-target"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(drop<span class="op">=</span><span class="st">"first"</span>), cat),</span>
+<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="annotated-cell-5-13"><a href="#annotated-cell-5-13" aria-hidden="true" tabindex="-1"></a>prep</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1"><code>ColumnTransformer</code> applies a different transformer to a different<br>
+subset of columns, then concatenates the results into one array.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="6" data-code-annotation="2"><code>num</code> lists the four numeric predictor column names that will be<br>
+scaled.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="3"><code>cat</code> lists the three categorical predictor column names that will be<br>
+encoded.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="4">The <code>"num"</code> step applies <code>StandardScaler()</code>, centering and scaling to<br>
+mean 0 and standard deviation 1, to the columns named in <code>num</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="5">The <code>"cat"</code> step applies <code>OneHotEncoder(drop="first")</code> to the columns<br>
+named in <code>cat</code>, creating a 0/1 indicator column for every category except one (<code>drop="first"</code>), which avoids a redundant, perfectly collinear column.</span>
+</dd>
+</dl>
+</div>
+</div>
+
+</section>
+<section id="columntransformer-output" class="slide level2 small output-location-slide"><h2>ColumnTransformer</h2><div class="cell output-location-slide" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
   --sklearn-color-text: #000;
   --sklearn-color-text-muted: #666;
@@ -447,34 +477,34 @@ named in <code>cat</code>, creating a 0/1 indicator column for every category ex
   --sklearn-color-fitted-level-1: #d4ebff;
   --sklearn-color-fitted-level-2: #b3dbfd;
   --sklearn-color-fitted-level-3: cornflowerblue;
-}
 
-.sk-global.light {
   /* Specific color for light theme */
-  --sklearn-color-text-on-default-background: black;
-  --sklearn-color-background: white;
-  --sklearn-color-border-box: black;
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
   --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
 }
 
-.sk-global.dark {
-  --sklearn-color-text-on-default-background: white;
-  --sklearn-color-background: #111;
-  --sklearn-color-border-box: white;
-  --sklearn-color-icon: #878787;
-}
-
-.sk-global {
+#sk-container-id-1 {
   color: var(--sklearn-color-text);
 }
 
-.sk-global pre {
+#sk-container-id-1 pre {
   padding: 0;
 }
 
-.sk-global input.sk-hidden--visually {
+#sk-container-id-1 input.sk-hidden--visually {
   border: 0;
-  clip-path: inset(100%);
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
   height: 1px;
   margin: -1px;
   overflow: hidden;
@@ -483,7 +513,7 @@ named in <code>cat</code>, creating a 0/1 indicator column for every category ex
   width: 1px;
 }
 
-.sk-global div.sk-dashed-wrapped {
+#sk-container-id-1 div.sk-dashed-wrapped {
   border: 1px dashed var(--sklearn-color-line);
   margin: 0 0.4em 0.5em 0.4em;
   box-sizing: border-box;
@@ -491,7 +521,7 @@ named in <code>cat</code>, creating a 0/1 indicator column for every category ex
   background-color: var(--sklearn-color-background);
 }
 
-.sk-global div.sk-container {
+#sk-container-id-1 div.sk-container {
   /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
      but bootstrap.min.css set `[hidden] { display: none !important; }`
      so we also need the `!important` here to be able to override the
@@ -501,7 +531,7 @@ named in <code>cat</code>, creating a 0/1 indicator column for every category ex
   position: relative;
 }
 
-.sk-global div.sk-text-repr-fallback {
+#sk-container-id-1 div.sk-text-repr-fallback {
   display: none;
 }
 
@@ -517,14 +547,14 @@ div.sk-item {
 
 /* Parallel-specific style estimator block */
 
-.sk-global div.sk-parallel-item::after {
+#sk-container-id-1 div.sk-parallel-item::after {
   content: "";
   width: 100%;
   border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
   flex-grow: 1;
 }
 
-.sk-global div.sk-parallel {
+#sk-container-id-1 div.sk-parallel {
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -532,28 +562,28 @@ div.sk-item {
   position: relative;
 }
 
-.sk-global div.sk-parallel-item {
+#sk-container-id-1 div.sk-parallel-item {
   display: flex;
   flex-direction: column;
 }
 
-.sk-global div.sk-parallel-item:first-child::after {
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
   align-self: flex-end;
   width: 50%;
 }
 
-.sk-global div.sk-parallel-item:last-child::after {
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
   align-self: flex-start;
   width: 50%;
 }
 
-.sk-global div.sk-parallel-item:only-child::after {
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
   width: 0;
 }
 
 /* Serial-specific style estimator block */
 
-.sk-global div.sk-serial {
+#sk-container-id-1 div.sk-serial {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -571,14 +601,14 @@ clickable and can be expanded/collapsed.
 
 /* Pipeline and ColumnTransformer style (default) */
 
-.sk-global div.sk-toggleable {
+#sk-container-id-1 div.sk-toggleable {
   /* Default theme specific background. It is overwritten whether we have a
   specific estimator or a Pipeline/ColumnTransformer */
   background-color: var(--sklearn-color-background);
 }
 
 /* Toggleable label */
-.sk-global label.sk-toggleable__label {
+#sk-container-id-1 label.sk-toggleable__label {
   cursor: pointer;
   display: flex;
   width: 100%;
@@ -586,18 +616,18 @@ clickable and can be expanded/collapsed.
   padding: 0.5em;
   box-sizing: border-box;
   text-align: center;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: space-between;
   gap: 0.5em;
 }
 
-.sk-global label.sk-toggleable__label .caption {
+#sk-container-id-1 label.sk-toggleable__label .caption {
   font-size: 0.6rem;
   font-weight: lighter;
   color: var(--sklearn-color-text-muted);
 }
 
-.sk-global label.sk-toggleable__label-arrow:before {
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
   /* Arrow on the left of the label */
   content: "▸";
   float: left;
@@ -605,25 +635,25 @@ clickable and can be expanded/collapsed.
   color: var(--sklearn-color-icon);
 }
 
-.sk-global label.sk-toggleable__label-arrow:hover:before {
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
   color: var(--sklearn-color-text);
 }
 
 /* Toggleable content - dropdown */
 
-.sk-global div.sk-toggleable__content {
+#sk-container-id-1 div.sk-toggleable__content {
   display: none;
   text-align: left;
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-.sk-global div.sk-toggleable__content.fitted {
+#sk-container-id-1 div.sk-toggleable__content.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
-.sk-global div.sk-toggleable__content pre {
+#sk-container-id-1 div.sk-toggleable__content pre {
   margin: 0.2em;
   border-radius: 0.25em;
   color: var(--sklearn-color-text);
@@ -631,78 +661,79 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-.sk-global div.sk-toggleable__content.fitted pre {
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
   /* unfitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
-.sk-global input.sk-toggleable__control:checked~div.sk-toggleable__content {
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
   /* Expand drop-down */
   display: block;
   width: 100%;
   overflow: visible;
 }
 
-.sk-global input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
   content: "▾";
 }
 
 /* Pipeline/ColumnTransformer-specific style */
 
-.sk-global div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-.sk-global div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
 /* Estimator-specific style */
 
 /* Colorize estimator box */
-.sk-global div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-.sk-global div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
-.sk-global div.sk-label label.sk-toggleable__label,
-.sk-global div.sk-label label {
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
   /* The background is the default theme color */
   color: var(--sklearn-color-text-on-default-background);
 }
 
 /* On hover, darken the color of the background */
-.sk-global div.sk-label:hover label.sk-toggleable__label {
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
 /* Label box, darken color on hover, fitted */
-.sk-global div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
 /* Estimator label */
 
-.sk-global div.sk-label label {
+#sk-container-id-1 div.sk-label label {
   font-family: monospace;
   font-weight: bold;
+  display: inline-block;
   line-height: 1.2em;
 }
 
-.sk-global div.sk-label-container {
+#sk-container-id-1 div.sk-label-container {
   text-align: center;
 }
 
 /* Estimator-specific */
-.sk-global div.sk-estimator {
+#sk-container-id-1 div.sk-estimator {
   font-family: monospace;
   border: 1px dotted var(--sklearn-color-border-box);
   border-radius: 0.25em;
@@ -712,18 +743,18 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-.sk-global div.sk-estimator.fitted {
+#sk-container-id-1 div.sk-estimator.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
 /* on hover */
-.sk-global div.sk-estimator:hover {
+#sk-container-id-1 div.sk-estimator:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-.sk-global div.sk-estimator.fitted:hover {
+#sk-container-id-1 div.sk-estimator.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-2);
 }
@@ -739,7 +770,7 @@ a:visited.sk-estimator-doc-link {
   font-size: smaller;
   line-height: 1em;
   font-family: monospace;
-  background-color: var(--sklearn-color-unfitted-level-0);
+  background-color: var(--sklearn-color-background);
   border-radius: 1em;
   height: 1em;
   width: 1em;
@@ -747,17 +778,16 @@ a:visited.sk-estimator-doc-link {
   margin-left: 0.5em;
   text-align: center;
   /* unfitted */
-  border: var(--sklearn-color-unfitted-level-3) 1pt solid;
-  color: var(--sklearn-color-unfitted-level-3);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
 }
 
 .sk-estimator-doc-link.fitted,
 a:link.sk-estimator-doc-link.fitted,
 a:visited.sk-estimator-doc-link.fitted {
   /* fitted */
-  background-color: var(--sklearn-color-fitted-level-0);
-  border: var(--sklearn-color-fitted-level-3) 1pt solid;
-  color: var(--sklearn-color-fitted-level-3);
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
 }
 
 /* On hover */
@@ -767,8 +797,7 @@ div.sk-label-container:hover .sk-estimator-doc-link:hover,
 .sk-estimator-doc-link:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-3);
-  border: var(--sklearn-color-fitted-level-0) 1pt solid;
-  color: var(--sklearn-color-unfitted-level-0);
+  color: var(--sklearn-color-background);
   text-decoration: none;
 }
 
@@ -778,8 +807,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 .sk-estimator-doc-link.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
-  border: var(--sklearn-color-fitted-level-0) 1pt solid;
-  color: var(--sklearn-color-fitted-level-0);
+  color: var(--sklearn-color-background);
   text-decoration: none;
 }
 
@@ -814,12 +842,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 
 /* "?"-specific style due to the `<a>` HTML tag */
 
-.sk-global a.estimator_doc_link {
+#sk-container-id-1 a.estimator_doc_link {
   float: right;
   font-size: 1rem;
   line-height: 1em;
   font-family: monospace;
-  background-color: var(--sklearn-color-unfitted-level-0);
+  background-color: var(--sklearn-color-background);
   border-radius: 1rem;
   height: 1rem;
   width: 1rem;
@@ -829,45 +857,29 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
 }
 
-.sk-global a.estimator_doc_link.fitted {
+#sk-container-id-1 a.estimator_doc_link.fitted {
   /* fitted */
-  background-color: var(--sklearn-color-fitted-level-0);
   border: var(--sklearn-color-fitted-level-1) 1pt solid;
   color: var(--sklearn-color-fitted-level-1);
 }
 
 /* On hover */
-.sk-global a.estimator_doc_link:hover {
+#sk-container-id-1 a.estimator_doc_link:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-3);
   color: var(--sklearn-color-background);
   text-decoration: none;
 }
 
-.sk-global a.estimator_doc_link.fitted:hover {
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
 
-.sk-top-container.sk-global {
-  /* pydata-sphinx-theme hides overflow, so scrolling is disabled.
-   We need to set it to !important and add tabindex="0" in the HTML
-   to allow keyboard-only users to navigate the display. */
-  overflow-x: scroll !important;
-  max-width: 100%;
-}
-
-.estimator-table {
-    font-family: monospace;
-}
-
 .estimator-table summary {
     padding: .5rem;
+    font-family: monospace;
     cursor: pointer;
-}
-
-.estimator-table summary::marker {
-    font-size: 0.7rem;
 }
 
 .estimator-table details[open] {
@@ -879,7 +891,6 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 .estimator-table .parameters-table {
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top: 0;
 }
 
 .estimator-table .parameters-table tr:nth-child(odd) {
@@ -890,113 +901,32 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
     background-color: #f6f6f6;
 }
 
-.estimator-table .parameters-table tr:hover td {
+.estimator-table .parameters-table tr:hover {
     background-color: #e0e0e0;
 }
 
-.estimator-table table :is(td, th) {
+.estimator-table table td {
     border: 1px solid rgba(106, 105, 104, 0.232);
-}
-
-/*
-    `table td`is set in notebook with right text-align.
-    We need to overwrite it.
-*/
-.estimator-table table td.param {
-    text-align: left;
-    position: relative;
-    padding: 0;
 }
 
 .user-set td {
     color:rgb(255, 94, 0);
-    text-align: left !important;
+    text-align: left;
 }
 
-.user-set td.value {
-    color:rgb(255, 94, 0);
-    background-color: transparent;
+.user-set td.value pre {
+    color:rgb(255, 94, 0) !important;
+    background-color: transparent !important;
 }
 
-.default td, .estimator-table th {
+.default td {
     color: black;
-    text-align: left !important;
+    text-align: left;
 }
 
 .user-set td i,
 .default td i {
     color: black;
-}
-
-td.fitted-att-type {
-    white-space: preserve nowrap;
-}
-
-/*
-    Styles for parameter documentation links
-    We need styling for visited so jupyter doesn't overwrite it
-*/
-a.param-doc-link,
-a.param-doc-link:link,
-a.param-doc-link:visited {
-    text-decoration: underline dashed;
-    text-underline-offset: .3em;
-    color: inherit;
-    display: block;
-    padding: .5em;
-}
-
-@supports(anchor-name: --doc-link) {
-    a.param-doc-link,
-    a.param-doc-link:link,
-    a.param-doc-link:visited {
-    anchor-name: --doc-link;
-    }
-}
-
-/* "hack" to make the entire area of the cell containing the link clickable */
-a.param-doc-link::before {
-    position: absolute;
-    content: "";
-    inset: 0;
-}
-
-.param-doc-description {
-    display: none;
-    position: absolute;
-    z-index: 9999;
-    left: 0;
-    padding: .5ex;
-    margin-left: 1.5em;
-    color: var(--sklearn-color-text);
-    box-shadow: .3em .3em .4em #999;
-    width: max-content;
-    text-align: left;
-    max-height: 10em;
-    overflow-y: auto;
-
-    /* unfitted */
-    background: var(--sklearn-color-unfitted-level-0);
-    border: thin solid var(--sklearn-color-unfitted-level-3);
-}
-
-@supports(position-area: center right) {
-    .param-doc-description {
-    position-area: center right;
-    position: fixed;
-    margin-left: 0;
-    }
-}
-
-/* Fitted state for parameter tooltips */
-.fitted .param-doc-description {
-    /* fitted */
-    background: var(--sklearn-color-fitted-level-0);
-    border: thin solid var(--sklearn-color-fitted-level-3);
-}
-
-.param-doc-link:hover .param-doc-description {
-    display: block;
 }
 
 .copy-paste-icon {
@@ -1009,252 +939,81 @@ a.param-doc-link::before {
     height: 14px;
     cursor: pointer;
 }
-
-.features {
-  font-family: monospace;
-  cursor: pointer;
-  background-color: var(--sklearn-color-unfitted-level-0);
-  border: 1px dotted var(--sklearn-color-border-box);
-  border-radius: .20em;
-  margin-bottom: 0.5em;
-  font-size: inherit; /* Needed for jupyter */
-}
-
-.features.fitted {
-  background-color: var(--sklearn-color-fitted-level-0);
-}
-
-.features summary {
-  cursor: pointer;
-  display: flex;
-  margin-bottom: 0;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
-  padding: .25em;
-}
-
-.features details[open] > summary {
-  color: var(--sklearn-color-text);
-  background-color: var(--sklearn-color-unfitted-level-2);
-  border-radius: .20em 0 0 0;
-}
-
-.features.fitted details[open] > summary {
-  background-color: var(--sklearn-color-fitted-level-2);
-  border-radius: .20em 0 0 0;
-}
-
-.features details > summary .arrow::before {
-  content: "▸";
-  color: grey;
-}
-
-.features details[open] > summary .arrow::before {
-  content: "▾";
-}
-
-.features details:hover > summary {
-  margin: 0;
-  background-color: var(--sklearn-color-unfitted-level-2);
-}
-
-.features.fitted details:hover > summary {
-  margin: 0;
-  background-color: var(--sklearn-color-fitted-level-2);
-}
-
-.features .features-container {
-  max-width: 15em;
-  max-height: 10em;
-  overflow: auto;
-  scrollbar-width: thin;
-  padding: .25em 0.1rem;
-  background-color: var(--sklearn-color-unfitted-level-0);
-  border-radius: 0 0 .5em .5em;
-}
-
-.features.fitted .features-container {
-  background-color: var(--sklearn-color-fitted-level-0);
-}
-
-.features .image-container {
-  block-size: 1em;
-  inline-size: 1em;
-  padding: 0;
-  margin: 0%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.features .copy-paste-icon {
-  background-size: 1em 1em;
-  width: 1em;
-  height: 1em;
-  filter: grayscale(100%) opacity(60%);
-}
-
-.features .features-container table {
-  width: 100%;
-  margin: 0.01em;
-}
-
-.features .features-container table tr:nth-child(odd) {
-  background-color: #fff;
-}
-
-.features .features-container table tr:nth-child(even) {
-  background-color: #f6f6f6;
-}
-
-.features .features-container table tr:hover {
-  background-color: #e0e0e0;
-}
-
-.features .features-container table {
-  table-layout: inherit;
-}
-
-.features .features-container table td {
-  text-align: left;
-  padding: 0 0.5em;
-  border: 1px solid rgba(106, 105, 104, 0.232);
-  white-space: nowrap;
-  color: var(--sklearn-color-text);
-}
-
-.total_features {
-  display: flex;
-  justify-content: center;
-  margin-top: 0.5em;
-}
-</style><div id="sk-container-id-1" tabindex="0" class="sk-top-container sk-global"><div class="sk-text-repr-fallback"><pre>ColumnTransformer(transformers=[('num', StandardScaler(),
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>ColumnTransformer(transformers=[('num', StandardScaler(),
                                  ['Income', 'Limit', 'Rating', 'Age']),
                                 ('cat', OneHotEncoder(drop='first'),
-                                 ['Gender', 'Student', 'Married'])])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>ColumnTransformer</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for ColumnTransformer</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></div></label><div class="sk-toggleable__content " data-param-prefix="">
+                                 ['Gender', 'Student', 'Married'])])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>ColumnTransformer</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for ColumnTransformer</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></div></label><div class="sk-toggleable__content " data-param-prefix="">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
                 
 <table class="parameters-table caption-top" data-quarto-postprocess="true">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <tbody>
 <tr class="user-set odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=transformers,-list%20of%20tuples" class="param-doc-link" style="anchor-name: --doc-link-transformers;" rel="noreferrer" target="_blank">transformers <span class="param-doc-description" style="position-anchor: --doc-link-transformers;"> transformers: list of tuples<br>
-<br>
-List of (name, transformer, columns) tuples specifying the<br>
-transformer objects to be applied to subsets of the data.<br>
-<br>
-name : str<br>
-Like in Pipeline and FeatureUnion, this allows the transformer and<br>
-its parameters to be set using ``set_params`` and searched in grid<br>
-search.<br>
-transformer : {'drop', 'passthrough'} or estimator<br>
-Estimator must support :term:`fit` and :term:`transform`.<br>
-Special-cased strings 'drop' and 'passthrough' are accepted as<br>
-well, to indicate to drop the columns or to pass them through<br>
-untransformed, respectively.<br>
-columns : str, array-like of str, int, array-like of int, array-like of bool, slice or callable<br>
-Indexes the data on its second axis. Integers are interpreted as<br>
-positional columns, while strings can reference DataFrame columns<br>
-by name. A scalar string or int should be used where<br>
-``transformer`` expects X to be a 1d array-like (vector),<br>
-otherwise a 2d array will be passed to the transformer.<br>
-A callable is passed the input data `X` and can return any of the<br>
-above. To select multiple columns by name or dtype, you can use<br>
-:obj:`make_column_selector`.</span></a></td>
+<td class="param">transformers&nbsp;</td>
 <td class="value">[('num', ...), ('cat', ...)]</td>
 </tr>
 <tr class="default even">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=remainder,-%7B%27drop%27%2C%20%27passthrough%27%7D%20or%20estimator%2C%20default%3D%27drop%27" class="param-doc-link" style="anchor-name: --doc-link-remainder;" rel="noreferrer" target="_blank">remainder <span class="param-doc-description" style="position-anchor: --doc-link-remainder;"> remainder: {'drop', 'passthrough'} or estimator, default='drop'<br>
-<br>
-By default, only the specified columns in `transformers` are<br>
-transformed and combined in the output, and the non-specified<br>
-columns are dropped. (default of ``'drop'``).<br>
-By specifying ``remainder='passthrough'``, all remaining columns that<br>
-were not specified in `transformers`, but present in the data passed<br>
-to `fit` will be automatically passed through. This subset of columns<br>
-is concatenated with the output of the transformers. For dataframes,<br>
-extra columns not seen during `fit` will be excluded from the output<br>
-of `transform`.<br>
-By setting ``remainder`` to be an estimator, the remaining<br>
-non-specified columns will use the ``remainder`` estimator. The<br>
-estimator must support :term:`fit` and :term:`transform`.<br>
-Note that using this feature requires that the DataFrame columns<br>
-input at :term:`fit` and :term:`transform` have identical order.</span></a></td>
+<td class="param">remainder&nbsp;</td>
 <td class="value">'drop'</td>
 </tr>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=sparse_threshold,-float%2C%20default%3D0.3" class="param-doc-link" style="anchor-name: --doc-link-sparse_threshold;" rel="noreferrer" target="_blank">sparse_threshold <span class="param-doc-description" style="position-anchor: --doc-link-sparse_threshold;"> sparse_threshold: float, default=0.3<br>
-<br>
-If the output of the different transformers contains sparse matrices,<br>
-these will be stacked as a sparse matrix if the overall density is<br>
-lower than this value. Use ``sparse_threshold=0`` to always return<br>
-dense. When the transformed output consists of all dense data, the<br>
-stacked result will be dense, and this keyword will be ignored.</span></a></td>
+<td class="param">sparse_threshold&nbsp;</td>
 <td class="value">0.3</td>
 </tr>
 <tr class="default even">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=n_jobs,-int%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-n_jobs;" rel="noreferrer" target="_blank">n_jobs <span class="param-doc-description" style="position-anchor: --doc-link-n_jobs;"> n_jobs: int, default=None<br>
-<br>
-Number of jobs to run in parallel.<br>
-``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.<br>
-``-1`` means using all processors. See :term:`Glossary &lt;n_jobs&gt;`<br>
-for more details.</span></a></td>
+<td class="param">n_jobs&nbsp;</td>
 <td class="value">None</td>
 </tr>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=transformer_weights,-dict%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-transformer_weights;" rel="noreferrer" target="_blank">transformer_weights <span class="param-doc-description" style="position-anchor: --doc-link-transformer_weights;"> transformer_weights: dict, default=None<br>
-<br>
-Multiplicative weights for features per transformer. The output of the<br>
-transformer is multiplied by these weights. Keys are transformer names,<br>
-values the weights.</span></a></td>
+<td class="param">transformer_weights&nbsp;</td>
 <td class="value">None</td>
 </tr>
 <tr class="default even">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=verbose,-bool%2C%20default%3DFalse" class="param-doc-link" style="anchor-name: --doc-link-verbose;" rel="noreferrer" target="_blank">verbose <span class="param-doc-description" style="position-anchor: --doc-link-verbose;"> verbose: bool, default=False<br>
-<br>
-If True, the time elapsed while fitting each transformer will be<br>
-printed as it is completed.</span></a></td>
+<td class="param">verbose&nbsp;</td>
 <td class="value">False</td>
 </tr>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=verbose_feature_names_out,-bool%2C%20str%20or%20Callable%5B%5Bstr%2C%20str%5D%2C%20str%5D%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-verbose_feature_names_out;" rel="noreferrer" target="_blank">verbose_feature_names_out <span class="param-doc-description" style="position-anchor: --doc-link-verbose_feature_names_out;"> verbose_feature_names_out: bool, str or Callable[[str, str], str], default=True<br>
-<br>
-- If True, :meth:`ColumnTransformer.get_feature_names_out` will prefix<br>
-all feature names with the name of the transformer that generated that<br>
-feature. It is equivalent to setting<br>
-`verbose_feature_names_out="{transformer_name}__{feature_name}"`.<br>
-- If False, :meth:`ColumnTransformer.get_feature_names_out` will not<br>
-prefix any feature names and will error if feature names are not<br>
-unique.<br>
-- If ``Callable[[str, str], str]``,<br>
-:meth:`ColumnTransformer.get_feature_names_out` will rename all the features<br>
-using the name of the transformer. The first argument of the callable is the<br>
-transformer name and the second argument is the feature name. The returned<br>
-string will be the new feature name.<br>
-- If ``str``, it must be a string ready for formatting. The given string will<br>
-be formatted using two field names: ``transformer_name`` and ``feature_name``.<br>
-e.g. ``"{feature_name}__{transformer_name}"``. See :meth:`str.format` method<br>
-from the standard library for more info.<br>
-<br>
-.. versionadded:: 1.0<br>
-<br>
-.. versionchanged:: 1.6<br>
-`verbose_feature_names_out` can be a callable or a string to be formatted.</span></a></td>
+<td class="param">verbose_feature_names_out&nbsp;</td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">force_int_remainder_cols&nbsp;</td>
+<td class="value">'deprecated'</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>num</div></div></label><div class="sk-toggleable__content " data-param-prefix="num__"><pre>['Income', 'Limit', 'Rating', 'Age']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>StandardScaler</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="num__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top" data-quarto-postprocess="true">
+<tbody>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">copy&nbsp;</td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param">with_mean&nbsp;</td>
+<td class="value">True</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param">with_std&nbsp;</td>
 <td class="value">True</td>
 </tr>
 </tbody>
@@ -1262,213 +1021,51 @@ from the standard library for more info.<br>
 
             </details>
         </div>
-    </div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>num</div></div></label><div class="sk-toggleable__content " data-param-prefix="num__"><pre>['Income', 'Limit', 'Rating', 'Age']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>StandardScaler</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="num__">
+    </div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content " data-param-prefix="cat__"><pre>['Gender', 'Student', 'Married']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>OneHotEncoder</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.preprocessing.OneHotEncoder.html">?<span>Documentation for OneHotEncoder</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="cat__">
         <div class="estimator-table">
             <details>
                 <summary>Parameters</summary>
                 
 <table class="parameters-table caption-top" data-quarto-postprocess="true">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <tbody>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html#:~:text=copy,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-copy;" rel="noreferrer" target="_blank">copy <span class="param-doc-description" style="position-anchor: --doc-link-copy;"> copy: bool, default=True<br>
-<br>
-If False, try to avoid a copy and do inplace scaling instead.<br>
-This is not guaranteed to always work inplace; e.g. if the data is<br>
-not a NumPy array or scipy.sparse CSR matrix, a copy may still be<br>
-returned.</span></a></td>
-<td class="value">True</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html#:~:text=with_mean,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-with_mean;" rel="noreferrer" target="_blank">with_mean <span class="param-doc-description" style="position-anchor: --doc-link-with_mean;"> with_mean: bool, default=True<br>
-<br>
-If True, center the data before scaling.<br>
-This does not work (and will raise an exception) when attempted on<br>
-sparse matrices, because centering them entails building a dense<br>
-matrix which in common use cases is likely to be too large to fit in<br>
-memory.</span></a></td>
-<td class="value">True</td>
-</tr>
-<tr class="default odd">
-<td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html#:~:text=with_std,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-with_std;" rel="noreferrer" target="_blank">with_std <span class="param-doc-description" style="position-anchor: --doc-link-with_std;"> with_std: bool, default=True<br>
-<br>
-If True, scale the data to unit variance (or equivalently,<br>
-unit standard deviation).</span></a></td>
-<td class="value">True</td>
-</tr>
-</tbody>
-</table>
-
-            </details>
-        </div>
-    </div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>cat</div></div></label><div class="sk-toggleable__content " data-param-prefix="cat__"><pre>['Gender', 'Student', 'Married']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>OneHotEncoder</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html">?<span>Documentation for OneHotEncoder</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="cat__">
-        <div class="estimator-table">
-            <details>
-                <summary>Parameters</summary>
-                
-<table class="parameters-table caption-top" data-quarto-postprocess="true">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<tbody>
-<tr class="user-set odd">
-<td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=drop,-%7B%27first%27%2C%20%27if_binary%27%7D%20or%20an%20array-like%20of%20shape%20%28n_features%2C%29%2C%20%20%20%20%20%20%20%20%20%20%20%20%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-drop;" rel="noreferrer" target="_blank">drop <span class="param-doc-description" style="position-anchor: --doc-link-drop;"> drop: {'first', 'if_binary'} or an array-like of shape (n_features,), default=None<br>
-<br>
-Specifies a methodology to use to drop one of the categories per<br>
-feature. This is useful in situations where perfectly collinear<br>
-features cause problems, such as when feeding the resulting data<br>
-into an unregularized linear regression model.<br>
-<br>
-However, dropping one category breaks the symmetry of the original<br>
-representation and can therefore induce a bias in downstream models,<br>
-for instance for penalized linear classification or regression models.<br>
-<br>
-- None : retain all features (the default).<br>
-- 'first' : drop the first category in each feature. If only one<br>
-category is present, the feature will be dropped entirely.<br>
-- 'if_binary' : drop the first category in each feature with two<br>
-categories. Features with 1 or more than 2 categories are<br>
-left intact.<br>
-- array : ``drop[i]`` is the category in feature ``X[:, i]`` that<br>
-should be dropped.<br>
-<br>
-When `max_categories` or `min_frequency` is configured to group<br>
-infrequent categories, the dropping behavior is handled after the<br>
-grouping.<br>
-<br>
-.. versionadded:: 0.21<br>
-The parameter `drop` was added in 0.21.<br>
-<br>
-.. versionchanged:: 0.23<br>
-The option `drop='if_binary'` was added in 0.23.<br>
-<br>
-.. versionchanged:: 1.1<br>
-Support for dropping infrequent categories.</span></a></td>
-<td class="value">'first'</td>
-</tr>
-<tr class="default even">
-<td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=categories,-%27auto%27%20or%20a%20list%20of%20array-like%2C%20default%3D%27auto%27" class="param-doc-link" style="anchor-name: --doc-link-categories;" rel="noreferrer" target="_blank">categories <span class="param-doc-description" style="position-anchor: --doc-link-categories;"> categories: 'auto' or a list of array-like, default='auto'<br>
-<br>
-Categories (unique values) per feature:<br>
-<br>
-- 'auto' : Determine categories automatically from the training data.<br>
-- list : ``categories[i]`` holds the categories expected in the ith<br>
-column. The passed categories should not mix strings and numeric<br>
-values within a single feature, and should be sorted in case of<br>
-numeric values.<br>
-<br>
-The used categories can be found in the ``categories_`` attribute.<br>
-<br>
-.. versionadded:: 0.20</span></a></td>
+<td class="param">categories&nbsp;</td>
 <td class="value">'auto'</td>
 </tr>
+<tr class="user-set even">
+<td><em></em></td>
+<td class="param">drop&nbsp;</td>
+<td class="value">'first'</td>
+</tr>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=sparse_output,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-sparse_output;" rel="noreferrer" target="_blank">sparse_output <span class="param-doc-description" style="position-anchor: --doc-link-sparse_output;"> sparse_output: bool, default=True<br>
-<br>
-When ``True``, it returns a SciPy sparse matrix/array<br>
-in "Compressed Sparse Row" (CSR) format.<br>
-<br>
-.. versionadded:: 1.2<br>
-`sparse` was renamed to `sparse_output`</span></a></td>
+<td class="param">sparse_output&nbsp;</td>
 <td class="value">True</td>
 </tr>
 <tr class="default even">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=dtype,-number%20type%2C%20default%3Dnp.float64" class="param-doc-link" style="anchor-name: --doc-link-dtype;" rel="noreferrer" target="_blank">dtype <span class="param-doc-description" style="position-anchor: --doc-link-dtype;"> dtype: number type, default=np.float64<br>
-<br>
-Desired dtype of output.</span></a></td>
+<td class="param">dtype&nbsp;</td>
 <td class="value">&lt;class 'numpy.float64'&gt;</td>
 </tr>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=handle_unknown,-%7B%27error%27%2C%20%27ignore%27%2C%20%27infrequent_if_exist%27%2C%20%27warn%27%7D%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20default%3D%27error%27" class="param-doc-link" style="anchor-name: --doc-link-handle_unknown;" rel="noreferrer" target="_blank">handle_unknown <span class="param-doc-description" style="position-anchor: --doc-link-handle_unknown;"> handle_unknown: {'error', 'ignore', 'infrequent_if_exist', 'warn'}, default='error'<br>
-<br>
-Specifies the way unknown categories are handled during :meth:`transform`.<br>
-<br>
-- 'error' : Raise an error if an unknown category is present during transform.<br>
-- 'ignore' : When an unknown category is encountered during<br>
-transform, the resulting one-hot encoded columns for this feature<br>
-will be all zeros. In the inverse transform, an unknown category<br>
-will be denoted as None.<br>
-- 'infrequent_if_exist' : When an unknown category is encountered<br>
-during transform, the resulting one-hot encoded columns for this<br>
-feature will map to the infrequent category if it exists. The<br>
-infrequent category will be mapped to the last position in the<br>
-encoding. During inverse transform, an unknown category will be<br>
-mapped to the category denoted `'infrequent'` if it exists. If the<br>
-`'infrequent'` category does not exist, then :meth:`transform` and<br>
-:meth:`inverse_transform` will handle an unknown category as with<br>
-`handle_unknown='ignore'`. Infrequent categories exist based on<br>
-`min_frequency` and `max_categories`. Read more in the<br>
-:ref:`User Guide &lt;encoder_infrequent_categories&gt;`.<br>
-- 'warn' : When an unknown category is encountered during transform<br>
-a warning is issued, and the encoding then proceeds as described for<br>
-`handle_unknown="infrequent_if_exist"`.<br>
-<br>
-.. versionchanged:: 1.1<br>
-`'infrequent_if_exist'` was added to automatically handle unknown<br>
-categories and infrequent categories.<br>
-<br>
-.. versionadded:: 1.6<br>
-The option `"warn"` was added in 1.6.</span></a></td>
+<td class="param">handle_unknown&nbsp;</td>
 <td class="value">'error'</td>
 </tr>
 <tr class="default even">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=min_frequency,-int%20or%20float%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-min_frequency;" rel="noreferrer" target="_blank">min_frequency <span class="param-doc-description" style="position-anchor: --doc-link-min_frequency;"> min_frequency: int or float, default=None<br>
-<br>
-Specifies the minimum frequency below which a category will be<br>
-considered infrequent.<br>
-<br>
-- If `int`, categories with a smaller cardinality will be considered<br>
-infrequent.<br>
-<br>
-- If `float`, categories with a smaller cardinality than<br>
-`min_frequency * n_samples` will be considered infrequent.<br>
-<br>
-.. versionadded:: 1.1<br>
-Read more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.</span></a></td>
+<td class="param">min_frequency&nbsp;</td>
 <td class="value">None</td>
 </tr>
 <tr class="default odd">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=max_categories,-int%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-max_categories;" rel="noreferrer" target="_blank">max_categories <span class="param-doc-description" style="position-anchor: --doc-link-max_categories;"> max_categories: int, default=None<br>
-<br>
-Specifies an upper limit to the number of output features for each input<br>
-feature when considering infrequent categories. If there are infrequent<br>
-categories, `max_categories` includes the category representing the<br>
-infrequent categories along with the frequent categories. If `None`,<br>
-there is no limit to the number of output features.<br>
-<br>
-.. versionadded:: 1.1<br>
-Read more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.</span></a></td>
+<td class="param">max_categories&nbsp;</td>
 <td class="value">None</td>
 </tr>
 <tr class="default even">
 <td><em></em></td>
-<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=feature_name_combiner,-%22concat%22%20or%20callable%2C%20default%3D%22concat%22" class="param-doc-link" style="anchor-name: --doc-link-feature_name_combiner;" rel="noreferrer" target="_blank">feature_name_combiner <span class="param-doc-description" style="position-anchor: --doc-link-feature_name_combiner;"> feature_name_combiner: "concat" or callable, default="concat"<br>
-<br>
-Callable with signature `def callable(input_feature, category)` that returns a<br>
-string. This is used to create feature names to be returned by<br>
-:meth:`get_feature_names_out`.<br>
-<br>
-`"concat"` concatenates encoded feature name and category with<br>
-`feature + "_" + str(category)`.E.g. feature X with values 1, 6, 7 create<br>
-feature names `X_1, X_6, X_7`.<br>
-<br>
-.. versionadded:: 1.3</span></a></td>
+<td class="param">feature_name_combiner&nbsp;</td>
 <td class="value">'concat'</td>
 </tr>
 </tbody>
@@ -1476,11 +1073,7 @@ feature names `X_1, X_6, X_7`.<br>
 
             </details>
         </div>
-    </div></div></div></div></div></div></div></div></div></div><script>/*  Authors: The scikit-learn developers
- SPDX-License-Identifier: BSD-3-Clause
-*/
-
-function copyToClipboard(text, element) {
+    </div></div></div></div></div></div></div></div></div></div><script>function copyToClipboard(text, element) {
     // Get the parameter prefix from the closest toggleable content
     const toggleableContent = element.closest('.sk-toggleable__content');
     const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
@@ -1514,195 +1107,68 @@ function copyToClipboard(text, element) {
     return false;
 }
 
-document.querySelectorAll('.copy-paste-icon').forEach(function(element) {
+document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
     const toggleableContent = element.closest('.sk-toggleable__content');
     const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
-
-    const parent = element.parentElement;
-    if (!parent || !parent.nextElementSibling) {
-        console.warn('Expected copy-paste icon is missing from the DOM structure');
-        return;
-    }
-
-    const paramName = element.parentElement.nextElementSibling
-        .textContent.trim().split(' ')[0];
+    const paramName = element.parentElement.nextElementSibling.textContent.trim();
     const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
 
     element.setAttribute('title', fullParamName);
 });
-
-/**
- * Copy the list of feature names formatted as a Python list.
- *
- * @param {HTMLElement} element - The copy button inside a `.features` block; its siblings
- *   contain a `details` element and a table containing feature named.
- * @returns {boolean} Always returns `false` so callers can prevent the default click behavior.
- */
-function copyFeatureNamesToClipboard(element) {
-    var detailsElem = element.closest('.features').querySelector('details');
-    var wasOpen = detailsElem.open;
-    detailsElem.open = true;
-    var content = element.closest('.features').querySelector('tbody')
-                  .innerText.trim();
-    if (!wasOpen) detailsElem.open = false;
-    const rows = content.split('\n').map(row => `    "${row}"`);
-    const formattedText = `[\n${rows.join(',\n')},\n]`;
-    const originalHTML = element.innerHTML.replace('✔', '');
-    const originalStyle = element.style;
-    const copyMark = document.createElement('span');
-    copyMark.innerHTML = '✔';
-    copyMark.style.color = 'blue';
-    copyMark.style.fontSize = '1em';
-
-    navigator.clipboard.writeText(formattedText)
-        .then(() => {
-            element.style.display = 'none';
-            element.parentElement.appendChild(copyMark);
-
-            setTimeout(() => {
-                copyMark.remove();
-                element.innerHTML = originalHTML;
-                element.style = originalStyle;
-            }, 1000);
-        })
-        .catch(err => {
-            console.error('Failed to copy:', err);
-            element.style.color = 'orange';
-            element.innerHTML = "Failed!";
-            setTimeout(() => {
-                element.innerHTML = originalHTML;
-                element.style = originalStyle;
-            }, 1000);
-        });
-    return false;
-}
-/**
- * Adapted from Skrub
- * https://github.com/skrub-data/skrub/blob/403466d1d5d4dc76a7ef569b3f8228db59a31dc3/skrub/_reporting/_data/templates/report.js#L789
- * @returns "light" or "dark"
- */
-function detectTheme(element) {
-    const body = document.querySelector('body');
-
-    // Check VSCode theme
-    const themeKindAttr = body.getAttribute('data-vscode-theme-kind');
-    const themeNameAttr = body.getAttribute('data-vscode-theme-name');
-
-    if (themeKindAttr && themeNameAttr) {
-        const themeKind = themeKindAttr.toLowerCase();
-        const themeName = themeNameAttr.toLowerCase();
-
-        if (themeKind.includes("dark") || themeName.includes("dark")) {
-            return "dark";
-        }
-        if (themeKind.includes("light") || themeName.includes("light")) {
-            return "light";
-        }
-    }
-
-    // Check Jupyter theme
-    if (body.getAttribute('data-jp-theme-light') === 'false') {
-        return 'dark';
-    } else if (body.getAttribute('data-jp-theme-light') === 'true') {
-        return 'light';
-    }
-
-    // Guess based on a parent element's color
-    const color = window.getComputedStyle(element.parentNode, null).getPropertyValue('color');
-    const match = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i);
-    if (match) {
-        const [r, g, b] = [
-            parseFloat(match[1]),
-            parseFloat(match[2]),
-            parseFloat(match[3])
-        ];
-
-        // https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
-        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-
-        if (luma > 180) {
-            // If the text is very bright we have a dark theme
-            return 'dark';
-        }
-        if (luma < 75) {
-            // If the text is very dark we have a light theme
-            return 'light';
-        }
-        // Otherwise fall back to the next heuristic.
-    }
-
-    // Fallback to system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-
-function forceTheme(elementId) {
-    const estimatorElement = document.querySelector(`#${elementId}`);
-    if (estimatorElement === null) {
-        console.error(`Element with id ${elementId} not found.`);
-    } else {
-        const theme = detectTheme(estimatorElement);
-        estimatorElement.classList.add(theme);
-    }
-}
-
-forceTheme('sk-container-id-1');</script>
+</script>
 </div>
-</div>
-</section>
-<section id="missing-data" class="slide level2 small">
+</div></section><section id="missing-data" class="slide level2 small">
 <h2>Missing data</h2>
 <div class="definition">
 <p>Imputation is estimation. An imputed value is a prediction, and it must be learned on the training fold.</p>
 </div>
 <div class="fragment">
 <ul>
-<li class="fragment">Dropping rows discards information and biases the result<br>
+<li class="fragment">Dropping rows discards information and can bias the result<br>
 </li>
-<li class="fragment">Filling with a column mean is a model, and a weak one<br>
-</li>
-<li class="fragment">For prediction, missingness itself is often informative<br>
+<li class="fragment">Filling with a column mean is a model (a pretty weak one)</li>
+<li class="fragment">For prediction, missingness itself may be informative<br>
 </li>
 </ul>
 </div>
 </section>
 <section id="simpleimputer" class="slide level2 small">
 <h2>SimpleImputer</h2>
-<div id="68858976" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
-<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
-<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> Pipeline([</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"impute"</span>, SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>)),</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-6" class="code-annotation-target"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"scale"</span>, StandardScaler()),</span>
-<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>prep <span class="op">=</span> ColumnTransformer([</span>
-<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, num_steps, num),</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-11" class="code-annotation-target"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(drop<span class="op">=</span><span class="st">"first"</span>, handle_unknown<span class="op">=</span><span class="st">"ignore"</span>), cat),</span>
-<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="annotated-cell-5-13"><a href="#annotated-cell-5-13" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4">4</button><span id="annotated-cell-5-14" class="code-annotation-target"><a href="#annotated-cell-5-14" aria-hidden="true" tabindex="-1"></a>full <span class="op">=</span> Pipeline([(<span class="st">"prep"</span>, prep), (<span class="st">"knn"</span>, KNeighborsRegressor(<span class="dv">5</span>))])</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d09cc1d1" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> Pipeline([</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"impute"</span>, SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>)),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"scale"</span>, StandardScaler()),</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>prep <span class="op">=</span> ColumnTransformer([</span>
+<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, num_steps, num),</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-11" class="code-annotation-target"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(drop<span class="op">=</span><span class="st">"first"</span>, handle_unknown<span class="op">=</span><span class="st">"ignore"</span>), cat),</span>
+<span id="annotated-cell-6-12"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="annotated-cell-6-13"><a href="#annotated-cell-6-13" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4">4</button><span id="annotated-cell-6-14" class="code-annotation-target"><a href="#annotated-cell-6-14" aria-hidden="true" tabindex="-1"></a>full <span class="op">=</span> Pipeline([(<span class="st">"prep"</span>, prep), (<span class="st">"knn"</span>, KNeighborsRegressor(<span class="dv">5</span>))])</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1"><code>SimpleImputer(strategy="median")</code> replaces missing values in a numeric<br>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="1"><code>SimpleImputer(strategy="median")</code> replaces missing values in a numeric<br>
 column with that column’s median, computed only from the training fold it is fit on.</span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="6" data-code-annotation="2"><code>("scale", StandardScaler())</code> runs second, so scaling happens after<br>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="2"><code>("scale", StandardScaler())</code> runs second, so scaling happens after<br>
 imputation fills the gaps, still learned from the training fold alone.</span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="11" data-code-annotation="3"><code>OneHotEncoder(drop="first", handle_unknown="ignore")</code> adds<br>
+<span data-code-cell="annotated-cell-6" data-code-lines="11" data-code-annotation="3"><code>OneHotEncoder(drop="first", handle_unknown="ignore")</code> adds<br>
 <code>handle_unknown="ignore"</code> so a category value seen in a test fold but never seen while fitting on the training fold produces all zero indicator columns instead of raising an error.</span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="14" data-code-annotation="4"><code>full</code> chains the entire <code>prep</code> (imputation, scaling, and encoding) with<br>
+<span data-code-cell="annotated-cell-6" data-code-lines="14" data-code-annotation="4"><code>full</code> chains the entire <code>prep</code> (imputation, scaling, and encoding) with<br>
 <code>KNeighborsRegressor(5)</code> into a single estimator, so calling <code>.fit</code> on <code>full</code> fits every preprocessing step and the model together.</span>
 </dd>
 </dl>
@@ -1717,42 +1183,42 @@ imputation fills the gaps, still learned from the training fold alone.</span>
 </section>
 <section id="gridsearchcv" class="slide level2 small">
 <h2>GridSearchCV</h2>
-<div id="6b0d5e71" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
-<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(</span>
-<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>    full,</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"knn__n_neighbors"</span>: [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">50</span>]},</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span>KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>),</span>
-<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
-<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4">4</button><span id="annotated-cell-6-9" class="code-annotation-target"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>grid.fit(Credit[num <span class="op">+</span> cat], Credit[<span class="st">"Balance"</span>])</span>
-<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>grid.best_params_</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6c2080c5" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(</span>
+<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>    full,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-5" class="code-annotation-target"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"knn__n_neighbors"</span>: [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">50</span>]},</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-6" class="code-annotation-target"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span>KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>),</span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>,</span>
+<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-9" class="code-annotation-target"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>grid.fit(Credit[num <span class="op">+</span> cat], Credit[<span class="st">"Balance"</span>])</span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>grid.best_params_</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1"><code>GridSearchCV</code> cross-validates the estimator once per combination of<br>
+<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1"><code>GridSearchCV</code> cross-validates the estimator once per combination of<br>
 parameter values it is given, and reports the best one.</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2"><code>{"knn__n_neighbors": [1, 5, 10, 25, 50]}</code> is the grid of candidate <code>K</code><br>
+<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="2"><code>{"knn__n_neighbors": [1, 5, 10, 25, 50]}</code> is the grid of candidate <code>K</code><br>
 values for the <code>"knn"</code> step of <code>full</code>; the double underscore in <code>knn__n_neighbors</code> reaches into that named step’s <code>n_neighbors</code> parameter.</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3"><code>cv=KFold(5, shuffle=True, random_state=363)</code> runs 5-fold CV, refitting<br>
+<span data-code-cell="annotated-cell-7" data-code-lines="6" data-code-annotation="3"><code>cv=KFold(5, shuffle=True, random_state=363)</code> runs 5-fold CV, refitting<br>
 <code>full</code>, imputation and scaling included, on each training fold for every candidate <code>K</code>.</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="9" data-code-annotation="4"><code>grid.fit(Credit[num + cat], Credit["Balance"])</code> runs the full search on<br>
+<span data-code-cell="annotated-cell-7" data-code-lines="9" data-code-annotation="4"><code>grid.fit(Credit[num + cat], Credit["Balance"])</code> runs the full search on<br>
 the numeric and categorical predictor columns against the response <code>Credit["Balance"]</code>.</span>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>{'knn__n_neighbors': 5}</code></pre>
 </div>
 </div>
@@ -1789,7 +1255,7 @@ the numeric and categorical predictor columns against the response <code>Credit[
 <section id="groupkfold" class="slide level2 small">
 <h2>GroupKFold</h2>
 <div class="takeaway">
-<p><code>GroupKFold</code> folds on the group label, not the row: every row from a given subject lands entirely in the training set or entirely in the test set, never split between them.</p>
+<p><code>GroupKFold</code> folds on the group label, not the row: every row from a given subject goes together in the training set or together in the test set, never split between them.</p>
 </div>
 <div class="fragment">
 <div class="takeaway">
@@ -1807,11 +1273,6 @@ the numeric and categorical predictor columns against the response <code>Credit[
 <h2>Look-ahead leakage</h2>
 <div class="definition">
 <p>A predictor recorded after the outcome can look powerful in cross-validation and be useless at prediction time, since it is a consequence of the outcome rather than something known when the prediction is needed.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>The question is not “is this correlated with the outcome.” It is “would I have this value at the moment I need to make the prediction.”</p>
-</div>
 </div>
 </section>
 <section id="application-exercise-2" class="slide level2">
@@ -1839,12 +1300,6 @@ the numeric and categorical predictor columns against the response <code>Credit[
 <p>Complete the wrap-up. <a href="../ex/06-ex.html">ex/06-ex</a></p>
 </div>
 </section>
-<section id="application-exercise-6" class="slide level2">
-<h2>Application exercise 6</h2>
-<div class="takeaway">
-<p>Find the leak. Three notebooks, three kinds of leakage, three magnitudes.</p>
-</div>
-</section>
 <section id="before-wednesday" class="slide level2">
 <h2>Before Wednesday</h2>
 <ul>
@@ -1852,14 +1307,9 @@ the numeric and categorical predictor columns against the response <code>Credit[
 </li>
 <li>Problem set 2 due today, problem set 3 posted<br>
 </li>
-<li>Check-in 3 on Wednesday<br>
+<li>Check-in 2 on Wednesday<br>
 </li>
 </ul>
-<div class="fragment">
-<div class="takeaway">
-<p>Three weeks in and no models yet. What we have is a way to tell whether a model is any good.</p>
-</div>
-</div>
 
 
 </section></section>

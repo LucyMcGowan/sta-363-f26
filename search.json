@@ -1332,18 +1332,6 @@
     ]
   },
   {
-    "objectID": "slides/06-pipelines.html#review",
-    "href": "slides/06-pipelines.html#review",
-    "title": "Pipelines and data leakage",
-    "section": "Review",
-    "text": "Review\n\nYou scale your predictors, then cross-validate. Is that fine?\n\n\n\nNo. The scaler used the held-out fold to compute its mean and standard deviation.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "6. Pipelines and leakage"
-    ]
-  },
-  {
     "objectID": "slides/06-pipelines.html#data-leakage",
     "href": "slides/06-pipelines.html#data-leakage",
     "title": "Pipelines and data leakage",
@@ -1360,7 +1348,7 @@
     "href": "slides/06-pipelines.html#simulated-noise",
     "title": "Pipelines and data leakage",
     "section": "Simulated noise",
-    "text": "Simulated noise\n\n1n, p = 100, 2000\n2X = rng.normal(size=(n, p))\n3y = rng.integers(0, 2, size=n)\n\n\n1\n\nn is 100 rows and p is 2000 predictor columns, an unusually\nwide data set on purpose.\n\n2\n\nrng.normal(size=(n, p)) draws a 100 by 2000 array of standard normal\nnoise, assigned to X; none of these columns are constructed to relate to y.\n\n3\n\nrng.integers(0, 2, size=n) draws 100 values from {0, 1}, a random two\nclass label with no relationship to any column of X.\n\n\n\n\n\n\nThere is no signal here. What accuracy should any honest method report?",
+    "text": "Simulated noise\n\n1n, p = 100, 2000\n2X = rng.normal(size=(n, p))\n3y = rng.integers(0, 2, size=n)\n\n\n1\n\nn is 100 rows and p is 2000 predictor columns, an unusually\nwide data set on purpose.\n\n2\n\nrng.normal(size=(n, p)) draws a 100 by 2000 array of standard normal\nnoise, assigned to X; none of these columns are constructed to relate to y.\n\n3\n\nrng.integers(0, 2, size=n) draws 100 values from {0, 1}, a random two\nclass label with no relationship to any column of X.\n\n\n\n\n\n\nThere is no true signal here. What accuracy should any honest method report?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1392,11 +1380,23 @@
     ]
   },
   {
-    "objectID": "slides/06-pipelines.html#leakage-in-practice",
-    "href": "slides/06-pipelines.html#leakage-in-practice",
+    "objectID": "slides/06-pipelines.html#pipeline-structure",
+    "href": "slides/06-pipelines.html#pipeline-structure",
     "title": "Pipelines and data leakage",
-    "section": "Leakage in practice",
-    "text": "Leakage in practice\n\nThis is how published results fail to replicate\n\nThis is how a model that tested at 95% ships and performs at 60%\n\nNothing in the code looks wrong",
+    "section": "Pipeline structure",
+    "text": "Pipeline structure\n\nWe have used make_pipeline(StandardScaler(), KNeighborsClassifier(25))\n\nA pipeline is an ordered list of steps: transformers, then one estimator at the end\n\nCalling .fit fits each step and passes its output to the next; .predict runs the same chain\n\nInside cross_val_score or GridSearchCV the whole chain is refit on each training fold\n\nSo every step that learns from data (scaling, imputing, selecting) stays inside the fold",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "6. Pipelines and leakage"
+    ]
+  },
+  {
+    "objectID": "slides/06-pipelines.html#make_pipeline-and-pipeline",
+    "href": "slides/06-pipelines.html#make_pipeline-and-pipeline",
+    "title": "Pipelines and data leakage",
+    "section": "make_pipeline and Pipeline",
+    "text": "make_pipeline and Pipeline\n\n1from sklearn.pipeline import make_pipeline, Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.neighbors import KNeighborsClassifier\n\n2pipe = make_pipeline(StandardScaler(), KNeighborsClassifier(25))\n3list(pipe.named_steps)\n\n\n1\n\nmake_pipeline and Pipeline both come from sklearn.pipeline, the same\nmodule imported in Meetings 4 and 5.\n\n2\n\nmake_pipeline(StandardScaler(), KNeighborsClassifier(25)) builds the\ntwo-step pipeline pipe, scale then classify, the same call written for KNN\n\n3\n\nlist(pipe.named_steps) returns the step names make_pipeline assigned\nautomatically, each lowercased from its class. Pipeline([(name, step),    ...]) is the longer form where the names are chosen by hand, as with \"select\" and \"knn\" on the previous slide.\n\n\n\n\n['standardscaler', 'kneighborsclassifier']",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1408,7 +1408,19 @@
     "href": "slides/06-pipelines.html#columntransformer",
     "title": "Pipelines and data leakage",
     "section": "ColumnTransformer",
-    "text": "ColumnTransformer\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\n1from sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\n2num = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\n3cat = [\"Gender\", \"Student\", \"Married\"]\n\nprep = ColumnTransformer([\n4    (\"num\", StandardScaler(), num),\n5    (\"cat\", OneHotEncoder(drop=\"first\"), cat),\n])\nprep\n\n\n1\n\nColumnTransformer applies a different transformer to a different\nsubset of columns, then concatenates the results into one array.\n\n2\n\nnum lists the four numeric predictor column names that will be\nscaled.\n\n3\n\ncat lists the three categorical predictor column names that will be\nencoded.\n\n4\n\nThe \"num\" step applies StandardScaler(), centering and scaling to\nmean 0 and standard deviation 1, to the columns named in num.\n\n5\n\nThe \"cat\" step applies OneHotEncoder(drop=\"first\") to the columns\nnamed in cat, creating a 0/1 indicator column for every category except one (drop=\"first\"), which avoids a redundant, perfectly collinear column.\n\n\n\n\nColumnTransformer(transformers=[('num', StandardScaler(),\n                                 ['Income', 'Limit', 'Rating', 'Age']),\n                                ('cat', OneHotEncoder(drop='first'),\n                                 ['Gender', 'Student', 'Married'])])In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.ColumnTransformer?Documentation for ColumnTransformeriNot fitted\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ntransformers  transformers: list of tuples\n\nList of (name, transformer, columns) tuples specifying the\ntransformer objects to be applied to subsets of the data.\n\nname : str\nLike in Pipeline and FeatureUnion, this allows the transformer and\nits parameters to be set using ``set_params`` and searched in grid\nsearch.\ntransformer : {'drop', 'passthrough'} or estimator\nEstimator must support :term:`fit` and :term:`transform`.\nSpecial-cased strings 'drop' and 'passthrough' are accepted as\nwell, to indicate to drop the columns or to pass them through\nuntransformed, respectively.\ncolumns : str, array-like of str, int, array-like of int, array-like of bool, slice or callable\nIndexes the data on its second axis. Integers are interpreted as\npositional columns, while strings can reference DataFrame columns\nby name. A scalar string or int should be used where\n``transformer`` expects X to be a 1d array-like (vector),\notherwise a 2d array will be passed to the transformer.\nA callable is passed the input data `X` and can return any of the\nabove. To select multiple columns by name or dtype, you can use\n:obj:`make_column_selector`.\n[('num', ...), ('cat', ...)]\n\n\n\nremainder  remainder: {'drop', 'passthrough'} or estimator, default='drop'\n\nBy default, only the specified columns in `transformers` are\ntransformed and combined in the output, and the non-specified\ncolumns are dropped. (default of ``'drop'``).\nBy specifying ``remainder='passthrough'``, all remaining columns that\nwere not specified in `transformers`, but present in the data passed\nto `fit` will be automatically passed through. This subset of columns\nis concatenated with the output of the transformers. For dataframes,\nextra columns not seen during `fit` will be excluded from the output\nof `transform`.\nBy setting ``remainder`` to be an estimator, the remaining\nnon-specified columns will use the ``remainder`` estimator. The\nestimator must support :term:`fit` and :term:`transform`.\nNote that using this feature requires that the DataFrame columns\ninput at :term:`fit` and :term:`transform` have identical order.\n'drop'\n\n\n\nsparse_threshold  sparse_threshold: float, default=0.3\n\nIf the output of the different transformers contains sparse matrices,\nthese will be stacked as a sparse matrix if the overall density is\nlower than this value. Use ``sparse_threshold=0`` to always return\ndense. When the transformed output consists of all dense data, the\nstacked result will be dense, and this keyword will be ignored.\n0.3\n\n\n\nn_jobs  n_jobs: int, default=None\n\nNumber of jobs to run in parallel.\n``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.\n``-1`` means using all processors. See :term:`Glossary &lt;n_jobs&gt;`\nfor more details.\nNone\n\n\n\ntransformer_weights  transformer_weights: dict, default=None\n\nMultiplicative weights for features per transformer. The output of the\ntransformer is multiplied by these weights. Keys are transformer names,\nvalues the weights.\nNone\n\n\n\nverbose  verbose: bool, default=False\n\nIf True, the time elapsed while fitting each transformer will be\nprinted as it is completed.\nFalse\n\n\n\nverbose_feature_names_out  verbose_feature_names_out: bool, str or Callable[[str, str], str], default=True\n\n- If True, :meth:`ColumnTransformer.get_feature_names_out` will prefix\nall feature names with the name of the transformer that generated that\nfeature. It is equivalent to setting\n`verbose_feature_names_out=\"{transformer_name}__{feature_name}\"`.\n- If False, :meth:`ColumnTransformer.get_feature_names_out` will not\nprefix any feature names and will error if feature names are not\nunique.\n- If ``Callable[[str, str], str]``,\n:meth:`ColumnTransformer.get_feature_names_out` will rename all the features\nusing the name of the transformer. The first argument of the callable is the\ntransformer name and the second argument is the feature name. The returned\nstring will be the new feature name.\n- If ``str``, it must be a string ready for formatting. The given string will\nbe formatted using two field names: ``transformer_name`` and ``feature_name``.\ne.g. ``\"{feature_name}__{transformer_name}\"``. See :meth:`str.format` method\nfrom the standard library for more info.\n\n.. versionadded:: 1.0\n\n.. versionchanged:: 1.6\n`verbose_feature_names_out` can be a callable or a string to be formatted.\nTrue\n\n\n\n\n            \n        \n    num['Income', 'Limit', 'Rating', 'Age']StandardScaler?Documentation for StandardScaler\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ncopy  copy: bool, default=True\n\nIf False, try to avoid a copy and do inplace scaling instead.\nThis is not guaranteed to always work inplace; e.g. if the data is\nnot a NumPy array or scipy.sparse CSR matrix, a copy may still be\nreturned.\nTrue\n\n\n\nwith_mean  with_mean: bool, default=True\n\nIf True, center the data before scaling.\nThis does not work (and will raise an exception) when attempted on\nsparse matrices, because centering them entails building a dense\nmatrix which in common use cases is likely to be too large to fit in\nmemory.\nTrue\n\n\n\nwith_std  with_std: bool, default=True\n\nIf True, scale the data to unit variance (or equivalently,\nunit standard deviation).\nTrue\n\n\n\n\n            \n        \n    cat['Gender', 'Student', 'Married']OneHotEncoder?Documentation for OneHotEncoder\n        \n            \n                Parameters\n                \n\n\n\n\n\n\n\n\n\ndrop  drop: {'first', 'if_binary'} or an array-like of shape (n_features,), default=None\n\nSpecifies a methodology to use to drop one of the categories per\nfeature. This is useful in situations where perfectly collinear\nfeatures cause problems, such as when feeding the resulting data\ninto an unregularized linear regression model.\n\nHowever, dropping one category breaks the symmetry of the original\nrepresentation and can therefore induce a bias in downstream models,\nfor instance for penalized linear classification or regression models.\n\n- None : retain all features (the default).\n- 'first' : drop the first category in each feature. If only one\ncategory is present, the feature will be dropped entirely.\n- 'if_binary' : drop the first category in each feature with two\ncategories. Features with 1 or more than 2 categories are\nleft intact.\n- array : ``drop[i]`` is the category in feature ``X[:, i]`` that\nshould be dropped.\n\nWhen `max_categories` or `min_frequency` is configured to group\ninfrequent categories, the dropping behavior is handled after the\ngrouping.\n\n.. versionadded:: 0.21\nThe parameter `drop` was added in 0.21.\n\n.. versionchanged:: 0.23\nThe option `drop='if_binary'` was added in 0.23.\n\n.. versionchanged:: 1.1\nSupport for dropping infrequent categories.\n'first'\n\n\n\ncategories  categories: 'auto' or a list of array-like, default='auto'\n\nCategories (unique values) per feature:\n\n- 'auto' : Determine categories automatically from the training data.\n- list : ``categories[i]`` holds the categories expected in the ith\ncolumn. The passed categories should not mix strings and numeric\nvalues within a single feature, and should be sorted in case of\nnumeric values.\n\nThe used categories can be found in the ``categories_`` attribute.\n\n.. versionadded:: 0.20\n'auto'\n\n\n\nsparse_output  sparse_output: bool, default=True\n\nWhen ``True``, it returns a SciPy sparse matrix/array\nin \"Compressed Sparse Row\" (CSR) format.\n\n.. versionadded:: 1.2\n`sparse` was renamed to `sparse_output`\nTrue\n\n\n\ndtype  dtype: number type, default=np.float64\n\nDesired dtype of output.\n&lt;class 'numpy.float64'&gt;\n\n\n\nhandle_unknown  handle_unknown: {'error', 'ignore', 'infrequent_if_exist', 'warn'}, default='error'\n\nSpecifies the way unknown categories are handled during :meth:`transform`.\n\n- 'error' : Raise an error if an unknown category is present during transform.\n- 'ignore' : When an unknown category is encountered during\ntransform, the resulting one-hot encoded columns for this feature\nwill be all zeros. In the inverse transform, an unknown category\nwill be denoted as None.\n- 'infrequent_if_exist' : When an unknown category is encountered\nduring transform, the resulting one-hot encoded columns for this\nfeature will map to the infrequent category if it exists. The\ninfrequent category will be mapped to the last position in the\nencoding. During inverse transform, an unknown category will be\nmapped to the category denoted `'infrequent'` if it exists. If the\n`'infrequent'` category does not exist, then :meth:`transform` and\n:meth:`inverse_transform` will handle an unknown category as with\n`handle_unknown='ignore'`. Infrequent categories exist based on\n`min_frequency` and `max_categories`. Read more in the\n:ref:`User Guide &lt;encoder_infrequent_categories&gt;`.\n- 'warn' : When an unknown category is encountered during transform\na warning is issued, and the encoding then proceeds as described for\n`handle_unknown=\"infrequent_if_exist\"`.\n\n.. versionchanged:: 1.1\n`'infrequent_if_exist'` was added to automatically handle unknown\ncategories and infrequent categories.\n\n.. versionadded:: 1.6\nThe option `\"warn\"` was added in 1.6.\n'error'\n\n\n\nmin_frequency  min_frequency: int or float, default=None\n\nSpecifies the minimum frequency below which a category will be\nconsidered infrequent.\n\n- If `int`, categories with a smaller cardinality will be considered\ninfrequent.\n\n- If `float`, categories with a smaller cardinality than\n`min_frequency * n_samples` will be considered infrequent.\n\n.. versionadded:: 1.1\nRead more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.\nNone\n\n\n\nmax_categories  max_categories: int, default=None\n\nSpecifies an upper limit to the number of output features for each input\nfeature when considering infrequent categories. If there are infrequent\ncategories, `max_categories` includes the category representing the\ninfrequent categories along with the frequent categories. If `None`,\nthere is no limit to the number of output features.\n\n.. versionadded:: 1.1\nRead more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.\nNone\n\n\n\nfeature_name_combiner  feature_name_combiner: \"concat\" or callable, default=\"concat\"\n\nCallable with signature `def callable(input_feature, category)` that returns a\nstring. This is used to create feature names to be returned by\n:meth:`get_feature_names_out`.\n\n`\"concat\"` concatenates encoded feature name and category with\n`feature + \"_\" + str(category)`.E.g. feature X with values 1, 6, 7 create\nfeature names `X_1, X_6, X_7`.\n\n.. versionadded:: 1.3\n'concat'",
+    "text": "ColumnTransformer\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\n1from sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\n2num = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\n3cat = [\"Gender\", \"Student\", \"Married\"]\n\nprep = ColumnTransformer([\n4    (\"num\", StandardScaler(), num),\n5    (\"cat\", OneHotEncoder(drop=\"first\"), cat),\n])\nprep\n\n\n1\n\nColumnTransformer applies a different transformer to a different\nsubset of columns, then concatenates the results into one array.\n\n2\n\nnum lists the four numeric predictor column names that will be\nscaled.\n\n3\n\ncat lists the three categorical predictor column names that will be\nencoded.\n\n4\n\nThe \"num\" step applies StandardScaler(), centering and scaling to\nmean 0 and standard deviation 1, to the columns named in num.\n\n5\n\nThe \"cat\" step applies OneHotEncoder(drop=\"first\") to the columns\nnamed in cat, creating a 0/1 indicator column for every category except one (drop=\"first\"), which avoids a redundant, perfectly collinear column.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "6. Pipelines and leakage"
+    ]
+  },
+  {
+    "objectID": "slides/06-pipelines.html#columntransformer-output",
+    "href": "slides/06-pipelines.html#columntransformer-output",
+    "title": "Pipelines and data leakage",
+    "section": "ColumnTransformer",
+    "text": "ColumnTransformer\n\nColumnTransformer(transformers=[('num', StandardScaler(),\n                                 ['Income', 'Limit', 'Rating', 'Age']),\n                                ('cat', OneHotEncoder(drop='first'),\n                                 ['Gender', 'Student', 'Married'])])In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.ColumnTransformer?Documentation for ColumnTransformeriNot fitted\n        \n            \n                Parameters\n                \n\n\n\n\ntransformers \n[('num', ...), ('cat', ...)]\n\n\n\nremainder \n'drop'\n\n\n\nsparse_threshold \n0.3\n\n\n\nn_jobs \nNone\n\n\n\ntransformer_weights \nNone\n\n\n\nverbose \nFalse\n\n\n\nverbose_feature_names_out \nTrue\n\n\n\nforce_int_remainder_cols \n'deprecated'\n\n\n\n\n            \n        \n    num['Income', 'Limit', 'Rating', 'Age']StandardScaler?Documentation for StandardScaler\n        \n            \n                Parameters\n                \n\n\n\n\ncopy \nTrue\n\n\n\nwith_mean \nTrue\n\n\n\nwith_std \nTrue\n\n\n\n\n            \n        \n    cat['Gender', 'Student', 'Married']OneHotEncoder?Documentation for OneHotEncoder\n        \n            \n                Parameters\n                \n\n\n\n\ncategories \n'auto'\n\n\n\ndrop \n'first'\n\n\n\nsparse_output \nTrue\n\n\n\ndtype \n&lt;class 'numpy.float64'&gt;\n\n\n\nhandle_unknown \n'error'\n\n\n\nmin_frequency \nNone\n\n\n\nmax_categories \nNone\n\n\n\nfeature_name_combiner \n'concat'",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1420,7 +1432,7 @@
     "href": "slides/06-pipelines.html#missing-data",
     "title": "Pipelines and data leakage",
     "section": "Missing data",
-    "text": "Missing data\n\nImputation is estimation. An imputed value is a prediction, and it must be learned on the training fold.\n\n\n\nDropping rows discards information and biases the result\n\nFilling with a column mean is a model, and a weak one\n\nFor prediction, missingness itself is often informative",
+    "text": "Missing data\n\nImputation is estimation. An imputed value is a prediction, and it must be learned on the training fold.\n\n\n\nDropping rows discards information and can bias the result\n\nFilling with a column mean is a model (a pretty weak one)\nFor prediction, missingness itself may be informative",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1492,7 +1504,7 @@
     "href": "slides/06-pipelines.html#groupkfold",
     "title": "Pipelines and data leakage",
     "section": "GroupKFold",
-    "text": "GroupKFold\n\nGroupKFold folds on the group label, not the row: every row from a given subject lands entirely in the training set or entirely in the test set, never split between them.\n\n\n\nPass it a groups array, one label per row, patient_id here. The fold assignment respects that label instead of splitting row by row.",
+    "text": "GroupKFold\n\nGroupKFold folds on the group label, not the row: every row from a given subject goes together in the training set or together in the test set, never split between them.\n\n\n\nPass it a groups array, one label per row, patient_id here. The fold assignment respects that label instead of splitting row by row.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1516,7 +1528,7 @@
     "href": "slides/06-pipelines.html#look-ahead-leakage",
     "title": "Pipelines and data leakage",
     "section": "Look-ahead leakage",
-    "text": "Look-ahead leakage\n\nA predictor recorded after the outcome can look powerful in cross-validation and be useless at prediction time, since it is a consequence of the outcome rather than something known when the prediction is needed.\n\n\n\nThe question is not “is this correlated with the outcome.” It is “would I have this value at the moment I need to make the prediction.”",
+    "text": "Look-ahead leakage\n\nA predictor recorded after the outcome can look powerful in cross-validation and be useless at prediction time, since it is a consequence of the outcome rather than something known when the prediction is needed.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1560,23 +1572,11 @@
     ]
   },
   {
-    "objectID": "slides/06-pipelines.html#application-exercise-6",
-    "href": "slides/06-pipelines.html#application-exercise-6",
-    "title": "Pipelines and data leakage",
-    "section": "Application exercise 6",
-    "text": "Application exercise 6\n\nFind the leak. Three notebooks, three kinds of leakage, three magnitudes.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "6. Pipelines and leakage"
-    ]
-  },
-  {
     "objectID": "slides/06-pipelines.html#before-wednesday",
     "href": "slides/06-pipelines.html#before-wednesday",
     "title": "Pipelines and data leakage",
     "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nRead ISLP Sections 3.1 to 3.3\n\nProblem set 2 due today, problem set 3 posted\n\nCheck-in 3 on Wednesday\n\n\n\n\nThree weeks in and no models yet. What we have is a way to tell whether a model is any good.",
+    "text": "Before Wednesday\n\nRead ISLP Sections 3.1 to 3.3\n\nProblem set 2 due today, problem set 3 posted\n\nCheck-in 2 on Wednesday",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -3199,11 +3199,11 @@
     ]
   },
   {
-    "objectID": "ex/06-ex.html#notebook-a-cleaning-before-splitting",
-    "href": "ex/06-ex.html#notebook-a-cleaning-before-splitting",
+    "objectID": "ex/06-ex.html#part-1-cleaning-before-splitting",
+    "href": "ex/06-ex.html#part-1-cleaning-before-splitting",
     "title": "Application exercise 6: Find the leak",
-    "section": "Notebook A: cleaning before splitting",
-    "text": "Notebook A: cleaning before splitting\nAn analyst predicts Balance from four numeric predictors. Thirty percent of Income is missing, so they fill it in and standardize before doing anything else.\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nnum = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\nCredit.loc[rng.random(len(Credit)) &lt; 0.30, \"Income\"] = np.nan\n\nclean = Credit.copy()\nclean[\"Income\"] = clean[\"Income\"].fillna(clean[\"Income\"].mean())\nclean[num] = StandardScaler().fit_transform(clean[num])\n\ncv = KFold(5, shuffle=True, random_state=363)\nscore = cross_val_score(\n    KNeighborsRegressor(10), clean[num], clean[\"Balance\"],\n    cv=cv, scoring=\"neg_mean_squared_error\"\n)\nfloat(round(-score.mean(), 1))\n\n40935.0\n\n\n\n\nTwo things were estimated from the data before cross-validation started. What are they?\n\nRewrite this as a single Pipeline with three steps so that both are learned inside each fold. Report the MSE.\n\nThe two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference will be small.\n\n\n\n\n\n\n\nYour pipeline needs SimpleImputer, then StandardScaler, then the model. Pass the unfilled Credit[num] to cross_val_score.",
+    "section": "Part 1: Cleaning before splitting",
+    "text": "Part 1: Cleaning before splitting\nAn analyst predicts Balance from four numeric predictors. Thirty percent of Income is missing, so they fill it in and standardize before doing anything else.\n\nCredit = pd.read_csv(DATA + \"Credit.csv\")\nnum = [\"Income\", \"Limit\", \"Rating\", \"Age\"]\nCredit.loc[rng.random(len(Credit)) &lt; 0.30, \"Income\"] = np.nan\n\nclean = Credit.copy()\nclean[\"Income\"] = clean[\"Income\"].fillna(clean[\"Income\"].mean())\nclean[num] = StandardScaler().fit_transform(clean[num])\n\ncv = KFold(5, shuffle=True, random_state=363)\nscore = cross_val_score(\n    KNeighborsRegressor(10), clean[num], clean[\"Balance\"],\n    cv=cv, scoring=\"neg_mean_squared_error\"\n)\nfloat(round(-score.mean(), 1))\n\n40935.0\n\n\n\n\nTwo things were estimated from the data before cross-validation started. What are they?\n\nRewrite this as a single Pipeline with three steps so that both are learned inside each fold. Report the MSE.\n\nThe two numbers are close. Does that make the original code acceptable? Explain what you would have to know in advance to be confident the difference will be small.\n\n\n\n\n\n\n\nYour pipeline needs SimpleImputer, then StandardScaler, then the model. Pass the unfilled Credit[num] to cross_val_score.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -3211,11 +3211,11 @@
     ]
   },
   {
-    "objectID": "ex/06-ex.html#notebook-b-an-impressive-r2",
-    "href": "ex/06-ex.html#notebook-b-an-impressive-r2",
+    "objectID": "ex/06-ex.html#part-2-an-impressive-r2",
+    "href": "ex/06-ex.html#part-2-an-impressive-r2",
     "title": "Application exercise 6: Find the leak",
-    "section": "Notebook B: an impressive \\(R^2\\)",
-    "text": "Notebook B: an impressive \\(R^2\\)\nA clinic measures each patient at five visits. The analyst wants to predict a functional score from BMI and systolic blood pressure.\n\nn_patients, n_visits = 200, 5\npid = np.repeat(np.arange(n_patients), n_visits)\n\nbmi = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\nsbp = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\npatient_effect = rng.normal(0, 2.5, n_patients)[pid]\nscore = bmi + patient_effect + rng.normal(0, 0.4, n_patients * n_visits)\n\nvisits = pd.DataFrame(\n    {\"patient_id\": pid, \"bmi\": bmi, \"sbp\": sbp, \"score\": score}\n)\nvisits.head(6)\n\n\n\n\n\n\n\n\npatient_id\nbmi\nsbp\nscore\n\n\n\n\n0\n0\n-0.455388\n-0.965580\n-1.513012\n\n\n1\n0\n-0.471733\n-1.008728\n-1.408096\n\n\n2\n0\n-0.557966\n-0.968895\n-1.254455\n\n\n3\n0\n-0.523274\n-0.930570\n-0.899867\n\n\n4\n0\n-0.505790\n-0.912909\n-1.058279\n\n\n5\n1\n-0.108126\n1.250025\n0.915257\n\n\n\n\n\n\n\n\nmodel = make_pipeline(StandardScaler(), KNeighborsRegressor(5))\nfloat(round(\n    cross_val_score(\n        model, visits[[\"bmi\", \"sbp\"]], visits[\"score\"],\n        cv=KFold(5, shuffle=True, random_state=1)\n    ).mean(),\n    3,\n))\n\n0.543\n\n\n\n\nLook at the first six rows. What do you notice about the predictor values within a single patient?\n\nWhen a visit is in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?\n\nThe model is meant to be used on new patients. Re-run the cross-validation with GroupKFold(5) and groups=visits[\"patient_id\"]. Report the updated \\(R^2\\).\n\n\n\n\n\n\n\nThe updated \\(R^2\\) is negative. What does a negative \\(R^2\\) mean, and what would have been a better prediction rule for a new patient?",
+    "section": "Part 2: An impressive \\(R^2\\)",
+    "text": "Part 2: An impressive \\(R^2\\)\nA clinic measures each patient at five visits. The analyst wants to predict a functional score from BMI and systolic blood pressure.\n\nn_patients, n_visits = 200, 5\npid = np.repeat(np.arange(n_patients), n_visits)\n\nbmi = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\nsbp = rng.normal(0, 1, n_patients)[pid] + rng.normal(0, 0.05, n_patients * n_visits)\npatient_effect = rng.normal(0, 2.5, n_patients)[pid]\nscore = bmi + patient_effect + rng.normal(0, 0.4, n_patients * n_visits)\n\nvisits = pd.DataFrame(\n    {\"patient_id\": pid, \"bmi\": bmi, \"sbp\": sbp, \"score\": score}\n)\nvisits.head(6)\n\n\n\n\n\n\n\n\npatient_id\nbmi\nsbp\nscore\n\n\n\n\n0\n0\n-0.455388\n-0.965580\n-1.513012\n\n\n1\n0\n-0.471733\n-1.008728\n-1.408096\n\n\n2\n0\n-0.557966\n-0.968895\n-1.254455\n\n\n3\n0\n-0.523274\n-0.930570\n-0.899867\n\n\n4\n0\n-0.505790\n-0.912909\n-1.058279\n\n\n5\n1\n-0.108126\n1.250025\n0.915257\n\n\n\n\n\n\n\n\nmodel = make_pipeline(StandardScaler(), KNeighborsRegressor(5))\nfloat(round(\n    cross_val_score(\n        model, visits[[\"bmi\", \"sbp\"]], visits[\"score\"],\n        cv=KFold(5, shuffle=True, random_state=1)\n    ).mean(),\n    3,\n))\n\n0.543\n\n\n\n\nLook at the first six rows. What do you notice about the predictor values within a single patient?\n\nWhen a visit is in the held-out fold, where are its nearest neighbors likely to be? What is the model actually recognizing?\n\nThe model is meant to be used on new patients. Re-run the cross-validation with GroupKFold(5) and groups=visits[\"patient_id\"]. Report the updated \\(R^2\\).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -3223,11 +3223,11 @@
     ]
   },
   {
-    "objectID": "ex/06-ex.html#notebook-c",
-    "href": "ex/06-ex.html#notebook-c",
+    "objectID": "ex/06-ex.html#part-3-variables",
+    "href": "ex/06-ex.html#part-3-variables",
     "title": "Application exercise 6: Find the leak",
-    "section": "Notebook C:",
-    "text": "Notebook C:\nHere the code is correct, but we need to carefully consider the variables that are included. Look at the data dictionary below.\n\nn = 800\nseverity = rng.normal(0, 1, n)\nreadmit = (rng.random(n) &lt; 1 / (1 + np.exp(-(-1.2 + 0.9 * severity)))).astype(int)\n\nclinic = pd.DataFrame({\n    \"age\": rng.normal(62, 12, n),\n    \"severity_score\": severity,\n    \"n_labs_ordered\": rng.poisson(np.clip(3 + 2 * severity, 0.1, None)),\n    \"discharge_med_count\": rng.poisson(np.clip(4 + 0.5 * severity, 0.1, None)),\n    \"followup_calls_made\": rng.poisson(0.4 + 3.0 * readmit),\n    \"readmitted_30d\": readmit,\n})\nclinic.head()\n\n\n\n\n\n\n\n\nage\nseverity_score\nn_labs_ordered\ndischarge_med_count\nfollowup_calls_made\nreadmitted_30d\n\n\n\n\n0\n46.429989\n-0.438399\n1\n3\n1\n0\n\n\n1\n55.374458\n0.295059\n2\n4\n0\n0\n\n\n2\n73.563485\n-0.259286\n1\n0\n0\n0\n\n\n3\n87.302273\n-0.165281\n2\n5\n0\n0\n\n\n4\n57.324869\n0.243289\n4\n4\n0\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nMeaning\nWhen is it recorded?\n\n\n\n\nage\nPatient age at admission\nAt admission\n\n\nseverity_score\nClinical severity index\nAt admission\n\n\nn_labs_ordered\nLabs ordered during the stay\nDuring the stay\n\n\ndischarge_med_count\nMedications on the discharge summary\nAt discharge\n\n\nfollowup_calls_made\nFollow-up calls from the care team\nIn the 30 days after discharge\n\n\nreadmitted_30d\nReadmitted within 30 days\n30 days after discharge\n\n\n\n\nfeats = [\"age\", \"severity_score\", \"n_labs_ordered\",\n         \"discharge_med_count\", \"followup_calls_made\"]\n\ncv_c = StratifiedKFold(5, shuffle=True, random_state=363)\nfloat(round(\n    cross_val_score(\n        make_pipeline(StandardScaler(), KNeighborsClassifier(15)),\n        clinic[feats], clinic[\"readmitted_30d\"], cv=cv_c, scoring=\"roc_auc\"\n    ).mean(),\n    3,\n))\n\n0.959\n\n\n\n\nEvery learned step is inside a pipeline and the folds are stratified. So why is this result still not useful?\n\nWhich column is the problem?\nDrop the problematic column it, re-run, and report the new AUC.\n\nThe model is meant to run the moment a patient is discharged, so a nurse can decide who to call tonight. Which of the five predictors are available at that moment?\n\n\n\n\n\n\nCredit data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit and clinic data are simulated.",
+    "section": "Part 3: Variables",
+    "text": "Part 3: Variables\nHere the code is correct, but we need to carefully consider the variables that are included. Look at the data dictionary below.\n\nn = 800\nseverity = rng.normal(0, 1, n)\nreadmit = (rng.random(n) &lt; 1 / (1 + np.exp(-(-1.2 + 0.9 * severity)))).astype(int)\n\nclinic = pd.DataFrame({\n    \"age\": rng.normal(62, 12, n),\n    \"severity_score\": severity,\n    \"n_labs_ordered\": rng.poisson(np.clip(3 + 2 * severity, 0.1, None)),\n    \"discharge_med_count\": rng.poisson(np.clip(4 + 0.5 * severity, 0.1, None)),\n    \"followup_calls_made\": rng.poisson(0.4 + 3.0 * readmit),\n    \"readmitted_30d\": readmit,\n})\nclinic.head()\n\n\n\n\n\n\n\n\nage\nseverity_score\nn_labs_ordered\ndischarge_med_count\nfollowup_calls_made\nreadmitted_30d\n\n\n\n\n0\n46.429989\n-0.438399\n1\n3\n1\n0\n\n\n1\n55.374458\n0.295059\n2\n4\n0\n0\n\n\n2\n73.563485\n-0.259286\n1\n0\n0\n0\n\n\n3\n87.302273\n-0.165281\n2\n5\n0\n0\n\n\n4\n57.324869\n0.243289\n4\n4\n0\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nMeaning\nWhen is it recorded?\n\n\n\n\nage\nPatient age at admission\nAt admission\n\n\nseverity_score\nClinical severity index\nAt admission\n\n\nn_labs_ordered\nLabs ordered during the stay\nDuring the stay\n\n\ndischarge_med_count\nMedications on the discharge summary\nAt discharge\n\n\nfollowup_calls_made\nFollow-up calls from the care team\nIn the 30 days after discharge\n\n\nreadmitted_30d\nReadmitted within 30 days\n30 days after discharge\n\n\n\n\nfeats = [\"age\", \"severity_score\", \"n_labs_ordered\",\n         \"discharge_med_count\", \"followup_calls_made\"]\n\ncv_c = StratifiedKFold(5, shuffle=True, random_state=363)\nfloat(round(\n    cross_val_score(\n        make_pipeline(StandardScaler(), KNeighborsClassifier(15)),\n        clinic[feats], clinic[\"readmitted_30d\"], cv=cv_c, scoring=\"roc_auc\"\n    ).mean(),\n    3,\n))\n\n0.959\n\n\n\n\nEvery learned step is inside a pipeline and the folds are stratified. So why is this result still not useful?\n\nWhich column is the problem?\nDrop the problematic column it, re-run, and report the new AUC.\n\nThe model is meant to run the moment a patient is discharged, so a nurse can decide who to call tonight. Which of the five predictors are available at that moment?\n\n\n\n\n\n\nCredit data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. The visit and clinic data are simulated.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -4626,7 +4626,7 @@
     "href": "slides/05-cross-validation.html#stability-across-seeds",
     "title": "Cross-validation",
     "section": "Stability across seeds",
-    "text": "Stability across seeds\n\n\nNine runs, each with a different fold assignment. best_ks records the minimizing \\(K\\) from each run.",
+    "text": "Stability across seeds\n\n\n\n\n\n\n\n\n\n\nNine runs, each with a different fold assignment. best_ks records the minimizing \\(K\\) from each run.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4674,7 +4674,7 @@
     "href": "slides/05-cross-validation.html#stability-of-10-fold-cv",
     "title": "Cross-validation",
     "section": "Stability of 10-fold CV",
-    "text": "Stability of 10-fold CV\n\n\nNine runs of 10-fold CV on Auto, differing only in the fold assignment. Steadier than the nine single-split curves from Friday.",
+    "text": "Stability of 10-fold CV\n\n\n\n\n\n\n\n\n\n\nNine runs of 10-fold CV on Auto, differing only in the fold assignment. Steadier than the nine single-split curves from Friday.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
