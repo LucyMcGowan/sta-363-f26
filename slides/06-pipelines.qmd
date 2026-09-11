@@ -253,7 +253,7 @@ full = Pipeline([("prep", prep), ("knn", KNeighborsRegressor(5))])  # <4>
 ## Application exercise
 
 ::: {.takeaway}
-Complete Notebook A. [ex/06-ex](../ex/06-ex.qmd)
+Complete Part 1 [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## GridSearchCV {.small}
@@ -339,7 +339,7 @@ assignment respects that label instead of splitting row by row.
 ## Application exercise
 
 ::: {.takeaway}
-Complete Notebook B. [ex/06-ex](../ex/06-ex.qmd)
+Complete Part 2. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## Look-ahead leakage {.small}
@@ -355,7 +355,7 @@ prediction is needed.
 ## Application exercise
 
 ::: {.takeaway}
-Complete Notebook C. [ex/06-ex](../ex/06-ex.qmd)
+Complete Part 3. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 ## Leakage checklist {.small}
@@ -365,12 +365,6 @@ Complete Notebook C. [ex/06-ex](../ex/06-ex.qmd)
 * Is every learned transformation inside the pipeline?  
 * Does any predictor record something measured after the outcome?  
 * If the data have groups or a time order, does the split respect them?  
-:::
-
-## Application exercise
-
-::: {.takeaway}
-Complete the wrap-up. [ex/06-ex](../ex/06-ex.qmd)
 :::
 
 
