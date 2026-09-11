@@ -242,7 +242,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="simulated-noise" class="slide level2">
 <h2>Simulated noise</h2>
-<div id="81920656" class="cell" data-execution_count="2">
+<div id="1fc185c7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> <span class="dv">100</span>, <span class="dv">2000</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rng.normal(size<span class="op">=</span>(n, p))</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, size<span class="op">=</span>n)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -274,7 +274,7 @@ class label with no relationship to any column of <code>X</code>.</span>
 </section>
 <section id="selection-outside-the-loop" class="slide level2 small">
 <h2>Selection outside the loop</h2>
-<div id="e28519de" class="cell" data-execution_count="3">
+<div id="7196b45b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectKBest, f_classif</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
@@ -326,7 +326,7 @@ cross-validates a 5-nearest-neighbors classifier on <code>X_kept</code>, the alr
 </section>
 <section id="selection-inside-the-loop" class="slide level2 small">
 <h2>Selection inside the loop</h2>
-<div id="065eb864" class="cell" data-execution_count="4">
+<div id="1d78efa0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> Pipeline([</span>
@@ -381,7 +381,7 @@ object, so <code>SelectKBest</code> and <code>KNeighborsClassifier(5)</code> are
 </section>
 <section id="make_pipeline-and-pipeline" class="slide level2 small">
 <h2>make_pipeline and Pipeline</h2>
-<div id="4282db31" class="cell" data-execution_count="5">
+<div id="cb902cbc" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline, Pipeline</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
@@ -414,7 +414,7 @@ automatically, each lowercased from its class. <code>Pipeline([(name, step),    
 </section>
 <section id="columntransformer" class="slide level2 small">
 <h2>ColumnTransformer</h2>
-<div id="4a3a89aa" class="cell" data-execution_count="6">
+<div id="50f45692" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
 <span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
@@ -1134,7 +1134,7 @@ document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
 </section>
 <section id="simpleimputer" class="slide level2 small">
 <h2>SimpleImputer</h2>
-<div id="d09cc1d1" class="cell" data-execution_count="7">
+<div id="459c10e2" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1178,12 +1178,12 @@ imputation fills the gaps, still learned from the training fold alone.</span>
 <section id="application-exercise" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Notebook A. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+<p>Complete Part 1 <a href="../ex/06-ex.html">ex/06-ex</a></p>
 </div>
 </section>
 <section id="gridsearchcv" class="slide level2 small">
 <h2>GridSearchCV</h2>
-<div id="6c2080c5" class="cell" data-execution_count="8">
+<div id="b74591f6" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
 <span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(</span>
@@ -1266,7 +1266,7 @@ the numeric and categorical predictor columns against the response <code>Credit[
 <section id="application-exercise-1" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Notebook B. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+<p>Complete Part 2. <a href="../ex/06-ex.html">ex/06-ex</a></p>
 </div>
 </section>
 <section id="look-ahead-leakage" class="slide level2 small">
@@ -1278,7 +1278,7 @@ the numeric and categorical predictor columns against the response <code>Credit[
 <section id="application-exercise-2" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Notebook C. <a href="../ex/06-ex.html">ex/06-ex</a></p>
+<p>Complete Part 3. <a href="../ex/06-ex.html">ex/06-ex</a></p>
 </div>
 </section>
 <section id="leakage-checklist" class="slide level2 small">
@@ -1293,12 +1293,6 @@ the numeric and categorical predictor columns against the response <code>Credit[
 <li>If the data have groups or a time order, does the split respect them?<br>
 </li>
 </ul>
-</section>
-<section id="application-exercise-3" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete the wrap-up. <a href="../ex/06-ex.html">ex/06-ex</a></p>
-</div>
 </section>
 <section id="before-wednesday" class="slide level2">
 <h2>Before Wednesday</h2>
