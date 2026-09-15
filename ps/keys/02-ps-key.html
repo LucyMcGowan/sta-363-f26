@@ -106,15 +106,15 @@ window.Quarto = {
 <meta property="og:description" content="STA 363 | Instructor copy">
 <meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ps/keys/02-ps-key_files/figure-html/cell-3-output-1.png">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="374">
-<meta property="og:image:width" content="566">
+<meta property="og:image:height" content="748">
+<meta property="og:image:width" content="1132">
 <meta name="twitter:title" content="Answer key, Problem set 2: Bias, variance, and neighbors – STA 363">
 <meta name="twitter:description" content="STA 363 | Instructor copy">
 <meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ps/keys/02-ps-key_files/figure-html/cell-3-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="374">
-<meta name="twitter:image-width" content="566">
+<meta name="twitter:image-height" content="748">
+<meta name="twitter:image-width" content="1132">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -598,11 +598,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-decomposition" id="toc-the-decomposition" class="nav-link active" data-scroll-target="#the-decomposition">1. The decomposition</a></li>
-  <li><a href="#nearest-neighbors-by-hand" id="toc-nearest-neighbors-by-hand" class="nav-link" data-scroll-target="#nearest-neighbors-by-hand">2. Nearest neighbors, by hand</a></li>
-  <li><a href="#the-curse-of-dimensionality" id="toc-the-curse-of-dimensionality" class="nav-link" data-scroll-target="#the-curse-of-dimensionality">3. The curse of dimensionality</a></li>
-  <li><a href="#caravan" id="toc-caravan" class="nav-link" data-scroll-target="#caravan">4. Caravan</a></li>
-  <li><a href="#four-ways-to-change-flexibility" id="toc-four-ways-to-change-flexibility" class="nav-link" data-scroll-target="#four-ways-to-change-flexibility">5. Four ways to change flexibility</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section">1.</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">2.</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">3.</a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3">4.</a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4">5.</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ps/keys/02-ps-key.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -630,8 +630,8 @@ window.Quarto = {
 </header>
 
 
-<section id="the-decomposition" class="level2">
-<h2 class="anchored" data-anchor-id="the-decomposition">1. The decomposition</h2>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section">1.</h2>
 <blockquote class="blockquote">
 <p>In class we showed test MSE as the sum of squared bias, variance, and irreducible error, plotted against flexibility.</p>
 </blockquote>
@@ -649,11 +649,11 @@ window.Quarto = {
 \text{E}\left[(y_0 - \hat f(x_0))^2\right]
 = \text{Bias}(\hat f(x_0))^2 + \text{Var}(\hat f(x_0)) + \text{Var}(\varepsilon),
 \]</span> so the test error curve is the squared-bias curve plus the variance curve plus a flat irreducible error. Here <span class="math inline">\(\text{Var}(\varepsilon) = 1\)</span>.</p>
-<div id="66a9e23a" class="cell" data-execution_count="2">
+<div id="762c909c" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="02-ps-key_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="02-ps-key_files/figure-html/cell-3-output-1.png" width="566" height="374" class="figure-img"></p>
 <figcaption>One valid set of curves for Question 1.</figcaption>
 </figure>
 </div>
@@ -663,15 +663,15 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Explain, using your own curves, why test error is minimized at an intermediate flexibility rather than at either extreme.</p>
 </blockquote>
-<p>At low flexibility the squared-bias term is large and dominates the sum, so test error is high. At high flexibility the variance term is large and dominates, so test error is high again. Both terms cannot be small at the same extreme, but there is an interior flexibility where squared bias has fallen a lot and variance has not yet grown much, and the sum reaches its minimum there. For the curves above the minimum sits near a flexibility of 7.</p>
+<p>At low flexibility the squared-bias term is large and dominates the sum, so test error is high. At high flexibility the variance term is large and dominates, so test error is high again. Both terms cannot be small at the same extreme, but there is an interior flexibility where squared bias has fallen a lot and variance has not yet grown much, and the sum reaches its minimum there.</p>
 <p><strong>(d)</strong></p>
 <blockquote class="blockquote">
 <p>Training error is not part of the decomposition formula. Add a training error curve to your plot that stays below the test error curve everywhere, and explain why that ordering has to hold.</p>
 </blockquote>
-<p>Training error decreases monotonically toward zero as flexibility grows, because a flexible enough method can bend to fit the training points it was given. It stays below test error everywhere because the fit is evaluated on the same points that were used to choose it, so it gets credit for matching the noise in that particular sample. Test error is measured on new points where that same noise-fitting does not help and in fact hurts, and no method can push test error below <span class="math inline">\(\text{Var}(\varepsilon)\)</span> while training error has no such floor.</p>
+<p>Training error decreases monotonically toward zero as flexibility grows, because a flexible enough method can bend to fit the training points it was given. It tends to stay below test error because the fit is evaluated on the same points that were used to choose it, so could be overfitting to the noise in that particular sample. Test error is measured on new points where that same noise-fitting does not help and in fact hurts, and no method can push test error below <span class="math inline">\(\text{Var}(\varepsilon)\)</span> while training error can go to 0.</p>
 </section>
-<section id="nearest-neighbors-by-hand" class="level2">
-<h2 class="anchored" data-anchor-id="nearest-neighbors-by-hand">2. Nearest neighbors, by hand</h2>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1">2.</h2>
 <blockquote class="blockquote">
 <p>Predict Y at X1 = X2 = X3 = 0 using K-nearest neighbors.</p>
 </blockquote>
@@ -734,8 +734,8 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Compute the Euclidean distance from the test point to each of the six observations. You may use numpy rather than a calculator.</p>
 </blockquote>
-<p>The test point is the origin, so each distance is the norm of the row.</p>
-<div id="de08966f" class="cell" data-execution_count="3">
+<p>The test point is the 0 for all predictors, so each distance is the norm of the row.</p>
+<div id="a6bfd312" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>Obs 1: distance = 3.000  (Red)
 Obs 2: distance = 2.000  (Red)
@@ -800,10 +800,10 @@ Obs 6: distance = 1.732  (Red)</code></pre>
 <blockquote class="blockquote">
 <p>If the true Bayes decision boundary here is highly non-linear, would you expect the best K to be large or small? Explain.</p>
 </blockquote>
-<p>Small. A highly non-linear Bayes boundary needs a method that can change its local decision quickly from place to place. Small <span class="math inline">\(K\)</span> makes the fit flexible and local, so it can follow a wiggly boundary; large <span class="math inline">\(K\)</span> averages over a big neighborhood and produces a nearly linear boundary with high bias against the true shape.</p>
+<p>Small. Small <span class="math inline">\(K\)</span> makes the fit flexible and local, so it can follow a wiggly boundary; large <span class="math inline">\(K\)</span> averages over a big neighborhood and produces a nearly linear boundary which would have high bias in this case.</p>
 </section>
-<section id="the-curse-of-dimensionality" class="level2">
-<h2 class="anchored" data-anchor-id="the-curse-of-dimensionality">3. The curse of dimensionality</h2>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2">3.</h2>
 <blockquote class="blockquote">
 <p>In p dimensions, capturing a fraction r of the training observations inside a hypercube whose sides are a fraction s of each predictor’s full range requires <span class="math inline">\(s = r^{1/p}\)</span>.</p>
 </blockquote>
@@ -811,7 +811,7 @@ Obs 6: distance = 1.732  (Red)</code></pre>
 <blockquote class="blockquote">
 <p>Compute s for r = 0.10 at p = 1, 2, 5, 10, 20, and 100.</p>
 </blockquote>
-<div id="c8f714ec" class="cell" data-execution_count="4">
+<div id="6404b635" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>p =   1:  s = 0.1000
 p =   2:  s = 0.3162
@@ -864,10 +864,10 @@ p = 100:  s = 0.9772</code></pre>
 <blockquote class="blockquote">
 <p>Explain in one or two sentences why this makes K-nearest neighbors a poor choice when p is large, even after the predictors have been scaled.</p>
 </blockquote>
-<p>When <span class="math inline">\(p\)</span> is large, the neighborhood needed to collect even a small fraction of the training data covers almost the whole range of every predictor, so a point’s “nearest” neighbors are not actually close to it in most coordinates. Scaling fixes the units but not the geometry: the volume still grows so fast with <span class="math inline">\(p\)</span> that the data is spread thin and local averaging stops being local.</p>
+<p>When <span class="math inline">\(p\)</span> is large, the neighborhood needed to encompass even a small fraction of the training data covers almost the whole range of every predictor, so a point’s “nearest” neighbors are not actually close to it in most coordinates.</p>
 </section>
-<section id="caravan" class="level2">
-<h2 class="anchored" data-anchor-id="caravan">4. Caravan</h2>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3">4.</h2>
 <blockquote class="blockquote">
 <p>The <code>Caravan</code> data has 85 numeric predictors describing each customer’s demographics and policy ownership, and a <code>Purchase</code> column recording whether they bought caravan insurance.</p>
 </blockquote>
@@ -876,7 +876,7 @@ p = 100:  s = 0.9772</code></pre>
 <p>This is a rare-outcome problem. Compute the error rate of always predicting no purchase, and keep that number in mind for the rest of this question.</p>
 </blockquote>
 <p>Purchase is <code>Yes</code> for 348 of 5822 customers, so always predicting no purchase has an error rate of about 0.060.</p>
-<div id="193e628e" class="cell" data-execution_count="5">
+<div id="a0eb6f89" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>always-no error rate: 0.0598</code></pre>
 </div>
@@ -886,7 +886,7 @@ p = 100:  s = 0.9772</code></pre>
 <p>Split the data 70/30 with <code>random_state=363</code> and <code>stratify=y_car</code>. Fit a scaled 5-nearest-neighbor classifier using all 85 predictors and report the test error.</p>
 </blockquote>
 <p>The test error is about 0.060, essentially the always-no rate. The model predicts <code>No</code> for almost every test customer.</p>
-<div id="06b2452d" class="cell" data-execution_count="6">
+<div id="a800f820" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>test error, 85 predictors: 0.0595</code></pre>
 </div>
@@ -896,7 +896,7 @@ p = 100:  s = 0.9772</code></pre>
 <p>Find the 5 predictors most correlated with <code>y_car</code>, refit the same scaled 5-nearest-neighbor model using only those 5 columns, and report the test error.</p>
 </blockquote>
 <p>The five predictors most correlated with <code>y_car</code> are <code>PPERSAUT</code>, <code>APERSAUT</code>, <code>APLEZIER</code>, <code>PWAPART</code>, and <code>MKOOPKLA</code>. Refitting on those five columns gives a test error of about 0.060 again.</p>
-<div id="cee06af4" class="cell" data-execution_count="7">
+<div id="826021ef" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>top 5: ['PPERSAUT', 'APERSAUT', 'APLEZIER', 'PWAPART', 'MKOOPKLA']
 test error, 5 predictors: 0.0595</code></pre>
@@ -908,8 +908,8 @@ test error, 5 predictors: 0.0595</code></pre>
 </blockquote>
 <p>Cutting <span class="math inline">\(p\)</span> from 85 to 5 made little difference to the test error here: both models land at roughly the null rate of 0.060. Question 3 says high <span class="math inline">\(p\)</span> makes KNN neighborhoods meaningless, so dropping to 5 predictors should have helped. It did make the neighborhoods more local, but the outcome is so rare that any 5 neighbors are almost always all <code>No</code>, so both models still predict <code>No</code> for nearly everyone and neither beats the baseline on raw error rate. The curse of dimensionality is real, but with a 6% positive rate raw error rate is the wrong yardstick, and a fair comparison would look at how many actual purchasers each model catches.</p>
 </section>
-<section id="four-ways-to-change-flexibility" class="level2">
-<h2 class="anchored" data-anchor-id="four-ways-to-change-flexibility">5. Four ways to change flexibility</h2>
+<section id="section-4" class="level2">
+<h2 class="anchored" data-anchor-id="section-4">5.</h2>
 <blockquote class="blockquote">
 <p>In class we named four ways to change flexibility: polynomial degree or spline degrees of freedom, K in KNN, the number of predictors, and the amount of training data.</p>
 </blockquote>

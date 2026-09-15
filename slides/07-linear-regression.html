@@ -216,9 +216,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="review" class="slide level2">
 <h2>Review</h2>
-<div class="takeaway">
-<p>Six meetings of machinery for judging a model, and no model to judge.</p>
-</div>
 <div class="fragment">
 <div class="question">
 <p>Everything so far applies to any <span class="math inline">\(\hat{f}\)</span>. What have we assumed about the shape of <span class="math inline">\(\hat{f}\)</span>?</p>
@@ -237,12 +234,27 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="simple-linear-regression-2" class="slide level2">
 <h2>Simple linear regression</h2>
 <p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$\beta_0 + \beta_1 X$}} + \varepsilon\]</span></p>
-<p>The intercept and the slope, together the straight line part of the model. <span class="math inline">\(\beta_1\)</span> is the change in <span class="math inline">\(Y\)</span> associated with a one unit change in <span class="math inline">\(X\)</span>, and <span class="math inline">\(\beta_0\)</span> is the value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(X\)</span> is zero. Both are properties of the population, so we never see them.</p>
+<p>A simple relationship linear between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></p>
 </section>
 <section id="simple-linear-regression-3" class="slide level2">
 <h2>Simple linear regression</h2>
+<p><span class="math display">\[Y = \beta_0 + {\require{color}\colorbox{#eec8e1}{$\beta_1$}} X + \varepsilon\]</span></p>
+<p><span class="math inline">\(\beta_1\)</span> is the change in <span class="math inline">\(Y\)</span> associated with a one unit change in <span class="math inline">\(X\)</span></p>
+</section>
+<section id="simple-linear-regression-4" class="slide level2">
+<h2>Simple linear regression</h2>
+<p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$\beta_0$}} + \beta_1 X + \varepsilon\]</span></p>
+<p><span class="math inline">\(\beta_0\)</span> is the value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(X\)</span> is zero.</p>
+</section>
+<section id="simple-linear-regression-5" class="slide level2">
+<h2>Simple linear regression</h2>
+<p><span class="math display">\[Y = {\require{color}\colorbox{#eec8e1}{$\beta_0 + \beta_1 X$}} + \varepsilon\]</span></p>
+<p>Without a ‘hat’ these are properties of the true underlying population, so they are fixed but unknown.</p>
+</section>
+<section id="simple-linear-regression-6" class="slide level2">
+<h2>Simple linear regression</h2>
 <p><span class="math display">\[Y = \beta_0 + \beta_1 X + {\require{color}\colorbox{#eec8e1}{$\varepsilon$}}\]</span></p>
-<p>The error term, everything about <span class="math inline">\(Y\)</span> that <span class="math inline">\(X\)</span> does not explain. This is the same <span class="math inline">\(\varepsilon\)</span> from <span class="math inline">\(Y = f(X) + \varepsilon\)</span> in Meeting 1, and it is still irreducible.</p>
+<p>The error term, everything about <span class="math inline">\(Y\)</span> that <span class="math inline">\(X\)</span> does not explain.</p>
 </section>
 <section id="residuals" class="slide level2 small">
 <h2>Residuals</h2>
@@ -262,12 +274,12 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="residual-sum-of-squares-1" class="slide level2">
 <h2>Residual sum of squares</h2>
 <p><span class="math display">\[\text{RSS} = \sum_{i=1}^{n}{\require{color}\colorbox{#eec8e1}{$\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right)^2$}}\]</span></p>
-<p>The squared residual for observation <span class="math inline">\(i\)</span>, so misses above and below the line count the same and large misses count more than small ones.</p>
+<p>We square the residual for observation <span class="math inline">\(i\)</span>, this means that misses above and below the line count the same and large misses count more than small ones (as this is quadratic).</p>
 </section>
 <section id="residual-sum-of-squares-2" class="slide level2">
 <h2>Residual sum of squares</h2>
 <p><span class="math display">\[\text{RSS} = {\require{color}\colorbox{#eec8e1}{$\sum_{i=1}^{n}$}}\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right)^2\]</span></p>
-<p>Add it over all <span class="math inline">\(n\)</span> observations. Least squares picks the <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> that make this total as small as possible.</p>
+<p>Add the squared residuals for all <span class="math inline">\(n\)</span> observations. Least squares picks the <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> that make this total as small as possible.</p>
 </section>
 <section id="least-squares-fit" class="slide level2">
 <h2>Least squares fit</h2>
@@ -284,7 +296,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <div class="question">
-<p>Ten samples, ten lines. Which quantity from Meeting 3 is that picture showing?</p>
+<p>Ten samples, ten lines. What is this picture showing?</p>
 </div>
 </div>
 </section>
@@ -326,9 +338,14 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <h2>The linear model</h2>
 <p><span class="math display">\[\mathbf{Y} = \mathbf{X}{\require{color}\colorbox{#eec8e1}{$\beta$}} + \varepsilon\]</span></p>
 <p>The vector of <span class="math inline">\(p + 1\)</span> coefficients, the thing being estimated. <span class="math inline">\(\mathbf{Y}\)</span> on the left is the vector of <span class="math inline">\(n\)</span> responses, so this is the whole model for every observation at once.</p>
+</section></section>
+<section>
+<section id="how-do-we-estimate-the-coefficients" class="title-slide slide level1 center">
+<h1>How do we estimate the coefficients?</h1>
+
 </section>
-<section id="setting-the-derivative-to-zero" class="slide level2 small">
-<h2>Setting the derivative to zero</h2>
+<section id="minimize-rss" class="slide level2 small">
+<h2>Minimize RSS</h2>
 <p><span class="math display">\[\text{RSS} = \hat{\varepsilon}^T\hat{\varepsilon} = (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y} - \mathbf{X}\hat\beta)\]</span></p>
 <div class="fragment">
 <p><span class="math display">\[\frac{\partial \text{RSS}}{\partial \hat\beta} = -2\mathbf{X}^T\mathbf{y} + 2\mathbf{X}^T\mathbf{X}\hat\beta = 0\]</span></p>
@@ -349,7 +366,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="the-least-squares-estimate-1" class="slide level2">
 <h2>The least squares estimate</h2>
 <p><span class="math display">\[\hat\beta = {\require{color}\colorbox{#eec8e1}{$(\mathbf{X}^T\mathbf{X})^{-1}$}}\mathbf{X}^T\mathbf{y}\]</span></p>
-<p><span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> is a <span class="math inline">\((p+1) \times (p+1)\)</span> matrix of sums of products of the predictors with each other, and this is its inverse. If that matrix cannot be inverted there is no least squares estimate at all, which is where Meeting 9 starts.</p>
+<p><span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> is a <span class="math inline">\((p+1) \times (p+1)\)</span> matrix of sums of products of the predictors with each other, and this is its inverse.</p>
 </section>
 <section id="application-exercise-1" class="slide level2">
 <h2>Application exercise</h2>
@@ -371,7 +388,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p><span class="math display">\[\text{CV}_{(n)} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - \hat{y}_i}{1 - h_i}\right)^2\]</span></p>
 <div class="fragment">
 <div class="takeaway">
-<p>Promised in Meeting 5. A high-leverage point pulls its own fit toward itself, so its ordinary residual understates how badly the model would have missed it. Dividing by <span class="math inline">\(1 - h_i\)</span> corrects that by exactly the right amount.</p>
+<p>A high-leverage point pulls its own fit toward itself, so its ordinary residual understates how badly the model would have missed it. Dividing by <span class="math inline">\(1 - h_i\)</span> corrects that by exactly the right amount.</p>
 </div>
 </div>
 </section>
@@ -396,18 +413,18 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <div class="question">
-<p><span class="math inline">\(\hat\beta_j\)</span> is the change in <span class="math inline">\(Y\)</span> per unit of <span class="math inline">\(X_j\)</span> holding the others fixed. What does that describe for <code>Limit</code> and <code>Rating</code>?</p>
+<p><span class="math inline">\(\hat\beta_j\)</span> is the change in <span class="math inline">\(Y\)</span> per unit of <span class="math inline">\(X_j\)</span> holding the others fixed.</p>
 </div>
 </div>
 </section>
 <section id="qualitative-predictors" class="slide level2 small">
 <h2>Qualitative predictors</h2>
 <div class="definition">
-<p>A categorical predictor with <span class="math inline">\(k\)</span> levels enters as <span class="math inline">\(k - 1\)</span> indicator columns, each 0 or 1. The level left out is the baseline, and every coefficient is read against it.</p>
+<p>A categorical predictor with <span class="math inline">\(k\)</span> levels enters as <span class="math inline">\(k - 1\)</span> indicator columns, each 0 or 1. The level left out is the baseline (or reference), and every coefficient is interpreted with respect to it.</p>
 </div>
 <div class="fragment">
 <div class="takeaway">
-<p><code>OneHotEncoder(drop="first")</code> from Meeting 6 is doing exactly this.</p>
+<p><code>OneHotEncoder(drop="first")</code> does this.</p>
 </div>
 </div>
 </section>
@@ -430,7 +447,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="linearregression" class="slide level2 small">
 <h2>LinearRegression</h2>
-<div id="6af99e7f" class="cell" data-execution_count="6">
+<div id="855c5c4e" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -444,8 +461,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>LinearRegression</code> is scikit-learn’s least squares fit. It solves<br>
-<span class="math inline">\(\hat\beta = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\)</span> for you, through a numerically safer route than forming the inverse.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>LinearRegression</code> is scikit-learn’s least squares fit.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
@@ -464,7 +480,7 @@ object, assigned to <code>fit</code>. An intercept column is added for you, so <
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>lstat     -0.572
 rm         4.515
 ptratio   -0.931
@@ -474,7 +490,7 @@ dtype: float64</code></pre>
 </section>
 <section id="cross-validated-mse" class="slide level2 small">
 <h2>Cross-validated MSE</h2>
-<div id="fd264cb2" class="cell" data-execution_count="7">
+<div id="22e5d6a5" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -491,12 +507,12 @@ dtype: float64</code></pre>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="7" data-code-annotation="1">The same 10-fold structure as Meeting 5, with a fixed <code>random_state</code> so<br>
+<span data-code-cell="annotated-cell-2" data-code-lines="7" data-code-annotation="1">The same 10-fold structure we’ve used before, with a fixed <code>random_state</code> so<br>
 both models below see identical folds.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="8" data-code-annotation="2">The scaled 10-nearest-neighbors pipeline from Meeting 4, so both methods<br>
+<span data-code-cell="annotated-cell-2" data-code-lines="8" data-code-annotation="2">The scaled 10-nearest-neighbors pipeline, so both methods<br>
 are scored on the same folds and the two numbers are comparable.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
@@ -506,13 +522,13 @@ MSE, so the leading minus sign turns it back into MSE, and <code>.mean()</code> 
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>(28.21, 18.69)</code></pre>
 </div>
 </div>
 <div class="fragment">
 <div class="question">
-<p>Three predictors, 506 observations. Which method did you expect to win?</p>
+<p>Three predictors in a linear model with 506 observations versus 10-nearest neighbor model. Which method did you expect to win?</p>
 </div>
 </div>
 </section>
@@ -520,73 +536,6 @@ MSE, so the leading minus sign turns it back into MSE, and <code>.mean()</code> 
 <h2>Application exercise</h2>
 <div class="takeaway">
 <p>Complete Parts 3 and 5. <a href="../ex/07-ex.html">ex/07-ex</a></p>
-</div>
-</section></section>
-<section>
-<section id="model-diagnostics" class="title-slide slide level1 center">
-<h1>Model diagnostics</h1>
-
-</section>
-<section id="non-linearity" class="slide level2">
-<h2>Non-linearity</h2>
-
-<img data-src="img/islp/fig3_9.png" class="quarto-figure quarto-figure-center r-stretch" style="width:76.0%"><div class="source">
-<p>ISLP Figure 3.9. Residuals against fitted values for <code>Auto</code>. Left: <code>mpg</code> on <code>horsepower</code>, with a clear pattern. Right: adding <code>horsepower</code> squared removes most of it.</p>
-</div>
-</section>
-<section id="high-leverage-points" class="slide level2 small">
-<h2>High leverage points</h2>
-
-<img data-src="img/islp/fig3_13.png" class="quarto-figure quarto-figure-center r-stretch" style="width:84.0%"><div class="source">
-<p>ISLP Figure 3.13. Observation 41 has high leverage and observation 20 does not. Center: a point unremarkable in <span class="math inline">\(X_1\)</span> and in <span class="math inline">\(X_2\)</span> separately, still far from the bulk of the data.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Which of these two does the <span class="math inline">\(h_i\)</span> from earlier detect?</p>
-</div>
-</div>
-</section>
-<section id="collinearity" class="slide level2">
-<h2>Collinearity</h2>
-
-<img data-src="img/islp/fig3_14.png" class="quarto-figure quarto-figure-center r-stretch" style="width:72.0%"><div class="source">
-<p>ISLP Figure 3.14. <code>Credit</code> data. Left: <code>age</code> against <code>limit</code>, not collinear. Right: <code>rating</code> against <code>limit</code>, highly collinear.</p>
-</div>
-</section>
-<section id="collinearity-and-the-rss-surface" class="slide level2 small">
-<h2>Collinearity and the RSS surface</h2>
-
-<img data-src="img/islp/fig3_15.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="source">
-<p>ISLP Figure 3.15. Contours of RSS. Left: <code>balance</code> on <code>age</code> and <code>limit</code>, a well defined minimum. Right: <code>balance</code> on <code>rating</code> and <code>limit</code>, a long narrow valley.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>A flat valley means many pairs of coefficients fit almost equally well, so <span class="math inline">\(\hat\beta\)</span> moves a lot from sample to sample.</p>
-</div>
-</div>
-</section>
-<section id="diagnostics-for-prediction" class="slide level2 small">
-<h2>Diagnostics for prediction</h2>
-<ul>
-<li>Non-linearity: matters, since it is bias you can remove<br>
-</li>
-<li>Collinearity: matters, since it is variance in <span class="math inline">\(\hat\beta\)</span><br>
-</li>
-<li>Outliers and leverage: matter, since a few rows can move the fit<br>
-</li>
-<li>Non-constant variance and normality: matter for inference, less for the point prediction<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>We have never once looked at a p-value. Why not?</p>
-</div>
-</div>
-</section>
-<section id="application-exercise-7" class="slide level2">
-<h2>Application exercise 7</h2>
-<div class="takeaway">
-<p>Fit a line and read it, solved the normal equations by hand, watched cross-validated MSE turn around while training MSE fell, computed leverage and checked the LOOCV shortcut, and raced least squares against KNN.</p>
 </div>
 </section>
 <section id="before-friday" class="slide level2">
@@ -597,11 +546,6 @@ MSE, so the leading minus sign turns it back into MSE, and <code>.mean()</code> 
 <li>Problem set 3 due Friday<br>
 </li>
 </ul>
-<div class="fragment">
-<div class="question">
-<p>Adding forty junk predictors lowered training MSE. What should we do about that?</p>
-</div>
-</div>
 
 
 </section></section>

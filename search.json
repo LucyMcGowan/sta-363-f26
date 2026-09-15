@@ -2248,42 +2248,42 @@
     "href": "ps/keys/02-ps-key.html",
     "title": "Answer key, Problem set 2: Bias, variance, and neighbors",
     "section": "",
-    "text": "In class we showed test MSE as the sum of squared bias, variance, and irreducible error, plotted against flexibility.\n\nAny decreasing squared-bias curve and any increasing variance curve earn full credit as long as the shapes are right and the reasoning in parts c and d matches the curves the student drew. The curves below are one choice.\n(a)\n\nDefine flexibility = np.linspace(1, 20, 100). Choose a decreasing curve for squared bias and an increasing curve for variance, each a function of flexibility that you pick yourself, and plot the two together.\n\nSquared bias falls as flexibility rises because a more flexible method can match a wider range of shapes for \\(f\\). Variance rises because a more flexible method has more freedom to chase whatever is specific to the training sample.\n(b)\n\nUsing the bias-variance decomposition formula from lecture, compute a test error curve as squared bias plus variance plus a constant irreducible error, and add it to your plot.\n\nThe decomposition from lecture is \\[\n\\text{E}\\left[(y_0 - \\hat f(x_0))^2\\right]\n= \\text{Bias}(\\hat f(x_0))^2 + \\text{Var}(\\hat f(x_0)) + \\text{Var}(\\varepsilon),\n\\] so the test error curve is the squared-bias curve plus the variance curve plus a flat irreducible error. Here \\(\\text{Var}(\\varepsilon) = 1\\).\n\n\n\n\n\nOne valid set of curves for Question 1.\n\n\n\n\n(c)\n\nExplain, using your own curves, why test error is minimized at an intermediate flexibility rather than at either extreme.\n\nAt low flexibility the squared-bias term is large and dominates the sum, so test error is high. At high flexibility the variance term is large and dominates, so test error is high again. Both terms cannot be small at the same extreme, but there is an interior flexibility where squared bias has fallen a lot and variance has not yet grown much, and the sum reaches its minimum there. For the curves above the minimum sits near a flexibility of 7.\n(d)\n\nTraining error is not part of the decomposition formula. Add a training error curve to your plot that stays below the test error curve everywhere, and explain why that ordering has to hold.\n\nTraining error decreases monotonically toward zero as flexibility grows, because a flexible enough method can bend to fit the training points it was given. It stays below test error everywhere because the fit is evaluated on the same points that were used to choose it, so it gets credit for matching the noise in that particular sample. Test error is measured on new points where that same noise-fitting does not help and in fact hurts, and no method can push test error below \\(\\text{Var}(\\varepsilon)\\) while training error has no such floor."
+    "text": "In class we showed test MSE as the sum of squared bias, variance, and irreducible error, plotted against flexibility.\n\nAny decreasing squared-bias curve and any increasing variance curve earn full credit as long as the shapes are right and the reasoning in parts c and d matches the curves the student drew. The curves below are one choice.\n(a)\n\nDefine flexibility = np.linspace(1, 20, 100). Choose a decreasing curve for squared bias and an increasing curve for variance, each a function of flexibility that you pick yourself, and plot the two together.\n\nSquared bias falls as flexibility rises because a more flexible method can match a wider range of shapes for \\(f\\). Variance rises because a more flexible method has more freedom to chase whatever is specific to the training sample.\n(b)\n\nUsing the bias-variance decomposition formula from lecture, compute a test error curve as squared bias plus variance plus a constant irreducible error, and add it to your plot.\n\nThe decomposition from lecture is \\[\n\\text{E}\\left[(y_0 - \\hat f(x_0))^2\\right]\n= \\text{Bias}(\\hat f(x_0))^2 + \\text{Var}(\\hat f(x_0)) + \\text{Var}(\\varepsilon),\n\\] so the test error curve is the squared-bias curve plus the variance curve plus a flat irreducible error. Here \\(\\text{Var}(\\varepsilon) = 1\\).\n\n\n\n\n\nOne valid set of curves for Question 1.\n\n\n\n\n(c)\n\nExplain, using your own curves, why test error is minimized at an intermediate flexibility rather than at either extreme.\n\nAt low flexibility the squared-bias term is large and dominates the sum, so test error is high. At high flexibility the variance term is large and dominates, so test error is high again. Both terms cannot be small at the same extreme, but there is an interior flexibility where squared bias has fallen a lot and variance has not yet grown much, and the sum reaches its minimum there.\n(d)\n\nTraining error is not part of the decomposition formula. Add a training error curve to your plot that stays below the test error curve everywhere, and explain why that ordering has to hold.\n\nTraining error decreases monotonically toward zero as flexibility grows, because a flexible enough method can bend to fit the training points it was given. It tends to stay below test error because the fit is evaluated on the same points that were used to choose it, so could be overfitting to the noise in that particular sample. Test error is measured on new points where that same noise-fitting does not help and in fact hurts, and no method can push test error below \\(\\text{Var}(\\varepsilon)\\) while training error can go to 0."
   },
   {
-    "objectID": "ps/keys/02-ps-key.html#the-decomposition",
-    "href": "ps/keys/02-ps-key.html#the-decomposition",
+    "objectID": "ps/keys/02-ps-key.html#section",
+    "href": "ps/keys/02-ps-key.html#section",
     "title": "Answer key, Problem set 2: Bias, variance, and neighbors",
     "section": "",
-    "text": "In class we showed test MSE as the sum of squared bias, variance, and irreducible error, plotted against flexibility.\n\nAny decreasing squared-bias curve and any increasing variance curve earn full credit as long as the shapes are right and the reasoning in parts c and d matches the curves the student drew. The curves below are one choice.\n(a)\n\nDefine flexibility = np.linspace(1, 20, 100). Choose a decreasing curve for squared bias and an increasing curve for variance, each a function of flexibility that you pick yourself, and plot the two together.\n\nSquared bias falls as flexibility rises because a more flexible method can match a wider range of shapes for \\(f\\). Variance rises because a more flexible method has more freedom to chase whatever is specific to the training sample.\n(b)\n\nUsing the bias-variance decomposition formula from lecture, compute a test error curve as squared bias plus variance plus a constant irreducible error, and add it to your plot.\n\nThe decomposition from lecture is \\[\n\\text{E}\\left[(y_0 - \\hat f(x_0))^2\\right]\n= \\text{Bias}(\\hat f(x_0))^2 + \\text{Var}(\\hat f(x_0)) + \\text{Var}(\\varepsilon),\n\\] so the test error curve is the squared-bias curve plus the variance curve plus a flat irreducible error. Here \\(\\text{Var}(\\varepsilon) = 1\\).\n\n\n\n\n\nOne valid set of curves for Question 1.\n\n\n\n\n(c)\n\nExplain, using your own curves, why test error is minimized at an intermediate flexibility rather than at either extreme.\n\nAt low flexibility the squared-bias term is large and dominates the sum, so test error is high. At high flexibility the variance term is large and dominates, so test error is high again. Both terms cannot be small at the same extreme, but there is an interior flexibility where squared bias has fallen a lot and variance has not yet grown much, and the sum reaches its minimum there. For the curves above the minimum sits near a flexibility of 7.\n(d)\n\nTraining error is not part of the decomposition formula. Add a training error curve to your plot that stays below the test error curve everywhere, and explain why that ordering has to hold.\n\nTraining error decreases monotonically toward zero as flexibility grows, because a flexible enough method can bend to fit the training points it was given. It stays below test error everywhere because the fit is evaluated on the same points that were used to choose it, so it gets credit for matching the noise in that particular sample. Test error is measured on new points where that same noise-fitting does not help and in fact hurts, and no method can push test error below \\(\\text{Var}(\\varepsilon)\\) while training error has no such floor."
+    "text": "In class we showed test MSE as the sum of squared bias, variance, and irreducible error, plotted against flexibility.\n\nAny decreasing squared-bias curve and any increasing variance curve earn full credit as long as the shapes are right and the reasoning in parts c and d matches the curves the student drew. The curves below are one choice.\n(a)\n\nDefine flexibility = np.linspace(1, 20, 100). Choose a decreasing curve for squared bias and an increasing curve for variance, each a function of flexibility that you pick yourself, and plot the two together.\n\nSquared bias falls as flexibility rises because a more flexible method can match a wider range of shapes for \\(f\\). Variance rises because a more flexible method has more freedom to chase whatever is specific to the training sample.\n(b)\n\nUsing the bias-variance decomposition formula from lecture, compute a test error curve as squared bias plus variance plus a constant irreducible error, and add it to your plot.\n\nThe decomposition from lecture is \\[\n\\text{E}\\left[(y_0 - \\hat f(x_0))^2\\right]\n= \\text{Bias}(\\hat f(x_0))^2 + \\text{Var}(\\hat f(x_0)) + \\text{Var}(\\varepsilon),\n\\] so the test error curve is the squared-bias curve plus the variance curve plus a flat irreducible error. Here \\(\\text{Var}(\\varepsilon) = 1\\).\n\n\n\n\n\nOne valid set of curves for Question 1.\n\n\n\n\n(c)\n\nExplain, using your own curves, why test error is minimized at an intermediate flexibility rather than at either extreme.\n\nAt low flexibility the squared-bias term is large and dominates the sum, so test error is high. At high flexibility the variance term is large and dominates, so test error is high again. Both terms cannot be small at the same extreme, but there is an interior flexibility where squared bias has fallen a lot and variance has not yet grown much, and the sum reaches its minimum there.\n(d)\n\nTraining error is not part of the decomposition formula. Add a training error curve to your plot that stays below the test error curve everywhere, and explain why that ordering has to hold.\n\nTraining error decreases monotonically toward zero as flexibility grows, because a flexible enough method can bend to fit the training points it was given. It tends to stay below test error because the fit is evaluated on the same points that were used to choose it, so could be overfitting to the noise in that particular sample. Test error is measured on new points where that same noise-fitting does not help and in fact hurts, and no method can push test error below \\(\\text{Var}(\\varepsilon)\\) while training error can go to 0."
   },
   {
-    "objectID": "ps/keys/02-ps-key.html#nearest-neighbors-by-hand",
-    "href": "ps/keys/02-ps-key.html#nearest-neighbors-by-hand",
+    "objectID": "ps/keys/02-ps-key.html#section-1",
+    "href": "ps/keys/02-ps-key.html#section-1",
     "title": "Answer key, Problem set 2: Bias, variance, and neighbors",
-    "section": "2. Nearest neighbors, by hand",
-    "text": "2. Nearest neighbors, by hand\n\nPredict Y at X1 = X2 = X3 = 0 using K-nearest neighbors.\n\n\n\n\nObs\nX1\nX2\nX3\nY\n\n\n\n\n1\n0\n3\n0\nRed\n\n\n2\n2\n0\n0\nRed\n\n\n3\n0\n1\n3\nRed\n\n\n4\n0\n1\n2\nGreen\n\n\n5\n-1\n0\n1\nGreen\n\n\n6\n1\n1\n1\nRed\n\n\n\n(a)\n\nCompute the Euclidean distance from the test point to each of the six observations. You may use numpy rather than a calculator.\n\nThe test point is the origin, so each distance is the norm of the row.\n\n\nObs 1: distance = 3.000  (Red)\nObs 2: distance = 2.000  (Red)\nObs 3: distance = 3.162  (Red)\nObs 4: distance = 2.236  (Green)\nObs 5: distance = 1.414  (Green)\nObs 6: distance = 1.732  (Red)\n\n\n\n\n\nObs\nDistance\nY\n\n\n\n\n1\n3.000\nRed\n\n\n2\n2.000\nRed\n\n\n3\n\\(\\sqrt{10} \\approx 3.162\\)\nRed\n\n\n4\n\\(\\sqrt{5} \\approx 2.236\\)\nGreen\n\n\n5\n\\(\\sqrt{2} \\approx 1.414\\)\nGreen\n\n\n6\n\\(\\sqrt{3} \\approx 1.732\\)\nRed\n\n\n\n(b)\n\nWhat is the prediction with K = 1? Which observation determines it?\n\nThe prediction is Green. The closest observation is Obs 5 at distance \\(\\sqrt{2}\\), and it is Green.\n(c)\n\nWhat is the prediction with K = 3?\n\nThe three nearest are Obs 5 (Green), Obs 6 (Red), and Obs 2 (Red). The majority is Red, so the prediction is Red.\n(d)\n\nIf the true Bayes decision boundary here is highly non-linear, would you expect the best K to be large or small? Explain.\n\nSmall. A highly non-linear Bayes boundary needs a method that can change its local decision quickly from place to place. Small \\(K\\) makes the fit flexible and local, so it can follow a wiggly boundary; large \\(K\\) averages over a big neighborhood and produces a nearly linear boundary with high bias against the true shape."
+    "section": "2.",
+    "text": "2.\n\nPredict Y at X1 = X2 = X3 = 0 using K-nearest neighbors.\n\n\n\n\nObs\nX1\nX2\nX3\nY\n\n\n\n\n1\n0\n3\n0\nRed\n\n\n2\n2\n0\n0\nRed\n\n\n3\n0\n1\n3\nRed\n\n\n4\n0\n1\n2\nGreen\n\n\n5\n-1\n0\n1\nGreen\n\n\n6\n1\n1\n1\nRed\n\n\n\n(a)\n\nCompute the Euclidean distance from the test point to each of the six observations. You may use numpy rather than a calculator.\n\nThe test point is the 0 for all predictors, so each distance is the norm of the row.\n\n\nObs 1: distance = 3.000  (Red)\nObs 2: distance = 2.000  (Red)\nObs 3: distance = 3.162  (Red)\nObs 4: distance = 2.236  (Green)\nObs 5: distance = 1.414  (Green)\nObs 6: distance = 1.732  (Red)\n\n\n\n\n\nObs\nDistance\nY\n\n\n\n\n1\n3.000\nRed\n\n\n2\n2.000\nRed\n\n\n3\n\\(\\sqrt{10} \\approx 3.162\\)\nRed\n\n\n4\n\\(\\sqrt{5} \\approx 2.236\\)\nGreen\n\n\n5\n\\(\\sqrt{2} \\approx 1.414\\)\nGreen\n\n\n6\n\\(\\sqrt{3} \\approx 1.732\\)\nRed\n\n\n\n(b)\n\nWhat is the prediction with K = 1? Which observation determines it?\n\nThe prediction is Green. The closest observation is Obs 5 at distance \\(\\sqrt{2}\\), and it is Green.\n(c)\n\nWhat is the prediction with K = 3?\n\nThe three nearest are Obs 5 (Green), Obs 6 (Red), and Obs 2 (Red). The majority is Red, so the prediction is Red.\n(d)\n\nIf the true Bayes decision boundary here is highly non-linear, would you expect the best K to be large or small? Explain.\n\nSmall. Small \\(K\\) makes the fit flexible and local, so it can follow a wiggly boundary; large \\(K\\) averages over a big neighborhood and produces a nearly linear boundary which would have high bias in this case."
   },
   {
-    "objectID": "ps/keys/02-ps-key.html#the-curse-of-dimensionality",
-    "href": "ps/keys/02-ps-key.html#the-curse-of-dimensionality",
+    "objectID": "ps/keys/02-ps-key.html#section-2",
+    "href": "ps/keys/02-ps-key.html#section-2",
     "title": "Answer key, Problem set 2: Bias, variance, and neighbors",
-    "section": "3. The curse of dimensionality",
-    "text": "3. The curse of dimensionality\n\nIn p dimensions, capturing a fraction r of the training observations inside a hypercube whose sides are a fraction s of each predictor’s full range requires \\(s = r^{1/p}\\).\n\n(a)\n\nCompute s for r = 0.10 at p = 1, 2, 5, 10, 20, and 100.\n\n\n\np =   1:  s = 0.1000\np =   2:  s = 0.3162\np =   5:  s = 0.6310\np =  10:  s = 0.7943\np =  20:  s = 0.8913\np = 100:  s = 0.9772\n\n\n\n\n\n\\(p\\)\n\\(s\\)\n\n\n\n\n1\n0.100\n\n\n2\n0.316\n\n\n5\n0.631\n\n\n10\n0.794\n\n\n20\n0.891\n\n\n100\n0.977\n\n\n\n(b)\n\nThe KNN slide states that with p = 20, capturing 10% of the data needs about 80% of every predictor’s range. Does your value from part a agree?\n\nYes. At \\(p = 20\\) the formula gives \\(s = 0.10^{1/20} \\approx 0.89\\), so the hypercube has to span about 89% of every predictor’s range to enclose 10% of the data, which matches the “about 80%” statement on the slide.\n(c)\n\nExplain in one or two sentences why this makes K-nearest neighbors a poor choice when p is large, even after the predictors have been scaled.\n\nWhen \\(p\\) is large, the neighborhood needed to collect even a small fraction of the training data covers almost the whole range of every predictor, so a point’s “nearest” neighbors are not actually close to it in most coordinates. Scaling fixes the units but not the geometry: the volume still grows so fast with \\(p\\) that the data is spread thin and local averaging stops being local."
+    "section": "3.",
+    "text": "3.\n\nIn p dimensions, capturing a fraction r of the training observations inside a hypercube whose sides are a fraction s of each predictor’s full range requires \\(s = r^{1/p}\\).\n\n(a)\n\nCompute s for r = 0.10 at p = 1, 2, 5, 10, 20, and 100.\n\n\n\np =   1:  s = 0.1000\np =   2:  s = 0.3162\np =   5:  s = 0.6310\np =  10:  s = 0.7943\np =  20:  s = 0.8913\np = 100:  s = 0.9772\n\n\n\n\n\n\\(p\\)\n\\(s\\)\n\n\n\n\n1\n0.100\n\n\n2\n0.316\n\n\n5\n0.631\n\n\n10\n0.794\n\n\n20\n0.891\n\n\n100\n0.977\n\n\n\n(b)\n\nThe KNN slide states that with p = 20, capturing 10% of the data needs about 80% of every predictor’s range. Does your value from part a agree?\n\nYes. At \\(p = 20\\) the formula gives \\(s = 0.10^{1/20} \\approx 0.89\\), so the hypercube has to span about 89% of every predictor’s range to enclose 10% of the data, which matches the “about 80%” statement on the slide.\n(c)\n\nExplain in one or two sentences why this makes K-nearest neighbors a poor choice when p is large, even after the predictors have been scaled.\n\nWhen \\(p\\) is large, the neighborhood needed to encompass even a small fraction of the training data covers almost the whole range of every predictor, so a point’s “nearest” neighbors are not actually close to it in most coordinates."
   },
   {
-    "objectID": "ps/keys/02-ps-key.html#caravan",
-    "href": "ps/keys/02-ps-key.html#caravan",
+    "objectID": "ps/keys/02-ps-key.html#section-3",
+    "href": "ps/keys/02-ps-key.html#section-3",
     "title": "Answer key, Problem set 2: Bias, variance, and neighbors",
-    "section": "4. Caravan",
-    "text": "4. Caravan\n\nThe Caravan data has 85 numeric predictors describing each customer’s demographics and policy ownership, and a Purchase column recording whether they bought caravan insurance.\n\n(a)\n\nThis is a rare-outcome problem. Compute the error rate of always predicting no purchase, and keep that number in mind for the rest of this question.\n\nPurchase is Yes for 348 of 5822 customers, so always predicting no purchase has an error rate of about 0.060.\n\n\nalways-no error rate: 0.0598\n\n\n(b)\n\nSplit the data 70/30 with random_state=363 and stratify=y_car. Fit a scaled 5-nearest-neighbor classifier using all 85 predictors and report the test error.\n\nThe test error is about 0.060, essentially the always-no rate. The model predicts No for almost every test customer.\n\n\ntest error, 85 predictors: 0.0595\n\n\n(c)\n\nFind the 5 predictors most correlated with y_car, refit the same scaled 5-nearest-neighbor model using only those 5 columns, and report the test error.\n\nThe five predictors most correlated with y_car are PPERSAUT, APERSAUT, APLEZIER, PWAPART, and MKOOPKLA. Refitting on those five columns gives a test error of about 0.060 again.\n\n\ntop 5: ['PPERSAUT', 'APERSAUT', 'APLEZIER', 'PWAPART', 'MKOOPKLA']\ntest error, 5 predictors: 0.0595\n\n\n(d)\n\nConnect parts b and c back to question 3. Did cutting p from 85 to 5 help, hurt, or make little difference here? Is that what the curse of dimensionality would predict?\n\nCutting \\(p\\) from 85 to 5 made little difference to the test error here: both models land at roughly the null rate of 0.060. Question 3 says high \\(p\\) makes KNN neighborhoods meaningless, so dropping to 5 predictors should have helped. It did make the neighborhoods more local, but the outcome is so rare that any 5 neighbors are almost always all No, so both models still predict No for nearly everyone and neither beats the baseline on raw error rate. The curse of dimensionality is real, but with a 6% positive rate raw error rate is the wrong yardstick, and a fair comparison would look at how many actual purchasers each model catches."
+    "section": "4.",
+    "text": "4.\n\nThe Caravan data has 85 numeric predictors describing each customer’s demographics and policy ownership, and a Purchase column recording whether they bought caravan insurance.\n\n(a)\n\nThis is a rare-outcome problem. Compute the error rate of always predicting no purchase, and keep that number in mind for the rest of this question.\n\nPurchase is Yes for 348 of 5822 customers, so always predicting no purchase has an error rate of about 0.060.\n\n\nalways-no error rate: 0.0598\n\n\n(b)\n\nSplit the data 70/30 with random_state=363 and stratify=y_car. Fit a scaled 5-nearest-neighbor classifier using all 85 predictors and report the test error.\n\nThe test error is about 0.060, essentially the always-no rate. The model predicts No for almost every test customer.\n\n\ntest error, 85 predictors: 0.0595\n\n\n(c)\n\nFind the 5 predictors most correlated with y_car, refit the same scaled 5-nearest-neighbor model using only those 5 columns, and report the test error.\n\nThe five predictors most correlated with y_car are PPERSAUT, APERSAUT, APLEZIER, PWAPART, and MKOOPKLA. Refitting on those five columns gives a test error of about 0.060 again.\n\n\ntop 5: ['PPERSAUT', 'APERSAUT', 'APLEZIER', 'PWAPART', 'MKOOPKLA']\ntest error, 5 predictors: 0.0595\n\n\n(d)\n\nConnect parts b and c back to question 3. Did cutting p from 85 to 5 help, hurt, or make little difference here? Is that what the curse of dimensionality would predict?\n\nCutting \\(p\\) from 85 to 5 made little difference to the test error here: both models land at roughly the null rate of 0.060. Question 3 says high \\(p\\) makes KNN neighborhoods meaningless, so dropping to 5 predictors should have helped. It did make the neighborhoods more local, but the outcome is so rare that any 5 neighbors are almost always all No, so both models still predict No for nearly everyone and neither beats the baseline on raw error rate. The curse of dimensionality is real, but with a 6% positive rate raw error rate is the wrong yardstick, and a fair comparison would look at how many actual purchasers each model catches."
   },
   {
-    "objectID": "ps/keys/02-ps-key.html#four-ways-to-change-flexibility",
-    "href": "ps/keys/02-ps-key.html#four-ways-to-change-flexibility",
+    "objectID": "ps/keys/02-ps-key.html#section-4",
+    "href": "ps/keys/02-ps-key.html#section-4",
     "title": "Answer key, Problem set 2: Bias, variance, and neighbors",
-    "section": "5. Four ways to change flexibility",
-    "text": "5. Four ways to change flexibility\n\nIn class we named four ways to change flexibility: polynomial degree or spline degrees of freedom, K in KNN, the number of predictors, and the amount of training data.\n\n(a)\n\nFor each of the four ways, say which direction, more or less, makes a method more flexible.\n\n\nPolynomial degree or spline degrees of freedom: more is more flexible.\n\n\\(K\\) in KNN: less, meaning small \\(K\\), is more flexible.\n\nNumber of predictors: more is more flexible.\n\nAmount of training data: less. More data does not change the model class, but it drives down variance, which is what lets a flexible method be used without overfitting; a small sample forces you toward a rigid method. Either phrasing earns credit if explained.\n\n(b)\n\nExplain why adding predictors increases flexibility even when the model class itself, a straight line for example, does not change.\n\nAdding a predictor gives the fit another direction it can move in to reduce training error, so it can match more patterns in the training sample, including noise. A plane in three inputs can fit any tilt that a line in two inputs can and more besides, so residuals can only go down and the variance of the fit goes up. The model class is still linear, but the space of functions it can produce has grown.\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer."
+    "section": "5.",
+    "text": "5.\n\nIn class we named four ways to change flexibility: polynomial degree or spline degrees of freedom, K in KNN, the number of predictors, and the amount of training data.\n\n(a)\n\nFor each of the four ways, say which direction, more or less, makes a method more flexible.\n\n\nPolynomial degree or spline degrees of freedom: more is more flexible.\n\n\\(K\\) in KNN: less, meaning small \\(K\\), is more flexible.\n\nNumber of predictors: more is more flexible.\n\nAmount of training data: less. More data does not change the model class, but it drives down variance, which is what lets a flexible method be used without overfitting; a small sample forces you toward a rigid method. Either phrasing earns credit if explained.\n\n(b)\n\nExplain why adding predictors increases flexibility even when the model class itself, a straight line for example, does not change.\n\nAdding a predictor gives the fit another direction it can move in to reduce training error, so it can match more patterns in the training sample, including noise. A plane in three inputs can fit any tilt that a line in two inputs can and more besides, so residuals can only go down and the variance of the fit goes up. The model class is still linear, but the space of functions it can produce has grown.\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer."
   },
   {
     "objectID": "index.html",
@@ -4752,7 +4752,7 @@
     "href": "slides/07-linear-regression.html#review",
     "title": "Linear regression",
     "section": "Review",
-    "text": "Review\n\nSix meetings of machinery for judging a model, and no model to judge.\n\n\n\nEverything so far applies to any \\(\\hat{f}\\). What have we assumed about the shape of \\(\\hat{f}\\)?",
+    "text": "Review\n\n\nEverything so far applies to any \\(\\hat{f}\\). What have we assumed about the shape of \\(\\hat{f}\\)?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4776,7 +4776,7 @@
     "href": "slides/07-linear-regression.html#simple-linear-regression-2",
     "title": "Linear regression",
     "section": "Simple linear regression",
-    "text": "Simple linear regression\n\\[Y = {\\require{color}\\colorbox{#eec8e1}{$\\beta_0 + \\beta_1 X$}} + \\varepsilon\\]\nThe intercept and the slope, together the straight line part of the model. \\(\\beta_1\\) is the change in \\(Y\\) associated with a one unit change in \\(X\\), and \\(\\beta_0\\) is the value of \\(Y\\) when \\(X\\) is zero. Both are properties of the population, so we never see them.",
+    "text": "Simple linear regression\n\\[Y = {\\require{color}\\colorbox{#eec8e1}{$\\beta_0 + \\beta_1 X$}} + \\varepsilon\\]\nA simple relationship linear between \\(X\\) and \\(Y\\)",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4788,7 +4788,43 @@
     "href": "slides/07-linear-regression.html#simple-linear-regression-3",
     "title": "Linear regression",
     "section": "Simple linear regression",
-    "text": "Simple linear regression\n\\[Y = \\beta_0 + \\beta_1 X + {\\require{color}\\colorbox{#eec8e1}{$\\varepsilon$}}\\]\nThe error term, everything about \\(Y\\) that \\(X\\) does not explain. This is the same \\(\\varepsilon\\) from \\(Y = f(X) + \\varepsilon\\) in Meeting 1, and it is still irreducible.",
+    "text": "Simple linear regression\n\\[Y = \\beta_0 + {\\require{color}\\colorbox{#eec8e1}{$\\beta_1$}} X + \\varepsilon\\]\n\\(\\beta_1\\) is the change in \\(Y\\) associated with a one unit change in \\(X\\)",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "7. Linear regression"
+    ]
+  },
+  {
+    "objectID": "slides/07-linear-regression.html#simple-linear-regression-4",
+    "href": "slides/07-linear-regression.html#simple-linear-regression-4",
+    "title": "Linear regression",
+    "section": "Simple linear regression",
+    "text": "Simple linear regression\n\\[Y = {\\require{color}\\colorbox{#eec8e1}{$\\beta_0$}} + \\beta_1 X + \\varepsilon\\]\n\\(\\beta_0\\) is the value of \\(Y\\) when \\(X\\) is zero.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "7. Linear regression"
+    ]
+  },
+  {
+    "objectID": "slides/07-linear-regression.html#simple-linear-regression-5",
+    "href": "slides/07-linear-regression.html#simple-linear-regression-5",
+    "title": "Linear regression",
+    "section": "Simple linear regression",
+    "text": "Simple linear regression\n\\[Y = {\\require{color}\\colorbox{#eec8e1}{$\\beta_0 + \\beta_1 X$}} + \\varepsilon\\]\nWithout a ‘hat’ these are properties of the true underlying population, so they are fixed but unknown.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "7. Linear regression"
+    ]
+  },
+  {
+    "objectID": "slides/07-linear-regression.html#simple-linear-regression-6",
+    "href": "slides/07-linear-regression.html#simple-linear-regression-6",
+    "title": "Linear regression",
+    "section": "Simple linear regression",
+    "text": "Simple linear regression\n\\[Y = \\beta_0 + \\beta_1 X + {\\require{color}\\colorbox{#eec8e1}{$\\varepsilon$}}\\]\nThe error term, everything about \\(Y\\) that \\(X\\) does not explain.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4824,7 +4860,7 @@
     "href": "slides/07-linear-regression.html#residual-sum-of-squares-1",
     "title": "Linear regression",
     "section": "Residual sum of squares",
-    "text": "Residual sum of squares\n\\[\\text{RSS} = \\sum_{i=1}^{n}{\\require{color}\\colorbox{#eec8e1}{$\\left(y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i\\right)^2$}}\\]\nThe squared residual for observation \\(i\\), so misses above and below the line count the same and large misses count more than small ones.",
+    "text": "Residual sum of squares\n\\[\\text{RSS} = \\sum_{i=1}^{n}{\\require{color}\\colorbox{#eec8e1}{$\\left(y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i\\right)^2$}}\\]\nWe square the residual for observation \\(i\\), this means that misses above and below the line count the same and large misses count more than small ones (as this is quadratic).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4836,7 +4872,7 @@
     "href": "slides/07-linear-regression.html#residual-sum-of-squares-2",
     "title": "Linear regression",
     "section": "Residual sum of squares",
-    "text": "Residual sum of squares\n\\[\\text{RSS} = {\\require{color}\\colorbox{#eec8e1}{$\\sum_{i=1}^{n}$}}\\left(y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i\\right)^2\\]\nAdd it over all \\(n\\) observations. Least squares picks the \\(\\hat{\\beta}_0\\) and \\(\\hat{\\beta}_1\\) that make this total as small as possible.",
+    "text": "Residual sum of squares\n\\[\\text{RSS} = {\\require{color}\\colorbox{#eec8e1}{$\\sum_{i=1}^{n}$}}\\left(y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i\\right)^2\\]\nAdd the squared residuals for all \\(n\\) observations. Least squares picks the \\(\\hat{\\beta}_0\\) and \\(\\hat{\\beta}_1\\) that make this total as small as possible.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4860,7 +4896,7 @@
     "href": "slides/07-linear-regression.html#estimates-and-the-truth",
     "title": "Linear regression",
     "section": "Estimates and the truth",
-    "text": "Estimates and the truth\n\n\nISLP Figure 3.3. Left: the population regression line in red, the least squares line in blue. Right: ten least squares lines, each from its own sample.\n\n\n\nTen samples, ten lines. Which quantity from Meeting 3 is that picture showing?",
+    "text": "Estimates and the truth\n\n\nISLP Figure 3.3. Left: the population regression line in red, the least squares line in blue. Right: ten least squares lines, each from its own sample.\n\n\n\nTen samples, ten lines. What is this picture showing?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4928,11 +4964,11 @@
     ]
   },
   {
-    "objectID": "slides/07-linear-regression.html#setting-the-derivative-to-zero",
-    "href": "slides/07-linear-regression.html#setting-the-derivative-to-zero",
+    "objectID": "slides/07-linear-regression.html#minimize-rss",
+    "href": "slides/07-linear-regression.html#minimize-rss",
     "title": "Linear regression",
-    "section": "Setting the derivative to zero",
-    "text": "Setting the derivative to zero\n\\[\\text{RSS} = \\hat{\\varepsilon}^T\\hat{\\varepsilon} = (\\mathbf{y} - \\mathbf{X}\\hat\\beta)^T(\\mathbf{y} - \\mathbf{X}\\hat\\beta)\\]\n\n\\[\\frac{\\partial \\text{RSS}}{\\partial \\hat\\beta} = -2\\mathbf{X}^T\\mathbf{y} + 2\\mathbf{X}^T\\mathbf{X}\\hat\\beta = 0\\]\n\n\n\\[\\mathbf{X}^T\\mathbf{X}\\hat\\beta = \\mathbf{X}^T\\mathbf{y}\\]\n\n\n\nMultiply both sides by \\((\\mathbf{X}^T\\mathbf{X})^{-1}\\) and solve.",
+    "section": "Minimize RSS",
+    "text": "Minimize RSS\n\\[\\text{RSS} = \\hat{\\varepsilon}^T\\hat{\\varepsilon} = (\\mathbf{y} - \\mathbf{X}\\hat\\beta)^T(\\mathbf{y} - \\mathbf{X}\\hat\\beta)\\]\n\n\\[\\frac{\\partial \\text{RSS}}{\\partial \\hat\\beta} = -2\\mathbf{X}^T\\mathbf{y} + 2\\mathbf{X}^T\\mathbf{X}\\hat\\beta = 0\\]\n\n\n\\[\\mathbf{X}^T\\mathbf{X}\\hat\\beta = \\mathbf{X}^T\\mathbf{y}\\]\n\n\n\nMultiply both sides by \\((\\mathbf{X}^T\\mathbf{X})^{-1}\\) and solve.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4956,7 +4992,7 @@
     "href": "slides/07-linear-regression.html#the-least-squares-estimate-1",
     "title": "Linear regression",
     "section": "The least squares estimate",
-    "text": "The least squares estimate\n\\[\\hat\\beta = {\\require{color}\\colorbox{#eec8e1}{$(\\mathbf{X}^T\\mathbf{X})^{-1}$}}\\mathbf{X}^T\\mathbf{y}\\]\n\\(\\mathbf{X}^T\\mathbf{X}\\) is a \\((p+1) \\times (p+1)\\) matrix of sums of products of the predictors with each other, and this is its inverse. If that matrix cannot be inverted there is no least squares estimate at all, which is where Meeting 9 starts.",
+    "text": "The least squares estimate\n\\[\\hat\\beta = {\\require{color}\\colorbox{#eec8e1}{$(\\mathbf{X}^T\\mathbf{X})^{-1}$}}\\mathbf{X}^T\\mathbf{y}\\]\n\\(\\mathbf{X}^T\\mathbf{X}\\) is a \\((p+1) \\times (p+1)\\) matrix of sums of products of the predictors with each other, and this is its inverse.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -4992,7 +5028,7 @@
     "href": "slides/07-linear-regression.html#the-loocv-shortcut",
     "title": "Linear regression",
     "section": "The LOOCV shortcut",
-    "text": "The LOOCV shortcut\n\\[\\text{CV}_{(n)} = \\frac{1}{n}\\sum_{i=1}^{n}\\left(\\frac{y_i - \\hat{y}_i}{1 - h_i}\\right)^2\\]\n\n\nPromised in Meeting 5. A high-leverage point pulls its own fit toward itself, so its ordinary residual understates how badly the model would have missed it. Dividing by \\(1 - h_i\\) corrects that by exactly the right amount.",
+    "text": "The LOOCV shortcut\n\\[\\text{CV}_{(n)} = \\frac{1}{n}\\sum_{i=1}^{n}\\left(\\frac{y_i - \\hat{y}_i}{1 - h_i}\\right)^2\\]\n\n\nA high-leverage point pulls its own fit toward itself, so its ordinary residual understates how badly the model would have missed it. Dividing by \\(1 - h_i\\) corrects that by exactly the right amount.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5016,7 +5052,7 @@
     "href": "slides/07-linear-regression.html#multiple-linear-regression-1",
     "title": "Linear regression",
     "section": "Multiple linear regression",
-    "text": "Multiple linear regression\n\\[Y = \\beta_0 + \\beta_1X_1 + \\beta_2X_2 + \\dots + \\beta_pX_p + \\varepsilon\\]\n\n\nNothing changes in matrix form. \\(\\mathbf{X}\\) gains columns, \\(\\beta\\) gains rows, and \\(\\hat\\beta = (\\mathbf{X}^T\\mathbf{X})^{-1}\\mathbf{X}^T\\mathbf{y}\\) is the same formula.\n\n\n\n\n\\(\\hat\\beta_j\\) is the change in \\(Y\\) per unit of \\(X_j\\) holding the others fixed. What does that describe for Limit and Rating?",
+    "text": "Multiple linear regression\n\\[Y = \\beta_0 + \\beta_1X_1 + \\beta_2X_2 + \\dots + \\beta_pX_p + \\varepsilon\\]\n\n\nNothing changes in matrix form. \\(\\mathbf{X}\\) gains columns, \\(\\beta\\) gains rows, and \\(\\hat\\beta = (\\mathbf{X}^T\\mathbf{X})^{-1}\\mathbf{X}^T\\mathbf{y}\\) is the same formula.\n\n\n\n\n\\(\\hat\\beta_j\\) is the change in \\(Y\\) per unit of \\(X_j\\) holding the others fixed.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5028,7 +5064,7 @@
     "href": "slides/07-linear-regression.html#qualitative-predictors",
     "title": "Linear regression",
     "section": "Qualitative predictors",
-    "text": "Qualitative predictors\n\nA categorical predictor with \\(k\\) levels enters as \\(k - 1\\) indicator columns, each 0 or 1. The level left out is the baseline, and every coefficient is read against it.\n\n\n\nOneHotEncoder(drop=\"first\") from Meeting 6 is doing exactly this.",
+    "text": "Qualitative predictors\n\nA categorical predictor with \\(k\\) levels enters as \\(k - 1\\) indicator columns, each 0 or 1. The level left out is the baseline (or reference), and every coefficient is interpreted with respect to it.\n\n\n\nOneHotEncoder(drop=\"first\") does this.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5052,7 +5088,7 @@
     "href": "slides/07-linear-regression.html#linearregression",
     "title": "Linear regression",
     "section": "LinearRegression",
-    "text": "LinearRegression\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\n1from sklearn.linear_model import LinearRegression\n\nBoston = pd.read_csv(DATA + \"Boston.csv\")\n2X = Boston[[\"lstat\", \"rm\", \"ptratio\"]]\ny = Boston[\"medv\"]\n\n3fit = LinearRegression().fit(X, y)\n4pd.Series(fit.coef_, index=X.columns).round(3)\n\n\n1\n\nLinearRegression is scikit-learn’s least squares fit. It solves\n\\(\\hat\\beta = (\\mathbf{X}^T\\mathbf{X})^{-1}\\mathbf{X}^T\\mathbf{y}\\) for you, through a numerically safer route than forming the inverse.\n\n2\n\nX selects three predictor columns of the Boston data and y is\nmedv, the median home value of a census tract in thousands of dollars.\n\n3\n\n.fit(X, y) estimates the coefficients and stores them on the fitted\nobject, assigned to fit. An intercept column is added for you, so X should not contain a column of ones.\n\n4\n\nfit.coef_ holds the slopes in the order of X.columns; wrapping it in\npd.Series with that index labels them, and the intercept sits separately in fit.intercept_.\n\n\n\n\nlstat     -0.572\nrm         4.515\nptratio   -0.931\ndtype: float64",
+    "text": "LinearRegression\n\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\n1from sklearn.linear_model import LinearRegression\n\nBoston = pd.read_csv(DATA + \"Boston.csv\")\n2X = Boston[[\"lstat\", \"rm\", \"ptratio\"]]\ny = Boston[\"medv\"]\n\n3fit = LinearRegression().fit(X, y)\n4pd.Series(fit.coef_, index=X.columns).round(3)\n\n\n1\n\nLinearRegression is scikit-learn’s least squares fit.\n\n2\n\nX selects three predictor columns of the Boston data and y is\nmedv, the median home value of a census tract in thousands of dollars.\n\n3\n\n.fit(X, y) estimates the coefficients and stores them on the fitted\nobject, assigned to fit. An intercept column is added for you, so X should not contain a column of ones.\n\n4\n\nfit.coef_ holds the slopes in the order of X.columns; wrapping it in\npd.Series with that index labels them, and the intercept sits separately in fit.intercept_.\n\n\n\n\nlstat     -0.572\nrm         4.515\nptratio   -0.931\ndtype: float64",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5064,7 +5100,7 @@
     "href": "slides/07-linear-regression.html#cross-validated-mse",
     "title": "Linear regression",
     "section": "Cross-validated MSE",
-    "text": "Cross-validated MSE\n\nfrom sklearn.model_selection import cross_val_score, KFold\nfrom sklearn.neighbors import KNeighborsRegressor\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nMSE = \"neg_mean_squared_error\"\n1cv = KFold(n_splits=10, shuffle=True, random_state=363)\n2knn = make_pipeline(StandardScaler(), KNeighborsRegressor(10))\n\n3lin_mse = -cross_val_score(LinearRegression(), X, y, cv=cv, scoring=MSE).mean()\nknn_mse = -cross_val_score(knn, X, y, cv=cv, scoring=MSE).mean()\nround(float(lin_mse), 2), round(float(knn_mse), 2)\n\n\n1\n\nThe same 10-fold structure as Meeting 5, with a fixed random_state so\nboth models below see identical folds.\n\n2\n\nThe scaled 10-nearest-neighbors pipeline from Meeting 4, so both methods\nare scored on the same folds and the two numbers are comparable.\n\n3\n\ncross_val_score with scoring=\"neg_mean_squared_error\" returns negative\nMSE, so the leading minus sign turns it back into MSE, and .mean() averages over the ten folds. MSE is bound to that string once above to keep the two calls short enough to read.\n\n\n\n\n(28.21, 18.69)\n\n\n\n\nThree predictors, 506 observations. Which method did you expect to win?",
+    "text": "Cross-validated MSE\n\nfrom sklearn.model_selection import cross_val_score, KFold\nfrom sklearn.neighbors import KNeighborsRegressor\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\nMSE = \"neg_mean_squared_error\"\n1cv = KFold(n_splits=10, shuffle=True, random_state=363)\n2knn = make_pipeline(StandardScaler(), KNeighborsRegressor(10))\n\n3lin_mse = -cross_val_score(LinearRegression(), X, y, cv=cv, scoring=MSE).mean()\nknn_mse = -cross_val_score(knn, X, y, cv=cv, scoring=MSE).mean()\nround(float(lin_mse), 2), round(float(knn_mse), 2)\n\n\n1\n\nThe same 10-fold structure we’ve used before, with a fixed random_state so\nboth models below see identical folds.\n\n2\n\nThe scaled 10-nearest-neighbors pipeline, so both methods\nare scored on the same folds and the two numbers are comparable.\n\n3\n\ncross_val_score with scoring=\"neg_mean_squared_error\" returns negative\nMSE, so the leading minus sign turns it back into MSE, and .mean() averages over the ten folds. MSE is bound to that string once above to keep the two calls short enough to read.\n\n\n\n\n(28.21, 18.69)\n\n\n\n\nThree predictors in a linear model with 506 observations versus 10-nearest neighbor model. Which method did you expect to win?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5084,83 +5120,11 @@
     ]
   },
   {
-    "objectID": "slides/07-linear-regression.html#non-linearity",
-    "href": "slides/07-linear-regression.html#non-linearity",
-    "title": "Linear regression",
-    "section": "Non-linearity",
-    "text": "Non-linearity\n\n\nISLP Figure 3.9. Residuals against fitted values for Auto. Left: mpg on horsepower, with a clear pattern. Right: adding horsepower squared removes most of it.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "7. Linear regression"
-    ]
-  },
-  {
-    "objectID": "slides/07-linear-regression.html#high-leverage-points",
-    "href": "slides/07-linear-regression.html#high-leverage-points",
-    "title": "Linear regression",
-    "section": "High leverage points",
-    "text": "High leverage points\n\n\nISLP Figure 3.13. Observation 41 has high leverage and observation 20 does not. Center: a point unremarkable in \\(X_1\\) and in \\(X_2\\) separately, still far from the bulk of the data.\n\n\n\nWhich of these two does the \\(h_i\\) from earlier detect?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "7. Linear regression"
-    ]
-  },
-  {
-    "objectID": "slides/07-linear-regression.html#collinearity",
-    "href": "slides/07-linear-regression.html#collinearity",
-    "title": "Linear regression",
-    "section": "Collinearity",
-    "text": "Collinearity\n\n\nISLP Figure 3.14. Credit data. Left: age against limit, not collinear. Right: rating against limit, highly collinear.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "7. Linear regression"
-    ]
-  },
-  {
-    "objectID": "slides/07-linear-regression.html#collinearity-and-the-rss-surface",
-    "href": "slides/07-linear-regression.html#collinearity-and-the-rss-surface",
-    "title": "Linear regression",
-    "section": "Collinearity and the RSS surface",
-    "text": "Collinearity and the RSS surface\n\n\nISLP Figure 3.15. Contours of RSS. Left: balance on age and limit, a well defined minimum. Right: balance on rating and limit, a long narrow valley.\n\n\n\nA flat valley means many pairs of coefficients fit almost equally well, so \\(\\hat\\beta\\) moves a lot from sample to sample.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "7. Linear regression"
-    ]
-  },
-  {
-    "objectID": "slides/07-linear-regression.html#diagnostics-for-prediction",
-    "href": "slides/07-linear-regression.html#diagnostics-for-prediction",
-    "title": "Linear regression",
-    "section": "Diagnostics for prediction",
-    "text": "Diagnostics for prediction\n\nNon-linearity: matters, since it is bias you can remove\n\nCollinearity: matters, since it is variance in \\(\\hat\\beta\\)\n\nOutliers and leverage: matter, since a few rows can move the fit\n\nNon-constant variance and normality: matter for inference, less for the point prediction\n\n\n\n\nWe have never once looked at a p-value. Why not?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "7. Linear regression"
-    ]
-  },
-  {
-    "objectID": "slides/07-linear-regression.html#application-exercise-7",
-    "href": "slides/07-linear-regression.html#application-exercise-7",
-    "title": "Linear regression",
-    "section": "Application exercise 7",
-    "text": "Application exercise 7\n\nFit a line and read it, solved the normal equations by hand, watched cross-validated MSE turn around while training MSE fell, computed leverage and checked the LOOCV shortcut, and raced least squares against KNN.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "7. Linear regression"
-    ]
-  },
-  {
     "objectID": "slides/07-linear-regression.html#before-friday",
     "href": "slides/07-linear-regression.html#before-friday",
     "title": "Linear regression",
     "section": "Before Friday",
-    "text": "Before Friday\n\nRead ISLP Section 6.1\n\nProblem set 3 due Friday\n\n\n\n\nAdding forty junk predictors lowered training MSE. What should we do about that?",
+    "text": "Before Friday\n\nRead ISLP Section 6.1\n\nProblem set 3 due Friday",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
