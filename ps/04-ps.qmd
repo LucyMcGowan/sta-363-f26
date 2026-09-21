@@ -43,7 +43,7 @@ $$\hat\beta = \frac{\sum_{i=1}^n x_i y_i}{\sum_{j=1}^n x_j^2}.$$
 
 a. Show that $\hat{y}_i$ can be written as $\sum_{j=1}^n a_j y_j$. What is $a_j$?
 b. This says the fitted values are linear combinations of the responses. In the matrix form from lecture, $\hat{\mathbf{y}} = \mathbf{H}\mathbf{y}$. Which entry of $\mathbf{H}$ is $a_j$ for observation $i$, and what does the diagonal entry $h_i$ measure?
-c. Now return to a model with an intercept. Using the normal equations $\mathbf{X}^T\mathbf{X}\hat\beta = \mathbf{X}^T\mathbf{y}$, argue that the residuals sum to zero, and use this to show that the least squares line in simple linear regression always passes through the point $(\bar{x}, \bar{y})$.
+c. Now return to a model with an intercept. Using  $\hat\beta_0 = \bar{y} - \hat\beta_1\bar{x}$, argue that in simple linear regression the least squares line always passes through the point $(\bar{x}, \bar{y})$.
 
 ## 3.
 
@@ -75,7 +75,7 @@ c. Fit a second pipeline that uses `Price` and `US` only. Using 10-fold cross-va
 ::: {.answer}
 :::
 
-d. Which model do you prefer, and why? 
+d. Which model do you prefer, and why?
 
 *Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
 (2023). An Introduction to Statistical Learning with Applications in Python.
