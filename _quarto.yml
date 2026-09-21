@@ -90,8 +90,8 @@ website:
           - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/03-ps.ipynb
             text: "3. Cross-validation and leakage"
           - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/04-ps.ipynb
-            text: "4. Linear Regression
-
+            text: "4. Linear Regression"
+            
       - section: "Application Exercises"
         contents:
           - href: ex/01-ex.qmd
