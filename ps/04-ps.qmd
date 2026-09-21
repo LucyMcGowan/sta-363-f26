@@ -75,7 +75,7 @@ c. Fit a second pipeline that uses `Price` and `US` only. Using 10-fold cross-va
 ::: {.answer}
 :::
 
-d. Which model do you prefer, and why? Would your answer change if the two MSEs had been much closer together? Explain.
+d. Which model do you prefer, and why? 
 
 *Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
 (2023). An Introduction to Statistical Learning with Applications in Python.
