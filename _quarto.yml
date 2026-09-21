@@ -1,0 +1,156 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "slides/*.qmd"
+    - "ex/*.qmd"
+    - "!*solution*"
+    - "!*exam*"
+    # Quarto's "*.qmd" matches recursively, not just the top level, so every
+    # directory that holds .qmd files we do not publish has to be excluded by
+    # name. slides-old is 53 R/knitr decks that fail on render.
+    # ps holds Colab notebooks now. build_notebooks.py turns ps/*.qmd into
+    # ps/*.ipynb, students open the notebook from GitHub, and the problem set
+    # sources are not part of the website. ps/keys/*.qmd is the exception: the
+    # answer keys render so a link can be sent to the grader, so the exclude
+    # is scoped to the top-level ps/*.qmd rather than all of ps/**.
+    - "!ps/*.qmd"
+    - "!checkins/**"
+    - "!slides-old/**"
+    - "!slides-hastie/**"
+    - "!_to_delete/**"
+  resources:
+    - "data/"
+    - "img/"
+    - "www/"
+
+website:
+  page-navigation: true
+  title: "STA 363"
+  description: "STA 363 - Statistical Learning at Wake Forest University, Fall 2026."
+  site-url: "https://lucymcgowan.github.io/sta-363-f26"
+  open-graph: true
+  twitter-card:
+    creator: "@lucystats"
+    card-style: summary_large_image
+  sidebar:
+    style: docked
+    collapse-level: 1
+    contents:
+      - section: "Course Details"
+        contents:
+          - href: schedule.qmd
+            text: "Schedule"
+          - href: syllabus.qmd
+            text: "Course Policies"
+      - section: "Computing"
+        contents:
+          - href: colab.qmd
+            text: "Getting Started with Colab"
+          - href: python-guide.qmd
+            text: "Python Quick Guide"
+          - href: data.qmd
+            text: "Course Data"
+          - href: troubleshooting.qmd
+            text: "Troubleshooting"
+      - section: "Slides"
+        contents:
+          - href: slides/01-welcome.qmd
+            text: "1. Statistical learning"
+          - href: slides/02-prediction-error.qmd
+            text: "2. Prediction error"
+          - href: slides/03-bias-variance.qmd
+            text: "3. Bias-variance trade-off"
+          - href: slides/04-knn.qmd
+            text: "4. K-nearest neighbors"
+          - href: slides/05-cross-validation.qmd
+            text: "5. Cross-validation"
+          - href: slides/06-pipelines.qmd
+            text: "6. Pipelines and leakage"
+          - href: slides/07-linear-regression.qmd
+            text: "7. Linear regression"
+          - href: slides/08-model-selection.qmd
+            text: "8. Subset selection"
+          - href: slides/09-ridge.qmd
+            text: "9. Ridge regression"
+          - href: slides/10-lasso.qmd
+            text: "10. Lasso and elastic net"
+          - href: slides/11-logistic.qmd
+            text: "11. Logistic regression"
+          - href: slides/12-classifier-metrics.qmd
+            text: "12. Evaluating classifiers"
+      # These open the notebook in Colab straight from GitHub. Students save a
+      # copy to their own Drive before working.
+      - section: "Problem Sets"
+        contents:
+          - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/01-ps.ipynb
+            text: "1. The prediction framework"
+          - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/02-ps.ipynb
+            text: "2. Bias, variance, and neighbors"
+          - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/03-ps.ipynb
+            text: "3. Cross-validation and leakage"
+          - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/04-ps.ipynb
+            text: "4. Linear Regression
+
+      - section: "Application Exercises"
+        contents:
+          - href: ex/01-ex.qmd
+            text: "1. What is the problem?"
+          - href: ex/02-ex.qmd
+            text: "2. Training error can mislead"
+          - href: ex/03-ex.qmd
+            text: "3. Reading bias and variance"
+          - href: ex/04-ex.qmd
+            text: "4. Tuning K"
+          - href: ex/05-ex.qmd
+            text: "5. Cross-validation"
+          - href: ex/06-ex.qmd
+            text: "6. Find the leak"
+          - href: ex/07-ex.qmd
+            text: "7. Least squares"
+          - href: ex/08-ex.qmd
+            text: "8. Choosing a subset"
+          - href: ex/09-ex.qmd
+            text: "9. Ridge regression"
+          - href: ex/10-ex.qmd
+            text: "10. Lasso and elastic net"
+          - href: ex/11-ex.qmd
+            text: "11. Logistic regression"
+          - href: ex/12-ex.qmd
+            text: "12. Thresholds and ROC"
+
+  navbar:
+    pinned: true
+    background: "#d5008f"
+    right:
+      - href: schedule.qmd
+        text: "{{< fa calendar >}} Schedule"
+      - href: syllabus.qmd
+        text: "{{< fa gavel >}} Policies"
+      - href: help.qmd
+        text: "{{< fa question-circle >}} Help"
+      - href: "https://colab.research.google.com"
+        text: "{{< fa cloud >}} Colab"
+  repo-url: https://github.com/lucymcgowan/sta-363-f26
+  repo-actions: [edit, issue]
+  page-footer:
+    left: "&copy; 2026, Lucy D'Agostino McGowan"
+    right: "Made with {{< fa brands python >}} and [Quarto](https://quarto.org/)"
+    background: "#eec8e1"
+
+format:
+  html:
+    theme:
+      light: [united, custom.scss]
+      dark: [united, custom.scss, dark.scss]
+    css: www/fontawesome/css/all.min.css
+    code-copy: true
+    code-overflow: wrap
+    linkcolor: "#d5008f"
+    mainfont: "Fira Sans"
+    toc: true
+
+execute:
+  freeze: auto
+  warning: false
+  message: false
