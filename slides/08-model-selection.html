@@ -28,72 +28,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-      }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-    div.sourceCode
-      { color: #24292e;  }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #24292e; } /* Normal */
-    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
-    code span.an { color: #6a737d; } /* Annotation */
-    code span.at { color: #d73a49; } /* Attribute */
-    code span.bn { color: #005cc5; } /* BaseN */
-    code span.bu { color: #d73a49; } /* BuiltIn */
-    code span.cf { color: #d73a49; } /* ControlFlow */
-    code span.ch { color: #032f62; } /* Char */
-    code span.cn { color: #005cc5; } /* Constant */
-    code span.co { color: #6a737d; } /* Comment */
-    code span.cv { color: #6a737d; } /* CommentVar */
-    code span.do { color: #6a737d; } /* Documentation */
-    code span.dt { color: #d73a49; } /* DataType */
-    code span.dv { color: #005cc5; } /* DecVal */
-    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
-    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
-    code span.fl { color: #005cc5; } /* Float */
-    code span.fu { color: #6f42c1; } /* Function */
-    code span.im { color: #032f62; } /* Import */
-    code span.in { color: #6a737d; } /* Information */
-    code span.kw { color: #d73a49; } /* Keyword */
-    code span.op { color: #24292e; } /* Operator */
-    code span.ot { color: #6f42c1; } /* Other */
-    code span.pp { color: #d73a49; } /* Preprocessor */
-    code span.re { color: #6a737d; } /* RegionMarker */
-    code span.sc { color: #005cc5; } /* SpecialChar */
-    code span.ss { color: #032f62; } /* SpecialString */
-    code span.st { color: #032f62; } /* String */
-    code span.va { color: #e36209; } /* Variable */
-    code span.vs { color: #032f62; } /* VerbatimString */
-    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee6862a114be80f027b612748618a6b6.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -214,32 +148,13 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 
 </section>
-<section id="review" class="slide level2">
-<h2>Review</h2>
-<div class="takeaway">
-<p>Forty columns of noise lowered training MSE and raised cross-validated MSE.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Least squares gave those forty columns nonzero coefficients. Should it have?</p>
-</div>
-</div>
-</section>
-<section id="three-reasons-to-drop-predictors" class="slide level2 small">
-<h2>Three reasons to drop predictors</h2>
+<section id="reasons-to-drop-predictors" class="slide level2 small">
+<h2>Reasons to drop predictors</h2>
 <ul>
-<li class="fragment">Variance: each estimated coefficient is a number with error in it<br>
-</li>
 <li class="fragment">Feasibility: when <span class="math inline">\(p &gt; n\)</span>, <span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> has no inverse<br>
 </li>
-<li class="fragment">Interpretability: a model with 3 predictors can be read, one with 300 cannot<br>
-</li>
+<li class="fragment">Interpretability: a model with fewer predictors may be more interpretable</li>
 </ul>
-<div class="fragment">
-<div class="takeaway">
-<p>Least squares has no way to leave a predictor out. We have to do it for it.</p>
-</div>
-</div>
 </section>
 <section>
 <section id="best-subset-selection" class="title-slide slide level1 center">
@@ -249,19 +164,14 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="best-subset-selection-1" class="slide level2 small">
 <h2>Best subset selection</h2>
 <div class="definition">
-<p>Fit every model that uses some subset of the <span class="math inline">\(p\)</span> predictors. For each size <span class="math inline">\(k\)</span>, keep the one with the smallest RSS, call it <span class="math inline">\(\mathcal{M}_k\)</span>. Then choose among <span class="math inline">\(\mathcal{M}_0, \dots, \mathcal{M}_p\)</span> using estimated test error.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>Step 2 uses training RSS and is safe, because it only ever compares models of the same size. Step 3 cannot.</p>
-</div>
+<p>Fit every model that uses some subset of the <span class="math inline">\(p\)</span> predictors. For each size <span class="math inline">\(k\)</span>, keep the one with the smallest RSS (<span class="math inline">\(\mathcal{M}_k\)</span>). Then choose among <span class="math inline">\(\mathcal{M}_0, \dots, \mathcal{M}_p\)</span> using estimated test error.</p>
 </div>
 </section>
 <section id="every-subset-on-credit" class="slide level2">
 <h2>Every subset on Credit</h2>
 
 <img data-src="img/islp/fig6_1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:66.0%"><div class="source">
-<p>ISLP Figure 6.1. RSS and <span class="math inline">\(R^2\)</span> for all <span class="math inline">\(2^{11}\)</span> models on the <code>Credit</code> data. The red frontier tracks the best model at each size.</p>
+<p>ISLP Figure 6.1. RSS and <span class="math inline">\(R^2\)</span> for all <span class="math inline">\(2^{11}\)</span> models on the <code>Credit</code> data.</p>
 </div>
 </section>
 <section id="application-exercise" class="slide level2">
@@ -296,61 +206,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <h2>Application exercise</h2>
 <div class="takeaway">
 <p>Complete Part 2. <a href="../ex/08-ex.html">ex/08-ex</a></p>
-</div>
-</section></section>
-<section>
-<section id="stepwise-selection" class="title-slide slide level1 center">
-<h1>Stepwise selection</h1>
-
-</section>
-<section id="forward-stepwise-selection" class="slide level2 small">
-<h2>Forward stepwise selection</h2>
-<div class="definition">
-<p>Start with no predictors. At each step, add whichever remaining predictor lowers RSS the most, and never remove one. Stop at the full model, then choose among the <span class="math inline">\(p + 1\)</span> models along the path.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p><span class="math inline">\(1 + p(p+1)/2\)</span> fits instead of <span class="math inline">\(2^p\)</span>. At <span class="math inline">\(p = 19\)</span>, 191 instead of 524,288.</p>
-</div>
-</div>
-</section>
-<section id="backward-stepwise-selection" class="slide level2 small">
-<h2>Backward stepwise selection</h2>
-<div class="definition">
-<p>Start with all <span class="math inline">\(p\)</span> predictors. At each step, drop whichever one raises RSS the least. Same count of fits, same final choice among <span class="math inline">\(p + 1\)</span> models.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Backward stepwise needs <span class="math inline">\(n &gt; p\)</span> to take its first step. Why does forward stepwise not?</p>
-</div>
-</div>
-</section>
-<section id="what-greedy-costs-you" class="slide level2 small">
-<h2>What greedy costs you</h2>
-<div class="takeaway">
-<p>Neither stepwise procedure is guaranteed to find the best subset of a given size. Once forward stepwise adds a predictor, that predictor stays, even if a pair added later would have made it redundant.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Best subset searches everything and still overfits more. How is that consistent?</p>
-</div>
-</div>
-</section>
-<section id="hybrid-stepwise-selection" class="slide level2 small">
-<h2>Hybrid stepwise selection</h2>
-<div class="definition">
-<p>Add predictors forward, and after each addition check whether any predictor already in the model has stopped earning its place, dropping it if so.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>Closer to best subset than either one-directional search, at close to stepwise cost. Still no guarantee of finding the best subset.</p>
-</div>
-</div>
-</section>
-<section id="application-exercise-2" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete Part 3. <a href="../ex/08-ex.html">ex/08-ex</a></p>
 </div>
 </section></section>
 <section>
@@ -436,10 +291,10 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>ISLP Figure 6.2. <span class="math inline">\(C_p\)</span>, BIC, and adjusted <span class="math inline">\(R^2\)</span> for the best model of each size on <code>Credit</code>. BIC turns up after four variables; the other two stay flat.</p>
 </div>
 </section>
-<section id="application-exercise-3" class="slide level2">
+<section id="application-exercise-2" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 4. <a href="../ex/08-ex.html">ex/08-ex</a></p>
+<p>Complete Part 3. <a href="../ex/08-ex.html">ex/08-ex</a></p>
 </div>
 </section>
 <section id="validation-and-cross-validation" class="slide level2">
@@ -465,147 +320,16 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </li>
 </ul>
 </section>
-<section id="the-path-on-hitters" class="slide level2 small">
-<h2>The path on Hitters</h2>
-
-<img data-src="08-model-selection_files/figure-revealjs/cell-6-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
-<p>Forward stepwise on <code>Hitters</code>, cross-validated at every size. Bars are one standard error; the dashed line is one standard error above the minimum.</p>
-</div>
-</section>
-<section id="the-one-standard-error-rule" class="slide level2 small">
-<h2>The one standard error rule</h2>
-<div class="definition">
-<p>Compute the standard error of the cross-validated error at each size. Take the smallest model whose error is within one standard error of the minimum.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>When several models fit about equally well, the flat part of the curve is telling you the difference is noise. Take the simplest one on it.</p>
-</div>
-</div>
-</section>
-<section id="application-exercise-4" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete Part 5. <a href="../ex/08-ex.html">ex/08-ex</a></p>
-</div>
-</section></section>
-<section>
-<section id="in-python" class="title-slide slide level1 center">
-<h1>In Python</h1>
-
-</section>
-<section id="sequentialfeatureselector" class="slide level2 small">
-<h2>SequentialFeatureSelector</h2>
-<div id="5b20e993" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SequentialFeatureSelector</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>Hitters <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Hitters.csv"</span>).dropna(subset<span class="op">=</span>[<span class="st">"Salary"</span>])</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(Hitters.drop(columns<span class="op">=</span>[<span class="st">"Salary"</span>]), drop_first<span class="op">=</span><span class="va">True</span>).astype(<span class="bu">float</span>)</span>
-<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> Hitters[<span class="st">"Salary"</span>]</span>
-<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
-<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>sfs <span class="op">=</span> SequentialFeatureSelector(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-12" class="code-annotation-target"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>    LinearRegression(), n_features_to_select<span class="op">=</span><span class="dv">6</span>, direction<span class="op">=</span><span class="st">"forward"</span>,</span>
-<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>, cv<span class="op">=</span>cv,</span>
-<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>).fit(X, y)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-15" class="code-annotation-target"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(X.columns[sfs.get_support()])</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1"><code>SequentialFeatureSelector</code> runs forward or backward stepwise selection,<br>
-scoring each candidate by cross-validation rather than by training RSS.</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="2"><code>pd.get_dummies(..., drop_first=True)</code> turns <code>League</code>, <code>Division</code> and<br>
-<code>NewLeague</code> into 0/1 indicator columns, dropping one level of each as the baseline, and <code>.astype(float)</code> makes the whole frame numeric.</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="3"><code>n_features_to_select=6</code> fixes the size of the final subset and<br>
-<code>direction="forward"</code> starts from the empty model and adds; <code>"backward"</code> starts from all 19 and drops.</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="15" data-code-annotation="4"><code>sfs.get_support()</code> returns a boolean mask over <code>X.columns</code>, so indexing<br>
-the columns by it names the six that were kept.</span>
-</dd>
-</dl>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>['AtBat', 'Hits', 'Walks', 'CRBI', 'PutOuts', 'Division_W']</code></pre>
-</div>
-</div>
-</section>
-<section id="selection-inside-the-loop" class="slide level2 small">
-<h2>Selection inside the loop</h2>
-<div id="2d653244" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
-<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
-<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>MSE <span class="op">=</span> <span class="st">"neg_mean_squared_error"</span></span>
-<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>picker <span class="op">=</span> SequentialFeatureSelector(</span>
-<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>    LinearRegression(), n_features_to_select<span class="op">=</span><span class="dv">6</span>, direction<span class="op">=</span><span class="st">"forward"</span>,</span>
-<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span>MSE, cv<span class="op">=</span><span class="dv">5</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-8" class="code-annotation-target"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>honest <span class="op">=</span> Pipeline([(<span class="st">"select"</span>, picker), (<span class="st">"lm"</span>, LinearRegression())])</span>
-<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>chosen <span class="op">=</span> <span class="bu">list</span>(X.columns[sfs.get_support()])</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-11" class="code-annotation-target"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>leaky <span class="op">=</span> <span class="op">-</span>cross_val_score(LinearRegression(), X[chosen], y, cv<span class="op">=</span>cv, scoring<span class="op">=</span>MSE).mean()</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-12" class="code-annotation-target"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(leaky)), <span class="bu">round</span>(<span class="bu">float</span>(<span class="op">-</span>cross_val_score(honest, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span>MSE).mean()))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="8" data-code-annotation="1">The selector is a step inside the <code>Pipeline</code>, so <code>cross_val_score</code> refits<br>
-it from scratch on each training fold and the held-out fold never influences which six predictors are chosen.</span>
-</dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="11" data-code-annotation="2"><code>leaky</code> cross-validates on the six columns <code>sfs</code> already picked using all<br>
-the data, which is the <code>SelectKBest</code> mistake from Meeting 6 with a different selector.</span>
-</dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="12" data-code-annotation="3">The honest estimate is the larger of the two numbers, and it is the one<br>
-that describes what this procedure would do on new data.</span>
-</dd>
-</dl>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>(111231, 126685)</code></pre>
-</div>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>Choosing which predictors to keep is a thing estimated from the data, so it belongs inside the pipeline.</p>
-</div>
-</div>
-</section>
-<section id="application-exercise-8" class="slide level2">
-<h2>Application exercise 8</h2>
-<div class="takeaway">
-<p>Counted the search space, watched RSS fall for free, coded forward stepwise by hand, scored its path with <span class="math inline">\(C_p\)</span>, BIC, adjusted <span class="math inline">\(R^2\)</span> and cross-validation, and applied the one standard error rule.</p>
-</div>
-</section>
 <section id="before-wednesday" class="slide level2">
 <h2>Before Wednesday</h2>
 <ul>
 <li>Read ISLP Section 6.2.1<br>
 </li>
-<li>Problem set 3 due today, problem set 4 posted<br>
+<li>Problem set 3 due today, problem set 4 next week<br>
 </li>
 <li>Check-in 4 on Wednesday<br>
 </li>
 </ul>
-<div class="fragment">
-<div class="question">
-<p>Subset selection is all or nothing for each predictor. What would partial credit look like?</p>
-</div>
-</div>
 
 
 </section></section>

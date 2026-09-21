@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Application exercise 3: Reading bias and variance – STA 363</title>
+<title>Answer key, Problem set 4: Linear Regression – STA 363</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,31 +20,64 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../ex/04-ex.html" rel="next">
-<link href="../ex/02-ex.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-2ce80da22371d6d777878cc64d6ca14d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-37529604078977da3e3db29017db3465.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b1de79e714222144ec52aa2672b349ff.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2ce80da22371d6d777878cc64d6ca14d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-409431fb9ba6af00a6162b15cc7f426b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,20 +136,14 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
-<meta property="og:title" content="Application exercise 3: Reading bias and variance – STA 363">
-<meta property="og:description" content="STA 363 | Meeting 3 | September 2">
-<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/03-ex_files/figure-html/cell-2-output-1.png">
+<link rel="stylesheet" href="../../www/fontawesome/css/all.min.css">
+<meta property="og:title" content="Answer key, Problem set 4: Linear Regression – STA 363">
+<meta property="og:description" content="STA 363 | Instructor copy">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="595">
-<meta property="og:image:width" content="2092">
-<meta name="twitter:title" content="Application exercise 3: Reading bias and variance – STA 363">
-<meta name="twitter:description" content="STA 363 | Meeting 3 | September 2">
-<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/03-ex_files/figure-html/cell-2-output-1.png">
+<meta name="twitter:title" content="Answer key, Problem set 4: Linear Regression – STA 363">
+<meta name="twitter:description" content="STA 363 | Instructor copy">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="595">
-<meta name="twitter:image-width" content="2092">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -287,7 +314,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">STA 363</span>
     </a>
   </div>
@@ -298,15 +325,15 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../schedule.html" aria-current="page"> 
+    <a class="nav-link active" href="../../schedule.html" aria-current="page"> 
 <span class="menu-text"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../syllabus.html"> 
+    <a class="nav-link" href="../../syllabus.html"> 
 <span class="menu-text"><i class="fa-solid fa-gavel" aria-hidden="true"></i> Policies</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../help.html"> 
+    <a class="nav-link" href="../../help.html"> 
 <span class="menu-text"><i class="fa-solid fa-question-circle" aria-hidden="true"></i> Help</span></a>
   </li>  
   <li class="nav-item">
@@ -325,7 +352,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/03-ex.html">3. Reading bias and variance</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Answer key, Problem set 4: Linear Regression</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -348,13 +375,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../../schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Policies</span></a>
   </div>
 </li>
@@ -371,25 +398,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../colab.html" class="sidebar-item-text sidebar-link">
+  <a href="../../colab.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting Started with Colab</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../python-guide.html" class="sidebar-item-text sidebar-link">
+  <a href="../../python-guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Python Quick Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../troubleshooting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../troubleshooting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Troubleshooting</span></a>
   </div>
 </li>
@@ -406,73 +433,73 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/01-welcome.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/01-welcome.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Statistical learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/02-prediction-error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Prediction error</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/03-bias-variance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Bias-variance trade-off</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/04-knn.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/04-knn.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. K-nearest neighbors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/05-cross-validation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/06-pipelines.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Pipelines and leakage</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/07-linear-regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Linear regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/08-model-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Subset selection</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/09-ridge.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/09-ridge.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/10-lasso.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/10-lasso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/11-logistic.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/11-logistic.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/12-classifier-metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Evaluating classifiers</span></a>
   </div>
 </li>
@@ -515,82 +542,82 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Application Exercises</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/01-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/01-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. What is the problem?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/02-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/02-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2. Training error can mislead</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/03-ex.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../ex/03-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3. Reading bias and variance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/04-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/04-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Tuning K</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/05-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/05-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Cross-validation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/06-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/06-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6. Find the leak</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/07-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/07-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7. Least squares</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/08-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/08-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Choosing a subset</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/09-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/09-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9. Ridge regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/10-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/10-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10. Lasso and elastic net</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/11-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/11-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11. Logistic regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ex/12-ex.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ex/12-ex.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12. Thresholds and ROC</span></a>
   </div>
 </li>
@@ -605,22 +632,21 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link active" data-scroll-target="#part-1">Part 1:</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2:</a></li>
-  <li><a href="#part-3" id="toc-part-3" class="nav-link" data-scroll-target="#part-3">Part 3:</a></li>
-  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap-up</a></li>
+  <ul>
+  <li><a href="#linear-versus-cubic" id="toc-linear-versus-cubic" class="nav-link active" data-scroll-target="#linear-versus-cubic">1. Linear versus cubic</a></li>
+  <li><a href="#matrix-form" id="toc-matrix-form" class="nav-link" data-scroll-target="#matrix-form">2. Matrix form</a></li>
+  <li><a href="#carseats" id="toc-carseats" class="nav-link" data-scroll-target="#carseats">3. Carseats</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/03-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ps/keys/04-ps-key.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/03-ex.html">3. Reading bias and variance</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Application exercise 3: Reading bias and variance</h1>
-<p class="subtitle lead">STA 363 | Meeting 3 | September 2</p>
+<h1 class="title">Answer key, Problem set 4: Linear Regression</h1>
+<p class="subtitle lead">STA 363 | Instructor copy</p>
 </div>
 
 
@@ -637,72 +663,77 @@ window.Quarto = {
 </header>
 
 
-<section id="part-1" class="level2">
-<h2 class="anchored" data-anchor-id="part-1">Part 1:</h2>
-<p>Four analysts fit models to the same 200 observations. Each then refits on 50 fresh samples from the same population and plots all 50 fitted curves.</p>
-<div class="question">
-<p>Match each description to a diagnosis: <strong>high bias, low variance</strong>; <strong>low bias, high variance</strong>; <strong>high bias, high variance</strong>; <strong>low bias, low variance</strong>.</p>
-<p><strong>A.</strong> The 50 curves lie almost on top of each other and all miss the same bend in the data.</p>
-<p><strong>B.</strong> The 50 curves fan out wildly at the edges but their average tracks the data closely.</p>
-<p><strong>C.</strong> The 50 curves lie almost on top of each other and follow the data closely.</p>
-<p><strong>D.</strong> The 50 curves fan out wildly and their average still misses the bend.</p>
-</div>
-<div class="answer-space">
-
-</div>
+<section id="linear-versus-cubic" class="level2">
+<h2 class="anchored" data-anchor-id="linear-versus-cubic">1. Linear versus cubic</h2>
+<p>The cubic model contains the linear model as a special case (<span class="math inline">\(\beta_2 = \beta_3 = 0\)</span>), so least squares over the larger family can never do worse on the data it is fit to.</p>
+<p><strong>(a) Training RSS is lower (or equal) for the cubic.</strong> Even though the truth is linear, the cubic has two extra coefficients that can absorb some of the noise, so its training RSS is at most that of the linear fit and is almost always strictly smaller.</p>
+<p><strong>(b) Test RSS is lower for the linear.</strong> The truth is linear, so the extra terms of the cubic add no bias reduction and only add variance by fitting noise in the training sample. On new data the cubic tends to do slightly worse.</p>
+<p><strong>(c) Training RSS is lower for the cubic.</strong> The same nesting argument holds whatever the truth is, and here the cubic can also bend toward the true curve.</p>
+<p><strong>(d) There is not enough information to tell.</strong> If the truth is close to linear, the cubic’s extra variance outweighs its bias reduction and the linear model wins on test data. If the truth is far from linear (for example, strongly cubic), the linear model’s bias dominates and the cubic wins. Which case holds depends on how far <span class="math inline">\(f\)</span> is from linear.</p>
 </section>
-<section id="part-2" class="level2">
-<h2 class="anchored" data-anchor-id="part-2">Part 2:</h2>
-<div id="275880e2" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="03-ex_files/figure-html/cell-2-output-1.png" width="1046" height="298" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Three test MSE curves. The dashed teal line is <span class="math inline">\(\text{Var}(\varepsilon)\)</span> in each.</p>
-<div class="question">
-<ol type="1">
-<li>For each panel, roughly where is the best flexibility?<br>
-</li>
-<li>In which panel is the true <span class="math inline">\(f\)</span> closest to linear? How do you know?<br>
-</li>
-<li>In which panel would using a very flexible method be the least problematic?<br>
-</li>
-</ol>
-</div>
-<div class="answer-space">
-
-</div>
+<section id="matrix-form" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-form">2. Matrix form</h2>
+<p><strong>(a)</strong> Substitute <span class="math inline">\(\hat\beta\)</span> into <span class="math inline">\(\hat{y}_i = x_i\hat\beta\)</span>:</p>
+<p><span class="math display">\[\hat{y}_i = x_i \frac{\sum_{j=1}^n x_j y_j}{\sum_{k=1}^n x_k^2} = \sum_{j=1}^n \frac{x_i x_j}{\sum_{k=1}^n x_k^2}\, y_j,\]</span></p>
+<p>so <span class="math inline">\(a_j = \dfrac{x_i x_j}{\sum_{k=1}^n x_k^2}\)</span>. Each fitted value is a weighted sum of all the responses, with weights that depend only on the <span class="math inline">\(x\)</span> values.</p>
+<p><strong>(b)</strong> In <span class="math inline">\(\hat{\mathbf{y}} = \mathbf{H}\mathbf{y}\)</span>, the <span class="math inline">\(i\)</span>th fitted value is <span class="math inline">\(\sum_j H_{ij} y_j\)</span>, so <span class="math inline">\(a_j\)</span> is the entry <span class="math inline">\(H_{ij}\)</span> in row <span class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span>. The diagonal entry <span class="math inline">\(h_i = H_{ii} = x_i^2 / \sum_k x_k^2\)</span> is the weight <span class="math inline">\(y_i\)</span> receives in its own fitted value: the leverage of observation <span class="math inline">\(i\)</span>. It is larger when <span class="math inline">\(x_i\)</span> is far from the center of the <span class="math inline">\(x\)</span> values (here, far from zero).</p>
+<p><strong>(c)</strong> By ISLP (3.4), <span class="math inline">\(\hat\beta_0 = \bar{y} - \hat\beta_1\bar{x}\)</span>. Rearranging gives <span class="math inline">\(\bar{y} = \hat\beta_0 + \hat\beta_1\bar{x}\)</span>, which says the fitted line evaluated at <span class="math inline">\(x = \bar{x}\)</span> equals <span class="math inline">\(\bar{y}\)</span>. So the least squares line always passes through <span class="math inline">\((\bar{x}, \bar{y})\)</span>.</p>
 </section>
-<section id="part-3" class="level2">
-<h2 class="anchored" data-anchor-id="part-3">Part 3:</h2>
-<div class="question">
-<p>For each change, say what happens to <strong>bias</strong>, to <strong>variance</strong>, and to <strong>test MSE</strong>. Test MSE may go either way, if so, say what it depends on.</p>
-<ol type="1">
-<li>Increasing <span class="math inline">\(K\)</span> in KNN from 5 to 50<br>
-</li>
-<li>Collecting 10 times as many observations, model unchanged<br>
-</li>
-<li>Adding 50 irrelevant predictors<br>
-</li>
-<li>Replacing a degree-2 polynomial with a degree-9 polynomial<br>
-</li>
-<li>Averaging the predictions of 100 different flexible models<br>
-</li>
-</ol>
+<section id="carseats" class="level2">
+<h2 class="anchored" data-anchor-id="carseats">3. Carseats</h2>
+<div id="0be8aa8c" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, KFold</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Carseats <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Carseats.csv"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y_car <span class="op">=</span> Carseats[<span class="st">"Sales"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="answer-space">
-
+<p><strong>(a)</strong></p>
+<div id="f008d932" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_pipe(cat):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pre <span class="op">=</span> ColumnTransformer([</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"num"</span>, <span class="st">"passthrough"</span>, [<span class="st">"Price"</span>]),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"cat"</span>, OneHotEncoder(drop<span class="op">=</span><span class="st">"first"</span>), cat),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Pipeline([(<span class="st">"pre"</span>, pre), (<span class="st">"lm"</span>, LinearRegression())])</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>full <span class="op">=</span> make_pipe([<span class="st">"Urban"</span>, <span class="st">"US"</span>]).fit(Carseats, y_car)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> full[<span class="st">"pre"</span>].get_feature_names_out()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(full[<span class="st">"lm"</span>].intercept_, <span class="dv">3</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pd.Series(full[<span class="st">"lm"</span>].coef_, index<span class="op">=</span>names).<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>13.043</code></pre>
 </div>
-</section>
-<section id="wrap-up" class="level2">
-<h2 class="anchored" data-anchor-id="wrap-up">Wrap-up</h2>
-<div class="takeaway">
-<p>Why is the test MSE curve U-shaped rather than monotone?</p>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>num__Price       -0.054
+cat__Urban_Yes   -0.022
+cat__US_Yes       1.201
+dtype: float64</code></pre>
 </div>
+</div>
+<p>The intercept is about 13.043, with slopes of about <span class="math inline">\(-0.054\)</span> for <code>Price</code>, <span class="math inline">\(-0.022\)</span> for <code>Urban_Yes</code> and <span class="math inline">\(1.201\)</span> for <code>US_Yes</code>.</p>
+<p><strong>(b)</strong> With <span class="math inline">\(\text{Urban} = 1\)</span> for <code>Yes</code> and 0 for <code>No</code>, and <span class="math inline">\(\text{US} = 1\)</span> for <code>Yes</code> and 0 for <code>No</code>,</p>
+<p><span class="math display">\[\widehat{\text{Sales}} = 13.043 - 0.054\,\text{Price} - 0.022\,\text{Urban} + 1.201\,\text{US}.\]</span></p>
+<p><strong>(c)</strong></p>
+<div id="0d162a26" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cat <span class="kw">in</span> ([<span class="st">"Urban"</span>, <span class="st">"US"</span>], [<span class="st">"US"</span>]):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    mse <span class="op">=</span> <span class="op">-</span>cross_val_score(make_pipe(cat), Carseats, y_car, cv<span class="op">=</span>cv,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                           scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>).mean()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(cat, <span class="bu">round</span>(mse, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Urban', 'US'] 6.142
+['US'] 6.12</code></pre>
+</div>
+</div>
+<p>The cross-validated MSE is about 6.142 for the model with <code>Price</code>, <code>Urban</code> and <code>US</code>, and about 6.120 for the model with <code>Price</code> and <code>US</code>.</p>
+<p><strong>(d)</strong> The smaller model is slightly better, but the two MSEs are nearly identical, so prediction accuracy does not separate them. <code>Urban</code> has a tiny coefficient (<span class="math inline">\(-0.022\)</span>, about 22 units of sales) and adds nothing to predictive accuracy, so the simpler model is preferable: same accuracy, fewer terms to estimate and interpret. If dropping <code>Urban</code> had produced a clearly larger CV MSE, we would keep it.</p>
 
 
 </section>
@@ -1120,18 +1151,6 @@ window.Quarto = {
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../ex/02-ex.html" class="pagination-link" aria-label="2. Training error can mislead">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2. Training error can mislead</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../ex/04-ex.html" class="pagination-link" aria-label="4. Tuning K">
-        <span class="nav-page-text">4. Tuning K</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1140,7 +1159,7 @@ window.Quarto = {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/03-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ps/keys/04-ps-key.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <i class="fa-brands fa-python" aria-hidden="true"></i> and <a href="https://quarto.org/">Quarto</a></p>
 </div>
