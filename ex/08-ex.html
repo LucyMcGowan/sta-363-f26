@@ -111,50 +111,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../www/fontawesome/css/all.min.css">
 <meta property="og:title" content="Application exercise 8: Choosing a subset – STA 363">
-<meta property="og:description" content="STA 363 | Meeting 8 | September 18">
-<meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/08-ex_files/figure-html/cell-7-output-1.png">
+<meta property="og:description" content="STA 363 | September 23">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="259">
-<meta property="og:image:width" content="1046">
 <meta name="twitter:title" content="Application exercise 8: Choosing a subset – STA 363">
-<meta name="twitter:description" content="STA 363 | Meeting 8 | September 18">
-<meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ex/08-ex_files/figure-html/cell-7-output-1.png">
+<meta name="twitter:description" content="STA 363 | September 23">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="259">
-<meta name="twitter:image-width" content="1046">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -647,10 +612,6 @@ window.Quarto = {
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
   <li><a href="#part-1-how-large-is-the-search" id="toc-part-1-how-large-is-the-search" class="nav-link" data-scroll-target="#part-1-how-large-is-the-search">Part 1: How large is the search</a></li>
   <li><a href="#part-2-best-subset-on-eight-predictors" id="toc-part-2-best-subset-on-eight-predictors" class="nav-link" data-scroll-target="#part-2-best-subset-on-eight-predictors">Part 2: Best subset on eight predictors</a></li>
-  <li><a href="#part-3-forward-stepwise-on-all-of-them" id="toc-part-3-forward-stepwise-on-all-of-them" class="nav-link" data-scroll-target="#part-3-forward-stepwise-on-all-of-them">Part 3: Forward stepwise on all of them</a></li>
-  <li><a href="#part-4-four-ways-to-pick-d" id="toc-part-4-four-ways-to-pick-d" class="nav-link" data-scroll-target="#part-4-four-ways-to-pick-d">Part 4: Four ways to pick d</a></li>
-  <li><a href="#part-5-the-one-standard-error-rule" id="toc-part-5-the-one-standard-error-rule" class="nav-link" data-scroll-target="#part-5-the-one-standard-error-rule">Part 5: The one standard error rule</a></li>
-  <li><a href="#if-you-finish-early" id="toc-if-you-finish-early" class="nav-link" data-scroll-target="#if-you-finish-early">If you finish early</a></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ex/08-ex.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -661,7 +622,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ex/01-ex.html">Application Exercises</a></li><li class="breadcrumb-item"><a href="../ex/08-ex.html">8. Choosing a subset</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Application exercise 8: Choosing a subset</h1>
-<p class="subtitle lead">STA 363 | Meeting 8 | September 18</p>
+<p class="subtitle lead">STA 363 | September 23</p>
 </div>
 
 
@@ -678,10 +639,9 @@ window.Quarto = {
 </header>
 
 
-<p><code>Hitters</code> records 1986 performance and 1987 salary for 322 Major League Baseball players. Salary is missing for 59 of them, so those rows come out first.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="10ee8cd1" class="cell" data-execution_count="1">
+<div id="a951ff4f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -714,7 +674,7 @@ window.Quarto = {
 </li>
 </ol>
 </div>
-<div id="19a2230a" class="cell" data-execution_count="2">
+<div id="b3f3761e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">**</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="answer-space">
@@ -724,7 +684,7 @@ window.Quarto = {
 <section id="part-2-best-subset-on-eight-predictors" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-best-subset-on-eight-predictors">Part 2: Best subset on eight predictors</h2>
 <p>Restrict the pool to eight predictors so best subset is actually runnable.</p>
-<div id="3ddea30b" class="cell" data-execution_count="3">
+<div id="af1c4ef2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pool <span class="op">=</span> [<span class="st">"AtBat"</span>, <span class="st">"Hits"</span>, <span class="st">"Walks"</span>, <span class="st">"Years"</span>, <span class="st">"CRuns"</span>, <span class="st">"CRBI"</span>, <span class="st">"CWalks"</span>, <span class="st">"PutOuts"</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tss <span class="op">=</span> <span class="bu">float</span>(((y <span class="op">-</span> y.mean()) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>())</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -830,392 +790,6 @@ window.Quarto = {
 </div>
 <div class="answer-space">
 
-</div>
-<div class="question">
-<p>Read the <code>vars</code> column from top to bottom. Find a size k where the winning set is something other than the size k minus 1 winner with one variable added. What does that tell you about greedy procedures like forward stepwise, which can only add?</p>
-</div>
-<div class="answer-space">
-
-</div>
-</section>
-<section id="part-3-forward-stepwise-on-all-of-them" class="level2">
-<h2 class="anchored" data-anchor-id="part-3-forward-stepwise-on-all-of-them">Part 3: Forward stepwise on all of them</h2>
-<p>At each step the loop adds whichever remaining predictor lowers RSS the most, and never reconsiders an earlier choice.</p>
-<div id="45ff52db" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>chosen, remaining, path <span class="op">=</span> [], <span class="bu">list</span>(X.columns), []</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> remaining:</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    best <span class="op">=</span> <span class="bu">min</span>(remaining, key<span class="op">=</span><span class="kw">lambda</span> c: rss(chosen <span class="op">+</span> [c]))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    chosen <span class="op">=</span> chosen <span class="op">+</span> [best]</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    remaining.remove(best)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    path.append({<span class="st">"d"</span>: <span class="bu">len</span>(chosen), <span class="st">"added"</span>: best, <span class="st">"rss"</span>: rss(chosen)})</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(path).head(<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">d</th>
-<th data-quarto-table-cell-role="th">added</th>
-<th data-quarto-table-cell-role="th">rss</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>1</td>
-<td>CRBI</td>
-<td>3.617968e+07</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2</td>
-<td>Hits</td>
-<td>3.064656e+07</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>3</td>
-<td>PutOuts</td>
-<td>2.924930e+07</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>4</td>
-<td>Division_W</td>
-<td>2.797085e+07</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>5</td>
-<td>AtBat</td>
-<td>2.714990e+07</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>6</td>
-<td>Walks</td>
-<td>2.619490e+07</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>7</td>
-<td>CWalks</td>
-<td>2.595422e+07</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>8</td>
-<td>CRuns</td>
-<td>2.515923e+07</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div class="question">
-<ol type="1">
-<li>The loop fits <span class="math inline">\(p + (p-1) + \dots + 1\)</span> models in total. Work that out for this p and compare it to your answer to Part 1.<br>
-</li>
-<li>Compare the first four variables added here to the best subset winners in Part 2. Where do the two procedures agree, and where do they part company?<br>
-</li>
-<li><code>remaining.remove(best)</code> is what makes this greedy. Describe a situation where refusing to reconsider costs you the better model.<br>
-</li>
-</ol>
-</div>
-<div class="answer-space">
-
-</div>
-</section>
-<section id="part-4-four-ways-to-pick-d" class="level2">
-<h2 class="anchored" data-anchor-id="part-4-four-ways-to-pick-d">Part 4: Four ways to pick d</h2>
-<p>Each of these adjusts training RSS for model size, so that models with different numbers of predictors can be compared.</p>
-<div id="2880ac8b" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="op">=</span> rss(<span class="bu">list</span>(X.columns)) <span class="op">/</span> (n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> step <span class="kw">in</span> path:</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> step[<span class="st">"d"</span>]</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> [s[<span class="st">"added"</span>] <span class="cf">for</span> s <span class="kw">in</span> path[:d]]</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> step[<span class="st">"rss"</span>]</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        LinearRegression(), X[cols], y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"d"</span>: d,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cp"</span>: (r <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> d <span class="op">*</span> sigma2) <span class="op">/</span> n,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"BIC"</span>: (r <span class="op">+</span> np.log(n) <span class="op">*</span> d <span class="op">*</span> sigma2) <span class="op">/</span> n,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"adj_r2"</span>: <span class="dv">1</span> <span class="op">-</span> (r <span class="op">/</span> (n <span class="op">-</span> d <span class="op">-</span> <span class="dv">1</span>)) <span class="op">/</span> (tss <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cv_mse"</span>: scores.mean(),</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cv_se"</span>: scores.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(<span class="dv">10</span>),</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>crit <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>crit.<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">d</th>
-<th data-quarto-table-cell-role="th">Cp</th>
-<th data-quarto-table-cell-role="th">BIC</th>
-<th data-quarto-table-cell-role="th">adj_r2</th>
-<th data-quarto-table-cell-role="th">cv_mse</th>
-<th data-quarto-table-cell-role="th">cv_se</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>1</td>
-<td>138322.67</td>
-<td>139675.35</td>
-<td>0.32</td>
-<td>142512.92</td>
-<td>26337.80</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2</td>
-<td>118041.54</td>
-<td>120746.91</td>
-<td>0.42</td>
-<td>124885.74</td>
-<td>25164.53</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>3</td>
-<td>113486.10</td>
-<td>117544.15</td>
-<td>0.45</td>
-<td>122173.40</td>
-<td>25461.19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>4</td>
-<td>109382.44</td>
-<td>114793.18</td>
-<td>0.47</td>
-<td>118139.59</td>
-<td>22202.49</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>5</td>
-<td>107018.30</td>
-<td>113781.72</td>
-<td>0.48</td>
-<td>114335.34</td>
-<td>20938.17</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>6</td>
-<td>104144.49</td>
-<td>112260.59</td>
-<td>0.50</td>
-<td>111231.43</td>
-<td>22069.84</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>7</td>
-<td>103986.68</td>
-<td>113455.46</td>
-<td>0.50</td>
-<td>110773.21</td>
-<td>21941.14</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>8</td>
-<td>101721.28</td>
-<td>112542.74</td>
-<td>0.51</td>
-<td>108397.67</td>
-<td>21627.77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>9</td>
-<td>101166.14</td>
-<td>113340.29</td>
-<td>0.52</td>
-<td>107914.27</td>
-<td>20864.78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>10</td>
-<td>100730.91</td>
-<td>114257.74</td>
-<td>0.52</td>
-<td>107188.44</td>
-<td>20161.67</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">10</td>
-<td>11</td>
-<td>101058.38</td>
-<td>115937.90</td>
-<td>0.52</td>
-<td>108047.09</td>
-<td>20383.34</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">11</td>
-<td>12</td>
-<td>101609.98</td>
-<td>117842.18</td>
-<td>0.52</td>
-<td>109115.64</td>
-<td>20714.87</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">12</td>
-<td>13</td>
-<td>102199.71</td>
-<td>119784.59</td>
-<td>0.52</td>
-<td>109345.46</td>
-<td>20595.82</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">13</td>
-<td>14</td>
-<td>102803.11</td>
-<td>121740.68</td>
-<td>0.52</td>
-<td>110732.38</td>
-<td>20625.84</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14</td>
-<td>15</td>
-<td>103509.19</td>
-<td>123799.44</td>
-<td>0.52</td>
-<td>112045.56</td>
-<td>20680.98</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">15</td>
-<td>16</td>
-<td>104206.47</td>
-<td>125849.40</td>
-<td>0.52</td>
-<td>112984.61</td>
-<td>20862.42</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">16</td>
-<td>17</td>
-<td>104926.06</td>
-<td>127921.67</td>
-<td>0.51</td>
-<td>113465.67</td>
-<td>21002.12</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">17</td>
-<td>18</td>
-<td>105654.47</td>
-<td>130002.77</td>
-<td>0.51</td>
-<td>114279.39</td>
-<td>21007.01</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">18</td>
-<td>19</td>
-<td>106407.49</td>
-<td>132108.47</td>
-<td>0.51</td>
-<td>116664.33</td>
-<td>21272.90</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div id="30852224" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">2.8</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, col <span class="kw">in</span> <span class="bu">zip</span>(axes, [<span class="st">"Cp"</span>, <span class="st">"BIC"</span>, <span class="st">"adj_r2"</span>, <span class="st">"cv_mse"</span>]):</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ax.plot(crit[<span class="st">"d"</span>], crit[col], <span class="st">"-o"</span>, color<span class="op">=</span><span class="st">"#d5008f"</span>, ms<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    ax.set_title(col)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"d"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="08-ex_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="question">
-<ol type="1">
-<li>Which d does each of the four choose? Use <code>idxmin</code> for the first, second and fourth, and <code>idxmax</code> for <code>adj_r2</code>.<br>
-</li>
-<li>BIC chooses a smaller model than Cp does. Look at the two penalties, <span class="math inline">\(2d\hat\sigma^2\)</span> against <span class="math inline">\(\log(n)\, d\hat\sigma^2\)</span>, and say why.<br>
-</li>
-<li>Cp, BIC and adjusted <span class="math inline">\(R^2\)</span> all need an estimate of <span class="math inline">\(\sigma^2\)</span> from the full model. Cross-validation needs no such thing. When does that difference start to matter?<br>
-</li>
-</ol>
-</div>
-<div id="2000ec4f" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>crit.loc[crit[<span class="st">"Cp"</span>].idxmin(), <span class="st">"d"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="answer-space">
-
-</div>
-</section>
-<section id="part-5-the-one-standard-error-rule" class="level2">
-<h2 class="anchored" data-anchor-id="part-5-the-one-standard-error-rule">Part 5: The one standard error rule</h2>
-<div id="85a7cdb9" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>best_row <span class="op">=</span> crit[<span class="st">"cv_mse"</span>].idxmin()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> crit[<span class="st">"cv_mse"</span>][best_row] <span class="op">+</span> crit[<span class="st">"cv_se"</span>][best_row]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>smallest <span class="op">=</span> <span class="bu">int</span>(crit.loc[crit[<span class="st">"cv_mse"</span>] <span class="op">&lt;=</span> threshold, <span class="st">"d"</span>].<span class="bu">min</span>())</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(crit[<span class="st">"d"</span>][best_row]), <span class="bu">round</span>(<span class="bu">float</span>(threshold)), smallest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>(10, 127350, 2)</code></pre>
-</div>
-</div>
-<div class="question">
-<ol type="1">
-<li>In words, what did those three lines compute?<br>
-</li>
-<li>The rule picks a much smaller model than the CV minimum does. Look at <code>cv_se</code> in the table and explain how that is possible.<br>
-</li>
-<li>Which of the two would you hand to someone who has to collect these measurements on a new player next season? Defend the choice on grounds other than error.<br>
-</li>
-</ol>
-</div>
-<div class="answer-space">
-
-</div>
-</section>
-<section id="if-you-finish-early" class="level2">
-<h2 class="anchored" data-anchor-id="if-you-finish-early">If you finish early</h2>
-<p>Write the backward stepwise version: start from all <code>X.columns</code> and drop, at each step, the predictor whose removal raises RSS the least.</p>
-<div class="question">
-<p>Does it produce the same path in reverse? Backward stepwise needs <span class="math inline">\(n &gt; p\)</span> to get started. Why does forward stepwise not?</p>
 </div>
 <p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.</em></p>
 

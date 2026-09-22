@@ -948,11 +948,11 @@
     ]
   },
   {
-    "objectID": "slides/08-model-selection.html#training-rss-is-monotone",
-    "href": "slides/08-model-selection.html#training-rss-is-monotone",
+    "objectID": "slides/08-model-selection.html#training-rss",
+    "href": "slides/08-model-selection.html#training-rss",
     "title": "Subset selection",
-    "section": "Training RSS is monotone",
-    "text": "Training RSS is monotone\n\nThe size \\(k\\) winner is one of the candidates at size \\(k + 1\\), so the size \\(k + 1\\) winner can never be worse. RSS falls and \\(R^2\\) rises no matter what the added predictor is.\n\n\n\nSo if we picked by RSS, which model would we always choose?",
+    "section": "Training RSS",
+    "text": "Training RSS\n\nThe size \\(k\\) winner is one of the candidates at size \\(k + 1\\), so the size \\(k + 1\\) winner can never be worse. RSS falls and \\(R^2\\) rises no matter what the added predictor is.\n\n\n\nSo if we picked by training RSS, which model would we always choose?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -964,7 +964,7 @@
     "href": "slides/08-model-selection.html#the-cost-of-searching",
     "title": "Subset selection",
     "section": "The cost of searching",
-    "text": "The cost of searching\n\nBest subset selection over \\(p\\) predictors fits \\(2^p\\) models. At \\(p = 19\\) that is 524,288. At \\(p = 40\\) it is over a trillion.\n\n\n\nThe larger the search, the better some model looks by luck alone. Computing time is the smaller of the two problems.",
+    "text": "The cost of searching\n\nBest subset selection over \\(p\\) predictors fits \\(2^p\\) models. At \\(p = 19\\) that is 524,288. At \\(p = 40\\) it is over a trillion.\n\n\n\nThe larger the search, the better some model looks by luck alone.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -988,7 +988,7 @@
     "href": "slides/08-model-selection.html#two-routes-to-test-error",
     "title": "Subset selection",
     "section": "Two routes to test error",
-    "text": "Two routes to test error\n\n\nAdjust training error\nAdd a penalty to training RSS that grows with \\(d\\).\n\\(C_p\\), AIC, BIC, adjusted \\(R^2\\).\n\nEstimate it directly\nHold data out and measure.\nValidation set, cross-validation.",
+    "text": "Two routes to test error\n\n\nAdjust training error\nAdd a penalty to training RSS that grows with \\(d\\).\n\\(C_p\\), AIC, BIC, adjusted \\(R^2\\).\n\nEstimate it directly\nHold data out and measure (i.e., cross-validation).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1120,7 +1120,7 @@
     "href": "slides/08-model-selection.html#aic",
     "title": "Subset selection",
     "section": "AIC",
-    "text": "AIC\n\nThe Akaike information criterion penalizes the maximized log likelihood by the number of parameters. For a least squares model with normal errors, AIC is proportional to \\(C_p\\).\n\n\n\nRanking models by AIC and ranking them by \\(C_p\\) give the same order, so only one of the two is worth computing here.",
+    "text": "AIC\n\nThe Akaike information criterion penalizes the maximized log likelihood by the number of parameters. For a least squares model with normal errors, AIC is proportional to \\(C_p\\).",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1133,18 +1133,6 @@
     "title": "Subset selection",
     "section": "Three criteria on Credit",
     "text": "Three criteria on Credit\n\n\nISLP Figure 6.2. \\(C_p\\), BIC, and adjusted \\(R^2\\) for the best model of each size on Credit. BIC turns up after four variables; the other two stay flat.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "8. Subset selection"
-    ]
-  },
-  {
-    "objectID": "slides/08-model-selection.html#application-exercise-2",
-    "href": "slides/08-model-selection.html#application-exercise-2",
-    "title": "Subset selection",
-    "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 3. ex/08-ex",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -1169,18 +1157,6 @@
     "title": "Subset selection",
     "section": "Why cross-validation wins",
     "text": "Why cross-validation wins\n\n\\(C_p\\) and BIC need \\(\\hat\\sigma^2\\) from the full model, which needs \\(n &gt; p\\)\n\nThey also assume the errors behave, and cross-validation assumes nothing\n\nCross-validation applies to methods with no clear \\(d\\) at all",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "8. Subset selection"
-    ]
-  },
-  {
-    "objectID": "slides/08-model-selection.html#before-wednesday",
-    "href": "slides/08-model-selection.html#before-wednesday",
-    "title": "Subset selection",
-    "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nRead ISLP Section 6.2.1\n\nProblem set 3 due today, problem set 4 next week\n\nCheck-in 4 on Wednesday",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -2373,7 +2349,7 @@
     "href": "ex/08-ex.html",
     "title": "Application exercise 8: Choosing a subset",
     "section": "",
-    "text": "Hitters records 1986 performance and 1987 salary for 322 Major League Baseball players. Salary is missing for 59 of them, so those rows come out first.",
+    "text": "import itertools\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import cross_val_score, KFold\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\")\nHitters = Hitters.dropna(subset=[\"Salary\"]).reset_index(drop=True)\n\nX = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\ny = Hitters[\"Salary\"]\nn, p = X.shape\nn, p\n\n(263, 19)",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -2384,8 +2360,8 @@
     "objectID": "ex/08-ex.html#setup",
     "href": "ex/08-ex.html#setup",
     "title": "Application exercise 8: Choosing a subset",
-    "section": "Setup",
-    "text": "Setup\n\nimport itertools\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import cross_val_score, KFold\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\")\nHitters = Hitters.dropna(subset=[\"Salary\"]).reset_index(drop=True)\n\nX = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\ny = Hitters[\"Salary\"]\nn, p = X.shape\nn, p\n\n(263, 19)",
+    "section": "",
+    "text": "import itertools\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import cross_val_score, KFold\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\")\nHitters = Hitters.dropna(subset=[\"Salary\"]).reset_index(drop=True)\n\nX = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\ny = Hitters[\"Salary\"]\nn, p = X.shape\nn, p\n\n(263, 19)",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",
@@ -2409,55 +2385,7 @@
     "href": "ex/08-ex.html#part-2-best-subset-on-eight-predictors",
     "title": "Application exercise 8: Choosing a subset",
     "section": "Part 2: Best subset on eight predictors",
-    "text": "Part 2: Best subset on eight predictors\nRestrict the pool to eight predictors so best subset is actually runnable.\n\npool = [\"AtBat\", \"Hits\", \"Walks\", \"Years\", \"CRuns\", \"CRBI\", \"CWalks\", \"PutOuts\"]\ntss = float(((y - y.mean()) ** 2).sum())\n\n\ndef rss(cols):\n    f = LinearRegression().fit(X[cols], y)\n    return float(((y - f.predict(X[cols])) ** 2).sum())\n\n\nrows = []\nfor k in range(1, len(pool) + 1):\n    best = min(itertools.combinations(pool, k), key=lambda c: rss(list(c)))\n    r = rss(list(best))\n    rows.append({\"k\": k, \"rss\": r, \"r2\": 1 - r / tss, \"vars\": \", \".join(best)})\n\npd.DataFrame(rows).round(3)\n\n\n\n\n\n\n\n\nk\nrss\nr2\nvars\n\n\n\n\n0\n1\n3.617968e+07\n0.321\nCRBI\n\n\n1\n2\n3.064656e+07\n0.425\nHits, CRBI\n\n\n2\n3\n2.924930e+07\n0.451\nHits, CRBI, PutOuts\n\n\n3\n4\n2.823936e+07\n0.470\nAtBat, Hits, CRBI, PutOuts\n\n\n4\n5\n2.717042e+07\n0.490\nAtBat, Hits, Walks, CRBI, PutOuts\n\n\n5\n6\n2.680370e+07\n0.497\nAtBat, Hits, Walks, CRuns, CWalks, PutOuts\n\n\n6\n7\n2.614246e+07\n0.510\nAtBat, Hits, Walks, CRuns, CRBI, CWalks, PutOuts\n\n\n7\n8\n2.587283e+07\n0.515\nAtBat, Hits, Walks, Years, CRuns, CRBI, CWalks...\n\n\n\n\n\n\n\n\n\nRead down the rss column. Does it ever increase? Explain why it cannot, using the fact that the size k model is one of the candidates available at size k plus 1.\n\nSame question for r2, in the other direction.\n\nGiven 1 and 2, why does Algorithm 6.1 need a step 3 at all?\n\n\n\n\n\n\n\nRead the vars column from top to bottom. Find a size k where the winning set is something other than the size k minus 1 winner with one variable added. What does that tell you about greedy procedures like forward stepwise, which can only add?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "8. Choosing a subset"
-    ]
-  },
-  {
-    "objectID": "ex/08-ex.html#part-3-forward-stepwise-on-all-of-them",
-    "href": "ex/08-ex.html#part-3-forward-stepwise-on-all-of-them",
-    "title": "Application exercise 8: Choosing a subset",
-    "section": "Part 3: Forward stepwise on all of them",
-    "text": "Part 3: Forward stepwise on all of them\nAt each step the loop adds whichever remaining predictor lowers RSS the most, and never reconsiders an earlier choice.\n\nchosen, remaining, path = [], list(X.columns), []\n\nwhile remaining:\n    best = min(remaining, key=lambda c: rss(chosen + [c]))\n    chosen = chosen + [best]\n    remaining.remove(best)\n    path.append({\"d\": len(chosen), \"added\": best, \"rss\": rss(chosen)})\n\npd.DataFrame(path).head(8)\n\n\n\n\n\n\n\n\nd\nadded\nrss\n\n\n\n\n0\n1\nCRBI\n3.617968e+07\n\n\n1\n2\nHits\n3.064656e+07\n\n\n2\n3\nPutOuts\n2.924930e+07\n\n\n3\n4\nDivision_W\n2.797085e+07\n\n\n4\n5\nAtBat\n2.714990e+07\n\n\n5\n6\nWalks\n2.619490e+07\n\n\n6\n7\nCWalks\n2.595422e+07\n\n\n7\n8\nCRuns\n2.515923e+07\n\n\n\n\n\n\n\n\n\nThe loop fits \\(p + (p-1) + \\dots + 1\\) models in total. Work that out for this p and compare it to your answer to Part 1.\n\nCompare the first four variables added here to the best subset winners in Part 2. Where do the two procedures agree, and where do they part company?\n\nremaining.remove(best) is what makes this greedy. Describe a situation where refusing to reconsider costs you the better model.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "8. Choosing a subset"
-    ]
-  },
-  {
-    "objectID": "ex/08-ex.html#part-4-four-ways-to-pick-d",
-    "href": "ex/08-ex.html#part-4-four-ways-to-pick-d",
-    "title": "Application exercise 8: Choosing a subset",
-    "section": "Part 4: Four ways to pick d",
-    "text": "Part 4: Four ways to pick d\nEach of these adjusts training RSS for model size, so that models with different numbers of predictors can be compared.\n\nsigma2 = rss(list(X.columns)) / (n - p - 1)\ncv = KFold(n_splits=10, shuffle=True, random_state=363)\n\nrows = []\nfor step in path:\n    d = step[\"d\"]\n    cols = [s[\"added\"] for s in path[:d]]\n    r = step[\"rss\"]\n    scores = -cross_val_score(\n        LinearRegression(), X[cols], y, cv=cv, scoring=\"neg_mean_squared_error\"\n    )\n    rows.append({\n        \"d\": d,\n        \"Cp\": (r + 2 * d * sigma2) / n,\n        \"BIC\": (r + np.log(n) * d * sigma2) / n,\n        \"adj_r2\": 1 - (r / (n - d - 1)) / (tss / (n - 1)),\n        \"cv_mse\": scores.mean(),\n        \"cv_se\": scores.std(ddof=1) / np.sqrt(10),\n    })\n\ncrit = pd.DataFrame(rows)\ncrit.round(2)\n\n\n\n\n\n\n\n\nd\nCp\nBIC\nadj_r2\ncv_mse\ncv_se\n\n\n\n\n0\n1\n138322.67\n139675.35\n0.32\n142512.92\n26337.80\n\n\n1\n2\n118041.54\n120746.91\n0.42\n124885.74\n25164.53\n\n\n2\n3\n113486.10\n117544.15\n0.45\n122173.40\n25461.19\n\n\n3\n4\n109382.44\n114793.18\n0.47\n118139.59\n22202.49\n\n\n4\n5\n107018.30\n113781.72\n0.48\n114335.34\n20938.17\n\n\n5\n6\n104144.49\n112260.59\n0.50\n111231.43\n22069.84\n\n\n6\n7\n103986.68\n113455.46\n0.50\n110773.21\n21941.14\n\n\n7\n8\n101721.28\n112542.74\n0.51\n108397.67\n21627.77\n\n\n8\n9\n101166.14\n113340.29\n0.52\n107914.27\n20864.78\n\n\n9\n10\n100730.91\n114257.74\n0.52\n107188.44\n20161.67\n\n\n10\n11\n101058.38\n115937.90\n0.52\n108047.09\n20383.34\n\n\n11\n12\n101609.98\n117842.18\n0.52\n109115.64\n20714.87\n\n\n12\n13\n102199.71\n119784.59\n0.52\n109345.46\n20595.82\n\n\n13\n14\n102803.11\n121740.68\n0.52\n110732.38\n20625.84\n\n\n14\n15\n103509.19\n123799.44\n0.52\n112045.56\n20680.98\n\n\n15\n16\n104206.47\n125849.40\n0.52\n112984.61\n20862.42\n\n\n16\n17\n104926.06\n127921.67\n0.51\n113465.67\n21002.12\n\n\n17\n18\n105654.47\n130002.77\n0.51\n114279.39\n21007.01\n\n\n18\n19\n106407.49\n132108.47\n0.51\n116664.33\n21272.90\n\n\n\n\n\n\n\n\nfig, axes = plt.subplots(1, 4, figsize=(11, 2.8))\nfor ax, col in zip(axes, [\"Cp\", \"BIC\", \"adj_r2\", \"cv_mse\"]):\n    ax.plot(crit[\"d\"], crit[col], \"-o\", color=\"#d5008f\", ms=3)\n    ax.set_title(col)\n    ax.set_xlabel(\"d\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\nWhich d does each of the four choose? Use idxmin for the first, second and fourth, and idxmax for adj_r2.\n\nBIC chooses a smaller model than Cp does. Look at the two penalties, \\(2d\\hat\\sigma^2\\) against \\(\\log(n)\\, d\\hat\\sigma^2\\), and say why.\n\nCp, BIC and adjusted \\(R^2\\) all need an estimate of \\(\\sigma^2\\) from the full model. Cross-validation needs no such thing. When does that difference start to matter?\n\n\n\n\ncrit.loc[crit[\"Cp\"].idxmin(), \"d\"]",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "8. Choosing a subset"
-    ]
-  },
-  {
-    "objectID": "ex/08-ex.html#part-5-the-one-standard-error-rule",
-    "href": "ex/08-ex.html#part-5-the-one-standard-error-rule",
-    "title": "Application exercise 8: Choosing a subset",
-    "section": "Part 5: The one standard error rule",
-    "text": "Part 5: The one standard error rule\n\nbest_row = crit[\"cv_mse\"].idxmin()\nthreshold = crit[\"cv_mse\"][best_row] + crit[\"cv_se\"][best_row]\nsmallest = int(crit.loc[crit[\"cv_mse\"] &lt;= threshold, \"d\"].min())\nint(crit[\"d\"][best_row]), round(float(threshold)), smallest\n\n(10, 127350, 2)\n\n\n\n\nIn words, what did those three lines compute?\n\nThe rule picks a much smaller model than the CV minimum does. Look at cv_se in the table and explain how that is possible.\n\nWhich of the two would you hand to someone who has to collect these measurements on a new player next season? Defend the choice on grounds other than error.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Application Exercises",
-      "8. Choosing a subset"
-    ]
-  },
-  {
-    "objectID": "ex/08-ex.html#if-you-finish-early",
-    "href": "ex/08-ex.html#if-you-finish-early",
-    "title": "Application exercise 8: Choosing a subset",
-    "section": "If you finish early",
-    "text": "If you finish early\nWrite the backward stepwise version: start from all X.columns and drop, at each step, the predictor whose removal raises RSS the least.\n\nDoes it produce the same path in reverse? Backward stepwise needs \\(n &gt; p\\) to get started. Why does forward stepwise not?\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "text": "Part 2: Best subset on eight predictors\nRestrict the pool to eight predictors so best subset is actually runnable.\n\npool = [\"AtBat\", \"Hits\", \"Walks\", \"Years\", \"CRuns\", \"CRBI\", \"CWalks\", \"PutOuts\"]\ntss = float(((y - y.mean()) ** 2).sum())\n\n\ndef rss(cols):\n    f = LinearRegression().fit(X[cols], y)\n    return float(((y - f.predict(X[cols])) ** 2).sum())\n\n\nrows = []\nfor k in range(1, len(pool) + 1):\n    best = min(itertools.combinations(pool, k), key=lambda c: rss(list(c)))\n    r = rss(list(best))\n    rows.append({\"k\": k, \"rss\": r, \"r2\": 1 - r / tss, \"vars\": \", \".join(best)})\n\npd.DataFrame(rows).round(3)\n\n\n\n\n\n\n\n\nk\nrss\nr2\nvars\n\n\n\n\n0\n1\n3.617968e+07\n0.321\nCRBI\n\n\n1\n2\n3.064656e+07\n0.425\nHits, CRBI\n\n\n2\n3\n2.924930e+07\n0.451\nHits, CRBI, PutOuts\n\n\n3\n4\n2.823936e+07\n0.470\nAtBat, Hits, CRBI, PutOuts\n\n\n4\n5\n2.717042e+07\n0.490\nAtBat, Hits, Walks, CRBI, PutOuts\n\n\n5\n6\n2.680370e+07\n0.497\nAtBat, Hits, Walks, CRuns, CWalks, PutOuts\n\n\n6\n7\n2.614246e+07\n0.510\nAtBat, Hits, Walks, CRuns, CRBI, CWalks, PutOuts\n\n\n7\n8\n2.587283e+07\n0.515\nAtBat, Hits, Walks, Years, CRuns, CRBI, CWalks...\n\n\n\n\n\n\n\n\n\nRead down the rss column. Does it ever increase? Explain why it cannot, using the fact that the size k model is one of the candidates available at size k plus 1.\n\nSame question for r2, in the other direction.\n\nGiven 1 and 2, why does Algorithm 6.1 need a step 3 at all?\n\n\n\n\n\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Application Exercises",

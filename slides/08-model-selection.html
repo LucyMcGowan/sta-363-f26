@@ -180,14 +180,14 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>Complete Part 1. <a href="../ex/08-ex.html">ex/08-ex</a></p>
 </div>
 </section>
-<section id="training-rss-is-monotone" class="slide level2 small">
-<h2>Training RSS is monotone</h2>
+<section id="training-rss" class="slide level2 small">
+<h2>Training RSS</h2>
 <div class="takeaway">
 <p>The size <span class="math inline">\(k\)</span> winner is one of the candidates at size <span class="math inline">\(k + 1\)</span>, so the size <span class="math inline">\(k + 1\)</span> winner can never be worse. RSS falls and <span class="math inline">\(R^2\)</span> rises no matter what the added predictor is.</p>
 </div>
 <div class="fragment">
 <div class="question">
-<p>So if we picked by RSS, which model would we always choose?</p>
+<p>So if we picked by training RSS, which model would we always choose?</p>
 </div>
 </div>
 </section>
@@ -198,7 +198,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <div class="takeaway">
-<p>The larger the search, the better some model looks by luck alone. Computing time is the smaller of the two problems.</p>
+<p>The larger the search, the better some model looks by luck alone.</p>
 </div>
 </div>
 </section>
@@ -222,8 +222,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p><span class="math inline">\(C_p\)</span>, AIC, BIC, adjusted <span class="math inline">\(R^2\)</span>.</p>
 </div><div class="column" style="width:50%;">
 <h3 id="estimate-it-directly">Estimate it directly</h3>
-<p>Hold data out and measure.</p>
-<p>Validation set, cross-validation.</p>
+<p>Hold data out and measure (i.e., cross-validation).</p>
 </div></div>
 </section>
 <section id="mallows-cp" class="slide level2">
@@ -278,23 +277,12 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <div class="definition">
 <p>The Akaike information criterion penalizes the maximized log likelihood by the number of parameters. For a least squares model with normal errors, AIC is proportional to <span class="math inline">\(C_p\)</span>.</p>
 </div>
-<div class="fragment">
-<div class="takeaway">
-<p>Ranking models by AIC and ranking them by <span class="math inline">\(C_p\)</span> give the same order, so only one of the two is worth computing here.</p>
-</div>
-</div>
 </section>
 <section id="three-criteria-on-credit" class="slide level2">
 <h2>Three criteria on Credit</h2>
 
 <img data-src="img/islp/fig6_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"><div class="source">
 <p>ISLP Figure 6.2. <span class="math inline">\(C_p\)</span>, BIC, and adjusted <span class="math inline">\(R^2\)</span> for the best model of each size on <code>Credit</code>. BIC turns up after four variables; the other two stay flat.</p>
-</div>
-</section>
-<section id="application-exercise-2" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete Part 3. <a href="../ex/08-ex.html">ex/08-ex</a></p>
 </div>
 </section>
 <section id="validation-and-cross-validation" class="slide level2">
@@ -317,17 +305,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <li class="fragment">They also assume the errors behave, and cross-validation assumes nothing<br>
 </li>
 <li class="fragment">Cross-validation applies to methods with no clear <span class="math inline">\(d\)</span> at all<br>
-</li>
-</ul>
-</section>
-<section id="before-wednesday" class="slide level2">
-<h2>Before Wednesday</h2>
-<ul>
-<li>Read ISLP Section 6.2.1<br>
-</li>
-<li>Problem set 3 due today, problem set 4 next week<br>
-</li>
-<li>Check-in 4 on Wednesday<br>
 </li>
 </ul>
 
