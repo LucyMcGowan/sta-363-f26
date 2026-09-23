@@ -1144,7 +1144,7 @@
     "href": "slides/08-model-selection.html#validation-and-cross-validation",
     "title": "Subset selection",
     "section": "Validation and cross-validation",
-    "text": "Validation and cross-validation\n\n\nISLP Figure 6.3. Square root of BIC, validation set error, and cross-validation error for Credit. The blue cross marks each one’s choice.\n\n\n\nThree different curves, three different minima, three nearly identical models. What does that suggest?",
+    "text": "Validation and cross-validation\n\n\nISLP Figure 6.3. Square root of BIC, validation set error, and cross-validation error for Credit. The blue cross marks each one’s choice.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
