@@ -1,0 +1,175 @@
+---
+title: "Problem set 5: Subset selection and ridge regression"
+subtitle: "STA 363 | Posted September 25 | Due Friday, October 2"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import itertools
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.model_selection import train_test_split, GridSearchCV, KFold
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+
+## 1.
+
+Suppose we estimate the coefficients of a linear regression model by
+minimizing
+
+$$\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda\sum_{j=1}^{p}\beta_j^2$$
+
+for a particular value of $\lambda$. For parts a through e, choose one of the
+following and justify your choice: (1) increase at first and then decrease,
+in an inverted U shape; (2) decrease at first and then increase, in a U shape;
+(3) steadily increase; (4) steadily decrease; (5) remain constant.
+
+a. As we increase $\lambda$ from 0, which of (1) through (5) describes the training RSS?
+b. Repeat part a for the test RSS.
+c. Repeat part a for the variance of $\hat\beta^R$. Use the expression for $\text{Var}(\hat\beta^R)$ from lecture as part of your justification.
+d. Repeat part a for the squared bias.
+e. Repeat part a for the irreducible error.
+f. Relative to least squares, is ridge regression more flexible or less flexible? Complete the sentence "Ridge regression will give better prediction accuracy than least squares when its increase in ___ is less than its decrease in ___," and explain how parts c and d support it.
+
+## 2.
+
+Ridge regression tends to give similar coefficients to predictors that are
+highly correlated. Consider a small setting with $n = 2$ and $p = 2$ in which
+the two predictor columns are identical:
+
+$$x_{11} = x_{12} = a, \quad x_{21} = x_{22} = -a, \quad y_2 = -y_1,$$
+
+for some $a \neq 0$. Because both predictors and the response sum to zero,
+the intercept estimate is $\hat\beta_0 = 0$ for least squares and for ridge,
+so we can drop it.
+
+a. Write out the ridge optimization problem in this setting, in terms of $a$, $y_1$, $\beta_1$, $\beta_2$ and $\lambda$.
+b. Argue that the ridge estimates satisfy $\hat\beta^R_1 = \hat\beta^R_2$. Hint: show that the RSS depends on $\beta_1$ and $\beta_2$ only through their sum, then ask which pair with that sum makes $\beta_1^2 + \beta_2^2$ smallest.
+c. Using part b, solve for the common value $\hat\beta^R_1 = \hat\beta^R_2$ as a function of $a$, $y_1$ and $\lambda$.
+d. Now set $\lambda = 0$. Show that least squares has infinitely many solutions and describe all of them. What does your answer to part c approach as $\lambda \rightarrow 0$?
+e. Take $a = 2$, $y_1 = 3$ and $\lambda = 1$. Use `np.linalg.solve` to compute $(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$ and confirm it matches part c. Then repeat with $\lambda = 0$ and report what happens.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+## 3.
+
+Training error decreases as predictors are added, while test error may not. Here
+we check this on simulated data with $p = 10$ predictors, only four of which
+have a nonzero true coefficient.
+
+```{python}
+rng = np.random.default_rng(363)
+n, p = 1000, 10
+X_sim = rng.normal(size=(n, p))
+beta = np.array([3, -2, 0, 0, 1.5, 0, 0, 0.5, 0, 0])
+y_sim = X_sim @ beta + rng.normal(0, 3, n)
+
+X_train, X_test = X_sim[:100], X_sim[100:]
+y_train, y_test = y_sim[:100], y_sim[100:]
+```
+
+a. Perform best subset selection on the 100 training observations: for each size $k = 1, \dots, 10$, find the subset of $k$ columns whose least squares fit has the smallest training MSE. Plot the training MSE of the best model of each size against $k$.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. For the same ten models, compute the test MSE on the 900 test observations and plot it against $k$.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. For which model size is the test MSE smallest? Compare the predictors in that model, and their estimated coefficients, to the true `beta`. Which true nonzero coefficient is the hardest for best subset to pick up, and why?
+d. For each size $r$, let $\hat\beta^r_j$ be the estimated coefficient for predictor $j$ in the best size $r$ model, set to 0 when predictor $j$ is left out. Plot $\sqrt{\sum_{j=1}^{p}(\beta_j - \hat\beta^r_j)^2}$ against $r$ and compare the shape to your plot from part b.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+e. Suppose in practice there is no test set to choose a size with. Using only the training data, compute $C_p$ and BIC for each of the ten models, with $\hat\sigma^2$ from the model with all ten predictors. Which size does each choose, compared to part c?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+## 4.
+
+Use the `Hitters` data to predict `Salary` from all of the other variables,
+with only 50 players in the training set.
+
+```{python}
+Hitters = pd.read_csv(DATA + "Hitters.csv").dropna(subset=["Salary"])
+y_hit = Hitters["Salary"]
+X_hit = Hitters.drop(columns=["Salary"])
+cat = ["League", "Division", "NewLeague"]
+num = [c for c in X_hit.columns if c not in cat]
+
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X_hit, y_hit, train_size=50, random_state=363
+)
+cv = KFold(n_splits=10, shuffle=True, random_state=363)
+```
+
+a. Build a `ColumnTransformer` with `StandardScaler()` on `num` and `OneHotEncoder(drop="first")` on `cat`, and put it in a `Pipeline` with `LinearRegression()`. Fit it on the training set and report its test MSE, along with the test MSE of predicting the training mean salary for every player.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Replace `LinearRegression()` with `Ridge()` and use `GridSearchCV` on the training set, with `cv` above and `alpha` ranging over `np.logspace(-2, 5, 60)`, to choose the penalty. Report the chosen `alpha` and the test MSE of the refit model.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Explain the gap between parts a and b in terms of bias and variance. How many columns does the design matrix have after encoding, and how does that compare to the 50 training rows?
+d. Reproduce the ridge coefficients from part b by hand. Transform the training predictors with the fitted preprocessor, center every column and the response, and solve $(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})\beta = \mathbf{X}^T\mathbf{y}$ at the chosen `alpha`. How does this compare to `coef_`?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+e. Repeat parts a and b with `train_size=200`. How does the gap between least squares and ridge change, and why?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer. Questions 1 to 5 are adapted from Chapter 6 exercises 1, 2, 4, 5, 9
+and 10.*
