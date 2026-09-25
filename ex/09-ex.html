@@ -681,7 +681,7 @@ window.Quarto = {
 <p><code>Credit</code> has 400 customers, a credit card balance, and a handful of predictors, two of which measure almost the same thing.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="4fe58a6d" class="cell" data-execution_count="1">
+<div id="5be625b7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -775,7 +775,7 @@ window.Quarto = {
 </section>
 <section id="part-1-two-predictors-that-say-the-same-thing" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-two-predictors-that-say-the-same-thing">Part 1: Two predictors that say the same thing</h2>
-<div id="258dc6ab" class="cell" data-execution_count="2">
+<div id="c393b372" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Credit[[<span class="st">"Limit"</span>, <span class="st">"Rating"</span>]].corr().<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -806,7 +806,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="093f40d9" class="cell" data-execution_count="3">
+<div id="e26a4301" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>small <span class="op">=</span> Credit.sample(<span class="dv">30</span>, random_state<span class="op">=</span><span class="dv">363</span>).index</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X_small, y_small <span class="op">=</span> X.loc[small], y.loc[small]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -896,7 +896,7 @@ window.Quarto = {
 <section id="part-2-ridge-by-hand" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-ridge-by-hand">Part 2: Ridge by hand</h2>
 <p>Ridge minimizes RSS plus <span class="math inline">\(\lambda\sum_j \beta_j^2\)</span>, which gives <span class="math inline">\(\hat\beta^R = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}\)</span>. The predictors are standardized first and the response is centered, so no intercept is needed and no coefficient is penalized for its units.</p>
-<div id="5afc8a6e" class="cell" data-execution_count="4">
+<div id="adf76c3e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> StandardScaler().fit_transform(X)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_centered <span class="op">=</span> y <span class="op">-</span> y.mean()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -945,7 +945,7 @@ window.Quarto = {
 <section id="part-3-scale-changes-the-answer" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-scale-changes-the-answer">Part 3: Scale changes the answer</h2>
 <p><code>Limit</code> is recorded in dollars. Recording it in thousands of dollars is the same data.</p>
-<div id="3af9c209" class="cell" data-execution_count="5">
+<div id="94d847be" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X_k <span class="op">=</span> X.copy()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X_k[<span class="st">"Limit"</span>] <span class="op">=</span> X_k[<span class="st">"Limit"</span>] <span class="op">/</span> <span class="dv">1000</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1000,7 +1000,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="b51423a1" class="cell" data-execution_count="6">
+<div id="6e280095" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ols_dollars"</span>: LinearRegression().fit(X, y).coef_,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ols_thousands"</span>: LinearRegression().fit(X_k, y).coef_,</span>
@@ -1096,7 +1096,7 @@ window.Quarto = {
 <section id="part-4-when-ridge-earns-its-keep" class="level2">
 <h2 class="anchored" data-anchor-id="part-4-when-ridge-earns-its-keep">Part 4: When ridge earns its keep</h2>
 <p>Fifty observations, forty-five predictors, and a true coefficient that is nonzero for every single one of them.</p>
-<div id="f8e9fbb8" class="cell" data-execution_count="7">
+<div id="5185e38c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">363</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n_sim, p_sim <span class="op">=</span> <span class="dv">50</span>, <span class="dv">45</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X_sim <span class="op">=</span> pd.DataFrame(</span>
@@ -1139,7 +1139,7 @@ window.Quarto = {
 </section>
 <section id="part-5-the-trade-off-one-plot" class="level2">
 <h2 class="anchored" data-anchor-id="part-5-the-trade-off-one-plot">Part 5: The trade-off, one plot</h2>
-<div id="3eab2426" class="cell" data-execution_count="8">
+<div id="234b1f1e" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>curve, norms <span class="op">=</span> [], []</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> alphas:</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> make_pipeline(StandardScaler(), Ridge(alpha<span class="op">=</span>a))</span>
