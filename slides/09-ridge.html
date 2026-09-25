@@ -249,7 +249,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="near-collinearity" class="slide level2 small">
 <h2>Near collinearity</h2>
-<div id="c48511c3" class="cell" data-execution_count="2">
+<div id="ff7f684c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="fl">3.01</span>, <span class="dv">6</span>], [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>], [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]])</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>])</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -273,7 +273,7 @@ exactly proportional if the first entry were 3 instead of 3.01.</span>
 </div>
 </div>
 <div class="fragment">
-<div id="df16e13b" class="cell" data-execution_count="3">
+<div id="904e4a66" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y).<span class="bu">round</span>(<span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -352,23 +352,6 @@ determinant is nonzero. But the values are large!</span>
 <p><span class="math display">\[\hat\beta^R = {\require{color}\colorbox{#eec8e1}{$(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}$}}\mathbf{X}^T\mathbf{y}\]</span></p>
 <p>That sum is invertible for any <span class="math inline">\(\lambda &gt; 0\)</span>, however collinear the predictors are and even when <span class="math inline">\(p &gt; n\)</span>. Set <span class="math inline">\(\lambda = 0\)</span> and the whole expression collapses back to the least squares estimate.</p>
 </section>
-<section id="ridge-as-a-budget" class="slide level2 small">
-<h2>Ridge as a budget</h2>
-<div class="definition">
-<p>Minimizing RSS <span class="math inline">\(+ \lambda\sum_j\beta_j^2\)</span> is the same problem as minimizing RSS subject to <span class="math inline">\(\sum_{j=1}^{p}\beta_j^2 \leq s\)</span>, for a value of <span class="math inline">\(s\)</span> that depends on <span class="math inline">\(\lambda\)</span>.</p>
-</div>
-</section>
-<section id="ridge-in-one-dimension" class="slide level2 small">
-<h2>Ridge in one dimension</h2>
-<div class="takeaway">
-<p>With <span class="math inline">\(n = p\)</span> and <span class="math inline">\(\mathbf{X} = \mathbf{I}\)</span>, the ridge estimate has a closed form: <span class="math display">\[\hat\beta^R_j = \frac{\hat\beta_j}{1 + \lambda}\]</span></p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Every coefficient shrinks by the same proportion. How many of them reach exactly zero at any finite <span class="math inline">\(\lambda\)</span>?</p>
-</div>
-</div>
-</section>
 <section id="variance-of-the-ridge-estimate" class="slide level2 small">
 <h2>Variance of the ridge estimate</h2>
 <p><span class="math display">\[\text{Var}(\hat\beta^R) = \sigma^2(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\]</span></p>
@@ -399,21 +382,6 @@ determinant is nonzero. But the values are large!</span>
 <div class="question">
 <p><code>rating</code> goes up before it falls. How, if the penalty only ever shrinks?</p>
 </div>
-</div>
-</section>
-<section id="the-same-paths-computed" class="slide level2 small">
-<h2>The same paths, computed</h2>
-<div id="8850cae8" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="09-ridge_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center" width="634" height="320"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="source">
-<p>Ridge fit by hand on standardized <code>Credit</code> predictors, one solve per <span class="math inline">\(\lambda\)</span>, reproducing the left panel of ISLP Figure 6.4.</p>
 </div>
 </section>
 <section id="application-exercise-1" class="slide level2">
@@ -501,21 +469,6 @@ determinant is nonzero. But the values are large!</span>
 <img data-src="img/islp/fig6_12.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><div class="source">
 <p>ISLP Figure 6.12. Left: cross-validation error for ridge on <code>Credit</code> across <span class="math inline">\(\lambda\)</span>. Right: the coefficient estimates, with the chosen <span class="math inline">\(\lambda\)</span> marked.</p>
 </div>
-</section>
-<section id="when-p-approaches-n" class="slide level2 small">
-<h2>When p approaches n</h2>
-<div id="214e7461" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="09-ridge_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center" width="616" height="320"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="source">
-<p>Fifty observations, 45 predictors, all with nonzero true coefficients. The dashed line is least squares on the same folds.</p>
-</div>
 </section></section>
 <section>
 <section id="in-python" class="title-slide slide level1 center">
@@ -524,7 +477,7 @@ determinant is nonzero. But the values are large!</span>
 </section>
 <section id="ridge-in-scikit-learn" class="slide level2 small">
 <h2>Ridge in scikit-learn</h2>
-<div id="e338cc85" class="cell" data-execution_count="8">
+<div id="d7492183" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -562,7 +515,7 @@ front of the model, so the standardization is learned on whatever data the pipel
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>Income       -94.8
 Limit        211.4
 Rating       209.4
@@ -576,7 +529,7 @@ dtype: float64</code></pre>
 </section>
 <section id="tuning-alpha" class="slide level2 small">
 <h2>Tuning alpha</h2>
-<div id="89f66c7e" class="cell" data-execution_count="9">
+<div id="6a83bbd2" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold, cross_val_score</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -607,7 +560,7 @@ scale from 0.01 to 100,000, since what matters about <code>alpha</code> is its o
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>(np.float64(0.202), np.float64(9897.5), 9903.5)</code></pre>
 </div>
 </div>

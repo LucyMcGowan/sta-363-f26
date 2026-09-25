@@ -5142,30 +5142,6 @@
     ]
   },
   {
-    "objectID": "slides/09-ridge.html#ridge-as-a-budget",
-    "href": "slides/09-ridge.html#ridge-as-a-budget",
-    "title": "Ridge regression",
-    "section": "Ridge as a budget",
-    "text": "Ridge as a budget\n\nMinimizing RSS \\(+ \\lambda\\sum_j\\beta_j^2\\) is the same problem as minimizing RSS subject to \\(\\sum_{j=1}^{p}\\beta_j^2 \\leq s\\), for a value of \\(s\\) that depends on \\(\\lambda\\).",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "9. Ridge regression"
-    ]
-  },
-  {
-    "objectID": "slides/09-ridge.html#ridge-in-one-dimension",
-    "href": "slides/09-ridge.html#ridge-in-one-dimension",
-    "title": "Ridge regression",
-    "section": "Ridge in one dimension",
-    "text": "Ridge in one dimension\n\nWith \\(n = p\\) and \\(\\mathbf{X} = \\mathbf{I}\\), the ridge estimate has a closed form: \\[\\hat\\beta^R_j = \\frac{\\hat\\beta_j}{1 + \\lambda}\\]\n\n\n\nEvery coefficient shrinks by the same proportion. How many of them reach exactly zero at any finite \\(\\lambda\\)?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "9. Ridge regression"
-    ]
-  },
-  {
     "objectID": "slides/09-ridge.html#variance-of-the-ridge-estimate",
     "href": "slides/09-ridge.html#variance-of-the-ridge-estimate",
     "title": "Ridge regression",
@@ -5195,18 +5171,6 @@
     "title": "Ridge regression",
     "section": "Reading the paths",
     "text": "Reading the paths\n\nFar left: \\(\\lambda\\) near zero, so these are the least squares estimates\n\nFar right: every coefficient at zero, the null model\n\nIn between: a different fitted model for every \\(\\lambda\\)\n\n\n\n\nrating goes up before it falls. How, if the penalty only ever shrinks?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "9. Ridge regression"
-    ]
-  },
-  {
-    "objectID": "slides/09-ridge.html#the-same-paths-computed",
-    "href": "slides/09-ridge.html#the-same-paths-computed",
-    "title": "Ridge regression",
-    "section": "The same paths, computed",
-    "text": "The same paths, computed\n\n\n\n\n\n\n\n\n\n\nRidge fit by hand on standardized Credit predictors, one solve per \\(\\lambda\\), reproducing the left panel of ISLP Figure 6.4.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5303,18 +5267,6 @@
     "title": "Ridge regression",
     "section": "Choosing lambda",
     "text": "Choosing lambda\n\n\nISLP Figure 6.12. Left: cross-validation error for ridge on Credit across \\(\\lambda\\). Right: the coefficient estimates, with the chosen \\(\\lambda\\) marked.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "9. Ridge regression"
-    ]
-  },
-  {
-    "objectID": "slides/09-ridge.html#when-p-approaches-n",
-    "href": "slides/09-ridge.html#when-p-approaches-n",
-    "title": "Ridge regression",
-    "section": "When p approaches n",
-    "text": "When p approaches n\n\n\n\n\n\n\n\n\n\n\nFifty observations, 45 predictors, all with nonzero true coefficients. The dashed line is least squares on the same folds.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
