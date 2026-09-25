@@ -190,10 +190,10 @@
     }
   </style>
 <meta property="og:title" content="Ridge regression – STA 363">
-<meta property="og:description" content="STA 363 | Meeting 9">
+<meta property="og:description" content="STA 363 | Meeting 10">
 <meta property="og:site_name" content="STA 363">
 <meta name="twitter:title" content="Ridge regression – STA 363">
-<meta name="twitter:description" content="STA 363 | Meeting 9">
+<meta name="twitter:description" content="STA 363 | Meeting 10">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -203,7 +203,7 @@
 
 <section id="title-slide" data-color="#d5008f" class="quarto-title-block center">
   <h1 class="title">Ridge regression</h1>
-  <p class="subtitle">STA 363 | Meeting 9</p>
+  <p class="subtitle">STA 363 | Meeting 10</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -213,17 +213,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 </div>
 
-</section>
-<section id="review" class="slide level2">
-<h2>Review</h2>
-<div class="takeaway">
-<p>Subset selection gives each predictor all of the fit or none of it.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>Twenty predictors, all weakly related to the response. What does best subset do with them?</p>
-</div>
-</div>
 </section>
 <section>
 <section id="when-least-squares-breaks" class="title-slide slide level1 center">
@@ -250,17 +239,17 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="determinants" class="slide level2 small">
 <h2>Determinants</h2>
 <div class="definition">
-<p>A square matrix has an inverse exactly when its determinant is nonzero. For a two by two matrix, <span class="math display">\[\left|\begin{matrix} a &amp; b \\ c &amp; d \end{matrix}\right| = ad - bc\]</span></p>
+<p>A square matrix is invertible when its determinant is nonzero. For a two by two matrix, <span class="math display">\[\left|\begin{matrix} a &amp; b \\ c &amp; d \end{matrix}\right| = ad - bc\]</span></p>
 </div>
 <div class="fragment">
 <div class="takeaway">
-<p>Perfect collinearity sends the determinant to exactly zero. Near collinearity sends it near zero, which is worse, because the code still runs.</p>
+<p>A matrix that is perfectly collinear has a determinant of zero.</p>
 </div>
 </div>
 </section>
 <section id="near-collinearity" class="slide level2 small">
 <h2>Near collinearity</h2>
-<div id="d321ad4c" class="cell" data-execution_count="2">
+<div id="c48511c3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="fl">3.01</span>, <span class="dv">6</span>], [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>], [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]])</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>])</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -284,14 +273,14 @@ exactly proportional if the first entry were 3 instead of 3.01.</span>
 </div>
 </div>
 <div class="fragment">
-<div id="d0af5eb0" class="cell" data-execution_count="3">
+<div id="df16e13b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y).<span class="bu">round</span>(<span class="dv">2</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1"><code>np.linalg.solve</code> returns the least squares coefficients anyway, since the<br>
-determinant is nonzero. The magnitudes are the warning.</span>
+determinant is nonzero. But the values are large!</span>
 </dd>
 </dl>
 </div>
@@ -306,7 +295,7 @@ determinant is nonzero. The magnitudes are the warning.</span>
 <p><span class="math display">\[\text{Var}(\hat\beta) = \sigma^2(\mathbf{X}^T\mathbf{X})^{-1}\]</span></p>
 <div class="fragment">
 <div class="takeaway">
-<p>A determinant near zero means the entries of the inverse are enormous, so the variances on its diagonal are enormous. Refit on a slightly different sample and <span class="math inline">\(\hat\beta\)</span> moves a long way.</p>
+<p>A determinant near zero means the entries of the inverse are large, so the variances on its diagonal are large. Refit on a slightly different sample and <span class="math inline">\(\hat\beta\)</span> moves a lot.</p>
 </div>
 </div>
 </section>
@@ -368,11 +357,6 @@ determinant is nonzero. The magnitudes are the warning.</span>
 <div class="definition">
 <p>Minimizing RSS <span class="math inline">\(+ \lambda\sum_j\beta_j^2\)</span> is the same problem as minimizing RSS subject to <span class="math inline">\(\sum_{j=1}^{p}\beta_j^2 \leq s\)</span>, for a value of <span class="math inline">\(s\)</span> that depends on <span class="math inline">\(\lambda\)</span>.</p>
 </div>
-<div class="fragment">
-<div class="takeaway">
-<p>A budget for how large the coefficients may get, spent however the fit likes. Large <span class="math inline">\(\lambda\)</span> is a small budget.</p>
-</div>
-</div>
 </section>
 <section id="ridge-in-one-dimension" class="slide level2 small">
 <h2>Ridge in one dimension</h2>
@@ -391,17 +375,6 @@ determinant is nonzero. The magnitudes are the warning.</span>
 <div class="fragment">
 <div class="question">
 <p>Set <span class="math inline">\(\lambda = 0\)</span> and compare it to <span class="math inline">\(\sigma^2(\mathbf{X}^T\mathbf{X})^{-1}\)</span>. As <span class="math inline">\(\lambda\)</span> grows, does this go up or down?</p>
-</div>
-</div>
-</section>
-<section id="what-lambda-buys" class="slide level2 small">
-<h2>What lambda buys</h2>
-<div class="takeaway">
-<p>Ridge returns coefficients where least squares returns an error, and returns stable ones where least squares returns wild ones.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>An estimate exists for every <span class="math inline">\(\lambda &gt; 0\)</span>. What tells us which of those estimates to use?</p>
 </div>
 </div>
 </section>
@@ -424,14 +397,22 @@ determinant is nonzero. The magnitudes are the warning.</span>
 </ul>
 <div class="fragment">
 <div class="question">
-<p><code>rating</code> climbs before it falls. How, if the penalty only ever shrinks?</p>
+<p><code>rating</code> goes up before it falls. How, if the penalty only ever shrinks?</p>
 </div>
 </div>
 </section>
 <section id="the-same-paths-computed" class="slide level2 small">
 <h2>The same paths, computed</h2>
-
-<img data-src="09-ridge_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="8850cae8" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-ridge_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center" width="634" height="320"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>Ridge fit by hand on standardized <code>Credit</code> predictors, one solve per <span class="math inline">\(\lambda\)</span>, reproducing the left panel of ISLP Figure 6.4.</p>
 </div>
 </section>
@@ -462,7 +443,7 @@ determinant is nonzero. The magnitudes are the warning.</span>
 <p><span class="math display">\[\tilde{x}_{ij} = \frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_{ij} - \bar{x}_j)^2}}\]</span></p>
 <div class="fragment">
 <div class="takeaway">
-<p>Every standardized predictor has standard deviation 1, so a shared <span class="math inline">\(\lambda\)</span> means the same thing for all of them. <code>StandardScaler</code> inside the pipeline, where cross-validation refits it on each training fold.</p>
+<p>Every standardized predictor has standard deviation 1, so a shared <span class="math inline">\(\lambda\)</span> means the same thing for all of them. We put <code>StandardScaler</code> inside the pipeline, where cross-validation refits it on each training fold.</p>
 </div>
 </div>
 </section>
@@ -480,7 +461,7 @@ determinant is nonzero. The magnitudes are the warning.</span>
 <section id="ridge-and-the-trade-off" class="slide level2 small">
 <h2>Ridge and the trade-off</h2>
 <div class="takeaway">
-<p>As <span class="math inline">\(\lambda\)</span> rises the fit gets less flexible: variance falls and bias rises. This is the Meeting 3 trade-off with <span class="math inline">\(\lambda\)</span> as the knob.</p>
+<p>As <span class="math inline">\(\lambda\)</span> rises the fit gets less flexible: bias goes up and variance go down. This is the bias-variance trade-off with <span class="math inline">\(\lambda\)</span> as the thing we are tuning.</p>
 </div>
 <div class="fragment">
 <p><span class="math display">\[\text{Bias}(\hat\beta^R) = -\lambda(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\beta\]</span></p>
@@ -501,7 +482,7 @@ determinant is nonzero. The magnitudes are the warning.</span>
 <section id="reading-figure-6.5" class="slide level2 small">
 <h2>Reading Figure 6.5</h2>
 <ul>
-<li class="fragment">At <span class="math inline">\(\lambda = 0\)</span> the bias is zero and the variance is enormous<br>
+<li class="fragment">At <span class="math inline">\(\lambda = 0\)</span> the bias is zero and the variance is large<br>
 </li>
 <li class="fragment">Variance falls fast at first while bias barely moves<br>
 </li>
@@ -523,8 +504,16 @@ determinant is nonzero. The magnitudes are the warning.</span>
 </section>
 <section id="when-p-approaches-n" class="slide level2 small">
 <h2>When p approaches n</h2>
-
-<img data-src="09-ridge_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="214e7461" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-ridge_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center" width="616" height="320"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>Fifty observations, 45 predictors, all with nonzero true coefficients. The dashed line is least squares on the same folds.</p>
 </div>
 </section></section>
@@ -535,7 +524,7 @@ determinant is nonzero. The magnitudes are the warning.</span>
 </section>
 <section id="ridge-in-scikit-learn" class="slide level2 small">
 <h2>Ridge in scikit-learn</h2>
-<div id="ad1529ce" class="cell" data-execution_count="8">
+<div id="e338cc85" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -587,7 +576,7 @@ dtype: float64</code></pre>
 </section>
 <section id="tuning-alpha" class="slide level2 small">
 <h2>Tuning alpha</h2>
-<div id="30f1b236" class="cell" data-execution_count="9">
+<div id="89f66c7e" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold, cross_val_score</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -634,25 +623,13 @@ scale from 0.01 to 100,000, since what matters about <code>alpha</code> is its o
 <p>Complete Parts 4 and 5. <a href="../ex/09-ex.html">ex/09-ex</a></p>
 </div>
 </section>
-<section id="application-exercise-9" class="slide level2">
-<h2>Application exercise 9</h2>
-<div class="takeaway">
-<p>Watched coefficients swing under resampling, computed the ridge solution by hand across a grid of <span class="math inline">\(\lambda\)</span>, showed that changing units changes an unscaled ridge fit, and beat least squares by a factor of 150 when <span class="math inline">\(p\)</span> approached <span class="math inline">\(n\)</span>.</p>
-</div>
-</section>
-<section id="before-friday" class="slide level2">
-<h2>Before Friday</h2>
+<section id="before-wednesday" class="slide level2">
+<h2>Before Wednesday</h2>
 <ul>
 <li>Read ISLP Sections 6.2.2 to 6.2.3<br>
 </li>
-<li>Problem set 4 due Friday<br>
-</li>
+<li>Check in 4 on Wednesday</li>
 </ul>
-<div class="fragment">
-<div class="question">
-<p>Ridge shrinks every coefficient toward zero and sets none of them to zero. When would that be a problem?</p>
-</div>
-</div>
 
 
 </section></section>
