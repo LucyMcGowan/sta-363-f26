@@ -91,6 +91,8 @@ website:
             text: "3. Cross-validation and leakage"
           - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/04-ps.ipynb
             text: "4. Linear Regression"
+          - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/05-ps.ipynb
+            test: "5. Ridge Regression"
             
       - section: "Application Exercises"
         contents:
