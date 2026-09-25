@@ -42,14 +42,15 @@ Credit[["Limit", "Rating"]].corr().round(4)
 small = Credit.sample(30, random_state=363).index
 X_small, y_small = X.loc[small], y.loc[small]
 
+model = make_pipeline(StandardScaler(), LinearRegression())
 rng = np.random.default_rng(363)
 draws = []
 for b in range(200):
     idx = rng.integers(0, len(X_small), len(X_small))
-    draws.append(LinearRegression().fit(X_small.iloc[idx], y_small.iloc[idx]).coef_)
+    draws.append(model.fit(X_small.iloc[idx], y_small.iloc[idx])[-1].coef_)
 
 summary = pd.DataFrame({
-    "coef": LinearRegression().fit(X_small, y_small).coef_,
+    "coef": model.fit(X_small, y_small)[-1].coef_,
     "resample_sd": pd.DataFrame(draws, columns=X.columns).std(),
 }, index=X.columns)
 summary.round(2)
