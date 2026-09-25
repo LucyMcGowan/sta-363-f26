@@ -1,0 +1,82 @@
+---
+title: "Application exercise 8: Choosing a subset"
+subtitle: "STA 363 | September 23"
+toc-depth: 2
+execute:
+  echo: true
+editor: source
+jupyter: python3
+---
+
+
+## Setup
+
+```{python}
+import itertools
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score, KFold
+
+Hitters = pd.read_csv(DATA + "Hitters.csv")
+Hitters = Hitters.dropna(subset=["Salary"]).reset_index(drop=True)
+
+X = pd.get_dummies(Hitters.drop(columns=["Salary"]), drop_first=True).astype(float)
+y = Hitters["Salary"]
+n, p = X.shape
+n, p
+```
+
+## Part 1: How large is the search
+
+::: {.question}
+1. Best subset selection fits every model that uses some subset of the p predictors. How many models is that, for the p you just printed?  
+2. At one thousand model fits per second, how long would that take?  
+3. A classmate proposes fitting all of them and keeping the one with the smallest RSS. Name the problem with that plan that has nothing to do with computing time.  
+:::
+
+```{python}
+#| eval: false
+2 ** p
+```
+
+::: {.answer-space}
+:::
+
+## Part 2: Best subset on eight predictors
+
+Restrict the pool to eight predictors so best subset is actually runnable.
+
+```{python}
+pool = ["AtBat", "Hits", "Walks", "Years", "CRuns", "CRBI", "CWalks", "PutOuts"]
+tss = float(((y - y.mean()) ** 2).sum())
+
+
+def rss(cols):
+    f = LinearRegression().fit(X[cols], y)
+    return float(((y - f.predict(X[cols])) ** 2).sum())
+
+
+rows = []
+for k in range(1, len(pool) + 1):
+    best = min(itertools.combinations(pool, k), key=lambda c: rss(list(c)))
+    r = rss(list(best))
+    rows.append({"k": k, "rss": r, "r2": 1 - r / tss, "vars": ", ".join(best)})
+
+pd.DataFrame(rows).round(3)
+```
+
+::: {.question}
+1. Read down the `rss` column. Does it ever increase? Explain why it cannot, using the fact that the size k model is one of the candidates available at size k plus 1.  
+2. Same question for `r2`, in the other direction.  
+3. Given 1 and 2, why does Algorithm 6.1 need a step 3 at all?  
+:::
+
+::: {.answer-space}
+:::
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer.*

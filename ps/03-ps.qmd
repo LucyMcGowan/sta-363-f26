@@ -26,12 +26,11 @@ DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
 
 ## 1.
 
-Rank the validation set approach, k-fold CV with k = 5 or 10, and LOOCV from most to least biased as an estimate of test error. Then rank them again from most to least variable.
+Rank the validation set approach, k-fold CV with k = 5 or 10, and LOOCV from most to least biased as an estimate of test error. 
 
 a. Justify the bias ranking in terms of how many observations each procedure trains on.
-b. Justify the variance ranking in terms of how similar the training sets are across folds or splits, and how correlated the resulting error estimates are with each other.
-c. A classmate argues that LOOCV averages n numbers, so by the law of large numbers it must have the lowest variance of the three. What is wrong with this argument?
-d. Describe a situation where you would choose the validation set approach anyway, despite its higher bias.
+b. A classmate argues that LOOCV averages n numbers, so by the law of large numbers it must have the lowest variance of the three. What is wrong with this argument?
+c. Describe a situation where you would choose the validation set approach anyway, despite its higher bias.
 
 ## 2.
 
