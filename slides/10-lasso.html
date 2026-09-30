@@ -285,29 +285,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>ISLP Figure 6.6. Standardized lasso coefficients for <code>Credit</code> against <span class="math inline">\(\lambda\)</span> on the left and against <span class="math inline">\(\|\hat\beta^L_\lambda\|_1 / \|\hat\beta\|_1\)</span> on the right.</p>
 </div>
 </section>
-<section id="reading-the-lasso-paths" class="slide level2 small">
-<h2>Reading the lasso paths</h2>
-<ul>
-<li class="fragment">Moving right to left, <code>rating</code> enters first, then <code>student</code> and <code>limit</code><br>
-</li>
-<li class="fragment">Each path hits zero at some finite <span class="math inline">\(\lambda\)</span> and stays there<br>
-</li>
-<li class="fragment">At any given <span class="math inline">\(\lambda\)</span> the model contains however many are still nonzero<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>Compare this to Wednesday’s ridge paths. Which coefficient ever reached zero there?</p>
-</div>
-</div>
-</section>
-<section id="the-same-paths-computed" class="slide level2 small">
-<h2>The same paths, computed</h2>
-
-<img data-src="10-lasso_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
-<p>The lasso fit on standardized <code>Hitters</code> predictors at 60 penalties. Right: how many of the 19 coefficients are still nonzero at each one.</p>
-</div>
-</section>
 <section id="application-exercise" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
@@ -352,30 +329,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <p>A circle has no corners. Where does the ridge solution touch, and what does that mean for a coefficient reaching zero?</p>
 </div>
 </div>
-</section>
-<section id="best-subset-in-the-same-picture" class="slide level2 small">
-<h2>Best subset in the same picture</h2>
-<div class="definition">
-<p>Best subset selection is minimizing RSS subject to <span class="math inline">\(\sum_{j=1}^{p}I(\beta_j \neq 0) \leq s\)</span>: a budget on how many coefficients may be nonzero.</p>
-</div>
-<div class="fragment">
-<div class="takeaway">
-<p>Same shape of problem, a budget that cannot be searched in reasonable time. The lasso replaces it with one that can.</p>
-</div>
-</div>
-</section>
-<section id="shrinkage-in-one-dimension" class="slide level2">
-<h2>Shrinkage in one dimension</h2>
-
-<img data-src="img/islp/fig6_10.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><div class="source">
-<p>ISLP Figure 6.10. With <span class="math inline">\(n = p\)</span> and <span class="math inline">\(\mathbf{X}\)</span> the identity. Left: ridge shrinks proportionally. Right: the lasso soft-thresholds, so estimates below a cutoff go to exactly zero.</p>
-</div>
-</section>
-<section id="application-exercise-1" class="slide level2">
-<h2>Application exercise</h2>
-<div class="takeaway">
-<p>Complete Part 2. <a href="../ex/10-ex.html">ex/10-ex</a></p>
-</div>
 </section></section>
 <section>
 <section id="which-one-wins" class="title-slide slide level1 center">
@@ -412,17 +365,10 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 </div>
 </section>
-<section id="selecting-the-tuning-parameter" class="slide level2">
-<h2>Selecting the tuning parameter</h2>
-
-<img data-src="img/islp/fig6_13.png" class="quarto-figure quarto-figure-center r-stretch" style="width:86.0%"><div class="source">
-<p>ISLP Figure 6.13. Left: 10-fold cross-validation MSE for the lasso on the sparse simulation. Right: the coefficient paths, with the two signal variables in color and the noise in grey.</p>
-</div>
-</section>
-<section id="application-exercise-2" class="slide level2">
+<section id="application-exercise-1" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Parts 3 and 4. <a href="../ex/10-ex.html">ex/10-ex</a></p>
+<p>Complete Parts 2, 3 and 4. <a href="../ex/10-ex.html">ex/10-ex</a></p>
 </div>
 </section></section>
 <section>
@@ -467,7 +413,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="lasso-in-scikit-learn" class="slide level2 small">
 <h2>Lasso in scikit-learn</h2>
-<div id="31ab3749" class="cell" data-execution_count="5">
+<div id="bafd8af0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -498,7 +444,7 @@ part of the output the lasso is being asked for.</span>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Hits           63.9
 Walks          34.2
 CRuns          51.9
@@ -511,7 +457,7 @@ dtype: float64</code></pre>
 </section>
 <section id="tuning-alpha" class="slide level2 small">
 <h2>Tuning alpha</h2>
-<div id="de4bd0fc" class="cell" data-execution_count="6">
+<div id="3ed2ca12" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
@@ -537,7 +483,7 @@ dtype: float64</code></pre>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>(np.float64(1.22), 114828, 17)</code></pre>
 </div>
 </div>
@@ -549,14 +495,22 @@ dtype: float64</code></pre>
 </section>
 <section id="the-one-standard-error-rule" class="slide level2 small">
 <h2>The one standard error rule</h2>
-
-<img data-src="10-lasso_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center r-stretch"><div class="source">
+<div id="dcb794a8" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="10-lasso_files/figure-revealjs/cell-7-output-1.png" class="quarto-figure quarto-figure-center" width="652" height="323"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
 <p>The lasso CV curve on <code>Hitters</code>. Dashed line: one standard error above the minimum. Vertical line: the largest alpha still under it.</p>
 </div>
 </section>
 <section id="what-the-rule-keeps" class="slide level2 small">
 <h2>What the rule keeps</h2>
-<div id="198ad73d" class="cell" data-execution_count="8">
+<div id="0cca36d1" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>one_se <span class="op">=</span> make_pipeline(StandardScaler(), Lasso(alpha<span class="op">=</span>pick, max_iter<span class="op">=</span><span class="dv">200000</span>)).fit(X, y)</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>pd.Series(one_se[<span class="op">-</span><span class="dv">1</span>].coef_, index<span class="op">=</span>X.columns).loc[<span class="kw">lambda</span> s: s <span class="op">!=</span> <span class="dv">0</span>].<span class="bu">round</span>(<span class="dv">1</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
@@ -568,7 +522,7 @@ standard error of the minimum, read off the curve on the previous slide. Refitti
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>Hits           63.8
 Walks          34.1
 CRuns          51.8
@@ -586,7 +540,7 @@ dtype: float64</code></pre>
 </section>
 <section id="elasticnet-in-scikit-learn" class="slide level2 small">
 <h2>ElasticNet in scikit-learn</h2>
-<div id="2525cf95" class="cell" data-execution_count="9">
+<div id="7970571c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>enet <span class="op">=</span> GridSearchCV(</span>
@@ -618,7 +572,7 @@ winning pair.</span>
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>({'elasticnet__alpha': np.float64(1.2689610031679222),
   'elasticnet__l1_ratio': 1.0},
  114853)</code></pre>
@@ -630,32 +584,10 @@ winning pair.</span>
 </div>
 </div>
 </section>
-<section id="application-exercise-3" class="slide level2">
+<section id="application-exercise-2" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
 <p>Complete Part 5. <a href="../ex/10-ex.html">ex/10-ex</a></p>
-</div>
-</section>
-<section id="application-exercise-10" class="slide level2">
-<h2>Application exercise 10</h2>
-<div class="takeaway">
-<p>Drew lasso paths and counted what survives, applied the one standard error rule to get a six-predictor model, raced ridge and lasso on the same folds, and found which truth each one is built for.</p>
-</div>
-</section>
-<section id="before-wednesday" class="slide level2">
-<h2>Before Wednesday</h2>
-<ul>
-<li>Read ISLP Section 4.3<br>
-</li>
-<li>Problem set 4 due today, problem set 5 posted<br>
-</li>
-<li>Check-in 5 on Wednesday<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>Every model since Meeting 7 has predicted a number. What changes when the outcome is a category?</p>
-</div>
 </div>
 
 

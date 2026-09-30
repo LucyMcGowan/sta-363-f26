@@ -576,30 +576,6 @@
     ]
   },
   {
-    "objectID": "slides/10-lasso.html#reading-the-lasso-paths",
-    "href": "slides/10-lasso.html#reading-the-lasso-paths",
-    "title": "Lasso and elastic net",
-    "section": "Reading the lasso paths",
-    "text": "Reading the lasso paths\n\nMoving right to left, rating enters first, then student and limit\n\nEach path hits zero at some finite \\(\\lambda\\) and stays there\n\nAt any given \\(\\lambda\\) the model contains however many are still nonzero\n\n\n\n\nCompare this to Wednesday’s ridge paths. Which coefficient ever reached zero there?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
-    "objectID": "slides/10-lasso.html#the-same-paths-computed",
-    "href": "slides/10-lasso.html#the-same-paths-computed",
-    "title": "Lasso and elastic net",
-    "section": "The same paths, computed",
-    "text": "The same paths, computed\n\n\nThe lasso fit on standardized Hitters predictors at 60 penalties. Right: how many of the 19 coefficients are still nonzero at each one.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
     "objectID": "slides/10-lasso.html#application-exercise",
     "href": "slides/10-lasso.html#application-exercise",
     "title": "Lasso and elastic net",
@@ -648,42 +624,6 @@
     ]
   },
   {
-    "objectID": "slides/10-lasso.html#best-subset-in-the-same-picture",
-    "href": "slides/10-lasso.html#best-subset-in-the-same-picture",
-    "title": "Lasso and elastic net",
-    "section": "Best subset in the same picture",
-    "text": "Best subset in the same picture\n\nBest subset selection is minimizing RSS subject to \\(\\sum_{j=1}^{p}I(\\beta_j \\neq 0) \\leq s\\): a budget on how many coefficients may be nonzero.\n\n\n\nSame shape of problem, a budget that cannot be searched in reasonable time. The lasso replaces it with one that can.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
-    "objectID": "slides/10-lasso.html#shrinkage-in-one-dimension",
-    "href": "slides/10-lasso.html#shrinkage-in-one-dimension",
-    "title": "Lasso and elastic net",
-    "section": "Shrinkage in one dimension",
-    "text": "Shrinkage in one dimension\n\n\nISLP Figure 6.10. With \\(n = p\\) and \\(\\mathbf{X}\\) the identity. Left: ridge shrinks proportionally. Right: the lasso soft-thresholds, so estimates below a cutoff go to exactly zero.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
-    "objectID": "slides/10-lasso.html#application-exercise-1",
-    "href": "slides/10-lasso.html#application-exercise-1",
-    "title": "Lasso and elastic net",
-    "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 2. ex/10-ex",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
     "objectID": "slides/10-lasso.html#a-dense-truth",
     "href": "slides/10-lasso.html#a-dense-truth",
     "title": "Lasso and elastic net",
@@ -720,23 +660,11 @@
     ]
   },
   {
-    "objectID": "slides/10-lasso.html#selecting-the-tuning-parameter",
-    "href": "slides/10-lasso.html#selecting-the-tuning-parameter",
-    "title": "Lasso and elastic net",
-    "section": "Selecting the tuning parameter",
-    "text": "Selecting the tuning parameter\n\n\nISLP Figure 6.13. Left: 10-fold cross-validation MSE for the lasso on the sparse simulation. Right: the coefficient paths, with the two signal variables in color and the noise in grey.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
-    "objectID": "slides/10-lasso.html#application-exercise-2",
-    "href": "slides/10-lasso.html#application-exercise-2",
+    "objectID": "slides/10-lasso.html#application-exercise-1",
+    "href": "slides/10-lasso.html#application-exercise-1",
     "title": "Lasso and elastic net",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Parts 3 and 4. ex/10-ex",
+    "text": "Application exercise\n\nComplete Parts 2, 3 and 4. ex/10-ex",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -832,7 +760,7 @@
     "href": "slides/10-lasso.html#the-one-standard-error-rule",
     "title": "Lasso and elastic net",
     "section": "The one standard error rule",
-    "text": "The one standard error rule\n\n\nThe lasso CV curve on Hitters. Dashed line: one standard error above the minimum. Vertical line: the largest alpha still under it.",
+    "text": "The one standard error rule\n\n\n\n\n\n\n\n\n\n\nThe lasso CV curve on Hitters. Dashed line: one standard error above the minimum. Vertical line: the largest alpha still under it.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -864,35 +792,11 @@
     ]
   },
   {
-    "objectID": "slides/10-lasso.html#application-exercise-3",
-    "href": "slides/10-lasso.html#application-exercise-3",
+    "objectID": "slides/10-lasso.html#application-exercise-2",
+    "href": "slides/10-lasso.html#application-exercise-2",
     "title": "Lasso and elastic net",
     "section": "Application exercise",
     "text": "Application exercise\n\nComplete Part 5. ex/10-ex",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
-    "objectID": "slides/10-lasso.html#application-exercise-10",
-    "href": "slides/10-lasso.html#application-exercise-10",
-    "title": "Lasso and elastic net",
-    "section": "Application exercise 10",
-    "text": "Application exercise 10\n\nDrew lasso paths and counted what survives, applied the one standard error rule to get a six-predictor model, raced ridge and lasso on the same folds, and found which truth each one is built for.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "10. Lasso and elastic net"
-    ]
-  },
-  {
-    "objectID": "slides/10-lasso.html#before-wednesday",
-    "href": "slides/10-lasso.html#before-wednesday",
-    "title": "Lasso and elastic net",
-    "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nRead ISLP Section 4.3\n\nProblem set 4 due today, problem set 5 posted\n\nCheck-in 5 on Wednesday\n\n\n\n\nEvery model since Meeting 7 has predicted a number. What changes when the outcome is a category?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
