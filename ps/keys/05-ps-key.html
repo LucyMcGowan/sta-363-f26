@@ -144,15 +144,15 @@ window.Quarto = {
 <meta property="og:description" content="STA 363 | Instructor copy">
 <meta property="og:image" content="https://lucymcgowan.github.io/sta-363-f26/ps/keys/05-ps-key_files/figure-html/cell-6-output-1.png">
 <meta property="og:site_name" content="STA 363">
-<meta property="og:image:height" content="374">
-<meta property="og:image:width" content="566">
+<meta property="og:image:height" content="748">
+<meta property="og:image:width" content="1132">
 <meta name="twitter:title" content="Answer key, Problem set 5: Subset selection and ridge regression – STA 363">
 <meta name="twitter:description" content="STA 363 | Instructor copy">
 <meta name="twitter:image" content="https://lucymcgowan.github.io/sta-363-f26/ps/keys/05-ps-key_files/figure-html/cell-6-output-1.png">
 <meta name="twitter:creator" content="@lucystats">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="374">
-<meta name="twitter:image-width" content="566">
+<meta name="twitter:image-height" content="748">
+<meta name="twitter:image-width" content="1132">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -693,26 +693,126 @@ window.Quarto = {
 </section>
 <section id="identical-predictors" class="level2">
 <h2 class="anchored" data-anchor-id="identical-predictors">2. Identical predictors</h2>
-<p><strong>(a)</strong> With the intercept dropped, the ridge problem is to minimize</p>
+<p><strong>(a)</strong> Start from the ridge objective:</p>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(y_i - \beta_0 - \sum_{j=1}^{p}\beta_jx_{ij}\right)^2 + \lambda\sum_{j=1}^{p}\beta_j^2\]</span></p>
+<p>Plug in <span class="math inline">\(n = 2\)</span>, <span class="math inline">\(p = 2\)</span>, <span class="math inline">\(\beta_0 = 0\)</span>:</p>
+<p><span class="math display">\[\left(y_1 - \beta_1x_{11} - \beta_2x_{12}\right)^2 + \left(y_2 - \beta_1x_{21} - \beta_2x_{22}\right)^2 + \lambda\left(\beta_1^2 + \beta_2^2\right)\]</span></p>
+<p>Plug in <span class="math inline">\(x_{11} = x_{12} = a\)</span>, <span class="math inline">\(x_{21} = x_{22} = -a\)</span>, <span class="math inline">\(y_2 = -y_1\)</span>:</p>
 <p><span class="math display">\[\left(y_1 - a\beta_1 - a\beta_2\right)^2 + \left(-y_1 + a\beta_1 + a\beta_2\right)^2 + \lambda\left(\beta_1^2 + \beta_2^2\right)\]</span></p>
-<p>over <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>. The two squared terms are equal, so this is</p>
-<p><span class="math display">\[2\left(y_1 - a(\beta_1 + \beta_2)\right)^2 + \lambda\left(\beta_1^2 + \beta_2^2\right).\]</span></p>
-<p><strong>(b)</strong> The RSS term depends on <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> only through <span class="math inline">\(s = \beta_1 + \beta_2\)</span>. Fix <span class="math inline">\(s\)</span>. Among all pairs with that sum, the RSS is the same, so the minimizer is the pair that makes <span class="math inline">\(\beta_1^2 + \beta_2^2\)</span> smallest. Writing <span class="math inline">\(\beta_1 = s/2 + t\)</span> and <span class="math inline">\(\beta_2 = s/2 - t\)</span>,</p>
-<p><span class="math display">\[\beta_1^2 + \beta_2^2 = \frac{s^2}{2} + 2t^2,\]</span></p>
-<p>which is minimized at <span class="math inline">\(t = 0\)</span>, that is, <span class="math inline">\(\beta_1 = \beta_2 = s/2\)</span>. Whatever the optimal sum turns out to be, the ridge solution splits it evenly, so <span class="math inline">\(\hat\beta^R_1 = \hat\beta^R_2\)</span>. (For <span class="math inline">\(\lambda &gt; 0\)</span> the objective is strictly convex, so this minimizer is unique.)</p>
-<p><strong>(c)</strong> Set <span class="math inline">\(\beta_1 = \beta_2 = b\)</span>. The objective becomes</p>
-<p><span class="math display">\[f(b) = 2\left(y_1 - 2ab\right)^2 + 2\lambda b^2.\]</span></p>
-<p>Differentiating and setting to zero,</p>
-<p><span class="math display">\[f'(b) = -8a\left(y_1 - 2ab\right) + 4\lambda b = 0
-\quad\Longrightarrow\quad
-8ay_1 = \left(16a^2 + 4\lambda\right)b,\]</span></p>
-<p>so</p>
-<p><span class="math display">\[\hat\beta^R_1 = \hat\beta^R_2 = \frac{2ay_1}{4a^2 + \lambda}.\]</span></p>
-<p><strong>(d)</strong> At <span class="math inline">\(\lambda = 0\)</span> the objective is <span class="math inline">\(2\left(y_1 - a(\beta_1 + \beta_2)\right)^2\)</span>, which reaches its minimum of zero whenever</p>
-<p><span class="math display">\[\beta_1 + \beta_2 = \frac{y_1}{a}.\]</span></p>
-<p>That is a whole line in the <span class="math inline">\((\beta_1, \beta_2)\)</span> plane, so least squares has infinitely many solutions: any pair on the line <span class="math inline">\(\beta_2 = y_1/a - \beta_1\)</span> fits the data perfectly. As <span class="math inline">\(\lambda \rightarrow 0\)</span> the answer to part c approaches <span class="math inline">\(2ay_1 / 4a^2 = y_1/(2a)\)</span> for each coefficient. That point lies on the least squares line (the two values sum to <span class="math inline">\(y_1/a\)</span>), and it is the point on the line closest to the origin. Ridge with a vanishing penalty picks out the minimum-norm least squares solution and splits the effect evenly between the two identical predictors.</p>
+<p>Second term: <span class="math inline">\(\left(-y_1 + a\beta_1 + a\beta_2\right)^2 = \left(-(y_1 - a\beta_1 - a\beta_2)\right)^2 = \left(y_1 - a\beta_1 - a\beta_2\right)^2\)</span>, so</p>
+<p><span class="math display">\[\min_{\beta_1, \beta_2}\; 2\left(y_1 - a(\beta_1 + \beta_2)\right)^2 + \lambda\left(\beta_1^2 + \beta_2^2\right)\]</span></p>
+<p><strong>(b)</strong> The objective from part a:</p>
+<p><span class="math display">\[\underbrace{2\left(y_1 - a(\beta_1 + \beta_2)\right)^2}_{\text{RSS: only uses } \beta_1 + \beta_2} + \underbrace{\lambda\left(\beta_1^2 + \beta_2^2\right)}_{\text{penalty}}\]</span></p>
+<p>Try pairs with the same sum, <span class="math inline">\(\beta_1 + \beta_2 = 2\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(\beta_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\beta_2\)</span></th>
+<th style="text-align: center;">RSS</th>
+<th style="text-align: center;"><span class="math inline">\(\beta_1^2 + \beta_2^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(2(y_1 - 2a)^2\)</span></td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;"><span class="math inline">\(2(y_1 - 2a)^2\)</span></td>
+<td style="text-align: center;">2.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(2(y_1 - 2a)^2\)</span></td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+<p>Same RSS, smallest penalty at the even split. The same holds for any sum: splitting it evenly between <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> makes <span class="math inline">\(\beta_1^2 + \beta_2^2\)</span> smallest. So</p>
+<p><span class="math display">\[\hat\beta^R_1 = \hat\beta^R_2\]</span></p>
+<p><em>Alternative: expand and differentiate.</em> Expand the objective from part a:</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(\beta_1, \beta_2) &amp;= 2\left(y_1 - a\beta_1 - a\beta_2\right)^2 + \lambda\beta_1^2 + \lambda\beta_2^2 \\
+&amp;= 2y_1^2 - 4ay_1\beta_1 - 4ay_1\beta_2 + 2a^2\beta_1^2 + 4a^2\beta_1\beta_2 + 2a^2\beta_2^2 + \lambda\beta_1^2 + \lambda\beta_2^2
+\end{aligned}
+\]</span></p>
+<p>Take the partial derivative with respect to each of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial f}{\partial \beta_1} &amp;= -4ay_1 + 4a^2\beta_1 + 4a^2\beta_2 + 2\lambda\beta_1 \\
+\frac{\partial f}{\partial \beta_2} &amp;= -4ay_1 + 4a^2\beta_1 + 4a^2\beta_2 + 2\lambda\beta_2
+\end{aligned}
+\]</span></p>
+<p>Set both equal to 0. The two equations share every term except the last, so subtracting the second from the first gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+2\lambda\beta_1 - 2\lambda\beta_2 &amp;= 0 \\
+2\lambda\left(\beta_1 - \beta_2\right) &amp;= 0
+\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(\lambda &gt; 0\)</span>, this forces <span class="math inline">\(\beta_1 - \beta_2 = 0\)</span>, so <span class="math inline">\(\hat\beta^R_1 = \hat\beta^R_2\)</span>. When <span class="math inline">\(\lambda = 0\)</span> the equations are identical and give no information about <span class="math inline">\(\beta_1 - \beta_2\)</span>, which is why least squares has many solutions in part d.</p>
+<p><strong>(c)</strong> Plug <span class="math inline">\(\beta_1 = \beta_2 = b\)</span> into the objective from part a:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\beta_1 + \beta_2 &amp;= 2b \\
+\beta_1^2 + \beta_2^2 &amp;= 2b^2 \\
+f(b) &amp;= 2\left(y_1 - 2ab\right)^2 + 2\lambda b^2
+\end{aligned}
+\]</span></p>
+<p>Differentiate (chain rule on the first term):</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{d}{db}\,2\left(y_1 - 2ab\right)^2 &amp;= 2 \cdot 2\left(y_1 - 2ab\right) \cdot (-2a) = -8a\left(y_1 - 2ab\right) \\
+\frac{d}{db}\,2\lambda b^2 &amp;= 4\lambda b \\
+f'(b) &amp;= -8a\left(y_1 - 2ab\right) + 4\lambda b
+\end{aligned}
+\]</span></p>
+<p>Set <span class="math inline">\(f'(b) = 0\)</span> and solve:</p>
+<p><span class="math display">\[
+\begin{aligned}
+-8ay_1 + 16a^2b + 4\lambda b &amp;= 0 \\
+16a^2b + 4\lambda b &amp;= 8ay_1 \\
+b\left(16a^2 + 4\lambda\right) &amp;= 8ay_1 \\
+b &amp;= \frac{8ay_1}{16a^2 + 4\lambda} \\
+b &amp;= \frac{2ay_1}{4a^2 + \lambda}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[\hat\beta^R_1 = \hat\beta^R_2 = \frac{2ay_1}{4a^2 + \lambda}\]</span></p>
+<p><strong>(d)</strong> Plug <span class="math inline">\(\lambda = 0\)</span> into the objective from part a:</p>
+<p><span class="math display">\[2\left(y_1 - a(\beta_1 + \beta_2)\right)^2\]</span></p>
+<p>This is <span class="math inline">\(\geq 0\)</span>, and equals 0 when</p>
+<p><span class="math display">\[
+\begin{aligned}
+y_1 - a(\beta_1 + \beta_2) &amp;= 0 \\
+\beta_1 + \beta_2 &amp;= \frac{y_1}{a}
+\end{aligned}
+\]</span></p>
+<p>All least squares solutions:</p>
+<p><span class="math display">\[\left(\beta_1,\; \frac{y_1}{a} - \beta_1\right) \quad \text{for any } \beta_1\]</span></p>
+<p>For example, with <span class="math inline">\(a = 2\)</span>, <span class="math inline">\(y_1 = 3\)</span> (so <span class="math inline">\(y_1/a = 1.5\)</span>): <span class="math inline">\((1.5, 0)\)</span>, <span class="math inline">\((0, 1.5)\)</span>, <span class="math inline">\((0.75, 0.75)\)</span>, <span class="math inline">\((10, -8.5)\)</span> all give RSS <span class="math inline">\(= 0\)</span>.</p>
+<p>Plug <span class="math inline">\(\lambda = 0\)</span> into the answer to part c:</p>
+<p><span class="math display">\[\frac{2ay_1}{4a^2 + 0} = \frac{2ay_1}{4a^2} = \frac{y_1}{2a}\]</span></p>
+<p>Check that it is on the least squares line:</p>
+<p><span class="math display">\[\frac{y_1}{2a} + \frac{y_1}{2a} = \frac{y_1}{a}\]</span></p>
+<p>Minimize <span class="math inline">\(\beta_1^2 + \beta_2^2\)</span> over the least squares line by plugging in <span class="math inline">\(\beta_2 = \frac{y_1}{a} - \beta_1\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+h(\beta_1) &amp;= \beta_1^2 + \left(\frac{y_1}{a} - \beta_1\right)^2 \\
+h'(\beta_1) &amp;= 2\beta_1 - 2\left(\frac{y_1}{a} - \beta_1\right) = 4\beta_1 - \frac{2y_1}{a} \\
+4\beta_1 - \frac{2y_1}{a} &amp;= 0 \\
+\beta_1 &amp;= \frac{y_1}{2a}, \qquad \beta_2 = \frac{y_1}{a} - \frac{y_1}{2a} = \frac{y_1}{2a}
+\end{aligned}
+\]</span></p>
+<p>So the <span class="math inline">\(\lambda \rightarrow 0\)</span> limit of ridge is the least squares solution with the smallest <span class="math inline">\(\beta_1^2 + \beta_2^2\)</span>.</p>
 <p><strong>(e)</strong></p>
-<div id="9eda88ef" class="cell" data-execution_count="2">
+<div id="28c5edb2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a, y1 <span class="op">=</span> <span class="dv">2</span>, <span class="dv">3</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([[a, a], [<span class="op">-</span>a, <span class="op">-</span>a]])</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([y1, <span class="op">-</span>y1])</span>
@@ -726,25 +826,25 @@ window.Quarto = {
 </div>
 </div>
 <p>Both coefficients are <span class="math inline">\(12/17 \approx 0.706\)</span>, matching <span class="math inline">\(2ay_1/(4a^2 + \lambda) = 12/17\)</span> from part c.</p>
-<div id="01ef7a7a" class="cell" data-execution_count="3">
+<div id="b619e655" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">LinAlgError</span>                               Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[3]</span><span class="ansi-green-fg">, line 1</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> <span class="ansi-yellow-bg">np</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">linalg</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">solve</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">T</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">@</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">T</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">@</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">y</span><span class="ansi-yellow-bg">)</span>
+Cell <span class="ansi-green-fg">In[3], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">np</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">linalg</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">solve</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">X</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">T</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">@</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">T</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">@</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">y</span><span class="ansi-yellow-bg">)</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/opt/homebrew/lib/python3.13/site-packages/numpy/linalg/_linalg.py:410</span>, in <span class="ansi-cyan-fg">solve</span><span class="ansi-blue-fg">(a, b)</span>
-<span class="ansi-green-fg">    407</span> signature = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">DD-&gt;D</span><span class="ansi-yellow-fg">'</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> isComplexType(t) <span style="font-weight:bold;color:rgb(0,135,0)">else</span> <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">dd-&gt;d</span><span class="ansi-yellow-fg">'</span>
-<span class="ansi-green-fg">    408</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> errstate(call=_raise_linalgerror_singular, invalid=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">call</span><span class="ansi-yellow-fg">'</span>,
-<span class="ansi-green-fg">    409</span>               over=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">ignore</span><span class="ansi-yellow-fg">'</span>, divide=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">ignore</span><span class="ansi-yellow-fg">'</span>, under=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">ignore</span><span class="ansi-yellow-fg">'</span>):
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">410</span>     r = <span class="ansi-yellow-bg">gufunc</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">a</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">b</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">signature</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">signature</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    412</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> wrap(r.astype(result_t, copy=<span style="font-weight:bold;color:rgb(0,135,0)">False</span>))
+File <span class="ansi-green-fg">~/.virtualenvs/tf-env-310/lib/python3.10/site-packages/numpy/linalg/_linalg.py:413</span>, in <span class="ansi-cyan-fg">solve</span><span class="ansi-blue-fg">(a, b)</span>
+<span class="ansi-green-fg ansi-bold">    410</span> signature <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">DD-&gt;D</span><span style="color:rgb(175,0,0)">'</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> isComplexType(t) <span style="font-weight:bold;color:rgb(0,135,0)">else</span> <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">dd-&gt;d</span><span style="color:rgb(175,0,0)">'</span>
+<span class="ansi-green-fg ansi-bold">    411</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> errstate(call<span style="color:rgb(98,98,98)">=</span>_raise_linalgerror_singular, invalid<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">call</span><span style="color:rgb(175,0,0)">'</span>,
+<span class="ansi-green-fg ansi-bold">    412</span>               over<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">ignore</span><span style="color:rgb(175,0,0)">'</span>, divide<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">ignore</span><span style="color:rgb(175,0,0)">'</span>, under<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">ignore</span><span style="color:rgb(175,0,0)">'</span>):
+<span class="ansi-green-fg">--&gt; 413</span>     r <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">gufunc</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">a</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">b</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">signature</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">signature</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    415</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> wrap(r<span style="color:rgb(98,98,98)">.</span>astype(result_t, copy<span style="color:rgb(98,98,98)">=</span><span style="font-weight:bold;color:rgb(0,135,0)">False</span>))
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/opt/homebrew/lib/python3.13/site-packages/numpy/linalg/_linalg.py:104</span>, in <span class="ansi-cyan-fg">_raise_linalgerror_singular</span><span class="ansi-blue-fg">(err, flag)</span>
-<span class="ansi-green-fg">    103</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">_raise_linalgerror_singular</span>(err, flag):
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">104</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> LinAlgError(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Singular matrix</span><span class="ansi-yellow-fg">"</span>)
+File <span class="ansi-green-fg">~/.virtualenvs/tf-env-310/lib/python3.10/site-packages/numpy/linalg/_linalg.py:104</span>, in <span class="ansi-cyan-fg">_raise_linalgerror_singular</span><span class="ansi-blue-fg">(err, flag)</span>
+<span class="ansi-green-fg ansi-bold">    103</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span style="color:rgb(0,0,255)">_raise_linalgerror_singular</span>(err, flag):
+<span class="ansi-green-fg">--&gt; 104</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> LinAlgError(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Singular matrix</span><span style="color:rgb(175,0,0)">"</span>)
 
 <span class="ansi-red-fg">LinAlgError</span>: Singular matrix</pre>
 </div>
@@ -754,7 +854,7 @@ window.Quarto = {
 </section>
 <section id="best-subset-selection-on-simulated-data" class="level2">
 <h2 class="anchored" data-anchor-id="best-subset-selection-on-simulated-data">3. Best subset selection on simulated data</h2>
-<div id="47a3f778" class="cell" data-execution_count="4">
+<div id="3180a183" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">363</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> <span class="dv">1000</span>, <span class="dv">10</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X_sim <span class="op">=</span> rng.normal(size<span class="op">=</span>(n, p))</span>
@@ -765,7 +865,7 @@ window.Quarto = {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>y_train, y_test <span class="op">=</span> y_sim[:<span class="dv">100</span>], y_sim[<span class="dv">100</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>(a)</strong></p>
-<div id="486e7d63" class="cell" data-execution_count="5">
+<div id="06bf73a3" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> {}</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cols <span class="kw">in</span> itertools.combinations(<span class="bu">range</span>(p), k):</span>
@@ -787,14 +887,14 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-ps-key_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="05-ps-key_files/figure-html/cell-6-output-1.png" width="566" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Training MSE falls with every added predictor, from about 15.1 at <span class="math inline">\(k = 1\)</span> to about 7.7 at <span class="math inline">\(k = 10\)</span>. The drop is steep through <span class="math inline">\(k = 3\)</span> and nearly flat after <span class="math inline">\(k = 5\)</span>. The best size <span class="math inline">\(k\)</span> model always has training MSE at most that of the best size <span class="math inline">\(k - 1\)</span> model, since adding a column to that model can only lower its RSS.</p>
 <p><strong>(b)</strong></p>
-<div id="0837b676" class="cell" data-execution_count="6">
+<div id="acba05d1" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> sizes:</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    cols, lm <span class="op">=</span> best[k][<span class="st">"cols"</span>], best[k][<span class="st">"lm"</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    best[k][<span class="st">"test"</span>] <span class="op">=</span> np.mean((y_test <span class="op">-</span> lm.predict(X_test[:, cols])) <span class="op">**</span> <span class="dv">2</span>)</span>
@@ -809,14 +909,14 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-ps-key_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="05-ps-key_files/figure-html/cell-7-output-1.png" width="566" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Test MSE falls quickly to its minimum, about 8.96 at <span class="math inline">\(k = 3\)</span>, then rises slowly to about 9.60 at <span class="math inline">\(k = 10\)</span>. Past <span class="math inline">\(k = 3\)</span> the extra predictors lower the training MSE but add variance on new data.</p>
 <p><strong>(c)</strong></p>
-<div id="5d087c9b" class="cell" data-execution_count="7">
+<div id="20d3c30d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"k"</span>: sizes,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"predictors"</span>: [best[k][<span class="st">"cols"</span>] <span class="cf">for</span> k <span class="kw">in</span> sizes],</span>
@@ -914,7 +1014,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="1221a312" class="cell" data-execution_count="8">
+<div id="6b6d21ae" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>best[<span class="dv">3</span>][<span class="st">"cols"</span>], best[<span class="dv">3</span>][<span class="st">"lm"</span>].coef_.<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>([0, 1, 4], array([ 3.22, -2.02,  1.62]))</code></pre>
@@ -923,7 +1023,7 @@ window.Quarto = {
 <p>The test MSE is smallest at <span class="math inline">\(k = 3\)</span>. That model uses columns 0, 1 and 4 (the first, second and fifth predictors), with estimates of about 3.22, <span class="math inline">\(-2.02\)</span> and 1.62, close to the true 3, <span class="math inline">\(-2\)</span> and 1.5. It includes no null predictor, but it leaves out column 7, whose true coefficient is 0.5.</p>
 <p>Column 7 is the hardest to pick up because its signal is small relative to the noise. Its coefficient of 0.5 contributes variance <span class="math inline">\(0.5^2 = 0.25\)</span> to <span class="math inline">\(y\)</span>, against a noise variance of <span class="math inline">\(3^2 = 9\)</span>, so with only 100 training observations its estimated effect is on the same scale as the spurious effects of the null predictors. Best subset does add it at <span class="math inline">\(k = 5\)</span> (estimate about 0.70), but only after it has already added null column 5, and including it does not lower the test MSE.</p>
 <p><strong>(d)</strong></p>
-<div id="ce3b7da0" class="cell" data-execution_count="9">
+<div id="db0e7ed3" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>coef_err <span class="op">=</span> []</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> sizes:</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="op">=</span> np.zeros(p)</span>
@@ -939,14 +1039,14 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05-ps-key_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="05-ps-key_files/figure-html/cell-10-output-1.png" width="566" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>The coefficient error has the same overall shape as the test MSE in part b: a steep drop to its minimum (about 0.56) at <span class="math inline">\(r = 3\)</span>, then a rise and a plateau around 0.9 to 1.0 for the larger models. The shapes agree because, with independent standard normal predictors, the expected test MSE of a linear fit is <span class="math inline">\(\sigma^2 + \|\beta - \hat\beta\|_2^2\)</span>, so test error tracks how far the estimated coefficients are from the truth. The match is close but not exact: the coefficient error dips slightly at <span class="math inline">\(r = 5\)</span> when column 7 enters, while the test MSE does not, because the test MSE is computed on a finite sample with predictors that are only approximately uncorrelated.</p>
 <p><strong>(e)</strong></p>
-<div id="ff6bc90e" class="cell" data-execution_count="10">
+<div id="1ea40938" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_train <span class="op">=</span> <span class="bu">len</span>(y_train)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="op">=</span> best[p][<span class="st">"train"</span>] <span class="op">*</span> n_train <span class="op">/</span> (n_train <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1040,7 +1140,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="72e34ee1" class="cell" data-execution_count="11">
+<div id="6f81f3fd" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>crit.loc[crit[<span class="st">"Cp"</span>].idxmin(), <span class="st">"k"</span>], crit.loc[crit[<span class="st">"BIC"</span>].idxmin(), <span class="st">"k"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>(np.int64(5), np.int64(4))</code></pre>
@@ -1050,7 +1150,7 @@ window.Quarto = {
 </section>
 <section id="ridge-on-hitters-with-a-small-training-set" class="level2">
 <h2 class="anchored" data-anchor-id="ridge-on-hitters-with-a-small-training-set">4. Ridge on Hitters with a small training set</h2>
-<div id="457d6930" class="cell" data-execution_count="12">
+<div id="27745aed" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Hitters <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Hitters.csv"</span>).dropna(subset<span class="op">=</span>[<span class="st">"Salary"</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y_hit <span class="op">=</span> Hitters[<span class="st">"Salary"</span>]</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>X_hit <span class="op">=</span> Hitters.drop(columns<span class="op">=</span>[<span class="st">"Salary"</span>])</span>
@@ -1063,7 +1163,7 @@ window.Quarto = {
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>(a)</strong></p>
-<div id="0454a31c" class="cell" data-execution_count="13">
+<div id="f82fb5ba" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_pre():</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ColumnTransformer([</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"num"</span>, StandardScaler(), num),</span>
@@ -1081,7 +1181,7 @@ window.Quarto = {
 </div>
 <p>Least squares has a test MSE of about 191,476. Predicting the training mean salary for every player gives about 189,306. With 50 training players, the full least squares model does slightly worse on new players than ignoring the predictors entirely.</p>
 <p><strong>(b)</strong></p>
-<div id="4c993c58" class="cell" data-execution_count="14">
+<div id="aa8558d7" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ridge <span class="op">=</span> Pipeline([(<span class="st">"pre"</span>, make_pre()), (<span class="st">"ridge"</span>, Ridge())])</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> GridSearchCV(</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    ridge,</span>
@@ -1099,7 +1199,7 @@ window.Quarto = {
 </div>
 <p>Cross-validation chooses <span class="math inline">\(\alpha \approx 20.99\)</span>. <code>GridSearchCV</code> refits on the full training set at that value by default, and the refit model has a test MSE of about 118,739, roughly 38% lower than least squares and 37% lower than the null model.</p>
 <p><strong>(c)</strong></p>
-<div id="84ebe4f4" class="cell" data-execution_count="15">
+<div id="92afd411" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>grid.best_estimator_[<span class="st">"pre"</span>].transform(X_tr).shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>(50, 19)</code></pre>
@@ -1107,7 +1207,7 @@ window.Quarto = {
 </div>
 <p>After encoding, the design matrix has 19 columns (16 numeric and one dummy for each of the three binary categorical variables), plus the intercept, for 20 parameters estimated from 50 rows. Many of the numeric predictors are also highly correlated (career totals such as <code>CAtBat</code>, <code>CHits</code> and <code>CRuns</code> move together). With few rows per parameter and correlated columns, <span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> is close to singular, so the least squares coefficients have very high variance: they are unbiased, but they swing far from the truth from one training sample to the next, and the predictions on new players are poor. Ridge accepts some bias by shrinking the coefficients toward zero, and in return removes much of that variance. The test MSE drop from about 191,000 to about 119,000 says that here the decrease in variance is much larger than the increase in bias, as in Question 1f.</p>
 <p><strong>(d)</strong></p>
-<div id="0f6330b1" class="cell" data-execution_count="16">
+<div id="3bb38bc3" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> grid.best_estimator_[<span class="st">"pre"</span>].transform(X_tr)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Z_c <span class="op">=</span> Z <span class="op">-</span> Z.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>y_c <span class="op">=</span> y_tr.to_numpy() <span class="op">-</span> y_tr.mean()</span>
@@ -1116,12 +1216,12 @@ window.Quarto = {
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>beta_sk <span class="op">=</span> grid.best_estimator_[<span class="st">"ridge"</span>].coef_</span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">max</span>(np.<span class="bu">abs</span>(beta_hand <span class="op">-</span> beta_sk))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>np.float64(1.3500311979441904e-13)</code></pre>
+<pre><code>np.float64(1.3855583347321954e-13)</code></pre>
 </div>
 </div>
 <p>The hand-computed coefficients match <code>coef_</code> to numerical precision (the largest difference is on the order of <span class="math inline">\(10^{-13}\)</span>). Centering is what makes the formula without an intercept column valid: <code>Ridge</code> leaves the intercept unpenalized, which is equivalent to centering every column and the response, solving the penalized normal equations, and then setting <span class="math inline">\(\hat\beta_0 = \bar{y} - \bar{\mathbf{x}}^T\hat\beta\)</span>. The dummy columns from <code>OneHotEncoder</code> are not centered by the preprocessor, so they need to be centered here as well. A student who forgets to center will get coefficients that do not match.</p>
 <p><strong>(e)</strong></p>
-<div id="49dd32d7" class="cell" data-execution_count="17">
+<div id="8797d2d0" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X_tr2, X_te2, y_tr2, y_te2 <span class="op">=</span> train_test_split(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    X_hit, y_hit, train_size<span class="op">=</span><span class="dv">200</span>, random_state<span class="op">=</span><span class="dv">363</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>)</span>
