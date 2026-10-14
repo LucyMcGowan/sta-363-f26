@@ -5321,18 +5321,6 @@
     ]
   },
   {
-    "objectID": "slides/11-logistic.html#more-than-two-classes",
-    "href": "slides/11-logistic.html#more-than-two-classes",
-    "title": "Logistic regression",
-    "section": "More than two classes",
-    "text": "More than two classes\n\\[Y = \\begin{cases} 1 & \\text{stroke} \\\\ 2 & \\text{overdose} \\\\ 3 & \\text{seizure}\\end{cases}\\]\n\n\nWhat does that coding assert about the three diagnoses that nobody meant to assert?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
     "objectID": "slides/11-logistic.html#the-logistic-function",
     "href": "slides/11-logistic.html#the-logistic-function",
     "title": "Logistic regression",
@@ -5361,7 +5349,7 @@
     "href": "slides/11-logistic.html#the-logistic-function-2",
     "title": "Logistic regression",
     "section": "The logistic function",
-    "text": "The logistic function\n\\[p(X) = \\frac{e^{\\beta_0 + \\beta_1X}}{{\\require{color}\\colorbox{#eec8e1}{$1 + e^{\\beta_0 + \\beta_1X}$}}}\\]\nThe denominator is the numerator plus one, so it is always the larger of the two. The ratio therefore lands strictly between 0 and 1, whatever the coefficients are.",
+    "text": "The logistic function\n\\[p(X) = \\frac{e^{\\beta_0 + \\beta_1X}}{{\\require{color}\\colorbox{#eec8e1}{$1 + e^{\\beta_0 + \\beta_1X}$}}}\\]\nThe denominator is the numerator plus one, so it is always the larger of the two. The ratio therefore always is between 0 and 1, no matter what the coefficients are.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5385,7 +5373,7 @@
     "href": "slides/11-logistic.html#odds",
     "title": "Logistic regression",
     "section": "Odds",
-    "text": "Odds\n\nA 60% chance of rain: \\(p = 0.6\\), \\(1 - p = 0.4\\), odds \\(= 0.6/0.4 = 1.5\\), or 3 to 2.\n\n\n\nProbability lives on \\([0, 1]\\)\n\nOdds live on \\([0, \\infty)\\)\n\nLog odds live on the whole real line, which is where a linear function lives",
+    "text": "Odds\n\nA 60% chance of rain: \\(p = 0.6\\), \\(1 - p = 0.4\\), odds \\(= 0.6/0.4 = 1.5\\), or 3 to 2.\n\n\n\nProbability falls between \\([0, 1]\\)\n\nOdds fall between \\([0, \\infty)\\)\n\nLog odds can take on values on the whole real line",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5397,31 +5385,7 @@
     "href": "slides/11-logistic.html#transforming-back-and-forth",
     "title": "Logistic regression",
     "section": "Transforming back and forth",
-    "text": "Transforming back and forth\n\n\n\n\n\n\n\n\nprobability\nodds\nlog odds\n\n\n\n\n\\(\\pi\\)\n\\(\\frac{\\pi}{1 - \\pi}\\)\n\\(\\log\\left(\\frac{\\pi}{1-\\pi}\\right) = \\ell\\)\n\n\n\n\n\n\n\nlog odds\nodds\nprobability\n\n\n\n\n\\(\\ell\\)\n\\(e^{\\ell}\\)\n\\(\\frac{e^{\\ell}}{1 + e^{\\ell}} = \\pi\\)\n\n\n\n\n\n\nThe model gives you \\(\\ell\\). Which row do you read to get a probability?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#reading-a-coefficient",
-    "href": "slides/11-logistic.html#reading-a-coefficient",
-    "title": "Logistic regression",
-    "section": "Reading a coefficient",
-    "text": "Reading a coefficient\n\nA one unit increase in \\(X\\) adds \\(\\beta_1\\) to the log odds, and multiplies the odds by \\(e^{\\beta_1}\\).\n\n\n\nThat is a statement about odds, not about probability. Why can we not say a one unit increase in \\(X\\) adds a fixed amount to \\(p(X)\\)?",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#odds-ratios",
-    "href": "slides/11-logistic.html#odds-ratios",
-    "title": "Logistic regression",
-    "section": "Odds ratios",
-    "text": "Odds ratios\n\n\n\n\nTMS\nPlacebo\n\n\n\n\nPain-free after two hours\n39\n22\n\n\nStill in pain\n61\n78\n\n\n\n\n\nOdds of being pain-free: \\(39/61 = 0.639\\) with TMS, \\(22/78 = 0.282\\) with placebo. The odds ratio is \\(0.639 / 0.282 = 2.27\\).\n\n\n\n\nA logistic regression of pain-free status on treatment would return which number as \\(e^{\\hat\\beta_1}\\)?",
+    "text": "Transforming back and forth\n\n\n\n\n\n\n\n\nprobability\nodds\nlog odds\n\n\n\n\n\\(\\pi\\)\n\\(\\frac{\\pi}{1 - \\pi}\\)\n\\(\\log\\left(\\frac{\\pi}{1-\\pi}\\right) = \\ell\\)\n\n\n\n\n\n\n\nlog odds\nodds\nprobability\n\n\n\n\n\\(\\ell\\)\n\\(e^{\\ell}\\)\n\\(\\frac{e^{\\ell}}{1 + e^{\\ell}} = \\pi\\)\n\n\n\n\n\n\nThe model gives you \\(\\ell\\). Which row do you get a probability?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5493,7 +5457,7 @@
     "href": "slides/11-logistic.html#predicting-a-probability",
     "title": "Logistic regression",
     "section": "Predicting a probability",
-    "text": "Predicting a probability\n\\[\\hat{p}(X) = \\frac{e^{-10.6513 + 0.0055 \\times 1000}}{1 + e^{-10.6513 + 0.0055 \\times 1000}} = 0.006\\]\n\n\\[\\hat{p}(X) = \\frac{e^{-10.6513 + 0.0055 \\times 2000}}{1 + e^{-10.6513 + 0.0055 \\times 2000}} = 0.586\\]\n\n\n\nBalance doubled and the probability went up by a factor of a hundred. Which part of the model does that?",
+    "text": "Predicting a probability\n\\[\\hat{p}(X) = \\frac{e^{-10.6513 + 0.0055 \\times 1000}}{1 + e^{-10.6513 + 0.0055 \\times 1000}} = 0.006\\]\n\n\\[\\hat{p}(X) = \\frac{e^{-10.6513 + 0.0055 \\times 2000}}{1 + e^{-10.6513 + 0.0055 \\times 2000}} = 0.586\\]\n\n\n\nBalance doubled and the probability went up by a factor of a hundred.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5529,7 +5493,7 @@
     "href": "slides/11-logistic.html#multiple-logistic-regression",
     "title": "Logistic regression",
     "section": "Multiple logistic regression",
-    "text": "Multiple logistic regression\n\\[\\log\\left(\\frac{p(X)}{1-p(X)}\\right) = \\beta_0 + \\beta_1X_1 + \\dots + \\beta_pX_p\\]\n\nX3 = pd.DataFrame({\n    \"balance\": Default[\"balance\"],\n1    \"income\": Default[\"income\"] / 1000,\n    \"student\": student,\n})\ntogether = LogisticRegression(C=1e10, max_iter=10000).fit(X3, y)\n2pd.Series(together.coef_[0], index=X3.columns).round(4)\n\n\n1\n\nincome is divided by 1000 so it is measured in thousands of dollars,\nmatching ISLP Table 4.3 and keeping the coefficient readable.\n\n2\n\nThe student coefficient is now negative, where it was positive on its own.\n\n\n\n\nbalance    0.0057\nincome     0.0030\nstudent   -0.6468\ndtype: float64\n\n\n\n\nThe same variable, the same data, opposite signs. Which one is wrong?",
+    "text": "Multiple logistic regression\n\\[\\log\\left(\\frac{p(X)}{1-p(X)}\\right) = \\beta_0 + \\beta_1X_1 + \\dots + \\beta_pX_p\\]\n\nX3 = pd.DataFrame({\n    \"balance\": Default[\"balance\"],\n1    \"income\": Default[\"income\"] / 1000,\n    \"student\": student,\n})\ntogether = LogisticRegression(C=1e10, max_iter=10000).fit(X3, y)\n2pd.Series(together.coef_[0], index=X3.columns).round(4)\n\n\n1\n\nincome is divided by 1000 so it is measured in thousands of dollars,\nmatching ISLP Table 4.3 and keeping the coefficient readable.\n\n2\n\nThe student coefficient is now negative, where it was positive on its own.\n\n\n\n\nbalance    0.0057\nincome     0.0030\nstudent   -0.6468\ndtype: float64",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5573,8 +5537,8 @@
     ]
   },
   {
-    "objectID": "slides/11-logistic.html#more-than-two-classes-1",
-    "href": "slides/11-logistic.html#more-than-two-classes-1",
+    "objectID": "slides/11-logistic.html#more-than-two-classes",
+    "href": "slides/11-logistic.html#more-than-two-classes",
     "title": "Logistic regression",
     "section": "More than two classes",
     "text": "More than two classes\n\\[\\Pr(Y = k \\mid X) = \\frac{e^{\\beta_{0k} + \\beta_{1k}X_1 + \\dots + \\beta_{pk}X_p}}{\\sum_{l=1}^{K}e^{\\beta_{0l} + \\beta_{1l}X_1 + \\dots + \\beta_{pl}X_p}}\\]\n\n\nOne linear function per class, exponentiated and divided by their total, so the \\(K\\) probabilities sum to 1. LogisticRegression does this for you when y has more than two values.",
@@ -5625,7 +5589,7 @@
     "href": "slides/11-logistic.html#what-c-is-doing",
     "title": "Logistic regression",
     "section": "What C is doing",
-    "text": "What C is doing\n\nLogisticRegression() with no arguments is ridge-penalized logistic regression. That is why StandardScaler belongs in front of it, for the same reason it belonged in front of Ridge in Meeting 9.\n\n\n\nThe AUC barely moves between C = 1 and C = 1e10. What does that say about whether the penalty is doing anything here?",
+    "text": "What C is doing\n\nLogisticRegression() with no arguments is ridge-penalized logistic regression. That is why StandardScaler belongs in front of it.\n\n\n\nThe AUC barely moves between C = 1 and C = 1e10. What does that say about whether the penalty is doing anything here?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5637,7 +5601,7 @@
     "href": "slides/11-logistic.html#logistic-regression-against-knn",
     "title": "Logistic regression",
     "section": "Logistic regression against KNN",
-    "text": "Logistic regression against KNN\n\nfrom sklearn.neighbors import KNeighborsClassifier\n\nmodels = {\n    \"logistic\": LogisticRegression(max_iter=10000),\n1    \"KNN, K = 25\": KNeighborsClassifier(25),\n    \"KNN, K = 100\": KNeighborsClassifier(100),\n}\nrows = []\nfor name, est in models.items():\n    m = make_pipeline(StandardScaler(), est)\n    rows.append({\"model\": name,\n2                 \"accuracy\": cross_val_score(m, X3, y, cv=cv, scoring=\"accuracy\").mean(),\n                 \"auc\": cross_val_score(m, X3, y, cv=cv, scoring=\"roc_auc\").mean()})\npd.DataFrame(rows).round(4)\n\n\n1\n\nThe scaled KNN classifier from Meeting 4, at two values of K, scored on\nthe same stratified folds as the logistic pipeline.\n\n2\n\nTwo scorings of the same three fitted models: accuracy counts labels at a\n0.5 cutoff, roc_auc measures the ranking.\n\n\n\n\n\n\n\n\n\n\n\nmodel\naccuracy\nauc\n\n\n\n\n0\nlogistic\n0.9734\n0.9492\n\n\n1\nKNN, K = 25\n0.9729\n0.9008\n\n\n2\nKNN, K = 100\n0.9705\n0.9362",
+    "text": "Logistic regression against KNN\n\nfrom sklearn.neighbors import KNeighborsClassifier\n\nmodels = {\n    \"logistic\": LogisticRegression(max_iter=10000),\n1    \"KNN, K = 25\": KNeighborsClassifier(25),\n    \"KNN, K = 100\": KNeighborsClassifier(100),\n}\nrows = []\nfor name, est in models.items():\n    m = make_pipeline(StandardScaler(), est)\n    rows.append({\"model\": name,\n2                 \"accuracy\": cross_val_score(m, X3, y, cv=cv, scoring=\"accuracy\").mean(),\n                 \"auc\": cross_val_score(m, X3, y, cv=cv, scoring=\"roc_auc\").mean()})\npd.DataFrame(rows).round(4)\n\n\n1\n\nAt two values of K, scored on\nthe same stratified folds as the logistic pipeline.\n\n2\n\nTwo scorings of the same three fitted models: accuracy counts labels at a\n0.5 cutoff, roc_auc measures the ranking.\n\n\n\n\n\n\n\n\n\n\n\nmodel\naccuracy\nauc\n\n\n\n\n0\nlogistic\n0.9734\n0.9492\n\n\n1\nKNN, K = 25\n0.9729\n0.9008\n\n\n2\nKNN, K = 100\n0.9705\n0.9362",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5649,7 +5613,7 @@
     "href": "slides/11-logistic.html#two-columns-two-verdicts",
     "title": "Logistic regression",
     "section": "Two columns, two verdicts",
-    "text": "Two columns, two verdicts\n\nThe three accuracies agree to three decimals. The three AUCs do not. Which column is doing the work?\n\n\n\nEvery one of these models is close to the null classifier on accuracy, since 96.67% of customers do not default. Friday is about the measures that can tell them apart.",
+    "text": "Two columns, two verdicts\n\nThe three accuracies agree to three decimals. The three AUCs do not. Why?\n\n\n\nEvery one of these models is close to the null classifier on accuracy, since 96.67% of customers do not default. Friday is about the measures that can tell them apart.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5662,30 +5626,6 @@
     "title": "Logistic regression",
     "section": "Application exercise",
     "text": "Application exercise\n\nComplete Parts 4 and 5. ex/11-ex",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#application-exercise-11",
-    "href": "slides/11-logistic.html#application-exercise-11",
-    "title": "Logistic regression",
-    "section": "Application exercise 11",
-    "text": "Application exercise 11\n\nDrew the line that predicts negative probabilities, computed \\(\\hat{p}\\) by hand and checked it, watched the student coefficient flip sign, and found the penalty scikit-learn had been applying all along.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#before-friday",
-    "href": "slides/11-logistic.html#before-friday",
-    "title": "Logistic regression",
-    "section": "Before Friday",
-    "text": "Before Friday\n\nRead ISLP Section 4.4.2\n\nProblem set 5 due Friday\n\n\n\n\nAccuracy 0.973 against a baseline of 0.967. What would you rather be told about this model?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",

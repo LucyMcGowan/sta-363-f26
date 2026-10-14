@@ -276,15 +276,6 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <img data-src="img/islp/fig4_2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"><div class="source">
 <p>ISLP Figure 4.2. Left: probability of default from linear regression, some of it negative. Right: the same from logistic regression, every value between 0 and 1. Orange ticks are the observed 0/1 values.</p>
 </div>
-</section>
-<section id="more-than-two-classes" class="slide level2 small">
-<h2>More than two classes</h2>
-<p><span class="math display">\[Y = \begin{cases} 1 &amp; \text{stroke} \\ 2 &amp; \text{overdose} \\ 3 &amp; \text{seizure}\end{cases}\]</span></p>
-<div class="fragment">
-<div class="question">
-<p>What does that coding assert about the three diagnoses that nobody meant to assert?</p>
-</div>
-</div>
 </section></section>
 <section>
 <section id="the-logistic-model" class="title-slide slide level1 center">
@@ -303,7 +294,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="the-logistic-function-2" class="slide level2">
 <h2>The logistic function</h2>
 <p><span class="math display">\[p(X) = \frac{e^{\beta_0 + \beta_1X}}{{\require{color}\colorbox{#eec8e1}{$1 + e^{\beta_0 + \beta_1X}$}}}\]</span></p>
-<p>The denominator is the numerator plus one, so it is always the larger of the two. The ratio therefore lands strictly between 0 and 1, whatever the coefficients are.</p>
+<p>The denominator is the numerator plus one, so it is always the larger of the two. The ratio therefore always is between 0 and 1, no matter what the coefficients are.</p>
 </section>
 <section id="rearranging" class="slide level2 small">
 <h2>Rearranging</h2>
@@ -321,12 +312,11 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <ul>
-<li>Probability lives on <span class="math inline">\([0, 1]\)</span><br>
+<li>Probability falls between <span class="math inline">\([0, 1]\)</span><br>
 </li>
-<li>Odds live on <span class="math inline">\([0, \infty)\)</span><br>
+<li>Odds fall between <span class="math inline">\([0, \infty)\)</span><br>
 </li>
-<li>Log odds live on the whole real line, which is where a linear function lives<br>
-</li>
+<li>Log odds can take on values on the whole real line</li>
 </ul>
 </div>
 </section>
@@ -373,52 +363,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </div>
 <div class="fragment">
 <div class="question">
-<p>The model gives you <span class="math inline">\(\ell\)</span>. Which row do you read to get a probability?</p>
-</div>
-</div>
-</section>
-<section id="reading-a-coefficient" class="slide level2 small">
-<h2>Reading a coefficient</h2>
-<div class="definition">
-<p>A one unit increase in <span class="math inline">\(X\)</span> adds <span class="math inline">\(\beta_1\)</span> to the log odds, and multiplies the odds by <span class="math inline">\(e^{\beta_1}\)</span>.</p>
-</div>
-<div class="fragment">
-<div class="question">
-<p>That is a statement about odds, not about probability. Why can we not say a one unit increase in <span class="math inline">\(X\)</span> adds a fixed amount to <span class="math inline">\(p(X)\)</span>?</p>
-</div>
-</div>
-</section>
-<section id="odds-ratios" class="slide level2 small">
-<h2>Odds ratios</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th></th>
-<th>TMS</th>
-<th>Placebo</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Pain-free after two hours</td>
-<td>39</td>
-<td>22</td>
-</tr>
-<tr class="even">
-<td>Still in pain</td>
-<td>61</td>
-<td>78</td>
-</tr>
-</tbody>
-</table>
-<div class="fragment">
-<div class="takeaway">
-<p>Odds of being pain-free: <span class="math inline">\(39/61 = 0.639\)</span> with TMS, <span class="math inline">\(22/78 = 0.282\)</span> with placebo. The odds ratio is <span class="math inline">\(0.639 / 0.282 = 2.27\)</span>.</p>
-</div>
-</div>
-<div class="fragment">
-<div class="question">
-<p>A logistic regression of pain-free status on treatment would return which number as <span class="math inline">\(e^{\hat\beta_1}\)</span>?</p>
+<p>The model gives you <span class="math inline">\(\ell\)</span>. Which row do you get a probability?</p>
 </div>
 </div>
 </section>
@@ -449,7 +394,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="fitting-on-balance" class="slide level2 small">
 <h2>Fitting on balance</h2>
-<div id="45ca6443" class="cell" data-execution_count="4">
+<div id="5be15994" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -495,7 +440,7 @@ change in log odds of default per dollar of balance.</span>
 </div>
 <div class="fragment">
 <div class="question">
-<p>Balance doubled and the probability went up by a factor of a hundred. Which part of the model does that?</p>
+<p>Balance doubled and the probability went up by a factor of a hundred.</p>
 </div>
 </div>
 </section>
@@ -507,7 +452,7 @@ change in log odds of default per dollar of balance.</span>
 </section>
 <section id="a-qualitative-predictor" class="slide level2 small">
 <h2>A qualitative predictor</h2>
-<div id="8ec1849a" class="cell" data-execution_count="5">
+<div id="4e897c55" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>student <span class="op">=</span> (Default[<span class="st">"student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>alone <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame({<span class="st">"student"</span>: student}), y</span>
@@ -540,7 +485,7 @@ default than non-students. Exponentiating it gives the odds ratio.</span>
 <section id="multiple-logistic-regression" class="slide level2 small">
 <h2>Multiple logistic regression</h2>
 <p><span class="math display">\[\log\left(\frac{p(X)}{1-p(X)}\right) = \beta_0 + \beta_1X_1 + \dots + \beta_pX_p\]</span></p>
-<div id="c5e19483" class="cell" data-execution_count="6">
+<div id="5c90b4e0" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>X3 <span class="op">=</span> pd.DataFrame({</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"balance"</span>: Default[<span class="st">"balance"</span>],</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"income"</span>: Default[<span class="st">"income"</span>] <span class="op">/</span> <span class="dv">1000</span>,</span>
@@ -566,11 +511,6 @@ matching ISLP Table 4.3 and keeping the coefficient readable.</span>
 income     0.0030
 student   -0.6468
 dtype: float64</code></pre>
-</div>
-</div>
-<div class="fragment">
-<div class="question">
-<p>The same variable, the same data, opposite signs. Which one is wrong?</p>
 </div>
 </div>
 </section>
@@ -601,7 +541,7 @@ dtype: float64</code></pre>
 <p>Complete Part 3. <a href="../ex/11-ex.html">ex/11-ex</a></p>
 </div>
 </section>
-<section id="more-than-two-classes-1" class="slide level2 small">
+<section id="more-than-two-classes" class="slide level2 small">
 <h2>More than two classes</h2>
 <p><span class="math display">\[\Pr(Y = k \mid X) = \frac{e^{\beta_{0k} + \beta_{1k}X_1 + \dots + \beta_{pk}X_p}}{\sum_{l=1}^{K}e^{\beta_{0l} + \beta_{1l}X_1 + \dots + \beta_{pl}X_p}}\]</span></p>
 <div class="fragment">
@@ -617,7 +557,7 @@ dtype: float64</code></pre>
 </section>
 <section id="predict-against-predict_proba" class="slide level2 small">
 <h2>predict against predict_proba</h2>
-<div id="7e9e8e6a" class="cell" data-execution_count="7">
+<div id="b92ca144" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> together.predict_proba(X3)[:, <span class="dv">1</span>]</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> together.predict(X3)</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -664,7 +604,7 @@ accuracy of the 0.5 labels.</span>
 </section>
 <section id="the-penalty-is-on-by-default" class="slide level2 small">
 <h2>The penalty is on by default</h2>
-<div id="86af1467" class="cell" data-execution_count="8">
+<div id="378b2ab4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
 <span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
@@ -756,7 +696,7 @@ how many labels it gets right. Friday defines it.</span>
 <section id="what-c-is-doing" class="slide level2 small">
 <h2>What C is doing</h2>
 <div class="takeaway">
-<p><code>LogisticRegression()</code> with no arguments is ridge-penalized logistic regression. That is why <code>StandardScaler</code> belongs in front of it, for the same reason it belonged in front of <code>Ridge</code> in Meeting 9.</p>
+<p><code>LogisticRegression()</code> with no arguments is ridge-penalized logistic regression. That is why <code>StandardScaler</code> belongs in front of it.</p>
 </div>
 <div class="fragment">
 <div class="question">
@@ -766,7 +706,7 @@ how many labels it gets right. Friday defines it.</span>
 </section>
 <section id="logistic-regression-against-knn" class="slide level2 small">
 <h2>Logistic regression against KNN</h2>
-<div id="81d1a959" class="cell" data-execution_count="9">
+<div id="487f53e5" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
@@ -785,7 +725,7 @@ how many labels it gets right. Friday defines it.</span>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="1">The scaled KNN classifier from Meeting 4, at two values of <code>K</code>, scored on<br>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="1">At two values of <code>K</code>, scored on<br>
 the same stratified folds as the logistic pipeline.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
@@ -849,7 +789,7 @@ the same stratified folds as the logistic pipeline.</span>
 <section id="two-columns-two-verdicts" class="slide level2 small">
 <h2>Two columns, two verdicts</h2>
 <div class="question">
-<p>The three accuracies agree to three decimals. The three AUCs do not. Which column is doing the work?</p>
+<p>The three accuracies agree to three decimals. The three AUCs do not. Why?</p>
 </div>
 <div class="fragment">
 <div class="takeaway">
@@ -861,26 +801,6 @@ the same stratified folds as the logistic pipeline.</span>
 <h2>Application exercise</h2>
 <div class="takeaway">
 <p>Complete Parts 4 and 5. <a href="../ex/11-ex.html">ex/11-ex</a></p>
-</div>
-</section>
-<section id="application-exercise-11" class="slide level2">
-<h2>Application exercise 11</h2>
-<div class="takeaway">
-<p>Drew the line that predicts negative probabilities, computed <span class="math inline">\(\hat{p}\)</span> by hand and checked it, watched the <code>student</code> coefficient flip sign, and found the penalty scikit-learn had been applying all along.</p>
-</div>
-</section>
-<section id="before-friday" class="slide level2">
-<h2>Before Friday</h2>
-<ul>
-<li>Read ISLP Section 4.4.2<br>
-</li>
-<li>Problem set 5 due Friday<br>
-</li>
-</ul>
-<div class="fragment">
-<div class="question">
-<p>Accuracy 0.973 against a baseline of 0.967. What would you rather be told about this model?</p>
-</div>
 </div>
 
 
