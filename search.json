@@ -5493,43 +5493,7 @@
     "href": "slides/11-logistic.html#multiple-logistic-regression",
     "title": "Logistic regression",
     "section": "Multiple logistic regression",
-    "text": "Multiple logistic regression\n\\[\\log\\left(\\frac{p(X)}{1-p(X)}\\right) = \\beta_0 + \\beta_1X_1 + \\dots + \\beta_pX_p\\]\n\nX3 = pd.DataFrame({\n    \"balance\": Default[\"balance\"],\n1    \"income\": Default[\"income\"] / 1000,\n    \"student\": student,\n})\ntogether = LogisticRegression(C=1e10, max_iter=10000).fit(X3, y)\n2pd.Series(together.coef_[0], index=X3.columns).round(4)\n\n\n1\n\nincome is divided by 1000 so it is measured in thousands of dollars,\nmatching ISLP Table 4.3 and keeping the coefficient readable.\n\n2\n\nThe student coefficient is now negative, where it was positive on its own.\n\n\n\n\nbalance    0.0057\nincome     0.0030\nstudent   -0.6468\ndtype: float64",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#confounding",
-    "href": "slides/11-logistic.html#confounding",
-    "title": "Logistic regression",
-    "section": "Confounding",
-    "text": "Confounding\n\n\nISLP Figure 4.3. Left: default rate against balance for students in orange and non-students in blue, with the overall rates as dashed lines. Right: balance by student status.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#two-true-statements",
-    "href": "slides/11-logistic.html#two-true-statements",
-    "title": "Logistic regression",
-    "section": "Two true statements",
-    "text": "Two true statements\n\nStudents default more often than non-students, because they carry more debt\n\nAt any given balance, a student defaults less often than a non-student\n\n\n\n\nWhich one a bank needs depends on what it knows. Without a balance, the marginal rate. With a balance in hand, the conditional one.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "11. Logistic regression"
-    ]
-  },
-  {
-    "objectID": "slides/11-logistic.html#application-exercise-2",
-    "href": "slides/11-logistic.html#application-exercise-2",
-    "title": "Logistic regression",
-    "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 3. ex/11-ex",
+    "text": "Multiple logistic regression\n\\[\\log\\left(\\frac{p(X)}{1-p(X)}\\right) = \\beta_0 + \\beta_1X_1 + \\dots + \\beta_pX_p\\]\n\nX3 = pd.DataFrame({\n    \"balance\": Default[\"balance\"],\n1    \"income\": Default[\"income\"] / 1000,\n    \"student\": student,\n})\ntogether = LogisticRegression(C=1e10, max_iter=10000).fit(X3, y)\n2pd.Series(together.coef_[0], index=X3.columns).round(4)\n\n\n1\n\nincome is divided by 1000 so it is measured in thousands of dollars, matching ISLP Table 4.3 and keeping the coefficient readable.\n\n2\n\nThe student coefficient is now negative, where it was positive on its own.\n\n\n\n\nbalance    0.0057\nincome     0.0030\nstudent   -0.6468\ndtype: float64",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5561,11 +5525,11 @@
     ]
   },
   {
-    "objectID": "slides/11-logistic.html#the-threshold-is-a-choice",
-    "href": "slides/11-logistic.html#the-threshold-is-a-choice",
+    "objectID": "slides/11-logistic.html#choosing-the-threshold",
+    "href": "slides/11-logistic.html#choosing-the-threshold",
     "title": "Logistic regression",
-    "section": "The threshold is a choice",
-    "text": "The threshold is a choice\n\nThe fitted model produces probabilities. Turning one into a label needs a cutoff, and 0.5 is a default rather than a result.\n\n\n\nA bank that can call 100 customers tonight. What should it do with the probabilities?",
+    "section": "Choosing the threshold",
+    "text": "Choosing the threshold\n\nThe fitted model produces probabilities. Turning one into a label needs a cutoff, and 0.5 is a default rather than a result.\n\n\n\nA bank that can call 100 customers tonight. What should it do with the probabilities?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -5621,11 +5585,11 @@
     ]
   },
   {
-    "objectID": "slides/11-logistic.html#application-exercise-3",
-    "href": "slides/11-logistic.html#application-exercise-3",
+    "objectID": "slides/11-logistic.html#application-exercise-2",
+    "href": "slides/11-logistic.html#application-exercise-2",
     "title": "Logistic regression",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Parts 4 and 5. ex/11-ex",
+    "text": "Application exercise\n\nComplete Parts 3 and 4. ex/11-ex",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
