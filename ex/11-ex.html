@@ -686,7 +686,7 @@ window.Quarto = {
 <p><code>Default</code> records 10,000 credit card customers, 333 of whom defaulted. KNN handled this data back in Meeting 4 by taking a vote among neighbors. Logistic regression handles it with a model.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div id="65699be0" class="cell" data-execution_count="1">
+<div id="c080e627" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -708,7 +708,7 @@ window.Quarto = {
 </section>
 <section id="part-1-why-not-a-straight-line" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-why-not-a-straight-line">Part 1: Why not a straight line</h2>
-<div id="3cf38e6f" class="cell" data-execution_count="2">
+<div id="685d8c7c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>straight <span class="op">=</span> LinearRegression().fit(Default[[<span class="st">"balance"</span>]], y)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>logistic <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(Default[[<span class="st">"balance"</span>]], y)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -751,7 +751,7 @@ window.Quarto = {
 </section>
 <section id="part-2-odds-and-probabilities" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-odds-and-probabilities">Part 2: Odds and probabilities</h2>
-<div id="b537c11a" class="cell" data-execution_count="3">
+<div id="f1620789" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="bu">round</span>(logistic.intercept_[<span class="dv">0</span>], <span class="dv">4</span>)), <span class="bu">float</span>(<span class="bu">round</span>(logistic.coef_[<span class="dv">0</span>][<span class="dv">0</span>], <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(-10.6513, 0.005499)</code></pre>
@@ -765,7 +765,7 @@ window.Quarto = {
 </li>
 </ol>
 </div>
-<div id="8d582cbf" class="cell" data-execution_count="4">
+<div id="c3a32a40" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2000</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>odds <span class="op">=</span> np.exp(logistic.intercept_[<span class="dv">0</span>] <span class="op">+</span> logistic.coef_[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> b)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>odds <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> odds)</span>
@@ -779,7 +779,7 @@ window.Quarto = {
 <section id="part-3-from-probabilities-to-labels" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-from-probabilities-to-labels">Part 3: From probabilities to labels</h2>
 <p>The model from here on uses all three predictors: <code>balance</code>, <code>income</code> in thousands of dollars, and <code>student</code> as a 0/1 indicator.</p>
-<div id="0e812fee" class="cell" data-execution_count="5">
+<div id="66a1c686" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>student <span class="op">=</span> (Default[<span class="st">"student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X3 <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"balance"</span>: Default[<span class="st">"balance"</span>],</span>
@@ -834,7 +834,7 @@ window.Quarto = {
 </li>
 </ol>
 </div>
-<div id="43b0919b" class="cell" data-execution_count="6">
+<div id="e5209119" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>((probs <span class="op">&gt;</span> <span class="fl">0.5</span>).<span class="bu">sum</span>()), <span class="bu">int</span>((probs <span class="op">&gt;</span> <span class="fl">0.2</span>).<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="answer-space">
@@ -844,7 +844,7 @@ window.Quarto = {
 <section id="part-4-the-penalty-scikit-learn-adds-by-default" class="level2">
 <h2 class="anchored" data-anchor-id="part-4-the-penalty-scikit-learn-adds-by-default">Part 4: The penalty scikit-learn adds by default</h2>
 <p><code>LogisticRegression()</code> with no arguments applies a ridge penalty, controlled by <code>C</code>, which is one over the strength of the penalty. Small <code>C</code> means a large penalty.</p>
-<div id="b25bcf42" class="cell" data-execution_count="7">
+<div id="2a1cfcc3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
