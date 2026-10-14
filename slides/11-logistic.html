@@ -394,14 +394,14 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="fitting-on-balance" class="slide level2 small">
 <h2>Fitting on balance</h2>
-<div id="4b8ca69d" class="cell" data-execution_count="4">
+<div id="90cfe0d4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>Default <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Default.csv"</span>)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-5" class="code-annotation-target"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (Default[<span class="st">"default"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">int</span>)</span>
 <span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(Default[[<span class="st">"balance"</span>]], y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(Default[[<span class="st">"balance"</span>]], y)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-8" class="code-annotation-target"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(fit.intercept_[<span class="dv">0</span>]), <span class="dv">4</span>), <span class="bu">round</span>(<span class="bu">float</span>(fit.coef_[<span class="dv">0</span>][<span class="dv">0</span>]), <span class="dv">6</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -417,8 +417,7 @@ the 0/1 coding, with 1 for a default.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="3"><code>C=1e10</code> makes the penalty scikit-learn applies by default effectively<br>
-zero, so these are the unpenalized maximum likelihood estimates that match ISLP Table 4.1. <code>max_iter=10000</code> gives the solver room to converge.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="3"><code>penalty=None</code> removes the penalty, so these are the unpenalized maximum likelihood estimates that match ISLP Table 4.1. <code>max_iter=10000</code> gives the solver room to converge.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
 <dd>
@@ -452,9 +451,9 @@ change in log odds of default per dollar of balance.</span>
 </section>
 <section id="a-qualitative-predictor" class="slide level2 small">
 <h2>A qualitative predictor</h2>
-<div id="6ad2d9fb" class="cell" data-execution_count="5">
+<div id="2ecb1443" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>student <span class="op">=</span> (Default[<span class="st">"student"</span>] <span class="op">==</span> <span class="st">"Yes"</span>).astype(<span class="bu">float</span>)</span>
-<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>alone <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>alone <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame({<span class="st">"student"</span>: student}), y</span>
 <span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">round</span>(<span class="bu">float</span>(alone.intercept_[<span class="dv">0</span>]), <span class="dv">4</span>), <span class="bu">round</span>(<span class="bu">float</span>(alone.coef_[<span class="dv">0</span>][<span class="dv">0</span>]), <span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -485,13 +484,13 @@ default than non-students. Exponentiating it gives the odds ratio.</span>
 <section id="multiple-logistic-regression" class="slide level2 small">
 <h2>Multiple logistic regression</h2>
 <p><span class="math display">\[\log\left(\frac{p(X)}{1-p(X)}\right) = \beta_0 + \beta_1X_1 + \dots + \beta_pX_p\]</span></p>
-<div id="d6a524fb" class="cell" data-execution_count="6">
+<div id="bbc6676b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>X3 <span class="op">=</span> pd.DataFrame({</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"balance"</span>: Default[<span class="st">"balance"</span>],</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"income"</span>: Default[<span class="st">"income"</span>] <span class="op">/</span> <span class="dv">1000</span>,</span>
 <span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"student"</span>: student,</span>
 <span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>together <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">1e10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(X3, y)</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>together <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">10000</span>).fit(X3, y)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>pd.Series(together.coef_[<span class="dv">0</span>], index<span class="op">=</span>X3.columns).<span class="bu">round</span>(<span class="dv">4</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
@@ -529,7 +528,7 @@ dtype: float64</code></pre>
 </section>
 <section id="predict-against-predict_proba" class="slide level2 small">
 <h2>predict against predict_proba</h2>
-<div id="ca7b134f" class="cell" data-execution_count="7">
+<div id="511cb4ef" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> together.predict_proba(X3)[:, <span class="dv">1</span>]</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> together.predict(X3)</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -576,7 +575,7 @@ accuracy of the 0.5 labels.</span>
 </section>
 <section id="the-penalty-is-on-by-default" class="slide level2 small">
 <h2>The penalty is on by default</h2>
-<div id="ed8a8300" class="cell" data-execution_count="8">
+<div id="393448fb" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
 <span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
@@ -678,7 +677,7 @@ how many labels it gets right. Friday defines it.</span>
 </section>
 <section id="logistic-regression-against-knn" class="slide level2 small">
 <h2>Logistic regression against KNN</h2>
-<div id="9465e24c" class="cell" data-execution_count="9">
+<div id="d9302850" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
