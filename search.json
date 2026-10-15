@@ -340,7 +340,7 @@
     "href": "slides/12-classifier-metrics.html#drawing-the-curve",
     "title": "Evaluating classifiers",
     "section": "Drawing the curve",
-    "text": "Drawing the curve\n\n\nROC curves on the held-out 30% of Default, with AUC in the legend. Both models were fit on the same training rows.",
+    "text": "Drawing the curve\n\n\n\n\n\n\n\n\n\n\nROC curves on the held-out 30% of Default, with AUC in the legend. Both models were fit on the same training rows.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -376,7 +376,7 @@
     "href": "slides/12-classifier-metrics.html#what-the-loss-is-minimizing",
     "title": "Evaluating classifiers",
     "section": "What the loss is minimizing",
-    "text": "What the loss is minimizing\n\nThe likelihood counts every observation equally, so 5,474 non-buyers outvote 348 buyers. Predicting “no” everywhere is close to optimal for the loss and useless for the task.\n\n\n\nNothing here is a bug. Which part of the setup would you change?",
+    "text": "What the loss is minimizing\n\nThe likelihood counts every observation equally, so 5,474 non-buyers outvote 348 buyers. Predicting “no” everywhere is close to optimal for the loss and useless for the task.\n\n\n\nWhich part of the setup would you change?",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -388,7 +388,7 @@
     "href": "slides/12-classifier-metrics.html#caravan",
     "title": "Evaluating classifiers",
     "section": "Caravan",
-    "text": "Caravan\n\nfrom sklearn.model_selection import cross_validate, StratifiedKFold\n\nCaravan = pd.read_csv(DATA + \"Caravan.csv\")\ny_car = (Caravan[\"Purchase\"] == \"Yes\").astype(int)\n1X_car = Caravan.drop(columns=[\"Purchase\"])\n\ncv = StratifiedKFold(n_splits=5, shuffle=True, random_state=363)\nrows = []\n2for name, weight in [(\"plain\", None), (\"balanced\", \"balanced\")]:\n    m = make_pipeline(\n        StandardScaler(), LogisticRegression(max_iter=5000, class_weight=weight)\n    )\n    r = cross_validate(m, X_car, y_car, cv=cv,\n3                       scoring=[\"accuracy\", \"roc_auc\", \"recall\", \"precision\"])\n    rows.append({\"model\": name, **{k[5:]: r[k].mean() for k in r if k.startswith(\"test_\")}})\npd.DataFrame(rows).round(4)\n\n\n1\n\nAll 85 remaining columns are demographic predictors, so dropping the\nresponse leaves the design matrix.\n\n2\n\nclass_weight=\"balanced\" reweights each observation by the inverse of its\nclass frequency, so the 348 buyers count for as much in total as the 5,474 non-buyers.\n\n3\n\ncross_validate returns several scores from one pass over the folds,\nkeyed as test_accuracy, test_roc_auc and so on.\n\n\n\n\n\n\n\n\n\n\n\nmodel\naccuracy\nroc_auc\nrecall\nprecision\n\n\n\n\n0\nplain\n0.9370\n0.7313\n0.0087\n0.0900\n\n\n1\nbalanced\n0.6991\n0.7301\n0.6466\n0.1213",
+    "text": "Caravan\n\nfrom sklearn.model_selection import cross_validate, StratifiedKFold\n\nCaravan = pd.read_csv(DATA + \"Caravan.csv\")\ny_car = (Caravan[\"Purchase\"] == \"Yes\").astype(int)\n1X_car = Caravan.drop(columns=[\"Purchase\"])\n\ncv = StratifiedKFold(n_splits=5, shuffle=True, random_state=363)\nrows = []\n2for name, weight in [(\"plain\", None), (\"balanced\", \"balanced\")]:\n    m = make_pipeline(\n        StandardScaler(), LogisticRegression(max_iter=5000, class_weight=weight)\n    )\n    r = cross_validate(m, X_car, y_car, cv=cv,\n3                       scoring=[\"accuracy\", \"roc_auc\", \"recall\", \"precision\"])\n    rows.append({\"model\": name, **{k[5:]: r[k].mean() for k in r if k.startswith(\"test_\")}})\npd.DataFrame(rows).round(4)\n\n\n1\n\nAll 85 remaining columns are demographic predictors, so dropping the\nresponse leaves the design matrix.\n\n2\n\nclass_weight=\"balanced\" reweights each observation by the inverse of its\nclass frequency, so the 348 buyers count for as much in total as the 5,474 non-buyers.\n\n3\n\ncross_validate returns several scores from one pass over the folds,\nkeyed as test_accuracy, test_roc_auc and so on.\n\n\n\n\n\n\n\n\n\n\n\nmodel\naccuracy\nroc_auc\nrecall\nprecision\n\n\n\n\n0\nplain\n0.9370\n0.7313\n0.0087\n0.0900\n\n\n1\nbalanced\n0.6987\n0.7301\n0.6466\n0.1212",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -449,30 +449,6 @@
     "title": "Evaluating classifiers",
     "section": "Application exercise",
     "text": "Application exercise\n\nComplete Part 5. ex/12-ex",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "12. Evaluating classifiers"
-    ]
-  },
-  {
-    "objectID": "slides/12-classifier-metrics.html#application-exercise-12",
-    "href": "slides/12-classifier-metrics.html#application-exercise-12",
-    "title": "Evaluating classifiers",
-    "section": "Application exercise 12",
-    "text": "Application exercise 12\n\nBuilt confusion matrices by hand, swept the threshold and redrew ISLP Figure 4.7, compared two models by ROC, and found a data set where accuracy chooses a model that never once predicts the class of interest.",
-    "crumbs": [
-      "{{< fa calendar >}} Schedule",
-      "Slides",
-      "12. Evaluating classifiers"
-    ]
-  },
-  {
-    "objectID": "slides/12-classifier-metrics.html#before-wednesday",
-    "href": "slides/12-classifier-metrics.html#before-wednesday",
-    "title": "Evaluating classifiers",
-    "section": "Before Wednesday",
-    "text": "Before Wednesday\n\nProblem set 5 due today\n\nExam 1 review on Wednesday, Exam 1 on Friday\n\nBring questions on anything from Meetings 1 to 12\n\n\n\n\nTwelve meetings: a way to measure error, a way to estimate it without fooling ourselves, and four models to measure.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
