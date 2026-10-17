@@ -1,0 +1,146 @@
+---
+title: "Problem set 6: Ridge, Lasso, and Elastic Net"
+subtitle: "STA 363 | Posted October 16 | Due Friday, October 23"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+## 1.
+
+ISLP Section 6.2.2 considers a special case with one observation per
+coefficient, a design matrix equal to the identity, and no intercept. With
+a single coefficient, ridge regression minimizes $(y - \beta)^2 + \lambda\beta^2$
+and the lasso minimizes $(y - \beta)^2 + \lambda|\beta|$. The solutions are
+
+$$\hat\beta^R = \frac{y}{1 + \lambda}, \qquad
+\hat\beta^L = \begin{cases}
+y - \lambda/2 & \text{if } y > \lambda/2, \\
+y + \lambda/2 & \text{if } y < -\lambda/2, \\
+0 & \text{if } |y| \leq \lambda/2.
+\end{cases}$$
+
+a. Take $y = 3$ and $\lambda = 2$. Fill in the code below to plot the ridge criterion against $\beta$ over `np.linspace(-1, 4, 501)` and confirm that it is smallest at $\hat\beta^R$.
+
+::: {.no-answer}
+:::
+
+```{python}
+y = 3
+lam = 2
+beta = np.linspace(-1, 4, 501)
+
+# the ridge criterion at each value of beta
+ridge_criterion = (y - beta) ** 2 + ____
+
+plt.plot(beta, ridge_criterion)
+plt.xlabel("beta")
+plt.ylabel("ridge criterion")
+plt.show()
+
+# the value of beta where the criterion is smallest
+beta_min = beta[np.argmin(ridge_criterion)]
+print("smallest on the grid at:", beta_min)
+print("formula gives:", ____)
+```
+
+::: {.answer}
+:::
+
+b. On the same grid, plot the lasso criterion for $\lambda = 2$ and for $\lambda = 8$. Confirm that each curve is smallest at $\hat\beta^L$.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. At $\lambda = 8$ the lasso solution is exactly zero. What does the lasso curve look like at $\beta = 0$ that makes this possible, and why is the ridge solution never exactly zero when $y \neq 0$?
+d. Relative to least squares, is the lasso more flexible or less flexible? Complete the sentence "The lasso will give better (test) prediction accuracy than least squares when its increase in ___ is less than its decrease in ___."
+
+## 2.
+
+Return to the setting from problem set 5 with two identical predictor
+columns,
+
+$$x_{11} = x_{12} = a, \quad x_{21} = x_{22} = -a, \quad y_2 = -y_1,$$
+
+where the intercept estimate is 0. Ridge gave the two predictors equal
+coefficients. Here we look at the lasso instead.
+
+a. Write out the lasso optimization problem in this setting, in terms of $a$, $y_1$, $\beta_1$, $\beta_2$ and $\lambda$.
+b. Argue that the lasso coefficients are not unique, and describe the set of solutions. Hint: the RSS depends on $\beta_1$ and $\beta_2$ only through their sum, so ask which pairs with the same sum also have the same $|\beta_1| + |\beta_2|$.
+
+```{python}
+X_tie = np.array([[2.0, 2.0], [-2.0, -2.0]])
+y_tie = np.array([3.0, -3.0])
+```
+
+c. Fit `Lasso(alpha=0.25, fit_intercept=False)` and `ElasticNet(alpha=0.25, l1_ratio=0.5, fit_intercept=False)` to `X_tie` and `y_tie` and report both sets of coefficients. Then swap the two columns of `X_tie` and fit the lasso again.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+d. Lecture said the lasso picks one of a group of correlated predictors and drops the rest. Based on part c, what decided which one it picked here? What does that mean for interpreting which predictor a lasso model kept?
+
+
+## 3.
+
+Use the `Boston` data to predict `crim`, the per capita crime rate, from the
+other 12 variables.
+
+```{python}
+Boston = pd.read_csv(DATA + "Boston.csv")
+y_bos = Boston["crim"]
+X_bos = Boston.drop(columns=["crim"])
+```
+
+a. With `StandardScaler()` in each pipeline and the 10-fold `cv` from question 3, report the cross-validated MSE of least squares, ridge (`alpha` over `np.logspace(-2, 4, 60)`), and the lasso (`alpha` over `np.logspace(-3, 1, 60)`). How many predictors does the chosen lasso model use?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Fit elastic net with `GridSearchCV`, searching `alpha` over `np.logspace(-3, 1, 30)` and `l1_ratio` over `[0.1, 0.3, 0.5, 0.7, 0.9, 1.0]`. Report the chosen pair and its cross-validated MSE.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Apply the one standard error rule to your lasso search from part a. How many predictors survive, and which ones?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+d. Propose a model for predicting `crim` and justify your choice. Does your chosen model use all 12 predictors? Why or why not?
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer. Questions 1 to 4 are adapted from Chapter 6 exercises 2, 5, 6, 8
+and 11.*
