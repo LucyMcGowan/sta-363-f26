@@ -161,29 +161,6 @@ iterative_latex(
 )
 ```
 
-## Ridge as a budget {.small}
-
-::: {.definition}
-Minimizing RSS $+ \lambda\sum_j\beta_j^2$ is the same problem as minimizing
-RSS subject to $\sum_{j=1}^{p}\beta_j^2 \leq s$, for a value of $s$ that
-depends on $\lambda$.
-:::
-
-
-## Ridge in one dimension {.small}
-
-::: {.takeaway}
-With $n = p$ and $\mathbf{X} = \mathbf{I}$, the ridge estimate has a closed
-form:
-$$\hat\beta^R_j = \frac{\hat\beta_j}{1 + \lambda}$$
-:::
-
-::: {.fragment}
-::: {.question}
-Every coefficient shrinks by the same proportion. How many of them reach
-exactly zero at any finite $\lambda$?
-:::
-:::
 
 ## Variance of the ridge estimate {.small}
 
@@ -221,41 +198,6 @@ right.
 :::
 :::
 
-## The same paths, computed {.small}
-
-```{python}
-#| echo: false
-#| fig-align: center
-from sklearn.preprocessing import StandardScaler
-
-DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
-Cr = pd.read_csv(DATA + "Credit.csv")
-cols = ["Income", "Limit", "Rating", "Cards", "Age", "Education"]
-Xc = Cr[cols].copy()
-Xc["Student"] = (Cr["Student"] == "Yes").astype(float)
-Zc = StandardScaler().fit_transform(Xc)
-yc = Cr["Balance"] - Cr["Balance"].mean()
-
-lams = np.logspace(-2, 5, 80)
-P = np.array([
-    np.linalg.solve(Zc.T @ Zc + lam * np.eye(Zc.shape[1]), Zc.T @ yc) for lam in lams
-])
-
-fig, ax = plt.subplots(figsize=(7.2, 3.4))
-palette = ["#d5008f", "#007c86", "#595959", "#e8a33d", "#7d3c98", "#a0a0a0", "#000000"]
-for j, name in enumerate(Xc.columns):
-    ax.plot(lams, P[:, j], label=name, color=palette[j % len(palette)])
-ax.set_xscale("log")
-ax.set_xlabel("lambda")
-ax.set_ylabel("standardized coefficient")
-ax.legend(fontsize=6, ncol=2)
-plt.show()
-```
-
-::: {.source}
-Ridge fit by hand on standardized `Credit` predictors, one solve per
-$\lambda$, reproducing the left panel of ISLP Figure 6.4.
-:::
 
 ## Application exercise
 
@@ -348,45 +290,6 @@ model at $\lambda = \infty$.
 ::: {.source}
 ISLP Figure 6.12. Left: cross-validation error for ridge on `Credit` across
 $\lambda$. Right: the coefficient estimates, with the chosen $\lambda$ marked.
-:::
-
-## When p approaches n {.small}
-
-```{python}
-#| echo: false
-#| fig-align: center
-from sklearn.linear_model import Ridge, LinearRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.model_selection import cross_val_score, KFold
-
-n_sim, p_sim = 50, 45
-Xs = pd.DataFrame(rng.normal(size=(n_sim, p_sim)),
-                  columns=[f"x{j}" for j in range(p_sim)])
-ys = Xs.values @ rng.normal(0, 1, p_sim) + rng.normal(0, 2, n_sim)
-
-cv_s = KFold(n_splits=10, shuffle=True, random_state=363)
-grid_a = np.logspace(-2, 4, 40)
-curve = [
-    -cross_val_score(make_pipeline(StandardScaler(), Ridge(alpha=a)), Xs, ys,
-                     cv=cv_s, scoring="neg_mean_squared_error").mean()
-    for a in grid_a
-]
-ols_s = -cross_val_score(LinearRegression(), Xs, ys, cv=cv_s,
-                         scoring="neg_mean_squared_error").mean()
-
-fig, ax = plt.subplots(figsize=(7.2, 3.4))
-ax.plot(grid_a, curve, color="#d5008f")
-ax.axhline(ols_s, color="#595959", ls="--")
-ax.set_xscale("log")
-ax.set_yscale("log")
-ax.set_xlabel("alpha")
-ax.set_ylabel("10-fold CV MSE")
-plt.show()
-```
-
-::: {.source}
-Fifty observations, 45 predictors, all with nonzero true coefficients. The
-dashed line is least squares on the same folds.
 :::
 
 # In Python {.center}

@@ -79,6 +79,8 @@ website:
             text: "11. Logistic regression"
           - href: slides/12-classifier-metrics.qmd
             text: "12. Evaluating classifiers"
+          - href: slides/13-nonlinear.qmd
+            text: "13. Beyond Linearity"
       # These open the notebook in Colab straight from GitHub. Students save a
       # copy to their own Drive before working.
       - section: "Problem Sets"
@@ -92,7 +94,9 @@ website:
           - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/04-ps.ipynb
             text: "4. Linear Regression"
           - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/05-ps.ipynb
-            test: "5. Ridge Regression"
+            text: "5. Ridge Regression"
+          - href: https://colab.research.google.com/github/LucyMcGowan/sta-363-f26/blob/main/ps/06-ps.ipynb
+            text: "6. Ridge, Lasso, and Elastic Net"
             
       - section: "Application Exercises"
         contents:
@@ -120,6 +124,8 @@ website:
             text: "11. Logistic regression"
           - href: ex/12-ex.qmd
             text: "12. Thresholds and ROC"
+          - href: ex/13-ex.qmd
+            text: "13. Polynomials, splines, and GAMs"
 
   navbar:
     pinned: true

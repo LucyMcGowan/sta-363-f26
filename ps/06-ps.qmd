@@ -14,10 +14,15 @@ please cite all other sources including AI.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
-from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
+from sklearn.linear_model import (
+    LinearRegression, Ridge, Lasso, ElasticNet, LogisticRegression
+)
+from sklearn.model_selection import (
+    GridSearchCV, KFold, cross_val_score, train_test_split
+)
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
+from sklearn.metrics import confusion_matrix, roc_auc_score
 
 DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
 ```
@@ -141,7 +146,66 @@ c. Apply the one standard error rule to your lasso search from part a. How many 
 
 d. Propose a model for predicting `crim` and justify your choice. Does your chosen model use all 12 predictors? Why or why not?
 
+## 4.
+
+Question 3 predicted the crime rate as a number. ISLP Exercise 4.16 asks
+instead whether a tract's crime rate is above the median, which holds for
+exactly half of the 506 tracts. Part a uses a single predictor, `dis`, the
+weighted distance from a tract to five Boston employment centers.
+
+```{python}
+# create a new outcome that is 1 if `crim` is above the median and 0 otherwise
+high = (Boston["crim"] > Boston["crim"].median()).astype(int)
+
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X_bos, high, test_size=0.3, random_state=363, stratify=high
+)
+```
+
+a. Fit `LogisticRegression(penalty=None, max_iter=10000)` of `high` on `dis` alone, using all 506 tracts, and write out the fitted log odds. Using only the two coefficients, find the `dis` at which the estimated probability is 0.5 and at which it is 0.2. Which tracts does a threshold of 0.2 add?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Fit `make_pipeline(StandardScaler(), LogisticRegression(max_iter=10000))` to the training set with all 12 predictors. Report the test confusion matrix at 0.5, the accuracy, sensitivity, specificity, and null classifier accuracy. Is accuracy a more useful summary here than on `Default`? Why?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Compute the test AUC from part b directly, as the fraction of (high crime, low crime) tract pairs in which the high crime tract has the larger probability, and check it against `roc_auc_score`. What does this tell us? Would replacing each probability with its log odds change the AUC? Why?
+
+::: {.no-answer}
+:::
+
+```{python}
+# the test probabilities from part b
+probs = ____
+
+high_probs = probs[y_te == 1]
+low_probs = probs[y_te == 0]
+
+# count the pairs where the high crime tract has the larger probability
+wins = 0
+for p_high in high_probs:
+    for p_low in low_probs:
+        if ____:
+            wins += 1
+
+print("by hand:", wins / ____)
+print("roc_auc_score:", roc_auc_score(y_te, probs))
+```
+
+::: {.answer}
+:::
+
+
 *Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
 (2023). An Introduction to Statistical Learning with Applications in Python.
 Springer. Questions 1 to 3 are adapted from Chapter 6 exercises 2, 5, 6
-and 11.*
+and 11, and question 4 from Chapter 4 exercises 6 and 16.*
