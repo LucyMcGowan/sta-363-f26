@@ -148,10 +148,7 @@ d. Propose a model for predicting `crim` and justify your choice. Does your chos
 
 ## 4.
 
-Question 3 predicted the crime rate as a number. ISLP Exercise 4.16 asks
-instead whether a tract's crime rate is above the median, which holds for
-exactly half of the 506 tracts. Part a uses a single predictor, `dis`, the
-weighted distance from a tract to five Boston employment centers.
+Question 3 predicted the crime rate as a number. Let's instead predict whether a tract's crime rate is above the median. For part (a) we will use a single predictor, `dis`, the (weighted distance from a tract to five Boston employment centers).
 
 ```{python}
 # create a new outcome that is 1 if `crim` is above the median and 0 otherwise
