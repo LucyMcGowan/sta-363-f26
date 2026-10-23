@@ -1,0 +1,281 @@
+---
+title: "Problem set 7: Polynomials and splines"
+subtitle: "STA 363 | Posted October 23 | Due Friday, October 30"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+## 1.
+
+In lecture we built a cubic spline with one knot at $\xi$ from the basis $x$,
+$x^2$, $x^3$ and $(x - \xi)^3_+$, where $(x - \xi)^3_+ = (x - \xi)^3$ when
+$x > \xi$ and 0 otherwise:
+
+$$f(x) = \beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3 + \beta_4(x - \xi)^3_+.$$
+
+Left of the knot the last term is zero, and right of it the last term is
+$\beta_4(x - \xi)^3$, so $f$ is two cubics joined at $\xi$:
+
+$$f(x) = \begin{cases}\beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3 & x \leq \xi\\ \beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3 + \beta_4(x - \xi)^3 & x > \xi\end{cases}$$
+
+A cubic spline is a piecewise cubic with continuous first and second
+derivatives at each knot. Let's check that $f$ meets that definition for any
+values of $\beta_0$ through $\beta_4$.
+
+a. Find the first and second derivatives of each piece. Hint: the derivative of $(x - \xi)^3$ is $3(x - \xi)^2$.
+b. Plug $x = \xi$ into your answers to part a. Show that the two pieces have the same first derivative at $\xi$ and the same second derivative at $\xi$.
+
+## 2.
+
+Suppose we fit a curve with basis functions $b_1(X) = X$ and
+$b_2(X) = (X - 1)^2I(X \geq 1)$, where $I(X \geq 1)$ is 1 when $X \geq 1$ and
+0 otherwise. Fitting
+
+$$Y = \beta_0 + \beta_1b_1(X) + \beta_2b_2(X) + \varepsilon$$
+
+by least squares gives $\hat\beta_0 = 1$, $\hat\beta_1 = 1$ and
+$\hat\beta_2 = -2$.
+
+a. Write the fitted curve $\hat{f}(X)$ as two pieces, one for $X < 1$ and one for $X \geq 1$.
+b. By hand, compute $\hat{f}(X)$ at $X = -2$, $-1$, $0$, $1$, $1.5$ and $2$, then sketch the curve between $X = -2$ and $X = 2$. Label the intercept and the slope left of $X = 1$.
+c. Fill in the blank below to check your values from part b.
+
+::: {.no-answer}
+:::
+
+```{python}
+def f_hat(X):
+    b1 = X
+    # (X - 1)^2 when X >= 1, and 0 otherwise
+    b2 = ____
+    return 1 + 1 * b1 - 2 * b2
+
+
+X_hand = np.array([-2, -1, 0, 1, 1.5, 2])
+print(f_hat(X_hand))
+
+xs = np.linspace(-2, 2, 200)
+plt.plot(xs, f_hat(xs), color="#d5008f")
+plt.scatter(X_hand, f_hat(X_hand), color="#595959", zorder=3)
+plt.axvline(1, color="#595959", ls="--", lw=1)
+plt.xlabel("X")
+plt.ylabel("fitted Y")
+plt.show()
+```
+
+::: {.answer}
+:::
+
+d. Using the approach from Question 1, check whether the two pieces from part a have the same first derivative at $X = 1$, and whether they have the same second derivative there. What degree of spline is $\hat{f}$?
+
+## 3.
+
+ISLP uses `dis`, the weighted mean of the distances from a Boston census tract
+to five employment centers, to predict `nox`, the nitrogen oxides
+concentration in parts per 10 million. `poly` is the polynomial pipeline from
+lecture with its degree left open, and
+`poly.set_params(polynomialfeatures__degree=d)` sets the degree to `d`.
+
+```{python}
+Boston = pd.read_csv(DATA + "Boston.csv")
+X_dis = Boston[["dis"]]
+y_nox = Boston["nox"]
+cv = KFold(n_splits=10, shuffle=True, random_state=363)
+
+poly = make_pipeline(
+    StandardScaler(),
+    PolynomialFeatures(include_bias=False),
+    LinearRegression(),
+)
+```
+
+a. If we set the degree to 3 and call `poly.fit(X_dis, y_nox)`, which numbers does `.fit()` estimate from the data, and which did we choose beforehand? What does it mean to "tune" $d$, and what do we use to do it?
+b. Fill in the blanks below to compute the training MSE and the CV MSE of `poly` for each $d$ from 1 to 6.
+
+::: {.no-answer}
+:::
+
+```{python}
+rows = []
+for d in range(1, 7):
+    poly.set_params(polynomialfeatures__degree=d)
+    poly.fit(X_dis, y_nox)
+    # MSE on the same 506 tracts the polynomial was fit to
+    train_mse = ____
+    # MSE averaged over the ten held out folds of cv
+    cv_mse = ____
+    rows.append({"degree": d, "training MSE": train_mse, "CV MSE": cv_mse})
+
+results = pd.DataFrame(rows)
+
+plt.plot(results["degree"], results["training MSE"], marker="o",
+         color="#d5008f", label="training MSE")
+plt.plot(results["degree"], results["CV MSE"], marker="o",
+         color="#007c86", label="CV MSE")
+plt.xlabel("degree d")
+plt.ylabel("MSE")
+plt.legend()
+plt.show()
+
+results.round(6)
+```
+
+::: {.answer}
+:::
+
+c. Which $d$ has the smallest training MSE, and which has the smallest CV MSE? Why does the training MSE decrease as $d$ grows, and why does that make it a poor way to choose $d$?
+d. `GridSearchCV` runs the same search for us. Search `polynomialfeatures__degree` over 1 to 6 with the `cv` above and `scoring="neg_mean_squared_error"`, and check that it picks the same $d$ as part c.
+
+::: {.code-cell}
+:::
+
+e. Describe, step by step, what `GridSearchCV` did to produce its `best_estimator_`. Which tracts was that final model fit to?
+
+## 4.
+
+A restricted cubic spline (also known as a natural cubic spline), is a cubic
+spline that is also required to be linear below its smallest knot and above its
+largest. `cubic_basis` builds the columns of an unrestricted cubic spline from
+the truncated power functions in lecture. `restricted_basis` builds the columns
+of a restricted cubic spline with the same interior knots and with boundary
+knots at `lo` and `hi`, the smallest and largest `dis`. Its columns are
+combinations of truncated power functions, weighted so that any fit built from
+them is a straight line past `lo` and `hi`. Both start with interior knots at
+the quartiles of `dis`.
+
+```{python}
+dis = Boston["dis"]
+knots = dis.quantile([0.25, 0.5, 0.75]).to_numpy()
+lo, hi = dis.min(), dis.max()
+
+
+def cube_plus(x, k):
+    return np.maximum(x - k, 0) ** 3
+
+
+def cubic_basis(x, knots):
+    cols = {"x": x, "x^2": x ** 2, "x^3": x ** 3}
+    for j, k in enumerate(knots):
+        cols[f"c{j + 1}"] = cube_plus(x, k)
+    return pd.DataFrame(cols)
+
+
+def restricted_basis(x, knots, lo, hi):
+    t = [lo, *knots, hi]
+    # the largest interior knot and the upper boundary knot
+    a, b = t[-2], t[-1]
+    cols = {"x": x}
+    for j, k in enumerate(t[:-2]):
+        cols[f"r{j + 1}"] = (
+            cube_plus(x, k)
+            - cube_plus(x, a) * (b - k) / (b - a)
+            + cube_plus(x, b) * (a - k) / (b - a)
+        )
+    return pd.DataFrame(cols)
+```
+
+a. Fit `LinearRegression()` to `y_nox` on `cubic_basis(dis, knots)` and on `restricted_basis(dis, knots, lo, hi)`, saving the fits as `cubic_fit` and `restricted_fit`. How many coefficients does each estimate, counting the intercept? Compare to $K + 4$ and $K + 2$ with $K = 3$.
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+b. Fill in the blanks below to plot both fits from `dis` equal to 0 to 20, past both ends of the data. Describe what each fit does below the smallest `dis` of 1.13 and above the largest of 12.13. Which fit gives a more believable prediction for a tract with `dis` equal to 20?
+
+::: {.no-answer}
+:::
+
+```{python}
+wide = np.linspace(0, 20, 400)
+
+plt.scatter(dis, y_nox, s=6, color="#a0a0a0", alpha=0.5)
+plt.plot(wide, ____, color="#d5008f", label="cubic spline")
+plt.plot(wide, ____, color="#007c86", label="restricted cubic spline")
+for v in (lo, hi):
+    plt.axvline(v, color="#595959", ls="--", lw=1)
+plt.xlabel("dis")
+plt.ylabel("nox")
+plt.legend()
+plt.show()
+```
+
+::: {.answer}
+:::
+
+Inside the data the two fits are close. The code below measures how much each
+one changes from sample to sample. It draws 200 random samples of 100 tracts,
+refits both splines to each sample with the same knots, and records their
+predictions at 200 values of `dis` across the data.
+
+c. Fill in the blanks below. Where along `dis` do the two standard deviations differ the most? How does this match the confidence bands in ISLP Figure 7.4?
+
+::: {.no-answer}
+:::
+
+```{python}
+rng = np.random.default_rng(363)
+dis_values = np.linspace(lo, hi, 200)
+cubic_preds = []
+restricted_preds = []
+
+for rep in range(200):
+    sample = rng.choice(len(Boston), size=100, replace=False)
+    x_s, y_s = dis.iloc[sample], y_nox.iloc[sample]
+
+    fit_c = LinearRegression().fit(cubic_basis(x_s, knots), y_s)
+    fit_r = LinearRegression().fit(____, y_s)
+
+    cubic_preds.append(fit_c.predict(cubic_basis(dis_values, knots)))
+    restricted_preds.append(____)
+
+# the spread of the 200 predictions at each value of dis
+cubic_sd = np.std(cubic_preds, axis=0)
+restricted_sd = np.std(restricted_preds, axis=0)
+
+plt.plot(dis_values, cubic_sd, color="#d5008f", label="cubic spline")
+plt.plot(dis_values, restricted_sd, color="#007c86",
+         label="restricted cubic spline")
+plt.xlabel("dis")
+plt.ylabel("SD of predicted nox")
+plt.legend()
+plt.show()
+```
+
+::: {.answer}
+:::
+
+d. Use `cross_val_score` and the `cv` from Question 3 to find the CV MSE of both splines, and of a restricted spline with five interior knots at `dis.quantile([1/6, 2/6, 3/6, 4/6, 5/6])`. Why is that third spline a fair match for the cubic spline?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+e. Based on parts b to d, which spline would you use to predict `nox`, and why?
+
+
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer. Questions 1 to 3 are adapted from Chapter 7 exercises 1, 3 and 9, and
+question 4 from Section 7.4.3 and Figure 7.4.*
