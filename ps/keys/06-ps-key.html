@@ -669,6 +669,7 @@ window.Quarto = {
   <li><a href="#ridge-and-the-lasso-with-one-coefficient" id="toc-ridge-and-the-lasso-with-one-coefficient" class="nav-link active" data-scroll-target="#ridge-and-the-lasso-with-one-coefficient">1. Ridge and the lasso with one coefficient</a></li>
   <li><a href="#identical-predictors-under-the-lasso" id="toc-identical-predictors-under-the-lasso" class="nav-link" data-scroll-target="#identical-predictors-under-the-lasso">2. Identical predictors under the lasso</a></li>
   <li><a href="#predicting-crime-in-boston" id="toc-predicting-crime-in-boston" class="nav-link" data-scroll-target="#predicting-crime-in-boston">3. Predicting crime in Boston</a></li>
+  <li><a href="#classifying-high-crime-tracts" id="toc-classifying-high-crime-tracts" class="nav-link" data-scroll-target="#classifying-high-crime-tracts">4. Classifying high crime tracts</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lucymcgowan/sta-363-f26/edit/main/ps/keys/06-ps-key.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/lucymcgowan/sta-363-f26/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -699,7 +700,7 @@ window.Quarto = {
 <section id="ridge-and-the-lasso-with-one-coefficient" class="level2">
 <h2 class="anchored" data-anchor-id="ridge-and-the-lasso-with-one-coefficient">1. Ridge and the lasso with one coefficient</h2>
 <p><strong>(a)</strong></p>
-<div id="58d70892" class="cell" data-execution_count="2">
+<div id="eebb9dea" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lam <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">501</span>)</span>
@@ -730,7 +731,7 @@ formula gives: 1.0</code></pre>
 </div>
 <p>The two blanks are <code>lam * beta ** 2</code> and <code>y / (1 + lam)</code>. The criterion is a parabola with its lowest point at <span class="math inline">\(\beta = 1\)</span>, where it equals <span class="math inline">\((3 - 1)^2 + 2(1)^2 = 6\)</span>. The formula gives <span class="math inline">\(3/(1 + 2) = 1\)</span>, so the two agree. Least squares would give <span class="math inline">\(\hat\beta = y = 3\)</span>, and ridge shrinks it to a third of that.</p>
 <p><strong>(b)</strong></p>
-<div id="36d84e39" class="cell" data-execution_count="3">
+<div id="04d5a801" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lasso_2 <span class="op">=</span> (y <span class="op">-</span> beta) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.<span class="bu">abs</span>(beta)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>lasso_8 <span class="op">=</span> (y <span class="op">-</span> beta) <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> np.<span class="bu">abs</span>(beta)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -840,7 +841,7 @@ g'(s) = -4a\left(y_1 - as\right) + \lambda &amp;= 0 \\
 <p>when this is positive, that is when <span class="math inline">\(\lambda &lt; 4ay_1\)</span>. Otherwise <span class="math inline">\(\hat{s} = 0\)</span> and the only solution is <span class="math inline">\(\beta_1 = \beta_2 = 0\)</span>.</p>
 <p>The lasso solutions are every pair with <span class="math inline">\(\beta_1 + \beta_2 = \hat{s}\)</span> and <span class="math inline">\(\beta_1, \beta_2 \geq 0\)</span>: a line segment from <span class="math inline">\((\hat{s}, 0)\)</span> to <span class="math inline">\((0, \hat{s})\)</span>. With <span class="math inline">\(a = 2\)</span>, <span class="math inline">\(y_1 = 3\)</span>, <span class="math inline">\(\lambda = 1\)</span>, <span class="math inline">\(\hat{s} = 1.5 - 1/16 = 1.4375\)</span>, which is the sum used in the table. (When <span class="math inline">\(y_1/a &lt; 0\)</span> the segment runs through negative values instead.) A full answer needs the tie argument and the description as same-signed pairs with a common optimal sum. Solving for <span class="math inline">\(\hat{s}\)</span> goes beyond what the question asks.</p>
 <p><strong>(c)</strong></p>
-<div id="7bf703c0" class="cell" data-execution_count="4">
+<div id="f9e4eb6f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X_tie <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="op">-</span><span class="fl">2.0</span>, <span class="op">-</span><span class="fl">2.0</span>]])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y_tie <span class="op">=</span> np.array([<span class="fl">3.0</span>, <span class="op">-</span><span class="fl">3.0</span>])</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -866,14 +867,14 @@ lasso, columns swapped: [1.4375 0.    ]</code></pre>
 </section>
 <section id="predicting-crime-in-boston" class="level2">
 <h2 class="anchored" data-anchor-id="predicting-crime-in-boston">3. Predicting crime in Boston</h2>
-<div id="08525a64" class="cell" data-execution_count="5">
+<div id="a66821d5" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Boston <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Boston.csv"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y_bos <span class="op">=</span> Boston[<span class="st">"crim"</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X_bos <span class="op">=</span> Boston.drop(columns<span class="op">=</span>[<span class="st">"crim"</span>])</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>(a)</strong></p>
-<div id="e2e0bdeb" class="cell" data-execution_count="6">
+<div id="095f6867" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ols <span class="op">=</span> make_pipeline(StandardScaler(), LinearRegression())</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ols_mse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    ols, X_bos, y_bos, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span></span>
@@ -933,7 +934,7 @@ lasso, columns swapped: [1.4375 0.    ]</code></pre>
 </div>
 </div>
 </div>
-<div id="a7e9c84e" class="cell" data-execution_count="7">
+<div id="1a441a7a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lasso_coef <span class="op">=</span> pd.Series(lasso_grid.best_estimator_[<span class="op">-</span><span class="dv">1</span>].coef_, index<span class="op">=</span>X_bos.columns)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"predictors used:"</span>, (lasso_coef <span class="op">!=</span> <span class="dv">0</span>).<span class="bu">sum</span>())</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lasso_coef.<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -960,7 +961,7 @@ dtype: float64</code></pre>
 <p>The three methods differ by about 0.1, while the fold-to-fold standard error is about 11. With 506 tracts and 12 predictors, least squares already has little variance for shrinkage to remove, the same pattern as problem set 5 question 4e with 200 training players.</p>
 <p><code>tax</code> is the second most correlated predictor with <code>crim</code> (0.58), after <code>rad</code> (0.63), yet the lasso drops it. The two are correlated at 0.91, so once <code>rad</code> is in, <code>tax</code> adds little. This is question 2 on real data.</p>
 <p><strong>(b)</strong></p>
-<div id="07acc56d" class="cell" data-execution_count="8">
+<div id="ea3f6b89" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>enet_grid <span class="op">=</span> GridSearchCV(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    make_pipeline(StandardScaler(), ElasticNet(max_iter<span class="op">=</span><span class="dv">200000</span>)),</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    {</span>
@@ -979,7 +980,7 @@ dtype: float64</code></pre>
 </div>
 <p>Elastic net chooses <span class="math inline">\(\alpha \approx 0.045\)</span> and <code>l1_ratio</code> <span class="math inline">\(= 0.7\)</span>, with a cross-validated MSE of about 42.50. It is the lowest of the four, by 0.03, a gap far smaller than the standard error, so it amounts to a tie.</p>
 <p><strong>(c)</strong></p>
-<div id="056a9b14" class="cell" data-execution_count="9">
+<div id="9dc9daaf" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> pd.DataFrame(lasso_grid.cv_results_)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>lasso_cv <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alpha"</span>: res[<span class="st">"param_lasso__alpha"</span>].astype(<span class="bu">float</span>),</span>
@@ -1007,9 +1008,165 @@ dtype: float64</code></pre>
 <p>The minimum cross-validated MSE is about 42.53 with a standard error of about 11.29, so the threshold is about 53.82. The largest <code>alpha</code> under it is about 2.45, with a cross-validated MSE of about 51.77. Two predictors survive: <code>rad</code>, with a standardized coefficient of about 2.90, and <code>lstat</code>, at about 0.04.</p>
 <p>Students who compute the standard error from <code>cross_val_score</code> fold scores with <code>ddof=1</code>, as in application exercise 10, get a standard error of about 11.90. The pick then moves one grid point to <span class="math inline">\(\alpha \approx 2.87\)</span>, and <code>rad</code> is the only survivor. Either answer is correct, and the point is the same: the one standard error rule keeps essentially one predictor.</p>
 <p><strong>(d)</strong> Several answers are reasonable if they are justified with cross-validated error and the size of the gaps, rather than training error.</p>
-<p>All four methods in parts a and b are tied: they differ by at most about 0.14 in cross-validated MSE, against a standard error of about 11. With no accuracy difference to choose on, the simplest competitive model is the one standard error lasso from part c.&nbsp;It uses <code>rad</code> (and possibly <code>lstat</code>), with a cross-validated MSE within one standard error of the best and far below the 74.4 of the mean-only model. A student who puts accuracy first and picks elastic net or the minimum-CV lasso, noting that the gain over least squares is within noise, also earns full credit.</p>
-<p>The one standard error model leaves out 10 or 11 of the 12 predictors. <code>rad</code> carries most of the signal: the 132 tracts with <code>rad</code> <span class="math inline">\(= 24\)</span> have a mean crime rate of about 12.76, against about 0.39 for every other tract. Most of the other predictors are correlated with <code>rad</code>, <code>tax</code> most of all, so after <code>rad</code> is in they add little. <code>crim</code> is also very skewed, with a median of 0.26, a mean of 3.61, and 4 tracts above 50. Those few tracts dominate the squared error in whichever fold they land in, which is why the standard error is so large and the methods are hard to separate.</p>
-<p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. Questions 1 to 3 are adapted from Chapter 6 exercises 2, 5, 6 and 11.</em></p>
+</section>
+<section id="classifying-high-crime-tracts" class="level2">
+<h2 class="anchored" data-anchor-id="classifying-high-crime-tracts">4. Classifying high crime tracts</h2>
+<div id="760e611c" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new outcome that is 1 if `crim` is above the median and 0 otherwise</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>high <span class="op">=</span> (Boston[<span class="st">"crim"</span>] <span class="op">&gt;</span> Boston[<span class="st">"crim"</span>].median()).astype(<span class="bu">int</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>X_tr, X_te, y_tr, y_te <span class="op">=</span> train_test_split(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    X_bos, high, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">363</span>, stratify<span class="op">=</span>high</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>(a)</strong></p>
+<div id="938054d9" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dis_fit <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dis_fit.fit(Boston[[<span class="st">"dis"</span>]], high)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>b0 <span class="op">=</span> dis_fit.intercept_[<span class="dv">0</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> dis_fit.coef_[<span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"intercept:"</span>, <span class="bu">round</span>(b0, <span class="dv">4</span>), <span class="st">"slope:"</span>, <span class="bu">round</span>(b1, <span class="dv">4</span>))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>dis_50 <span class="op">=</span> (np.log(<span class="fl">0.5</span> <span class="op">/</span> <span class="fl">0.5</span>) <span class="op">-</span> b0) <span class="op">/</span> b1</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>dis_20 <span class="op">=</span> (np.log(<span class="fl">0.2</span> <span class="op">/</span> <span class="fl">0.8</span>) <span class="op">-</span> b0) <span class="op">/</span> b1</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dis at 0.5:"</span>, <span class="bu">round</span>(dis_50, <span class="dv">2</span>))</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dis at 0.2:"</span>, <span class="bu">round</span>(dis_20, <span class="dv">2</span>))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>added <span class="op">=</span> (Boston[<span class="st">"dis"</span>] <span class="op">&gt;=</span> dis_50) <span class="op">&amp;</span> (Boston[<span class="st">"dis"</span>] <span class="op">&lt;</span> dis_20)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"tracts added:"</span>, added.<span class="bu">sum</span>(), <span class="st">"high crime among them:"</span>, high[added].<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>intercept: 3.6626 slope: -1.0503
+dis at 0.5: 3.49
+dis at 0.2: 4.81
+tracts added: 92 high crime among them: 45</code></pre>
+</div>
+</div>
+<p>The fitted log odds are</p>
+<p><span class="math display">\[\log\left(\frac{\hat{p}(\text{dis})}{1 - \hat{p}(\text{dis})}\right) = 3.6626 - 1.0503 \times \text{dis}.\]</span></p>
+<p>A probability <span class="math inline">\(p\)</span> corresponds to log odds <span class="math inline">\(\log(p/(1 - p))\)</span>, so set the line equal to that and solve for <code>dis</code>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{p} = 0.5: &amp;\quad 3.6626 - 1.0503 \times \text{dis} = \log(0.5/0.5) = 0,
+  &amp;\text{dis} &amp;= 3.6626/1.0503 = 3.49 \\
+\hat{p} = 0.2: &amp;\quad 3.6626 - 1.0503 \times \text{dis} = \log(0.2/0.8) = -1.3863,
+  &amp;\text{dis} &amp;= (3.6626 + 1.3863)/1.0503 = 4.81
+\end{aligned}
+\]</span></p>
+<p>The slope is negative, so the estimated probability falls as distance grows, and a tract is labeled high crime when its <code>dis</code> is below the cutoff. At 0.5 that is <code>dis</code> below about 3.49, and at 0.2 it is <code>dis</code> below about 4.81. The lower threshold adds the tracts with <code>dis</code> between 3.49 and 4.81, the next band out from the employment centers.</p>
+<p>There are 92 such tracts, and 45 of them are high crime, so the added band is close to an even split. Across all 506 tracts, sensitivity rises from 0.81 to 0.99 and specificity falls from 0.73 to 0.55. A full answer gives the two cutoffs and describes the added tracts by their distance.</p>
+<p><strong>(b)</strong></p>
+<div id="8e459a68" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>logit <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">10000</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>logit.fit(X_tr, y_tr)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> (logit.predict_proba(X_te)[:, <span class="dv">1</span>] <span class="op">&gt;</span> <span class="fl">0.5</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_te, pred)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    cm,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="st">"truly low"</span>, <span class="st">"truly high"</span>],</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">"predicted low"</span>, <span class="st">"predicted high"</span>],</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">predicted low</th>
+<th data-quarto-table-cell-role="th">predicted high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">truly low</td>
+<td>71</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">truly high</td>
+<td>7</td>
+<td>69</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="435cb68f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tn, fp, fn, tp <span class="op">=</span> cm.ravel()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"accuracy:"</span>, <span class="bu">round</span>((tp <span class="op">+</span> tn) <span class="op">/</span> <span class="bu">len</span>(y_te), <span class="dv">3</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sensitivity:"</span>, <span class="bu">round</span>(tp <span class="op">/</span> (tp <span class="op">+</span> fn), <span class="dv">3</span>))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"specificity:"</span>, <span class="bu">round</span>(tn <span class="op">/</span> (tn <span class="op">+</span> fp), <span class="dv">3</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"null accuracy:"</span>, <span class="bu">round</span>(<span class="bu">max</span>(y_te.mean(), <span class="dv">1</span> <span class="op">-</span> y_te.mean()), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>accuracy: 0.921
+sensitivity: 0.908
+specificity: 0.934
+null accuracy: 0.5</code></pre>
+</div>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">predicted low</th>
+<th style="text-align: center;">predicted high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">truly low</td>
+<td style="text-align: center;">TN = 71</td>
+<td style="text-align: center;">FP = 5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">truly high</td>
+<td style="text-align: center;">FN = 7</td>
+<td style="text-align: center;">TP = 69</td>
+</tr>
+</tbody>
+</table>
+<p>The accuracy is <span class="math inline">\(140/152 = 0.921\)</span>, the sensitivity is <span class="math inline">\(69/76 = 0.908\)</span>, and the specificity is <span class="math inline">\(71/76 = 0.934\)</span>. <code>logit.predict(X_te)</code> uses the same 0.5 cutoff and gives the same matrix.</p>
+<p>The null classifier accuracy is <span class="math inline">\(76/152 = 0.5\)</span>. <code>high</code> splits at the median, so exactly half of the 506 tracts are high crime, and <code>stratify=high</code> keeps the test set at 76 of each.</p>
+<p>Accuracy is a more useful summary here than on <code>Default</code>. Accuracy is a weighted average of sensitivity and specificity, with weights equal to the class proportions:</p>
+<p><span class="math display">\[\text{accuracy} = \frac{\text{P}}{\text{P} + \text{N}}\,\text{sensitivity} + \frac{\text{N}}{\text{P} + \text{N}}\,\text{specificity}.\]</span></p>
+<p>On <code>Default</code>, where 3.3% defaulted, accuracy was almost entirely specificity, and the null classifier already scored 96.7%, so accuracy had little room to separate a good model from one that predicts “no” for everyone. Here the weights are both 0.5, the null classifier scores 50%, and the model’s 92% is a large improvement that reflects both kinds of error equally. Accuracy still counts a false positive and a false negative as equally costly, so it is the right summary only when those costs are similar.</p>
+<p><strong>(c)</strong></p>
+<div id="aced49bc" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the test probabilities from part b</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> logit.predict_proba(X_te)[:, <span class="dv">1</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>high_probs <span class="op">=</span> probs[y_te <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>low_probs <span class="op">=</span> probs[y_te <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># count the pairs where the high crime tract has the larger probability</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>wins <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p_high <span class="kw">in</span> high_probs:</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p_low <span class="kw">in</span> low_probs:</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_high <span class="op">&gt;</span> p_low:</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            wins <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"by hand:"</span>, wins <span class="op">/</span> (<span class="bu">len</span>(high_probs) <span class="op">*</span> <span class="bu">len</span>(low_probs)))</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"roc_auc_score:"</span>, roc_auc_score(y_te, probs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>by hand: 0.9672783933518005
+roc_auc_score: 0.9672783933518005</code></pre>
+</div>
+</div>
+<div id="720864e2" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>log_odds <span class="op">=</span> np.log(probs <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> probs))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"AUC on log odds:"</span>, roc_auc_score(y_te, log_odds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AUC on log odds: 0.9672783933518005</code></pre>
+</div>
+</div>
+<p>The three blanks are <code>logit.predict_proba(X_te)[:, 1]</code>, <code>p_high &gt; p_low</code> and <code>len(high_probs) * len(low_probs)</code>. There are <span class="math inline">\(76 \times 76 = 5776\)</span> pairs, and the high crime tract has the larger probability in 5587 of them, so the AUC is <span class="math inline">\(5587/5776 = 0.967\)</span>. <code>roc_auc_score</code> gives the same value.</p>
+<p>The AUC is the probability that a randomly chosen high crime tract gets a larger estimated probability than a randomly chosen low crime tract. At 0.967 the model ranks the two classes almost perfectly, and it uses no threshold, so it summarizes the ranking across every threshold at once. <code>roc_auc_score</code> counts a tied pair as half a win. (There are no ties here, so a student who writes <code>&gt;=</code> gets the same answer.)</p>
+<p>Replacing each probability with its log odds leaves the AUC unchanged at 0.967. The log odds <span class="math inline">\(\log(p/(1 - p))\)</span> is strictly increasing in <span class="math inline">\(p\)</span>, so <span class="math inline">\(p_{\text{high}} &gt; p_{\text{low}}\)</span> exactly when the log odds of the high crime tract is larger. Every pair is won or lost the same way, and the AUC depends only on those comparisons. Any strictly increasing transformation of the scores gives the same AUC.</p>
+<p><em>Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer. Questions 1 to 3 are adapted from Chapter 6 exercises 2, 5, 6 and 11, and question 4 from Chapter 4 exercises 6 and 16.</em></p>
 
 
 </section>
