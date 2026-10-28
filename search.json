@@ -52,252 +52,432 @@
     "href": "slides/14-regression-trees.html#hitters",
     "title": "Regression trees",
     "section": "Hitters",
-    "text": "Hitters\n\n\n\n\n\n\n\n\n\n\nYears in the major leagues against Hits the previous season for the 263 Hitters players with a recorded salary, colored by log salary. Salary is in thousands of dollars.\n\n\n\nHow would you split these players into groups with similar salaries?"
+    "text": "Hitters\n\n\n\n\n\n\n\n\n\n\nYears in the major leagues against Hits the previous season for the 263 Hitters players with a recorded salary, colored by log salary. Salary is in thousands of dollars.\n\n\n\nHow would you split these players into groups with similar salaries?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#a-regression-tree",
     "href": "slides/14-regression-trees.html#a-regression-tree",
     "title": "Regression trees",
     "section": "A regression tree",
-    "text": "A regression tree\n\n\nISLP Figure 8.1. A regression tree for log salary on Hitters, using Years and Hits. The number in each leaf is the mean log salary of the players who land there."
+    "text": "A regression tree\n\n\nISLP Figure 8.1. A regression tree for log salary on Hitters, using Years and Hits. The number in each leaf is the mean log salary of the players who land there.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#three-regions",
     "href": "slides/14-regression-trees.html#three-regions",
     "title": "Regression trees",
     "section": "Three regions",
-    "text": "Three regions\n\n\nISLP Figure 8.2. The partition of Years and Hits that the tree in Figure 8.1 describes.\n\n\n\n\\(R_1 = \\{X \\mid \\text{Years} &lt; 4.5\\}\\), \\(R_2 = \\{X \\mid \\text{Years} \\geq 4.5, \\text{Hits} &lt; 117.5\\}\\) and \\(R_3 = \\{X \\mid \\text{Years} \\geq 4.5, \\text{Hits} \\geq 117.5\\}\\)."
+    "text": "Three regions\n\n\nISLP Figure 8.2. The partition of Years and Hits that the tree in Figure 8.1 describes.\n\n\n\n\\(R_1 = \\{X \\mid \\text{Years} &lt; 4.5\\}\\), \\(R_2 = \\{X \\mid \\text{Years} \\geq 4.5, \\text{Hits} &lt; 117.5\\}\\) and \\(R_3 = \\{X \\mid \\text{Years} \\geq 4.5, \\text{Hits} \\geq 117.5\\}\\).",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#terminology",
     "href": "slides/14-regression-trees.html#terminology",
     "title": "Regression trees",
     "section": "Terminology",
-    "text": "Terminology\n\nThe regions \\(R_1, R_2, R_3\\) are the terminal nodes, or leaves. The points where the predictor space is split are the internal nodes, and the segments that join nodes are branches. Trees are drawn upside down, with the leaves at the bottom.\n\n\n\nThe rule at an internal node, \\(X_j &lt; t_k\\), describes its left branch. The leaf for \\(R_1\\) shows 5.11, a predicted salary of \\(1000 \\times e^{5.107}\\), about 165,000 dollars."
+    "text": "Terminology\n\nThe regions \\(R_1, R_2, R_3\\) are the terminal nodes, or leaves. The points where the predictor space is split are the internal nodes, and the segments that join nodes are branches. Trees are drawn upside down, with the leaves at the bottom.\n\n\n\nThe rule at an internal node, \\(X_j &lt; t_k\\), describes its left branch. The leaf for \\(R_1\\) shows 5.11, a predicted salary of \\(1000 \\times e^{5.107}\\), about 165,000 dollars.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#interpreting-the-tree",
     "href": "slides/14-regression-trees.html#interpreting-the-tree",
     "title": "Regression trees",
     "section": "Interpreting the tree",
-    "text": "Interpreting the tree\n\nYears makes the first split, and less experienced players earn less\n\nBelow 4.5 years, Hits plays no part in the prediction\n\nFrom 4.5 years on, players with more Hits last season earn more\n\n\n\n\nThe effect of Hits depends on Years. The tree found the interaction “on its”own, where our linear or logistic models would need them explicitly specified."
+    "text": "Interpreting the tree\n\nYears makes the first split, and less experienced players earn less\n\nBelow 4.5 years, Hits plays no part in the prediction\n\nFrom 4.5 years on, players with more Hits last season earn more\n\n\n\n\nThe effect of Hits depends on Years. The tree found the interaction “on its”own, where our linear or logistic models would need them explicitly specified.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#application-exercise",
     "href": "slides/14-regression-trees.html#application-exercise",
     "title": "Regression trees",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 1. ex/14-ex"
+    "text": "Application exercise\n\nComplete Part 1. ex/14-ex",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#stratifying-the-predictor-space",
     "href": "slides/14-regression-trees.html#stratifying-the-predictor-space",
     "title": "Regression trees",
     "section": "Stratifying the predictor space",
-    "text": "Stratifying the predictor space\n\nDivide the predictor space into \\(J\\) distinct, non-overlapping regions \\(R_1, \\dots, R_J\\)\n\nPredict every observation in \\(R_j\\) with the mean training response in \\(R_j\\)\n\n\n\n\nThe regions could take any shape. Why use boxes?\n\n\n\n\nBoxes are simple to fit and simple to read, since each one is a short list of rules on single predictors."
+    "text": "Stratifying the predictor space\n\nDivide the predictor space into \\(J\\) distinct, non-overlapping regions \\(R_1, \\dots, R_J\\)\n\nPredict every observation in \\(R_j\\) with the mean training response in \\(R_j\\)\n\n\n\n\nThe regions could take any shape. Why use boxes?\n\n\n\n\nBoxes are simple to fit and simple to read, since each one is a short list of rules on single predictors.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#residual-sum-of-squares",
     "href": "slides/14-regression-trees.html#residual-sum-of-squares",
     "title": "Regression trees",
     "section": "Residual sum of squares",
-    "text": "Residual sum of squares\n\\[\\text{RSS} = \\sum_{j=1}^{J}\\sum_{i \\in R_j}\\left(y_i - \\hat{y}_{R_j}\\right)^2\\]"
+    "text": "Residual sum of squares\n\\[\\text{RSS} = \\sum_{j=1}^{J}\\sum_{i \\in R_j}\\left(y_i - \\hat{y}_{R_j}\\right)^2\\]",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#residual-sum-of-squares-1",
     "href": "slides/14-regression-trees.html#residual-sum-of-squares-1",
     "title": "Regression trees",
     "section": "Residual sum of squares",
-    "text": "Residual sum of squares\n\\[\\text{RSS} = \\sum_{j=1}^{J}\\sum_{i \\in R_j}\\left(y_i - {\\require{color}\\colorbox{#eec8e1}{$\\hat{y}_{R_j}$}}\\right)^2\\]\nThe mean response of the training observations in box \\(R_j\\). It is the prediction for every observation that lands in that box."
+    "text": "Residual sum of squares\n\\[\\text{RSS} = \\sum_{j=1}^{J}\\sum_{i \\in R_j}\\left(y_i - {\\require{color}\\colorbox{#eec8e1}{$\\hat{y}_{R_j}$}}\\right)^2\\]\nThe mean response of the training observations in box \\(R_j\\). It is the prediction for every observation that lands in that box.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#residual-sum-of-squares-2",
     "href": "slides/14-regression-trees.html#residual-sum-of-squares-2",
     "title": "Regression trees",
     "section": "Residual sum of squares",
-    "text": "Residual sum of squares\n\\[\\text{RSS} = {\\require{color}\\colorbox{#eec8e1}{$\\sum_{j=1}^{J}\\sum_{i \\in R_j}$}}\\left(y_i - \\hat{y}_{R_j}\\right)^2\\]\nAdd the squared errors within each box, then add across all \\(J\\) boxes. The boxes do not overlap, so each observation is counted once. The goal is the set of boxes that makes this total smallest."
+    "text": "Residual sum of squares\n\\[\\text{RSS} = {\\require{color}\\colorbox{#eec8e1}{$\\sum_{j=1}^{J}\\sum_{i \\in R_j}$}}\\left(y_i - \\hat{y}_{R_j}\\right)^2\\]\nAdd the squared errors within each box, then add across all \\(J\\) boxes. The boxes do not overlap, so each observation is counted once. The goal is the set of boxes that makes this total smallest.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#recursive-binary-splitting",
     "href": "slides/14-regression-trees.html#recursive-binary-splitting",
     "title": "Regression trees",
     "section": "Recursive binary splitting",
-    "text": "Recursive binary splitting\n\nThere are far too many partitions into \\(J\\) boxes to check every one. What would you do instead?\n\n\n\nRecursive binary splitting grows the tree one split at a time. It is top-down, starting from a single region that holds every observation, and greedy, taking the best split at each step without looking ahead to later ones."
+    "text": "Recursive binary splitting\n\nThere are far too many partitions into \\(J\\) boxes to check every one. What would you do instead?\n\n\n\nRecursive binary splitting grows the tree one split at a time. It is top-down, starting from a single region that holds every observation, and greedy, taking the best split at each step without looking ahead to later ones.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#choosing-a-split",
     "href": "slides/14-regression-trees.html#choosing-a-split",
     "title": "Regression trees",
     "section": "Choosing a split",
-    "text": "Choosing a split\n\\[\\min_{j,\\,s}\\left[\\sum_{i:\\,x_i \\in R_1(j,s)}\\left(y_i - \\hat{y}_{R_1}\\right)^2 + \\sum_{i:\\,x_i \\in R_2(j,s)}\\left(y_i - \\hat{y}_{R_2}\\right)^2\\right]\\]"
+    "text": "Choosing a split\n\\[\\min_{j,\\,s}\\left[\\sum_{i:\\,x_i \\in R_1(j,s)}\\left(y_i - \\hat{y}_{R_1}\\right)^2 + \\sum_{i:\\,x_i \\in R_2(j,s)}\\left(y_i - \\hat{y}_{R_2}\\right)^2\\right]\\]",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#choosing-a-split-1",
     "href": "slides/14-regression-trees.html#choosing-a-split-1",
     "title": "Regression trees",
     "section": "Choosing a split",
-    "text": "Choosing a split\n\\[\\min_{j,\\,s}\\left[{\\require{color}\\colorbox{#eec8e1}{$\\sum_{i:\\,x_i \\in R_1(j,s)}\\left(y_i - \\hat{y}_{R_1}\\right)^2$}} + \\sum_{i:\\,x_i \\in R_2(j,s)}\\left(y_i - \\hat{y}_{R_2}\\right)^2\\right]\\]\nThe RSS on one side of the split. \\(R_1(j, s) = \\{X \\mid X_j &lt; s\\}\\) holds the observations whose \\(j\\)th predictor is below the cutpoint \\(s\\), and \\(\\hat{y}_{R_1}\\) is their mean. The second sum does the same for \\(R_2(j, s) = \\{X \\mid X_j \\geq s\\}\\)."
+    "text": "Choosing a split\n\\[\\min_{j,\\,s}\\left[{\\require{color}\\colorbox{#eec8e1}{$\\sum_{i:\\,x_i \\in R_1(j,s)}\\left(y_i - \\hat{y}_{R_1}\\right)^2$}} + \\sum_{i:\\,x_i \\in R_2(j,s)}\\left(y_i - \\hat{y}_{R_2}\\right)^2\\right]\\]\nThe RSS on one side of the split. \\(R_1(j, s) = \\{X \\mid X_j &lt; s\\}\\) holds the observations whose \\(j\\)th predictor is below the cutpoint \\(s\\), and \\(\\hat{y}_{R_1}\\) is their mean. The second sum does the same for \\(R_2(j, s) = \\{X \\mid X_j \\geq s\\}\\).",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#choosing-a-split-2",
     "href": "slides/14-regression-trees.html#choosing-a-split-2",
     "title": "Regression trees",
     "section": "Choosing a split",
-    "text": "Choosing a split\n\\[{\\require{color}\\colorbox{#eec8e1}{$\\min_{j,\\,s}$}}\\left[\\sum_{i:\\,x_i \\in R_1(j,s)}\\left(y_i - \\hat{y}_{R_1}\\right)^2 + \\sum_{i:\\,x_i \\in R_2(j,s)}\\left(y_i - \\hat{y}_{R_2}\\right)^2\\right]\\]\nTry every predictor \\(X_1, \\dots, X_p\\) and every cutpoint \\(s\\) between adjacent observed values, and keep the pair with the smallest total. On Hitters that is 20 cutpoints for Years and 129 for Hits."
+    "text": "Choosing a split\n\\[{\\require{color}\\colorbox{#eec8e1}{$\\min_{j,\\,s}$}}\\left[\\sum_{i:\\,x_i \\in R_1(j,s)}\\left(y_i - \\hat{y}_{R_1}\\right)^2 + \\sum_{i:\\,x_i \\in R_2(j,s)}\\left(y_i - \\hat{y}_{R_2}\\right)^2\\right]\\]\nTry every predictor \\(X_1, \\dots, X_p\\) and every cutpoint \\(s\\) between adjacent observed values, and keep the pair with the smallest total. On Hitters that is 20 cutpoints for Years and 129 for Hits.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#rss-against-the-cutpoint",
     "href": "slides/14-regression-trees.html#rss-against-the-cutpoint",
     "title": "Regression trees",
     "section": "RSS against the cutpoint",
-    "text": "RSS against the cutpoint\n\n\n\n\n\n\n\n\n\n\nRSS of log salary after a single split at every cutpoint between adjacent observed values, for all 263 Hitters players. The dotted line is the RSS before any split, 207.\n\n\n\nWhich split does the search take first? What does it do next?"
+    "text": "RSS against the cutpoint\n\n\n\n\n\n\n\n\n\n\nRSS of log salary after a single split at every cutpoint between adjacent observed values, for all 263 Hitters players. The dotted line is the RSS before any split, 207.\n\n\n\nWhich split does the search take first? What does it do next?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#application-exercise-1",
     "href": "slides/14-regression-trees.html#application-exercise-1",
     "title": "Regression trees",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 2. ex/14-ex"
+    "text": "Application exercise\n\nComplete Part 2. ex/14-ex",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#splitting-further",
     "href": "slides/14-regression-trees.html#splitting-further",
     "title": "Regression trees",
     "section": "Splitting further",
-    "text": "Splitting further\n\nSearch both regions, and split the one where a split lowers RSS the most\n\nTwo regions become three, then four\n\nStop at a rule, such as no region holding more than five observations\n\n\n\n\nA test observation is predicted with the mean of the training observations in the region it falls in."
+    "text": "Splitting further\n\nSearch both regions, and split the one where a split lowers RSS the most\n\nTwo regions become three, then four\n\nStop at a rule, such as no region holding more than five observations\n\n\n\n\nA test observation is predicted with the mean of the training observations in the region it falls in.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#five-regions",
     "href": "slides/14-regression-trees.html#five-regions",
     "title": "Regression trees",
     "section": "Five regions",
-    "text": "Five regions\n\n\nISLP Figure 8.3. Top left: a partition that recursive binary splitting cannot produce. Top right: one that it can. Bottom: the tree for the top right partition and its prediction surface.\n\n\n\nWhat rules out the top left partition?"
+    "text": "Five regions\n\n\nISLP Figure 8.3. Top left: a partition that recursive binary splitting cannot produce. Top right: one that it can. Bottom: the tree for the top right partition and its prediction surface.\n\n\n\nWhat rules out the top left partition?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#six-regions",
     "href": "slides/14-regression-trees.html#six-regions",
     "title": "Regression trees",
     "section": "Six regions",
-    "text": "Six regions\n\nDraw a partition of a two-dimensional feature space, with six regions, that recursive binary splitting could produce. Label the regions \\(R_1, \\dots, R_6\\) and the cutpoints \\(t_1, t_2, \\dots\\), then draw the tree that matches it."
+    "text": "Six regions\n\nDraw a partition of a two-dimensional feature space, with six regions, that recursive binary splitting could produce. Label the regions \\(R_1, \\dots, R_6\\) and the cutpoints \\(t_1, t_2, \\dots\\), then draw the tree that matches it.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#decisiontreeregressor",
     "href": "slides/14-regression-trees.html#decisiontreeregressor",
     "title": "Regression trees",
     "section": "DecisionTreeRegressor",
-    "text": "DecisionTreeRegressor\n\n1from sklearn.tree import DecisionTreeRegressor, export_text\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\").dropna(subset=[\"Salary\"])\n2y = np.log(Hitters[\"Salary\"])\n3small = DecisionTreeRegressor(max_leaf_nodes=3).fit(Hitters[[\"Years\", \"Hits\"]], y)\n4print(export_text(small, feature_names=[\"Years\", \"Hits\"], decimals=3))\n\n\n1\n\nDecisionTreeRegressor grows a regression tree by recursive binary\nsplitting, choosing each split to minimize the RSS. export_text prints a fitted tree as indented rules.\n\n2\n\nnp.log(Hitters[\"Salary\"]) is the log salary from Figure 8.1, with Salary\nin thousands of dollars. .dropna(subset=[\"Salary\"]) on the line above drops the 59 players with no recorded salary, leaving 263.\n\n3\n\nmax_leaf_nodes=3 grows the tree one best split at a time and stops once it\nhas three leaves. The tree is fit on Years and Hits only, the two predictors in Figure 8.1.\n\n4\n\nfeature_names labels each rule with its column name, and decimals=3\nprints each leaf mean to three places.\n\n\n\n\n|--- Years &lt;= 4.500\n|   |--- value: [5.107]\n|--- Years &gt;  4.500\n|   |--- Hits &lt;= 117.500\n|   |   |--- value: [5.998]\n|   |--- Hits &gt;  117.500\n|   |   |--- value: [6.740]\n\n\n\n\n\nThe same three leaves as Figure 8.1. scikit-learn writes each rule with &lt;=, which on integer data split at a midpoint means the same thing as &lt;."
+    "text": "DecisionTreeRegressor\n\n1from sklearn.tree import DecisionTreeRegressor, export_text\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\").dropna(subset=[\"Salary\"])\n2y = np.log(Hitters[\"Salary\"])\n3small = DecisionTreeRegressor(max_leaf_nodes=3).fit(Hitters[[\"Years\", \"Hits\"]], y)\n4print(export_text(small, feature_names=[\"Years\", \"Hits\"], decimals=3))\n\n\n1\n\nDecisionTreeRegressor grows a regression tree by recursive binary\nsplitting, choosing each split to minimize the RSS. export_text prints a fitted tree as indented rules.\n\n2\n\nnp.log(Hitters[\"Salary\"]) is the log salary from Figure 8.1, with Salary\nin thousands of dollars. .dropna(subset=[\"Salary\"]) on the line above drops the 59 players with no recorded salary, leaving 263.\n\n3\n\nmax_leaf_nodes=3 grows the tree one best split at a time and stops once it\nhas three leaves. The tree is fit on Years and Hits only, the two predictors in Figure 8.1.\n\n4\n\nfeature_names labels each rule with its column name, and decimals=3\nprints each leaf mean to three places.\n\n\n\n\n|--- Years &lt;= 4.500\n|   |--- value: [5.107]\n|--- Years &gt;  4.500\n|   |--- Hits &lt;= 117.500\n|   |   |--- value: [5.998]\n|   |--- Hits &gt;  117.500\n|   |   |--- value: [6.740]\n\n\n\n\n\nThe same three leaves as Figure 8.1. scikit-learn writes each rule with &lt;=, which on integer data split at a midpoint means the same thing as &lt;.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#overfitting",
     "href": "slides/14-regression-trees.html#overfitting",
     "title": "Regression trees",
     "section": "Overfitting",
-    "text": "Overfitting\n\nKeep splitting until no region holds more than five players. How will that tree do on new players?\n\n\n\nIt fits the training set closely and is likely to do poorly on a test set. A smaller tree with fewer regions can have lower variance and be easier to read, at the cost of a little bias."
+    "text": "Overfitting\n\nKeep splitting until no region holds more than five players. How will that tree do on new players?\n\n\n\nIt fits the training set closely and is likely to do poorly on a test set. A smaller tree with fewer regions can have lower variance and be easier to read, at the cost of a little bias.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#the-unpruned-tree",
     "href": "slides/14-regression-trees.html#the-unpruned-tree",
     "title": "Regression trees",
     "section": "The unpruned tree",
-    "text": "The unpruned tree\n\n\nISLP Figure 8.4. The unpruned regression tree for log salary, grown by recursive binary splitting on 132 training players and nine Hitters predictors."
+    "text": "The unpruned tree\n\n\nISLP Figure 8.4. The unpruned regression tree for log salary, grown by recursive binary splitting on 132 training players and nine Hitters predictors.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#stopping-early",
     "href": "slides/14-regression-trees.html#stopping-early",
     "title": "Regression trees",
     "section": "Stopping early",
-    "text": "Stopping early\n\nWhy not stop growing the tree as soon as no split lowers the RSS by much?\n\n\n\nA split that doesn’t look very useful may be followed by one that lowers the RSS a lot. So best practice grows a large tree \\(T_0\\) first, then we prune it back to a subtree."
+    "text": "Stopping early\n\nWhy not stop growing the tree as soon as no split lowers the RSS by much?\n\n\n\nA split that doesn’t look very useful may be followed by one that lowers the RSS a lot. So best practice grows a large tree \\(T_0\\) first, then we prune it back to a subtree.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#cost-complexity-pruning",
     "href": "slides/14-regression-trees.html#cost-complexity-pruning",
     "title": "Regression trees",
     "section": "Cost complexity pruning",
-    "text": "Cost complexity pruning\n\\[\\sum_{m=1}^{|T|}\\sum_{i:\\,x_i \\in R_m}\\left(y_i - \\hat{y}_{R_m}\\right)^2 + \\alpha|T|\\]"
+    "text": "Cost complexity pruning\n\\[\\sum_{m=1}^{|T|}\\sum_{i:\\,x_i \\in R_m}\\left(y_i - \\hat{y}_{R_m}\\right)^2 + \\alpha|T|\\]",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#cost-complexity-pruning-1",
     "href": "slides/14-regression-trees.html#cost-complexity-pruning-1",
     "title": "Regression trees",
     "section": "Cost complexity pruning",
-    "text": "Cost complexity pruning\n\\[{\\require{color}\\colorbox{#eec8e1}{$\\sum_{m=1}^{|T|}\\sum_{i:\\,x_i \\in R_m}\\left(y_i - \\hat{y}_{R_m}\\right)^2$}} + \\alpha|T|\\]\nThe training RSS of a subtree \\(T \\subset T_0\\). \\(R_m\\) is the box for its \\(m\\)th leaf, and \\(\\hat{y}_{R_m}\\) is the mean training response in that box."
+    "text": "Cost complexity pruning\n\\[{\\require{color}\\colorbox{#eec8e1}{$\\sum_{m=1}^{|T|}\\sum_{i:\\,x_i \\in R_m}\\left(y_i - \\hat{y}_{R_m}\\right)^2$}} + \\alpha|T|\\]\nThe training RSS of a subtree \\(T \\subset T_0\\). \\(R_m\\) is the box for its \\(m\\)th leaf, and \\(\\hat{y}_{R_m}\\) is the mean training response in that box.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#cost-complexity-pruning-2",
     "href": "slides/14-regression-trees.html#cost-complexity-pruning-2",
     "title": "Regression trees",
     "section": "Cost complexity pruning",
-    "text": "Cost complexity pruning\n\\[\\sum_{m=1}^{|T|}\\sum_{i:\\,x_i \\in R_m}\\left(y_i - \\hat{y}_{R_m}\\right)^2 + {\\require{color}\\colorbox{#eec8e1}{$\\alpha|T|$}}\\]\nThe penalty. \\(|T|\\) counts the terminal nodes of \\(T\\), and the tuning parameter \\(\\alpha \\geq 0\\) is the price of each one. For each \\(\\alpha\\), the subtree that makes the total smallest is the one kept."
+    "text": "Cost complexity pruning\n\\[\\sum_{m=1}^{|T|}\\sum_{i:\\,x_i \\in R_m}\\left(y_i - \\hat{y}_{R_m}\\right)^2 + {\\require{color}\\colorbox{#eec8e1}{$\\alpha|T|$}}\\]\nThe penalty. \\(|T|\\) counts the terminal nodes of \\(T\\), and the tuning parameter \\(\\alpha \\geq 0\\) is the price of each one. For each \\(\\alpha\\), the subtree that makes the total smallest is the one kept.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#weakest-link-pruning",
     "href": "slides/14-regression-trees.html#weakest-link-pruning",
     "title": "Regression trees",
     "section": "Weakest link pruning",
-    "text": "Weakest link pruning\n\nAt \\(\\alpha = 0\\) the penalty vanishes, and the best subtree is \\(T_0\\) itself\n\nAs \\(\\alpha\\) grows, each leaf costs more and the best subtree shrinks\n\nBranches drop off in a nested order, so the whole sequence is cheap to find\n\n\n\n\nRecall: Lasso has the same form: training RSS plus a tuning parameter times a measure of complexity."
+    "text": "Weakest link pruning\n\nAt \\(\\alpha = 0\\) the penalty vanishes, and the best subtree is \\(T_0\\) itself\n\nAs \\(\\alpha\\) grows, each leaf costs more and the best subtree shrinks\n\nBranches drop off in a nested order, so the whole sequence is cheap to find\n\n\n\n\nRecall: Lasso has the same form: training RSS plus a tuning parameter times a measure of complexity.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#algorithm-8.1",
     "href": "slides/14-regression-trees.html#algorithm-8.1",
     "title": "Regression trees",
     "section": "Algorithm 8.1",
-    "text": "Algorithm 8.1\n\nHow would you choose \\(\\alpha\\)?\n\n\n\nGrow a large tree on the training data by recursive binary splitting\n\nPrune it by cost complexity to get the best subtree for each \\(\\alpha\\)\n\nChoose \\(\\alpha\\) by K-fold CV, repeating steps 1 and 2 within each fold\n\nReturn the subtree from step 2 for the chosen \\(\\alpha\\)"
+    "text": "Algorithm 8.1\n\nHow would you choose \\(\\alpha\\)?\n\n\n\nGrow a large tree on the training data by recursive binary splitting\n\nPrune it by cost complexity to get the best subtree for each \\(\\alpha\\)\n\nChoose \\(\\alpha\\) by K-fold CV, repeating steps 1 and 2 within each fold\n\nReturn the subtree from step 2 for the chosen \\(\\alpha\\)",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#application-exercise-2",
     "href": "slides/14-regression-trees.html#application-exercise-2",
     "title": "Regression trees",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 3. ex/14-ex"
+    "text": "Application exercise\n\nComplete Part 3. ex/14-ex",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#cost_complexity_pruning_path",
     "href": "slides/14-regression-trees.html#cost_complexity_pruning_path",
     "title": "Regression trees",
     "section": "cost_complexity_pruning_path",
-    "text": "cost_complexity_pruning_path\n\nfrom sklearn.model_selection import GridSearchCV, KFold\n\n1X = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\n\n2big = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X, y)\n3path = big.cost_complexity_pruning_path(X, y)\nsteps = pd.DataFrame({\"ccp_alpha\": path.ccp_alphas, \"training MSE\": path.impurities})\nsteps.round(4).iloc[::6]\n\n\n1\n\npd.get_dummies(..., drop_first=True) turns League, Division and\nNewLeague into 0/1 columns, giving the same 19 predictors as Meeting 10. There is no StandardScaler, since a split depends only on the order of a column’s values.\n\n2\n\nmin_samples_leaf=5 keeps splitting until a split would leave fewer than\nfive players in a leaf, the stopping rule in step 1 of Algorithm 8.1. On all 263 players \\(T_0\\) has 43 leaves.\n\n3\n\ncost_complexity_pruning_path runs weakest link pruning on big. It\nreturns ccp_alphas, the values of \\(\\alpha\\) at which a branch drops off, and impurities, the training MSE of the subtree at each one. scikit-learn measures fit by MSE rather than RSS, so ccp_alpha is the \\(\\alpha\\) of the equation divided by \\(n\\). .iloc[::6] prints every sixth row.\n\n\n\n\n\n\n\n\n\n\n\nccp_alpha\ntraining MSE\n\n\n\n\n0\n0.0000\n0.0851\n\n\n6\n0.0006\n0.0875\n\n\n12\n0.0012\n0.0936\n\n\n18\n0.0017\n0.1025\n\n\n24\n0.0034\n0.1191\n\n\n30\n0.0051\n0.1571\n\n\n36\n0.0295\n0.2457"
+    "text": "cost_complexity_pruning_path\n\nfrom sklearn.model_selection import GridSearchCV, KFold\n\n1X = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\n\n2big = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X, y)\n3path = big.cost_complexity_pruning_path(X, y)\nsteps = pd.DataFrame({\"ccp_alpha\": path.ccp_alphas, \"training MSE\": path.impurities})\nsteps.round(4).iloc[::6]\n\n\n1\n\npd.get_dummies(..., drop_first=True) turns League, Division and\nNewLeague into 0/1 columns, giving the same 19 predictors as Meeting 10. There is no StandardScaler, since a split depends only on the order of a column’s values.\n\n2\n\nmin_samples_leaf=5 keeps splitting until a split would leave fewer than\nfive players in a leaf, the stopping rule in step 1 of Algorithm 8.1. On all 263 players \\(T_0\\) has 43 leaves.\n\n3\n\ncost_complexity_pruning_path runs weakest link pruning on big. It\nreturns ccp_alphas, the values of \\(\\alpha\\) at which a branch drops off, and impurities, the training MSE of the subtree at each one. scikit-learn measures fit by MSE rather than RSS, so ccp_alpha is the \\(\\alpha\\) of the equation divided by \\(n\\). .iloc[::6] prints every sixth row.\n\n\n\n\n\n\n\n\n\n\n\nccp_alpha\ntraining MSE\n\n\n\n\n0\n0.0000\n0.0851\n\n\n6\n0.0006\n0.0875\n\n\n12\n0.0012\n0.0936\n\n\n18\n0.0017\n0.1025\n\n\n24\n0.0034\n0.1191\n\n\n30\n0.0051\n0.1571\n\n\n36\n0.0295\n0.2457",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#choosing-ccp_alpha",
     "href": "slides/14-regression-trees.html#choosing-ccp_alpha",
     "title": "Regression trees",
     "section": "Choosing ccp_alpha",
-    "text": "Choosing ccp_alpha\n\n1cv = KFold(n_splits=10, shuffle=True, random_state=363)\nsearch = GridSearchCV(\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363),\n2    {\"ccp_alpha\": path.ccp_alphas},\n    cv=cv, scoring=\"neg_mean_squared_error\",\n3).fit(X, y)\npruned = search.best_estimator_\nbest_alpha = round(float(search.best_params_[\"ccp_alpha\"]), 4)\nbest_alpha, int(pruned.get_n_leaves()), round(float(-search.best_score_), 3)\n\n\n1\n\nKFold(n_splits=10, shuffle=True, random_state=363) splits the 263 players\ninto ten folds of 26 or 27, shuffled once with a fixed seed so every model below is scored on the same folds.\n\n2\n\nThe grid is every value in path.ccp_alphas, so each candidate corresponds\nto one subtree of the tree grown on all 263 players.\n\n3\n\nWithin each fold, DecisionTreeRegressor grows a large tree on the other\nnine folds and prunes it at the candidate ccp_alpha, which is steps 1 and 2 of Algorithm 8.1 inside step 3. GridSearchCV then refits on all 263 players at the winning value, which is step 4, and stores that subtree as best_estimator_.\n\n\n\n\n(0.0088, 8, 0.27)"
+    "text": "Choosing ccp_alpha\n\n1cv = KFold(n_splits=10, shuffle=True, random_state=363)\nsearch = GridSearchCV(\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363),\n2    {\"ccp_alpha\": path.ccp_alphas},\n    cv=cv, scoring=\"neg_mean_squared_error\",\n3).fit(X, y)\npruned = search.best_estimator_\nbest_alpha = round(float(search.best_params_[\"ccp_alpha\"]), 4)\nbest_alpha, int(pruned.get_n_leaves()), round(float(-search.best_score_), 3)\n\n\n1\n\nKFold(n_splits=10, shuffle=True, random_state=363) splits the 263 players\ninto ten folds of 26 or 27, shuffled once with a fixed seed so every model below is scored on the same folds.\n\n2\n\nThe grid is every value in path.ccp_alphas, so each candidate corresponds\nto one subtree of the tree grown on all 263 players.\n\n3\n\nWithin each fold, DecisionTreeRegressor grows a large tree on the other\nnine folds and prunes it at the candidate ccp_alpha, which is steps 1 and 2 of Algorithm 8.1 inside step 3. GridSearchCV then refits on all 263 players at the winning value, which is step 4, and stores that subtree as best_estimator_.\n\n\n\n\n(0.0088, 8, 0.27)",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#error-against-tree-size",
     "href": "slides/14-regression-trees.html#error-against-tree-size",
     "title": "Regression trees",
     "section": "Error against tree size",
-    "text": "Error against tree size\n\n\n\n\n\n\n\n\n\n\nTraining and ten-fold cross-validation MSE for every subtree on the pruning path with at least two leaves, with one standard error bars on the CV curve. The dotted line marks the eight leaves CV chose.\n\n\n\nWhat would the one standard error rule from Meeting 10 choose?"
+    "text": "Error against tree size\n\n\n\n\n\n\n\n\n\n\nTraining and ten-fold cross-validation MSE for every subtree on the pruning path with at least two leaves, with one standard error bars on the CV curve. The dotted line marks the eight leaves CV chose.\n\n\n\nWhat would the one standard error rule from Meeting 10 choose?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#the-pruned-tree",
     "href": "slides/14-regression-trees.html#the-pruned-tree",
     "title": "Regression trees",
     "section": "The pruned tree",
-    "text": "The pruned tree\n\n\n\n\n\n\n\n\n\n\nThe eight-leaf subtree chosen by cross-validation, refit on all 263 players. Each box shows a rule, the number of players, and their mean log salary, labelled in full at the root.\n\n\n\nCAtBat is career at bats. Which split from Figure 8.1 survived?"
+    "text": "The pruned tree\n\n\n\n\n\n\n\n\n\n\nThe eight-leaf subtree chosen by cross-validation, refit on all 263 players. Each box shows a rule, the number of players, and their mean log salary, labelled in full at the root.\n\n\n\nCAtBat is career at bats. Which split from Figure 8.1 survived?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#cross-validated-mse",
     "href": "slides/14-regression-trees.html#cross-validated-mse",
     "title": "Regression trees",
     "section": "Cross-validated MSE",
-    "text": "Cross-validated MSE\n\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.dummy import DummyRegressor\nfrom sklearn.linear_model import LinearRegression\n\n1models = {\"training mean\": DummyRegressor(), \"unpruned tree\": big,\n          \"pruned tree\": pruned, \"least squares\": LinearRegression()}\n2pd.Series({name: -cross_val_score(m, X, y, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n           for name, m in models.items()}).round(3)\n\n\n1\n\nDummyRegressor() predicts the mean log salary of the training folds for\nevery player, the baseline any model has to beat. big is \\(T_0\\) with 43 leaves, and pruned is the eight-leaf subtree.\n\n2\n\ncross_val_score refits a fresh copy of each model on nine folds and scores\nit on the tenth, using the same ten folds for all four. The pruned tree’s ccp_alpha was chosen on these folds, so its number is slightly optimistic.\n\n\n\n\ntraining mean    0.802\nunpruned tree    0.286\npruned tree      0.270\nleast squares    0.418\ndtype: float64\n\n\n\n\nLeast squares on the same 19 predictors does worse than either tree. What could the tree be picking up that a linear model misses?"
+    "text": "Cross-validated MSE\n\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.dummy import DummyRegressor\nfrom sklearn.linear_model import LinearRegression\n\n1models = {\"training mean\": DummyRegressor(), \"unpruned tree\": big,\n          \"pruned tree\": pruned, \"least squares\": LinearRegression()}\n2pd.Series({name: -cross_val_score(m, X, y, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n           for name, m in models.items()}).round(3)\n\n\n1\n\nDummyRegressor() predicts the mean log salary of the training folds for\nevery player, the baseline any model has to beat. big is \\(T_0\\) with 43 leaves, and pruned is the eight-leaf subtree.\n\n2\n\ncross_val_score refits a fresh copy of each model on nine folds and scores\nit on the tenth, using the same ten folds for all four. The pruned tree’s ccp_alpha was chosen on these folds, so its number is slightly optimistic.\n\n\n\n\ntraining mean    0.802\nunpruned tree    0.286\npruned tree      0.270\nleast squares    0.418\ndtype: float64\n\n\n\n\nLeast squares on the same 19 predictors does worse than either tree. What could the tree be picking up that a linear model misses?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#application-exercise-3",
     "href": "slides/14-regression-trees.html#application-exercise-3",
     "title": "Regression trees",
     "section": "Application exercise",
-    "text": "Application exercise\n\nComplete Part 4. ex/14-ex"
+    "text": "Application exercise\n\nComplete Part 4. ex/14-ex",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/14-regression-trees.html#before-friday",
     "href": "slides/14-regression-trees.html#before-friday",
     "title": "Regression trees",
     "section": "Before Friday",
-    "text": "Before Friday\n\nRead ISLP Sections 8.1.3 to 8.1.4\n\nProblem set 7 due Friday"
+    "text": "Before Friday\n\nRead ISLP Sections 8.1.3 to 8.1.4\n\nProblem set 7 due Friday",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
   },
   {
     "objectID": "slides/12-classifier-metrics.html#review",
@@ -2324,49 +2504,84 @@
     "href": "ex/14-ex.html",
     "title": "Application exercise 14: Regression trees",
     "section": "",
-    "text": "A regression tree splits the predictor space into boxes and predicts the mean response in each one. The first three parts work with Hitters, predicting log salary from Years in the major leagues and Hits the previous season, the two predictors in ISLP Figure 8.1. Part 4 grows and prunes a tree on a second data set."
+    "text": "A regression tree splits the predictor space into boxes and predicts the mean response in each one. The first three parts work with Hitters, predicting log salary from Years in the major leagues and Hits the previous season, the two predictors in ISLP Figure 8.1. Part 4 grows and prunes a tree on a second data set.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/14-ex.html#setup",
     "href": "ex/14-ex.html#setup",
     "title": "Application exercise 14: Regression trees",
     "section": "Setup",
-    "text": "Setup\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.tree import DecisionTreeRegressor, export_text, plot_tree\nfrom sklearn.model_selection import GridSearchCV, KFold, cross_val_score\nfrom sklearn.dummy import DummyRegressor\nfrom sklearn.linear_model import LinearRegression\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\")\nHitters = Hitters.dropna(subset=[\"Salary\"]).reset_index(drop=True)\n\ny = np.log(Hitters[\"Salary\"])\nX2 = Hitters[[\"Years\", \"Hits\"]]\nn = len(y)\ncv = KFold(n_splits=10, shuffle=True, random_state=363)\nHitters[[\"Years\", \"Hits\", \"Salary\"]].head()\n\n\n\n\n\n\n\n\nYears\nHits\nSalary\n\n\n\n\n0\n14\n81\n475.0\n\n\n1\n3\n130\n480.0\n\n\n2\n11\n141\n500.0\n\n\n3\n2\n87\n91.5\n\n\n4\n11\n169\n750.0"
+    "text": "Setup\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nDATA = \"https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/\"\nfrom sklearn.tree import DecisionTreeRegressor, export_text, plot_tree\nfrom sklearn.model_selection import GridSearchCV, KFold, cross_val_score\nfrom sklearn.dummy import DummyRegressor\nfrom sklearn.linear_model import LinearRegression\n\nHitters = pd.read_csv(DATA + \"Hitters.csv\")\nHitters = Hitters.dropna(subset=[\"Salary\"]).reset_index(drop=True)\n\ny = np.log(Hitters[\"Salary\"])\nX2 = Hitters[[\"Years\", \"Hits\"]]\nn = len(y)\ncv = KFold(n_splits=10, shuffle=True, random_state=363)\nHitters[[\"Years\", \"Hits\", \"Salary\"]].head()\n\n\n\n\n\n\n\n\nYears\nHits\nSalary\n\n\n\n\n0\n14\n81\n475.0\n\n\n1\n3\n130\n480.0\n\n\n2\n11\n141\n500.0\n\n\n3\n2\n87\n91.5\n\n\n4\n11\n169\n750.0",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/14-ex.html#part-1-reading-a-tree",
     "href": "ex/14-ex.html#part-1-reading-a-tree",
     "title": "Application exercise 14: Regression trees",
     "section": "Part 1: Reading a tree",
-    "text": "Part 1: Reading a tree\nmax_depth=3 lets the tree split three times along any path from the top, so it can have up to eight leaves.\n\ntree3 = DecisionTreeRegressor(max_depth=3, random_state=363).fit(X2, y)\n\nfig, ax = plt.subplots(figsize=(11, 5))\nplot_tree(tree3, feature_names=[\"Years\", \"Hits\"], impurity=False, rounded=True,\n          precision=3, fontsize=9, ax=ax)\nplt.show()\n\n\n\n\n\n\n\n\nEach box shows its rule, the number of players who reach it (samples), and their mean log salary (value). A player who satisfies the rule goes left. Salary is in thousands of dollars.\n\n\nHow many internal nodes does the tree have? How many terminal nodes?\n\nA player has 7 years in the majors and 100 hits last season. Follow the tree to that player’s leaf. What log salary does the tree predict, and what salary in dollars? Complete the code below to check.\n\nWhat share of the 263 players land in the leaf for players with more than 6.5 years and at most 117.5 hits? Write that leaf as a region, in the form \\(R = \\{X \\mid \\text{Years} &lt; 4.5\\}\\).\n\nTwo leaves on the left of the tree hold one player each. What do they predict? Would you use either prediction for a new player with 4 years and 10 hits?\n\n\n\n\nplayer = pd.DataFrame({\"Years\": [7], \"Hits\": [100]})\nlog_pred = tree3.predict(player)[0]\nround(float(log_pred), 3), round(float(1000 * np.exp(___)))"
+    "text": "Part 1: Reading a tree\nmax_depth=3 lets the tree split three times along any path from the top, so it can have up to eight leaves.\n\ntree3 = DecisionTreeRegressor(max_depth=3, random_state=363).fit(X2, y)\n\nfig, ax = plt.subplots(figsize=(11, 5))\nplot_tree(tree3, feature_names=[\"Years\", \"Hits\"], impurity=False, rounded=True,\n          precision=3, fontsize=9, ax=ax)\nplt.show()\n\n\n\n\n\n\n\n\nEach box shows its rule, the number of players who reach it (samples), and their mean log salary (value). A player who satisfies the rule goes left. Salary is in thousands of dollars.\n\n\nHow many internal nodes does the tree have? How many terminal nodes?\n\nA player has 7 years in the majors and 100 hits last season. Follow the tree to that player’s leaf. What log salary does the tree predict, and what salary in dollars? Complete the code below to check.\n\nWhat share of the 263 players land in the leaf for players with more than 6.5 years and at most 117.5 hits? Write that leaf as a region, in the form \\(R = \\{X \\mid \\text{Years} &lt; 4.5\\}\\).\n\nTwo leaves on the left of the tree hold one player each. What do they predict? Would you use either prediction for a new player with 4 years and 10 hits?\n\n\n\n\nplayer = pd.DataFrame({\"Years\": [7], \"Hits\": [100]})\nlog_pred = tree3.predict(player)[0]\nround(float(log_pred), 3), round(float(1000 * np.exp(___)))",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/14-ex.html#part-2-finding-a-split",
     "href": "ex/14-ex.html#part-2-finding-a-split",
     "title": "Application exercise 14: Regression trees",
     "section": "Part 2: Finding a split",
-    "text": "Part 2: Finding a split\nFive observations of one predictor \\(x\\) and a response \\(y\\):\n\n\n\n\\(x\\)\n1\n2\n3\n4\n5\n\n\n\n\n\\(y\\)\n1\n3\n2\n7\n9\n\n\n\nA split at cutpoint \\(s\\) sends every observation with \\(x &lt; s\\) to the left region and the rest to the right, and predicts each region with its mean.\n\n\n\ncutpoint \\(s\\)\nleft mean\nright mean\nRSS after the split\n\n\n\n\n1.5\n\n\n\n\n\n2.5\n\n\n\n\n\n3.5\n\n\n\n\n\n4.5\n\n\n\n\n\n\n\n\nOn paper, fill in the table.\n\nWhat is the RSS before any split, when all five observations are predicted with their overall mean? Which cutpoint lowers it the most?\n\nAfter that split, what does the tree predict for a new observation with \\(x = 4.2\\)?\n\n\n\n\n\n\nsplit_rss computes the last column of the table. Check your answers against it.\n\ndef split_rss(x, y, s):\n    left, right = y[x &lt; s], y[x &gt;= s]\n    return ((left - left.mean()) ** 2).sum() + ((right - right.mean()) ** 2).sum()\n\n\nx_toy = np.array([1, 2, 3, 4, 5])\ny_toy = np.array([1, 3, 2, 7, 9])\n[float(split_rss(x_toy, y_toy, s)) for s in [1.5, 2.5, 3.5, 4.5]]\n\n[32.75, 28.0, 4.0, 20.75]\n\n\nOn Hitters the search runs over every cutpoint between adjacent observed values of each predictor. best_split returns the winning cutpoint, the RSS after the split, and how many players land on each side.\n\ndef best_split(x, y):\n    values = np.sort(x.unique())\n    cuts = (values[:-1] + values[1:]) / 2\n    rss = [split_rss(x, y, s) for s in cuts]\n    s = cuts[int(np.argmin(rss))]\n    return {\"cutpoint\": s, \"RSS after\": min(rss),\n            \"left\": int((x &lt; s).sum()), \"right\": int((x &gt;= s).sum())}\n\n\npd.DataFrame([{\"predictor\": col, **best_split(X2[col], y)} for col in [\"Years\", \"Hits\"]]).round(2)\n\n\n\n\n\n\n\n\npredictor\ncutpoint\nRSS after\nleft\nright\n\n\n\n\n0\nYears\n4.5\n115.06\n90\n173\n\n\n1\nHits\n117.5\n160.97\n151\n112\n\n\n\n\n\n\n\n\nstump = DecisionTreeRegressor(max_depth=1).fit(X2, y)\nprint(export_text(stump, feature_names=[\"Years\", \"Hits\"], decimals=3))\n\n|--- Years &lt;= 4.500\n|   |--- value: [5.107]\n|--- Years &gt;  4.500\n|   |--- value: [6.354]\n\n\n\nThe second split searches inside each of the two regions the first split made.\n\nrows = []\nfor region, mask in [(\"Years &lt; 4.5\", X2[\"Years\"] &lt; 4.5), (\"Years &gt;= 4.5\", X2[\"Years\"] &gt;= 4.5)]:\n    rss_before = ((y[mask] - y[mask].mean()) ** 2).sum()\n    for col in [\"Years\", \"Hits\"]:\n        split = best_split(X2.loc[mask, col], y[mask])\n        rows.append({\"region\": region, \"predictor\": col, **split,\n                     \"RSS before\": rss_before,\n                     \"drop in RSS\": rss_before - split[\"RSS after\"]})\n\npd.DataFrame(rows).round(2)\n\n\n\n\n\n\n\n\nregion\npredictor\ncutpoint\nRSS after\nleft\nright\nRSS before\ndrop in RSS\n\n\n\n\n0\nYears &lt; 4.5\nYears\n3.5\n33.14\n62\n28\n42.35\n9.21\n\n\n1\nYears &lt; 4.5\nHits\n15.5\n33.01\n2\n88\n42.35\n9.34\n\n\n2\nYears &gt;= 4.5\nYears\n6.5\n69.88\n54\n119\n72.71\n2.83\n\n\n3\nYears &gt;= 4.5\nHits\n117.5\n48.98\n90\n83\n72.71\n23.73\n\n\n\n\n\n\n\n\n\nWhich predictor and cutpoint make the first split on Hitters, and does max_depth=1 agree?\n\nWhich region, predictor, and cutpoint give the largest drop in RSS for the second split? Compare the result with Figure 8.1.\n\nThe best split of the Years &lt; 4.5 region lowers its RSS by about 9. How many players does it separate from the rest? Where did that split show up in Part 1?"
+    "text": "Part 2: Finding a split\nFive observations of one predictor \\(x\\) and a response \\(y\\):\n\n\n\n\\(x\\)\n1\n2\n3\n4\n5\n\n\n\n\n\\(y\\)\n1\n3\n2\n7\n9\n\n\n\nA split at cutpoint \\(s\\) sends every observation with \\(x &lt; s\\) to the left region and the rest to the right, and predicts each region with its mean.\n\n\n\ncutpoint \\(s\\)\nleft mean\nright mean\nRSS after the split\n\n\n\n\n1.5\n\n\n\n\n\n2.5\n\n\n\n\n\n3.5\n\n\n\n\n\n4.5\n\n\n\n\n\n\n\n\nOn paper, fill in the table.\n\nWhat is the RSS before any split, when all five observations are predicted with their overall mean? Which cutpoint lowers it the most?\n\nAfter that split, what does the tree predict for a new observation with \\(x = 4.2\\)?\n\n\n\n\n\n\nsplit_rss computes the last column of the table. Check your answers against it.\n\ndef split_rss(x, y, s):\n    left, right = y[x &lt; s], y[x &gt;= s]\n    return ((left - left.mean()) ** 2).sum() + ((right - right.mean()) ** 2).sum()\n\n\nx_toy = np.array([1, 2, 3, 4, 5])\ny_toy = np.array([1, 3, 2, 7, 9])\n[float(split_rss(x_toy, y_toy, s)) for s in [1.5, 2.5, 3.5, 4.5]]\n\n[32.75, 28.0, 4.0, 20.75]\n\n\nOn Hitters the search runs over every cutpoint between adjacent observed values of each predictor. best_split returns the winning cutpoint, the RSS after the split, and how many players land on each side.\n\ndef best_split(x, y):\n    values = np.sort(x.unique())\n    cuts = (values[:-1] + values[1:]) / 2\n    rss = [split_rss(x, y, s) for s in cuts]\n    s = cuts[int(np.argmin(rss))]\n    return {\"cutpoint\": s, \"RSS after\": min(rss),\n            \"left\": int((x &lt; s).sum()), \"right\": int((x &gt;= s).sum())}\n\n\npd.DataFrame([{\"predictor\": col, **best_split(X2[col], y)} for col in [\"Years\", \"Hits\"]]).round(2)\n\n\n\n\n\n\n\n\npredictor\ncutpoint\nRSS after\nleft\nright\n\n\n\n\n0\nYears\n4.5\n115.06\n90\n173\n\n\n1\nHits\n117.5\n160.97\n151\n112\n\n\n\n\n\n\n\n\nstump = DecisionTreeRegressor(max_depth=1).fit(X2, y)\nprint(export_text(stump, feature_names=[\"Years\", \"Hits\"], decimals=3))\n\n|--- Years &lt;= 4.500\n|   |--- value: [5.107]\n|--- Years &gt;  4.500\n|   |--- value: [6.354]\n\n\n\nThe second split searches inside each of the two regions the first split made.\n\nrows = []\nfor region, mask in [(\"Years &lt; 4.5\", X2[\"Years\"] &lt; 4.5), (\"Years &gt;= 4.5\", X2[\"Years\"] &gt;= 4.5)]:\n    rss_before = ((y[mask] - y[mask].mean()) ** 2).sum()\n    for col in [\"Years\", \"Hits\"]:\n        split = best_split(X2.loc[mask, col], y[mask])\n        rows.append({\"region\": region, \"predictor\": col, **split,\n                     \"RSS before\": rss_before,\n                     \"drop in RSS\": rss_before - split[\"RSS after\"]})\n\npd.DataFrame(rows).round(2)\n\n\n\n\n\n\n\n\nregion\npredictor\ncutpoint\nRSS after\nleft\nright\nRSS before\ndrop in RSS\n\n\n\n\n0\nYears &lt; 4.5\nYears\n3.5\n33.14\n62\n28\n42.35\n9.21\n\n\n1\nYears &lt; 4.5\nHits\n15.5\n33.01\n2\n88\n42.35\n9.34\n\n\n2\nYears &gt;= 4.5\nYears\n6.5\n69.88\n54\n119\n72.71\n2.83\n\n\n3\nYears &gt;= 4.5\nHits\n117.5\n48.98\n90\n83\n72.71\n23.73\n\n\n\n\n\n\n\n\n\nWhich predictor and cutpoint make the first split on Hitters, and does max_depth=1 agree?\n\nWhich region, predictor, and cutpoint give the largest drop in RSS for the second split? Compare the result with Figure 8.1.\n\nThe best split of the Years &lt; 4.5 region lowers its RSS by about 9. How many players does it separate from the rest? Where did that split show up in Part 1?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/14-ex.html#part-3-cost-complexity-by-hand",
     "href": "ex/14-ex.html#part-3-cost-complexity-by-hand",
     "title": "Application exercise 14: Regression trees",
     "section": "Part 3: Cost complexity by hand",
-    "text": "Part 3: Cost complexity by hand\nWeakest link pruning on a large Hitters tree, grown on Years and Hits with at least five players per leaf, gives a nested sequence of subtrees. Seven of them, with their training RSS:\n\n\n\n\n\n\n\n\n\n\n\n\nleaves \\(\\lvert T \\rvert\\)\nRSS\n\\(\\alpha = 0\\)\n\\(\\alpha = 5\\)\n\\(\\alpha = 15\\)\n\\(\\alpha = 50\\)\n\\(\\alpha = 100\\)\n\n\n\n\n41\n53.57\n\n\n\n\n\n\n\n6\n74.83\n\n\n\n\n\n\n\n5\n78.33\n\n\n\n\n\n\n\n4\n82.12\n\n\n\n\n\n\n\n3\n91.33\n\n\n\n\n\n\n\n2\n115.06\n\n\n\n\n\n\n\n1\n207.15\n\n\n\n\n\n\n\n\n\n\nOn paper, fill in \\(\\text{RSS} + \\alpha\\lvert T \\rvert\\) for each subtree at each value of \\(\\alpha\\), and circle the smallest value in each column.\n\nAs \\(\\alpha\\) grows, what happens to the size of the chosen subtree? Could it ever gain a leaf back?\n\nFind the value of \\(\\alpha\\) at which the three-leaf and two-leaf subtrees tie, by solving \\(\\text{RSS}_3 + 3\\alpha = \\text{RSS}_2 + 2\\alpha\\).\n\n\n\n\n\n\ncost_complexity_pruning_path reports \\(\\alpha\\) on the scale of MSE rather than RSS, so multiplying by \\(n\\) puts it back on the scale of the table.\n\nbig2 = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X2, y)\npath2 = big2.cost_complexity_pruning_path(X2, y)\nleaves2 = [\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363, ccp_alpha=a).fit(X2, y).get_n_leaves()\n    for a in path2.ccp_alphas\n]\npd.DataFrame({\"alpha (RSS scale)\": path2.ccp_alphas * n, \"leaves\": leaves2,\n              \"RSS\": path2.impurities * n}).round(2).tail(8)\n\n\n\n\n\n\n\n\nalpha (RSS scale)\nleaves\nRSS\n\n\n\n\n27\n2.00\n8\n69.06\n\n\n28\n2.29\n7\n71.35\n\n\n29\n3.47\n6\n74.83\n\n\n30\n3.50\n5\n78.33\n\n\n31\n3.79\n4\n82.12\n\n\n32\n9.21\n3\n91.33\n\n\n33\n23.73\n2\n115.06\n\n\n34\n92.10\n1\n207.15\n\n\n\n\n\n\n\n\n\nCompare your answer to question 3 with the table above. What does each value in the first column mark?\n\nComplete the code below to refit at each \\(\\alpha\\) from the table and check the leaf counts you circled. Which tree does \\(\\alpha = 15\\) give?\n\n\n\n\nfor alpha in [0, 5, 15, 50, 100]:\n    tree = DecisionTreeRegressor(min_samples_leaf=5, random_state=363,\n                                 ccp_alpha=___).fit(X2, y)\n    print(alpha, tree.get_n_leaves())\n\nprint(export_text(\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363, ccp_alpha=___).fit(X2, y),\n    feature_names=[\"Years\", \"Hits\"], decimals=3,\n))\n\n\n\n\n\nccp_alpha is the \\(\\alpha\\) of the cost complexity equation divided by \\(n\\), because scikit-learn measures fit by training MSE instead of RSS."
+    "text": "Part 3: Cost complexity by hand\nWeakest link pruning on a large Hitters tree, grown on Years and Hits with at least five players per leaf, gives a nested sequence of subtrees. Seven of them, with their training RSS:\n\n\n\n\n\n\n\n\n\n\n\n\nleaves \\(\\lvert T \\rvert\\)\nRSS\n\\(\\alpha = 0\\)\n\\(\\alpha = 5\\)\n\\(\\alpha = 15\\)\n\\(\\alpha = 50\\)\n\\(\\alpha = 100\\)\n\n\n\n\n41\n53.57\n\n\n\n\n\n\n\n6\n74.83\n\n\n\n\n\n\n\n5\n78.33\n\n\n\n\n\n\n\n4\n82.12\n\n\n\n\n\n\n\n3\n91.33\n\n\n\n\n\n\n\n2\n115.06\n\n\n\n\n\n\n\n1\n207.15\n\n\n\n\n\n\n\n\n\n\nOn paper, fill in \\(\\text{RSS} + \\alpha\\lvert T \\rvert\\) for each subtree at each value of \\(\\alpha\\), and circle the smallest value in each column.\n\nAs \\(\\alpha\\) grows, what happens to the size of the chosen subtree? Could it ever gain a leaf back?\n\nFind the value of \\(\\alpha\\) at which the three-leaf and two-leaf subtrees tie, by solving \\(\\text{RSS}_3 + 3\\alpha = \\text{RSS}_2 + 2\\alpha\\).\n\n\n\n\n\n\ncost_complexity_pruning_path reports \\(\\alpha\\) on the scale of MSE rather than RSS, so multiplying by \\(n\\) puts it back on the scale of the table.\n\nbig2 = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X2, y)\npath2 = big2.cost_complexity_pruning_path(X2, y)\nleaves2 = [\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363, ccp_alpha=a).fit(X2, y).get_n_leaves()\n    for a in path2.ccp_alphas\n]\npd.DataFrame({\"alpha (RSS scale)\": path2.ccp_alphas * n, \"leaves\": leaves2,\n              \"RSS\": path2.impurities * n}).round(2).tail(8)\n\n\n\n\n\n\n\n\nalpha (RSS scale)\nleaves\nRSS\n\n\n\n\n27\n2.00\n8\n69.06\n\n\n28\n2.29\n7\n71.35\n\n\n29\n3.47\n6\n74.83\n\n\n30\n3.50\n5\n78.33\n\n\n31\n3.79\n4\n82.12\n\n\n32\n9.21\n3\n91.33\n\n\n33\n23.73\n2\n115.06\n\n\n34\n92.10\n1\n207.15\n\n\n\n\n\n\n\n\n\nCompare your answer to question 3 with the table above. What does each value in the first column mark?\n\nComplete the code below to refit at each \\(\\alpha\\) from the table and check the leaf counts you circled. Which tree does \\(\\alpha = 15\\) give?\n\n\n\n\nfor alpha in [0, 5, 15, 50, 100]:\n    tree = DecisionTreeRegressor(min_samples_leaf=5, random_state=363,\n                                 ccp_alpha=___).fit(X2, y)\n    print(alpha, tree.get_n_leaves())\n\nprint(export_text(\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363, ccp_alpha=___).fit(X2, y),\n    feature_names=[\"Years\", \"Hits\"], decimals=3,\n))\n\n\n\n\n\nccp_alpha is the \\(\\alpha\\) of the cost complexity equation divided by \\(n\\), because scikit-learn measures fit by training MSE instead of RSS.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/14-ex.html#part-4-pruning-a-tree-on-boston",
     "href": "ex/14-ex.html#part-4-pruning-a-tree-on-boston",
     "title": "Application exercise 14: Regression trees",
     "section": "Part 4: Pruning a tree on Boston",
-    "text": "Part 4: Pruning a tree on Boston\nBoston has the median home value medv, in thousands of dollars, for 506 census tracts around Boston, along with 12 predictors. Among them, rm is the average number of rooms per home and lstat is the percentage of residents with lower socioeconomic status. ISLP Lab 8.3.2 fits a regression tree to the same data.\n\nBoston = pd.read_csv(DATA + \"Boston.csv\")\nX_b = Boston.drop(columns=[\"medv\"])\ny_b = Boston[\"medv\"]\n\nbig_b = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X_b, y_b)\npath_b = big_b.cost_complexity_pruning_path(X_b, y_b)\nsearch_b = GridSearchCV(\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363),\n    {\"ccp_alpha\": path_b.ccp_alphas},\n    cv=cv, scoring=\"neg_mean_squared_error\",\n).fit(X_b, y_b)\npruned_b = search_b.best_estimator_\n\nint(big_b.get_n_leaves()), int(pruned_b.get_n_leaves()), round(float(-search_b.best_score_), 2)\n\n(82, 42, 22.21)\n\n\ncv_table has one row per subtree on the pruning path, with its number of leaves, its CV MSE, and the standard error of that CV MSE across the ten folds.\n\nfold_mse = -pd.DataFrame(search_b.cv_results_).filter(regex=r\"^split\\d+_test_score$\")\ncv_table = pd.DataFrame({\n    \"ccp_alpha\": path_b.ccp_alphas,\n    \"leaves\": [\n        DecisionTreeRegressor(min_samples_leaf=5, random_state=363, ccp_alpha=a).fit(X_b, y_b).get_n_leaves()\n        for a in path_b.ccp_alphas\n    ],\n    \"training_mse\": path_b.impurities,\n    \"cv_mse\": fold_mse.mean(axis=1).to_numpy(),\n    \"cv_se\": fold_mse.std(axis=1).to_numpy() / np.sqrt(10),\n})\nshown = cv_table[cv_table[\"leaves\"] &gt; 1]\n\nfig, ax = plt.subplots(figsize=(6.5, 3.4))\nax.plot(shown[\"leaves\"], shown[\"training_mse\"], \"o-\", color=\"#595959\", ms=3,\n        label=\"training\")\nax.errorbar(shown[\"leaves\"], shown[\"cv_mse\"], yerr=shown[\"cv_se\"], fmt=\"o-\",\n            color=\"#007c86\", ms=3, capsize=2, label=\"cross-validation\")\nax.axvline(pruned_b.get_n_leaves(), color=\"#595959\", ls=\":\", lw=1.2)\nax.set_xlabel(\"leaves\")\nax.set_ylabel(\"MSE\")\nax.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nmodels = {\"training mean\": DummyRegressor(), \"unpruned tree\": big_b,\n          \"pruned tree\": pruned_b, \"least squares\": LinearRegression()}\npd.Series({\n    name: -cross_val_score(m, X_b, y_b, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n    for name, m in models.items()\n}).round(2)\n\ntraining mean    85.29\nunpruned tree    22.22\npruned tree      22.21\nleast squares    24.54\ndtype: float64\n\n\n\n\nHow many leaves does \\(T_0\\) have, and how many does cross-validation keep? How much lower is the pruned tree’s CV MSE than the unpruned tree’s?\n\nRead the CV curve. Over roughly what range of tree sizes is the CV MSE within one standard error of its minimum?\n\nApply the one standard error rule from Meeting 10: take the smallest tree whose cv_mse is within one cv_se of the minimum. Complete the code below. How many leaves does it have, and which predictors does it split on?\n\nOn Hitters, both trees beat least squares. Does the same hold on Boston? Which tree would you hand to someone who wants to understand home values, and which would you use to predict them?\n\n\n\n\nbest = cv_table[\"cv_mse\"].idxmin()\nthreshold = cv_table[\"cv_mse\"][best] + cv_table[\"cv_se\"][best]\npick = cv_table.loc[cv_table[\"cv_mse\"] &lt;= ____, \"leaves\"].min()\npick_alpha = cv_table.loc[cv_table[\"leaves\"] == pick, \"ccp_alpha\"].iloc[0]\n\nsimple_b = DecisionTreeRegressor(min_samples_leaf=5, random_state=363,\n                                 ccp_alpha=pick_alpha).fit(X_b, y_b)\nfig, ax = plt.subplots(figsize=(11, 5))\nplot_tree(simple_b, feature_names=list(X_b.columns), impurity=False,\n          rounded=True, precision=1, fontsize=9, ax=ax)\nplt.show()\n\n\n\n\n\nThe one standard error rule wants the smallest tree that is still competitive, so take the minimum number of leaves that clears the threshold.\n\n\nA regression tree is grown greedily, one split at a time, and then pruned back by cost complexity, with \\(\\alpha\\) chosen by cross-validation."
+    "text": "Part 4: Pruning a tree on Boston\nBoston has the median home value medv, in thousands of dollars, for 506 census tracts around Boston, along with 12 predictors. Among them, rm is the average number of rooms per home and lstat is the percentage of residents with lower socioeconomic status. ISLP Lab 8.3.2 fits a regression tree to the same data.\n\nBoston = pd.read_csv(DATA + \"Boston.csv\")\nX_b = Boston.drop(columns=[\"medv\"])\ny_b = Boston[\"medv\"]\n\nbig_b = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X_b, y_b)\npath_b = big_b.cost_complexity_pruning_path(X_b, y_b)\nsearch_b = GridSearchCV(\n    DecisionTreeRegressor(min_samples_leaf=5, random_state=363),\n    {\"ccp_alpha\": path_b.ccp_alphas},\n    cv=cv, scoring=\"neg_mean_squared_error\",\n).fit(X_b, y_b)\npruned_b = search_b.best_estimator_\n\nint(big_b.get_n_leaves()), int(pruned_b.get_n_leaves()), round(float(-search_b.best_score_), 2)\n\n(82, 42, 22.21)\n\n\ncv_table has one row per subtree on the pruning path, with its number of leaves, its CV MSE, and the standard error of that CV MSE across the ten folds.\n\nfold_mse = -pd.DataFrame(search_b.cv_results_).filter(regex=r\"^split\\d+_test_score$\")\ncv_table = pd.DataFrame({\n    \"ccp_alpha\": path_b.ccp_alphas,\n    \"leaves\": [\n        DecisionTreeRegressor(min_samples_leaf=5, random_state=363, ccp_alpha=a).fit(X_b, y_b).get_n_leaves()\n        for a in path_b.ccp_alphas\n    ],\n    \"training_mse\": path_b.impurities,\n    \"cv_mse\": fold_mse.mean(axis=1).to_numpy(),\n    \"cv_se\": fold_mse.std(axis=1).to_numpy() / np.sqrt(10),\n})\nshown = cv_table[cv_table[\"leaves\"] &gt; 1]\n\nfig, ax = plt.subplots(figsize=(6.5, 3.4))\nax.plot(shown[\"leaves\"], shown[\"training_mse\"], \"o-\", color=\"#595959\", ms=3,\n        label=\"training\")\nax.errorbar(shown[\"leaves\"], shown[\"cv_mse\"], yerr=shown[\"cv_se\"], fmt=\"o-\",\n            color=\"#007c86\", ms=3, capsize=2, label=\"cross-validation\")\nax.axvline(pruned_b.get_n_leaves(), color=\"#595959\", ls=\":\", lw=1.2)\nax.set_xlabel(\"leaves\")\nax.set_ylabel(\"MSE\")\nax.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nmodels = {\"training mean\": DummyRegressor(), \"unpruned tree\": big_b,\n          \"pruned tree\": pruned_b, \"least squares\": LinearRegression()}\npd.Series({\n    name: -cross_val_score(m, X_b, y_b, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n    for name, m in models.items()\n}).round(2)\n\ntraining mean    85.29\nunpruned tree    22.22\npruned tree      22.21\nleast squares    24.54\ndtype: float64\n\n\n\n\nHow many leaves does \\(T_0\\) have, and how many does cross-validation keep? How much lower is the pruned tree’s CV MSE than the unpruned tree’s?\n\nRead the CV curve. Over roughly what range of tree sizes is the CV MSE within one standard error of its minimum?\n\nApply the one standard error rule from Meeting 10: take the smallest tree whose cv_mse is within one cv_se of the minimum. Complete the code below. How many leaves does it have, and which predictors does it split on?\n\nOn Hitters, both trees beat least squares. Does the same hold on Boston? Which tree would you hand to someone who wants to understand home values, and which would you use to predict them?\n\n\n\n\nbest = cv_table[\"cv_mse\"].idxmin()\nthreshold = cv_table[\"cv_mse\"][best] + cv_table[\"cv_se\"][best]\npick = cv_table.loc[cv_table[\"cv_mse\"] &lt;= ____, \"leaves\"].min()\npick_alpha = cv_table.loc[cv_table[\"leaves\"] == pick, \"ccp_alpha\"].iloc[0]\n\nsimple_b = DecisionTreeRegressor(min_samples_leaf=5, random_state=363,\n                                 ccp_alpha=pick_alpha).fit(X_b, y_b)\nfig, ax = plt.subplots(figsize=(11, 5))\nplot_tree(simple_b, feature_names=list(X_b.columns), impurity=False,\n          rounded=True, precision=1, fontsize=9, ax=ax)\nplt.show()\n\n\n\n\n\nThe one standard error rule wants the smallest tree that is still competitive, so take the minimum number of leaves that clears the threshold.\n\n\nA regression tree is grown greedily, one split at a time, and then pruned back by cost complexity, with \\(\\alpha\\) chosen by cross-validation.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/14-ex.html#if-you-finish-early",
     "href": "ex/14-ex.html#if-you-finish-early",
     "title": "Application exercise 14: Regression trees",
     "section": "If you finish early",
-    "text": "If you finish early\nRerun Part 4 three more times, changing only the random_state in KFold to 1, 2 and 3. For each run, record the number of leaves cross-validation keeps and the number the one standard error rule keeps.\n\nHow much does each choice move when only the folds change? What does that suggest about how much to read into the exact size of a pruned tree?\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer."
+    "text": "If you finish early\nRerun Part 4 three more times, changing only the random_state in KFold to 1, 2 and 3. For each run, record the number of leaves cross-validation keeps and the number the one standard error rule keeps.\n\nHow much does each choice move when only the folds change? What does that suggest about how much to read into the exact size of a pruned tree?\n\nData from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023). An Introduction to Statistical Learning with Applications in Python. Springer.",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Application Exercises",
+      "14. Regression trees"
+    ]
   },
   {
     "objectID": "ex/12-ex.html",
