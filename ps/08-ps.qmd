@@ -1,0 +1,249 @@
+---
+title: "Problem set 8: Regression trees"
+subtitle: "STA 363 | Posted October 30 | Due Friday, November 6"
+jupyter: python3
+---
+
+If you work with classmates, please indicate that here. Additionally
+please cite all other sources including AI.
+
+::: {.answer}
+:::
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+from sklearn.tree import DecisionTreeRegressor, export_text, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.dummy import DummyRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
+```
+
+## 1.
+
+The left panel of the figure partitions the predictor space for two predictors,
+$X_1$ and $X_2$. The number inside each box is the mean of $Y$ for the training
+observations in that box. The right panel is a regression tree drawn the same
+way as ISLP Figure 8.1, with the mean of $Y$ at the bottom of each leaf. A rule
+such as $X_2 < 1$ describes the left branch below it. Both panels redraw ISLP
+Figure 8.14.
+
+```{python}
+#| notebook: image
+ink = "#404040"
+fig, (left, right) = plt.subplots(1, 2, figsize=(11, 4.2))
+
+# left: the partition, with the mean of Y in each box
+for x0, y0, x1, y1 in [(-1, -1, 2, -1), (-1, 2, 2, 2), (-1, -1, -1, 2),
+                       (2, -1, 2, 2), (1, -1, 1, 2), (-1, 1, 1, 1),
+                       (0, -1, 0, 1), (0, 0, 1, 0)]:
+    left.plot([x0, x1], [y0, y1], color=ink, lw=2)
+for x, y, mean in [(0, 1.5, 15), (1.5, 0.5, 5), (-0.5, 0, 3),
+                   (0.5, 0.5, 0), (0.5, -0.5, 10)]:
+    left.text(x, y, mean, ha="center", va="center", fontsize=15, color="#d5008f")
+left.set_xticks([0, 1])
+left.set_yticks([0, 1])
+left.set_xlabel("$X_1$", fontsize=13)
+left.set_ylabel("$X_2$", fontsize=13, rotation=0, labelpad=12)
+left.tick_params(length=0, labelsize=12)
+for spine in left.spines.values():
+    spine.set_visible(False)
+
+
+# right: the tree, with each rule above its node and each mean below its leaf
+def split(x, y, x_left, y_left, x_right, y_right, rule):
+    right.plot([x_left, x_left, x_right, x_right], [y_left, y, y, y_right],
+               color=ink, lw=1.6)
+    right.text(x, y + 0.02, rule, ha="center", va="bottom", fontsize=12,
+               bbox=dict(facecolor="white", edgecolor="none", pad=1))
+
+
+def leaf(x, y, mean):
+    right.text(x, y - 0.02, mean, ha="center", va="top", fontsize=13,
+               color="#d5008f")
+
+
+split(0.50, 1.00, 0.22, 0.62, 0.78, 0.62, "$X_2 < 1$")
+split(0.22, 0.62, 0.08, 0.10, 0.36, 0.10, "$X_1 < 1$")
+split(0.78, 0.62, 0.66, 0.42, 0.92, 0.34, "$X_2 < 2$")
+split(0.66, 0.42, 0.56, 0.16, 0.76, 0.16, "$X_1 < 0$")
+for x, y, mean in [(0.08, 0.10, "-1.80"), (0.36, 0.10, "0.63"),
+                   (0.56, 0.16, "-1.06"), (0.76, 0.16, "0.21"),
+                   (0.92, 0.34, "2.49")]:
+    leaf(x, y, mean)
+right.set_xlim(0, 1)
+right.set_ylim(0, 1.1)
+right.axis("off")
+plt.tight_layout()
+```
+
+a. Sketch the tree that corresponds to the partition in the left panel. Label each internal node with its rule and each leaf with its mean.
+b. Write each of the five regions in the left panel as a set, in the form $R = \{X \mid X_1 < a, X_2 \geq b\}$. What does the partition predict for a new observation with $X_1 = 0.5$ and $X_2 = -0.5$?
+c. The box with mean 5 is on both sides of the line $X_2 = 1$. Why does that force your tree in part a to make its first split on $X_1$? Could a tree whose first split is $X_2 < 1$ give the same predictions everywhere? If so, how many leaves would it need?
+d. Draw the partition that the tree in the right panel describes, in the style of the left panel. Mark each cutpoint on the axes and write the mean in each region.
+e. Fill in the blanks below so that `tree_right` follows the tree in the right panel and returns the mean in the leaf where $(X_1, X_2)$ lands. Run the code to draw its predictions over a grid, and check them against your diagram from part d.
+
+::: {.no-answer}
+:::
+
+```{python}
+def tree_right(x1, x2):
+    if x2 < 1:
+        if x1 < 1:
+            return -1.80
+        return 0.63
+    # the right branch of the root splits twice more
+    if ____:
+        if ____:
+            return ____
+        return ____
+    return ____
+
+
+x1_grid = np.linspace(-1, 2, 301)
+x2_grid = np.linspace(-1, 3, 401)
+surface = np.array([[tree_right(a, b) for a in x1_grid] for b in x2_grid])
+
+ramp = LinearSegmentedColormap.from_list("sta363", ["#eec8e1", "#d5008f", "#404040"])
+plt.pcolormesh(x1_grid, x2_grid, surface, cmap=ramp, shading="auto")
+plt.colorbar(label="predicted Y")
+plt.xlabel("$X_1$")
+plt.ylabel("$X_2$")
+plt.show()
+```
+
+::: {.answer}
+:::
+
+## 2.
+
+Let's take the process that grows a tree, recursive binary splitting, on
+six training observations with two predictors.
+
+| observation | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| $X_1$ | 1 | 2 | 3 | 4 | 5 | 6 |
+| $X_2$ | 5 | 1 | 3 | 6 | 2 | 4 |
+| $Y$ | 5 | 5 | 12 | 10 | 0 | 11 |
+
+Before any split, all six observations are predicted with their mean of 7.17,
+and the RSS is 106.83.
+
+a. Describe, step by step, how recursive binary splitting grows a regression tree. Explain what it searches over at each step, which quantity it uses to choose a split, and what it predicts in each region. What do "top-down" and "greedy" mean here?
+
+b. By hand, find the RSS after the split $X_1 < 2.5$ and after the split $X_2 < 2.5$. Show the mean of each side of each split.
+
+c. Fill in the blanks below to compute the RSS after every candidate split on both predictors. Which predictor and cutpoint does recursive binary splitting choose first? Check your answers to part b against the table, and the choice against the `max_depth=1` tree.
+
+::: {.no-answer}
+:::
+
+```{python}
+toy = pd.DataFrame({
+    "X1": [1, 2, 3, 4, 5, 6],
+    "X2": [5, 1, 3, 6, 2, 4],
+    "Y": [5, 5, 12, 10, 0, 11],
+})
+
+
+def split_rss(x, y, s):
+    left, right = y[x < s], y[x >= s]
+    # each side is predicted with its own mean
+    return ____
+
+
+rows = []
+for col in ["X1", "X2"]:
+    values = np.sort(toy[col].unique())
+    # the cutpoints halfway between adjacent observed values
+    cuts = ____
+    for s in cuts:
+        rows.append({"predictor": col, "cutpoint": s,
+                     "RSS after": split_rss(toy[col], toy["Y"], s)})
+
+print(pd.DataFrame(rows).sort_values("RSS after").round(2))
+
+stump = DecisionTreeRegressor(max_depth=1, random_state=363)
+stump.fit(toy[["X1", "X2"]], toy["Y"])
+print(export_text(stump, feature_names=["X1", "X2"], decimals=2))
+```
+
+::: {.answer}
+:::
+
+d. Fit `DecisionTreeRegressor(max_leaf_nodes=3, random_state=363)` to `toy`, which adds the one split that lowers the RSS the most after the first. Print it with `export_text`. Which region did the second split go to, and what is the training RSS of this three-leaf tree?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+e. Take a different three-leaf tree: split first at $X_1 < 2.5$, then split the region $X_1 \geq 2.5$ at $X_2 < 2.5$. By hand, find its leaf means and training RSS. Which three-leaf tree fits the training data better? Use your table from part c to explain why recursive binary splitting missed it.
+
+## 3.
+
+In the `Carseat` data, `Sales` is unit sales
+in thousands, `Price` is the price the company charges at each store,
+`Advertising` is the local advertising budget in thousands of dollars, and
+`ShelveLoc` is the quality of the shelving location, `Bad`, `Medium` or `Good`.
+`pd.get_dummies` turns `ShelveLoc` into the 0/1 columns `ShelveLoc_Good` and
+`ShelveLoc_Medium`, with `Bad` as the baseline, and does the same for `Urban`
+and `US`. A split on a 0/1 column at 0.5 sends the stores with a 0 to the left.
+
+```{python}
+Carseats = pd.read_csv(DATA + "Carseats.csv")
+X = pd.get_dummies(Carseats.drop(columns=["Sales"]), drop_first=True).astype(float)
+y = Carseats["Sales"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.5, random_state=363
+)
+```
+
+a. Fill in the blanks below to fit a tree with `max_depth=3` to the training set and draw it. How many leaves does it have? Which predictor makes the first split, and what does that split tell us about sales?
+
+::: {.no-answer}
+:::
+
+```{python}
+tree = DecisionTreeRegressor(max_depth=3, random_state=363).fit(____, ____)
+
+fig, ax = plt.subplots(figsize=(12, 5))
+plot_tree(tree, feature_names=list(X.columns), impurity=False, rounded=True,
+          precision=2, fontsize=9, ax=ax)
+plt.show()
+```
+
+::: {.answer}
+:::
+
+b. Follow the tree for a store with a `Good` shelving location, a `Price` of 120, and an `Advertising` budget of 5. What sales does the tree predict? Write the leaf it lands in as a region, in the form $R = \{X \mid \text{ShelveLoc} = \text{Good}, \dots\}$.
+
+c. Compare the `Price` cutpoints under each shelving location. Does the tree treat the effect of `Price` as the same at every shelving location? Where does `Advertising` enter the tree, and what does that tell us about which stores sell more when they advertise?
+
+d. Use your `split_rss` from Question 2 to run the search for the first split yourself: for each of the 11 columns of `X_train`, find the cutpoint with the smallest RSS. Which column and cutpoint win, and do they match the root of your tree?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+e. Compute the test MSE of your tree, of `DummyRegressor()`, and of `LinearRegression()`, each fit on the training set. Which is lowest? Within a leaf the tree predicts the same sales at every price. If sales fall steadily as `Price` rises, how does that help explain the gap to least squares?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+
+*Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
+(2023). An Introduction to Statistical Learning with Applications in Python.
+Springer. Questions 1 to 3 are adapted from Chapter 8 exercises 4, 6 and 8.*
