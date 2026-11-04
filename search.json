@@ -6656,7 +6656,7 @@
     "href": "slides/14-regression-trees.html#weakest-link-pruning",
     "title": "Regression trees",
     "section": "Weakest link pruning",
-    "text": "Weakest link pruning\n\nAt \\(\\alpha = 0\\) the penalty vanishes, and the best subtree is \\(T_0\\) itself\n\nAs \\(\\alpha\\) grows, each leaf costs more and the best subtree shrinks\n\nBranches drop off in a nested order, so the whole sequence is cheap to find\n\n\n\n\nRecall: Lasso has the same form: training RSS plus a tuning parameter times a measure of complexity.",
+    "text": "Weakest link pruning\n\nAt \\(\\alpha = 0\\) the penalty vanishes, and the best subtree is \\(T_0\\) itself\n\nAs \\(\\alpha\\) grows, each leaf costs more and the best subtree shrinks\n\nBranches drop off in a nested order, so the whole sequence is cheap to find\n\n\n\n\nRecall: Penalized regression (ridge and lasso) has the same form: training RSS plus a tuning parameter times a measure of complexity.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -6692,7 +6692,7 @@
     "href": "slides/14-regression-trees.html#cost_complexity_pruning_path",
     "title": "Regression trees",
     "section": "cost_complexity_pruning_path",
-    "text": "cost_complexity_pruning_path\n\nfrom sklearn.model_selection import GridSearchCV, KFold\n\n1X = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\n\n2big = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X, y)\n3path = big.cost_complexity_pruning_path(X, y)\nsteps = pd.DataFrame({\"ccp_alpha\": path.ccp_alphas, \"training MSE\": path.impurities})\nsteps.round(4).iloc[::6]\n\n\n1\n\npd.get_dummies(..., drop_first=True) turns League, Division and\nNewLeague into 0/1 columns, giving the same 19 predictors as Meeting 10. There is no StandardScaler, since a split depends only on the order of a column’s values.\n\n2\n\nmin_samples_leaf=5 keeps splitting until a split would leave fewer than\nfive players in a leaf, the stopping rule in step 1 of Algorithm 8.1. On all 263 players \\(T_0\\) has 43 leaves.\n\n3\n\ncost_complexity_pruning_path runs weakest link pruning on big. It\nreturns ccp_alphas, the values of \\(\\alpha\\) at which a branch drops off, and impurities, the training MSE of the subtree at each one. scikit-learn measures fit by MSE rather than RSS, so ccp_alpha is the \\(\\alpha\\) of the equation divided by \\(n\\). .iloc[::6] prints every sixth row.\n\n\n\n\n\n\n\n\n\n\n\nccp_alpha\ntraining MSE\n\n\n\n\n0\n0.0000\n0.0851\n\n\n6\n0.0006\n0.0875\n\n\n12\n0.0012\n0.0936\n\n\n18\n0.0017\n0.1025\n\n\n24\n0.0034\n0.1191\n\n\n30\n0.0051\n0.1571\n\n\n36\n0.0295\n0.2457",
+    "text": "cost_complexity_pruning_path\n\nfrom sklearn.model_selection import GridSearchCV, KFold\n\n1X = pd.get_dummies(Hitters.drop(columns=[\"Salary\"]), drop_first=True).astype(float)\n\n2big = DecisionTreeRegressor(min_samples_leaf=5, random_state=363).fit(X, y)\n3path = big.cost_complexity_pruning_path(X, y)\nsteps = pd.DataFrame({\"ccp_alpha\": path.ccp_alphas, \"training MSE\": path.impurities})\nsteps.round(4).iloc[::6]\n\n\n1\n\npd.get_dummies(..., drop_first=True) turns League, Division and\nNewLeague into 0/1 columns, giving the same 19 predictors. There is no StandardScaler, since a split depends only on the order of a column’s values.\n\n2\n\nmin_samples_leaf=5 keeps splitting until a split would leave fewer than\nfive players in a leaf, the stopping rule in step 1 of Algorithm 8.1. On all 263 players \\(T_0\\) has 43 leaves.\n\n3\n\ncost_complexity_pruning_path runs weakest link pruning on big. It\nreturns ccp_alphas, the values of \\(\\alpha\\) at which a branch drops off, and impurities, the training MSE of the subtree at each one. scikit-learn measures fit by MSE rather than RSS, so ccp_alpha is the \\(\\alpha\\) of the equation divided by \\(n\\). .iloc[::6] prints every sixth row.\n\n\n\n\n\n\n\n\n\n\n\nccp_alpha\ntraining MSE\n\n\n\n\n0\n0.0000\n0.0851\n\n\n6\n0.0006\n0.0875\n\n\n12\n0.0012\n0.0936\n\n\n18\n0.0017\n0.1025\n\n\n24\n0.0034\n0.1191\n\n\n30\n0.0051\n0.1571\n\n\n36\n0.0295\n0.2457",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -6716,7 +6716,7 @@
     "href": "slides/14-regression-trees.html#error-against-tree-size",
     "title": "Regression trees",
     "section": "Error against tree size",
-    "text": "Error against tree size\n\n\n\n\n\n\n\n\n\n\nTraining and ten-fold cross-validation MSE for every subtree on the pruning path with at least two leaves, with one standard error bars on the CV curve. The dotted line marks the eight leaves CV chose.\n\n\n\nWhat would the one standard error rule from Meeting 10 choose?",
+    "text": "Error against tree size\n\n\n\n\n\n\n\n\n\n\nTraining and ten-fold cross-validation MSE for every subtree on the pruning path with at least two leaves, with one standard error bars on the CV curve. The dotted line marks the eight leaves CV chose.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -6728,7 +6728,7 @@
     "href": "slides/14-regression-trees.html#the-pruned-tree",
     "title": "Regression trees",
     "section": "The pruned tree",
-    "text": "The pruned tree\n\n\n\n\n\n\n\n\n\n\nThe eight-leaf subtree chosen by cross-validation, refit on all 263 players. Each box shows a rule, the number of players, and their mean log salary, labelled in full at the root.\n\n\n\nCAtBat is career at bats. Which split from Figure 8.1 survived?",
+    "text": "The pruned tree\n\n\n\n\n\n\n\n\n\n\nThe eight-leaf subtree chosen by cross-validation, refit on all 263 players. Each box shows a rule, the number of players, and their mean log salary, labelled in full at the root.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",
@@ -6741,6 +6741,30 @@
     "title": "Regression trees",
     "section": "Cross-validated MSE",
     "text": "Cross-validated MSE\n\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.dummy import DummyRegressor\nfrom sklearn.linear_model import LinearRegression\n\n1models = {\"training mean\": DummyRegressor(), \"unpruned tree\": big,\n          \"pruned tree\": pruned, \"least squares\": LinearRegression()}\n2pd.Series({name: -cross_val_score(m, X, y, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n           for name, m in models.items()}).round(3)\n\n\n1\n\nDummyRegressor() predicts the mean log salary of the training folds for\nevery player, the baseline any model has to beat. big is \\(T_0\\) with 43 leaves, and pruned is the eight-leaf subtree.\n\n2\n\ncross_val_score refits a fresh copy of each model on nine folds and scores\nit on the tenth, using the same ten folds for all four. The pruned tree’s ccp_alpha was chosen on these folds, so its number is slightly optimistic.\n\n\n\n\ntraining mean    0.802\nunpruned tree    0.286\npruned tree      0.270\nleast squares    0.418\ndtype: float64\n\n\n\n\nLeast squares on the same 19 predictors does worse than either tree. What could the tree be picking up that a linear model misses?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
+  },
+  {
+    "objectID": "slides/14-regression-trees.html#two-way-interactions",
+    "href": "slides/14-regression-trees.html#two-way-interactions",
+    "title": "Regression trees",
+    "section": "Two-way interactions",
+    "text": "Two-way interactions\n\nfrom sklearn.preprocessing import PolynomialFeatures, StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\n1inter = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)\n2ls_inter = make_pipeline(inter, StandardScaler(), LinearRegression())\nmodels[\"least squares, interactions\"] = ls_inter\n3pd.Series({name: -cross_val_score(m, X, y, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n           for name, m in models.items()}).round(3)\n\n\n1\n\nPolynomialFeatures(degree=2, interaction_only=True, include_bias=False)\nkeeps the 19 columns of X and adds the product of every pair of them, 171 more, for 190 columns in all. interaction_only=True leaves out the squared terms, and include_bias=False leaves the intercept to LinearRegression.\n\n2\n\nmake_pipeline builds the products inside each training fold, scales them,\nand fits least squares on all 190 columns. StandardScaler() keeps the solver stable, since a product such as CAtBat times CHits runs into the tens of millions while a dummy is 0 or 1. Adding ls_inter to the models dictionary puts it in the comparison.\n\n3\n\ncross_val_score scores every model in models on the same ten folds as\nthe previous slide. Each training fold holds 236 or 237 players, so least squares estimates 191 coefficients from barely more players than that.\n\n\n\n\ntraining mean                  0.802\nunpruned tree                  0.286\npruned tree                    0.270\nleast squares                  0.418\nleast squares, interactions    6.938\ndtype: float64\n\n\n\n\nEvery two-way interaction is in the model now, and the CV MSE rose from 0.418 to 6.938, with one fold at 35.8. What went wrong?",
+    "crumbs": [
+      "{{< fa calendar >}} Schedule",
+      "Slides",
+      "14. Regression Trees"
+    ]
+  },
+  {
+    "objectID": "slides/14-regression-trees.html#lasso-with-interactions",
+    "href": "slides/14-regression-trees.html#lasso-with-interactions",
+    "title": "Regression trees",
+    "section": "Lasso with interactions",
+    "text": "Lasso with interactions\n\nfrom sklearn.linear_model import Lasso\n\n1lasso_inter = make_pipeline(inter, StandardScaler(), Lasso(max_iter=200000))\n2search_lasso = GridSearchCV(lasso_inter, {\"lasso__alpha\": np.logspace(-3, 0, 40)},\n                            cv=cv, scoring=\"neg_mean_squared_error\").fit(X, y)\n3models[\"lasso, interactions\"] = search_lasso.best_estimator_\npd.Series({name: -cross_val_score(m, X, y, cv=cv, scoring=\"neg_mean_squared_error\").mean()\n           for name, m in models.items()}).round(3)\n\n\n1\n\nmake_pipeline builds the same 190 columns, and StandardScaler() centers\nand scales each one before Lasso, so the penalty treats a product such as Years times CAtBat on the same footing as a 0/1 dummy. max_iter=200000 raises the coordinate descent iteration cap.\n\n2\n\nGridSearchCV tries the forty penalties in np.logspace(-3, 0, 40), on a\nlog scale from 0.001 to 1, on the same ten folds. The name lasso__alpha reaches the alpha of the pipeline step named lasso. The response here is log salary, so the useful penalties are far smaller than the ones for raw Salary.\n\n3\n\nbest_estimator_ is the pipeline refit on all 263 players at the winning\nalpha of 0.012, which keeps 31 of the 190 columns. That alpha was chosen on these folds, so like the pruned tree its CV MSE is slightly optimistic.\n\n\n\n\ntraining mean                  0.802\nunpruned tree                  0.286\npruned tree                    0.270\nleast squares                  0.418\nleast squares, interactions    6.938\nlasso, interactions            0.315\ndtype: float64\n\n\n\n\nZeroing 159 of 190 coefficients cuts the variance. Its two largest interactions both involve Years, the tree’s first split.",
     "crumbs": [
       "{{< fa calendar >}} Schedule",
       "Slides",

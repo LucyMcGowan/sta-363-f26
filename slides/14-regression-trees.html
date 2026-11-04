@@ -219,7 +219,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="hitters" class="slide level2 small">
 <h2>Hitters</h2>
-<div id="44f5aa10" class="cell" data-execution_count="2">
+<div id="3cba8d1f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -354,7 +354,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="rss-against-the-cutpoint" class="slide level2 small">
 <h2>RSS against the cutpoint</h2>
-<div id="0356d077" class="cell" data-execution_count="5">
+<div id="bcedeb3f" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -414,7 +414,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="decisiontreeregressor" class="slide level2 small">
 <h2>DecisionTreeRegressor</h2>
-<div id="21e31f24" class="cell" data-execution_count="6">
+<div id="e293d111" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor, export_text</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>Hitters <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"Hitters.csv"</span>).dropna(subset<span class="op">=</span>[<span class="st">"Salary"</span>])</span>
@@ -522,7 +522,7 @@ prints each leaf mean to three places.</span>
 </ul>
 <div class="fragment">
 <div class="takeaway">
-<p>Recall: Lasso has the same form: training RSS plus a tuning parameter times a measure of complexity.</p>
+<p>Recall: Penalized regression (ridge and lasso) has the same form: training RSS plus a tuning parameter times a measure of complexity.</p>
 </div>
 </div>
 </section>
@@ -557,7 +557,7 @@ prints each leaf mean to three places.</span>
 </section>
 <section id="cost_complexity_pruning_path" class="slide level2 small">
 <h2>cost_complexity_pruning_path</h2>
-<div id="e9538e12" class="cell" data-execution_count="8">
+<div id="c3584c4b" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, KFold</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(Hitters.drop(columns<span class="op">=</span>[<span class="st">"Salary"</span>]), drop_first<span class="op">=</span><span class="va">True</span>).astype(<span class="bu">float</span>)</span>
@@ -571,7 +571,7 @@ prints each leaf mean to three places.</span>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="1"><code>pd.get_dummies(..., drop_first=True)</code> turns <code>League</code>, <code>Division</code> and<br>
-<code>NewLeague</code> into 0/1 columns, giving the same 19 predictors as Meeting 10. There is no <code>StandardScaler</code>, since a split depends only on the order of a column’s values.</span>
+<code>NewLeague</code> into 0/1 columns, giving the same 19 predictors. There is no <code>StandardScaler</code>, since a split depends only on the order of a column’s values.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
@@ -585,7 +585,7 @@ returns <code>ccp_alphas</code>, the values of <span class="math inline">\(\alph
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -654,7 +654,7 @@ returns <code>ccp_alphas</code>, the values of <span class="math inline">\(\alph
 </section>
 <section id="choosing-ccp_alpha" class="slide level2 small">
 <h2>Choosing ccp_alpha</h2>
-<div id="9e4c5486" class="cell" data-execution_count="9">
+<div id="fa56c771" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>search <span class="op">=</span> GridSearchCV(</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    DecisionTreeRegressor(min_samples_leaf<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">363</span>),</span>
@@ -683,14 +683,14 @@ nine folds and prunes it at the candidate <code>ccp_alpha</code>, which is steps
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>(0.0088, 8, 0.27)</code></pre>
 </div>
 </div>
 </section>
 <section id="error-against-tree-size" class="slide level2 small">
 <h2>Error against tree size</h2>
-<div id="5299d456" class="cell" data-execution_count="10">
+<div id="82a0567d" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -702,15 +702,10 @@ nine folds and prunes it at the candidate <code>ccp_alpha</code>, which is steps
 <div class="source">
 <p>Training and ten-fold cross-validation MSE for every subtree on the pruning path with at least two leaves, with one standard error bars on the CV curve. The dotted line marks the eight leaves CV chose.</p>
 </div>
-<div class="fragment">
-<div class="question">
-<p>What would the one standard error rule from Meeting 10 choose?</p>
-</div>
-</div>
 </section>
 <section id="the-pruned-tree" class="slide level2 small">
 <h2>The pruned tree</h2>
-<div id="2121c8ef" class="cell" data-execution_count="11">
+<div id="5e23b2d7" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -722,15 +717,10 @@ nine folds and prunes it at the candidate <code>ccp_alpha</code>, which is steps
 <div class="source">
 <p>The eight-leaf subtree chosen by cross-validation, refit on all 263 players. Each box shows a rule, the number of players, and their mean log salary, labelled in full at the root.</p>
 </div>
-<div class="fragment">
-<div class="question">
-<p><code>CAtBat</code> is career at bats. Which split from Figure 8.1 survived?</p>
-</div>
-</div>
 </section>
 <section id="cross-validated-mse" class="slide level2 small">
 <h2>Cross-validated MSE</h2>
-<div id="f4883564" class="cell" data-execution_count="12">
+<div id="26809c14" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyRegressor</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -753,7 +743,7 @@ it on the tenth, using the same ten folds for all four. The pruned tree’s <cod
 </dd>
 </dl>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>training mean    0.802
 unpruned tree    0.286
 pruned tree      0.270
@@ -764,6 +754,97 @@ dtype: float64</code></pre>
 <div class="fragment">
 <div class="question">
 <p>Least squares on the same 19 predictors does worse than either tree. What could the tree be picking up that a linear model misses?</p>
+</div>
+</div>
+</section>
+<section id="two-way-interactions" class="slide level2 small">
+<h2>Two-way interactions</h2>
+<div id="354f696f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>inter <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span><span class="dv">2</span>, interaction_only<span class="op">=</span><span class="va">True</span>, include_bias<span class="op">=</span><span class="va">False</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>ls_inter <span class="op">=</span> make_pipeline(inter, StandardScaler(), LinearRegression())</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>models[<span class="st">"least squares, interactions"</span>] <span class="op">=</span> ls_inter</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>pd.Series({name: <span class="op">-</span>cross_val_score(m, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>).mean()</span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> name, m <span class="kw">in</span> models.items()}).<span class="bu">round</span>(<span class="dv">3</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="1"><code>PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)</code><br>
+keeps the 19 columns of <code>X</code> and adds the product of every pair of them, 171 more, for 190 columns in all. <code>interaction_only=True</code> leaves out the squared terms, and <code>include_bias=False</code> leaves the intercept to <code>LinearRegression</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="2"><code>make_pipeline</code> builds the products inside each training fold, scales them,<br>
+and fits least squares on all 190 columns. <code>StandardScaler()</code> keeps the solver stable, since a product such as <code>CAtBat</code> times <code>CHits</code> runs into the tens of millions while a dummy is 0 or 1. Adding <code>ls_inter</code> to the <code>models</code> dictionary puts it in the comparison.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="7" data-code-annotation="3"><code>cross_val_score</code> scores every model in <code>models</code> on the same ten folds as<br>
+the previous slide. Each training fold holds 236 or 237 players, so least squares estimates 191 coefficients from barely more players than that.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>training mean                  0.802
+unpruned tree                  0.286
+pruned tree                    0.270
+least squares                  0.418
+least squares, interactions    6.938
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="question">
+<p>Every two-way interaction is in the model now, and the CV MSE rose from 0.418 to 6.938, with one fold at 35.8. What went wrong?</p>
+</div>
+</div>
+</section>
+<section id="lasso-with-interactions" class="slide level2 small">
+<h2>Lasso with interactions</h2>
+<div id="a00f4b2d" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>lasso_inter <span class="op">=</span> make_pipeline(inter, StandardScaler(), Lasso(max_iter<span class="op">=</span><span class="dv">200000</span>))</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>search_lasso <span class="op">=</span> GridSearchCV(lasso_inter, {<span class="st">"lasso__alpha"</span>: np.logspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">40</span>)},</span>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>                            cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>).fit(X, y)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>models[<span class="st">"lasso, interactions"</span>] <span class="op">=</span> search_lasso.best_estimator_</span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>pd.Series({name: <span class="op">-</span>cross_val_score(m, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>).mean()</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> name, m <span class="kw">in</span> models.items()}).<span class="bu">round</span>(<span class="dv">3</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="1"><code>make_pipeline</code> builds the same 190 columns, and <code>StandardScaler()</code> centers<br>
+and scales each one before <code>Lasso</code>, so the penalty treats a product such as <code>Years</code> times <code>CAtBat</code> on the same footing as a 0/1 dummy. <code>max_iter=200000</code> raises the coordinate descent iteration cap.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="2"><code>GridSearchCV</code> tries the forty penalties in <code>np.logspace(-3, 0, 40)</code>, on a<br>
+log scale from 0.001 to 1, on the same ten folds. The name <code>lasso__alpha</code> reaches the <code>alpha</code> of the pipeline step named <code>lasso</code>. The response here is log salary, so the useful penalties are far smaller than the ones for raw <code>Salary</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3"><code>best_estimator_</code> is the pipeline refit on all 263 players at the winning<br>
+<code>alpha</code> of 0.012, which keeps 31 of the 190 columns. That <code>alpha</code> was chosen on these folds, so like the pruned tree its CV MSE is slightly optimistic.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>training mean                  0.802
+unpruned tree                  0.286
+pruned tree                    0.270
+least squares                  0.418
+least squares, interactions    6.938
+lasso, interactions            0.315
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="takeaway">
+<p>Zeroing 159 of 190 coefficients cuts the variance. Its two largest interactions both involve <code>Years</code>, the tree’s first split.</p>
 </div>
 </div>
 </section>
