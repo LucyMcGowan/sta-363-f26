@@ -357,7 +357,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 <section id="application-exercise" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 1. <a href="../ex/16-ex.qmd">ex/16-ex</a></p>
+<p>Complete Part 1. <a href="../ex/16-ex.html">ex/16-ex</a></p>
 </div>
 </section></section>
 <section>
@@ -394,7 +394,7 @@ Dr.&nbsp;Lucy D’Agostino McGowan
 </section>
 <section id="randomforestregressor" class="slide level2 small">
 <h2>RandomForestRegressor</h2>
-<div id="f5877842" class="cell" data-execution_count="7">
+<div id="26c17f89" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>bag <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">500</span>, max_features<span class="op">=</span><span class="va">None</span>,</span>
@@ -460,7 +460,7 @@ dtype: float64</code></pre>
 </section>
 <section id="cross-validated-mse" class="slide level2 small">
 <h2>Cross-validated MSE</h2>
-<div id="016ffd71" class="cell" data-execution_count="10">
+<div id="0e04d046" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyRegressor</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -502,7 +502,7 @@ dtype: float64</code></pre>
 <section id="application-exercise-1" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 2. <a href="../ex/16-ex.qmd">ex/16-ex</a></p>
+<p>Complete Part 2. <a href="../ex/16-ex.html">ex/16-ex</a></p>
 </div>
 </section></section>
 <section>
@@ -562,7 +562,7 @@ dtype: float64</code></pre>
 </section>
 <section id="boosting-by-hand" class="slide level2 small">
 <h2>Boosting by hand</h2>
-<div id="df9470f2" class="cell" data-execution_count="12">
+<div id="4b9444e1" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>lam, B, d <span class="op">=</span> <span class="fl">0.01</span>, <span class="dv">1000</span>, <span class="dv">1</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> y.to_numpy().copy()</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>trees <span class="op">=</span> []</span>
@@ -687,7 +687,7 @@ printed are the training MSE of <code>f_hat</code> and the mean squared residual
 </section>
 <section id="gradientboostingregressor" class="slide level2 small">
 <h2>GradientBoostingRegressor</h2>
-<div id="928a9611" class="cell" data-execution_count="14">
+<div id="497e72fa" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>boost <span class="op">=</span> GradientBoostingRegressor(learning_rate<span class="op">=</span><span class="fl">0.01</span>, random_state<span class="op">=</span><span class="dv">363</span>)</span>
@@ -733,7 +733,7 @@ refits the best one on all 263 players and stores it as <code>best_estimator_</c
 </section>
 <section id="cross-validated-mse-1" class="slide level2 small">
 <h2>Cross-validated MSE</h2>
-<div id="aecb4aac" class="cell" data-execution_count="16">
+<div id="bbf44f65" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>models[<span class="st">"boosting"</span>] <span class="op">=</span> search_boost.best_estimator_</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>cv_mse[<span class="st">"boosting"</span>] <span class="op">=</span> <span class="op">-</span>cross_val_score(models[<span class="st">"boosting"</span>], X, y, cv<span class="op">=</span>cv,</span>
 <span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>                                      scoring<span class="op">=</span><span class="st">"neg_mean_squared_error"</span>).mean()</span>
@@ -771,7 +771,7 @@ dtype: float64</code></pre>
 <section id="application-exercise-2" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 3. <a href="../ex/16-ex.qmd">ex/16-ex</a></p>
+<p>Complete Part 3. <a href="../ex/16-ex.html">ex/16-ex</a></p>
 </div>
 </section></section>
 <section>
@@ -804,7 +804,7 @@ dtype: float64</code></pre>
 </section>
 <section id="feature_importances_" class="slide level2 small">
 <h2>feature_importances_</h2>
-<div id="6a807271" class="cell" data-execution_count="17">
+<div id="3d8a35cd" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>importance <span class="op">=</span> pd.Series(rf.feature_importances_, index<span class="op">=</span>X.columns)</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">7.2</span>, <span class="fl">2.9</span>))</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>importance.nlargest(<span class="dv">10</span>).sort_values().plot.barh(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"#d5008f"</span>)</span>
@@ -877,7 +877,7 @@ dtype: float64</code></pre>
 <section id="application-exercise-3" class="slide level2">
 <h2>Application exercise</h2>
 <div class="takeaway">
-<p>Complete Part 4. <a href="../ex/16-ex.qmd">ex/16-ex</a></p>
+<p>Complete Part 4. <a href="../ex/16-ex.html">ex/16-ex</a></p>
 </div>
 </section>
 <section id="before-wednesday" class="slide level2">
