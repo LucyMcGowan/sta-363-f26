@@ -1,6 +1,6 @@
 ---
-title: "Problem set 8: Regression trees"
-subtitle: "STA 363 | Posted October 30 | Due Friday, November 6"
+title: "Problem set 8: Bagging, random forests and boosting"
+subtitle: "STA 363 | Posted November 13 | Due Friday, November 20"
 jupyter: python3
 ---
 
@@ -14,107 +14,82 @@ please cite all other sources including AI.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
-from sklearn.tree import DecisionTreeRegressor, export_text, plot_tree
-from sklearn.model_selection import train_test_split
-from sklearn.dummy import DummyRegressor
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import (RandomForestClassifier, GradientBoostingRegressor,
+                              GradientBoostingClassifier)
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.metrics import confusion_matrix
 
 DATA = "https://raw.githubusercontent.com/LucyMcGowan/sta-363-f26/main/data/"
 ```
 
 ## 1.
 
-The left panel of the figure partitions the predictor space for two predictors,
-$X_1$ and $X_2$. The number inside each box is the mean of $Y$ for the training
-observations in that box. The right panel is a regression tree drawn the same
-way as ISLP Figure 8.1, with the mean of $Y$ at the bottom of each leaf. A rule
-such as $X_2 < 1$ describes the left branch below it. Both panels redraw ISLP
-Figure 8.14.
+Suppose we draw ten bootstrap training sets from a data set with two classes,
+red and green, and grow a classification tree on each one. For a new
+observation $x_0$, the ten trees estimate $P(\text{Red} \mid X = x_0)$ as
+
+$$0.1,\ 0.15,\ 0.2,\ 0.2,\ 0.55,\ 0.6,\ 0.6,\ 0.65,\ 0.7,\ 0.75.$$
+
+There are two common ways to combine these into one prediction. A **majority
+vote** lets each tree predict Red when its estimate is above 0.5, then predicts
+the class with the most votes. **Averaging the probabilities** predicts Red when
+the mean of the ten estimates is above 0.5.
+
+a. By hand, which class does the majority vote predict for $x_0$?
+b. By hand, which class does averaging the probabilities predict for $x_0$?
+c. Explain why the two approaches disagree for $x_0$. Hint: compare how far the estimates on each side of 0.5 are from 0.5.
+d. Bagged trees are grown deep and are not pruned. Suppose each tree is grown until every leaf holds training observations from a single class. What values can each tree's estimate take? Explain why the majority vote and the averaged probability then always predict the same class.
+
+`RandomForestClassifier` with `max_features=None` is bagging for
+classification. `min_samples_leaf` sets the fewest training observations a leaf
+may hold, so `min_samples_leaf=10` grows shallower trees whose leaves often mix
+the two classes. The code below reads in `Carseats`, where `High` is Yes when `Sales` is above 8, and splits the 400 stores in
+half. `tree_probs` returns each tree's estimate of $P(\text{High} = \text{Yes})$,
+with one row per tree and one column per store.
 
 ```{python}
-#| notebook: image
-ink = "#404040"
-fig, (left, right) = plt.subplots(1, 2, figsize=(11, 4.2))
-
-# left: the partition, with the mean of Y in each box
-for x0, y0, x1, y1 in [(-1, -1, 2, -1), (-1, 2, 2, 2), (-1, -1, -1, 2),
-                       (2, -1, 2, 2), (1, -1, 1, 2), (-1, 1, 1, 1),
-                       (0, -1, 0, 1), (0, 0, 1, 0)]:
-    left.plot([x0, x1], [y0, y1], color=ink, lw=2)
-for x, y, mean in [(0, 1.5, 15), (1.5, 0.5, 5), (-0.5, 0, 3),
-                   (0.5, 0.5, 0), (0.5, -0.5, 10)]:
-    left.text(x, y, mean, ha="center", va="center", fontsize=15, color="#d5008f")
-left.set_xticks([0, 1])
-left.set_yticks([0, 1])
-left.set_xlabel("$X_1$", fontsize=13)
-left.set_ylabel("$X_2$", fontsize=13, rotation=0, labelpad=12)
-left.tick_params(length=0, labelsize=12)
-for spine in left.spines.values():
-    spine.set_visible(False)
+Carseats = pd.read_csv(DATA + "Carseats.csv")
+X_seats = pd.get_dummies(Carseats.drop(columns=["Sales"]), drop_first=True).astype(float)
+High = np.where(Carseats["Sales"] > 8, "Yes", "No")
+seats_train, seats_test, High_train, High_test = train_test_split(
+    X_seats, High, test_size=0.5, random_state=363
+)
 
 
-# right: the tree, with each rule above its node and each mean below its leaf
-def split(x, y, x_left, y_left, x_right, y_right, rule):
-    right.plot([x_left, x_left, x_right, x_right], [y_left, y, y, y_right],
-               color=ink, lw=1.6)
-    right.text(x, y + 0.02, rule, ha="center", va="bottom", fontsize=12,
-               bbox=dict(facecolor="white", edgecolor="none", pad=1))
-
-
-def leaf(x, y, mean):
-    right.text(x, y - 0.02, mean, ha="center", va="top", fontsize=13,
-               color="#d5008f")
-
-
-split(0.50, 1.00, 0.22, 0.62, 0.78, 0.62, "$X_2 < 1$")
-split(0.22, 0.62, 0.08, 0.10, 0.36, 0.10, "$X_1 < 1$")
-split(0.78, 0.62, 0.66, 0.42, 0.92, 0.34, "$X_2 < 2$")
-split(0.66, 0.42, 0.56, 0.16, 0.76, 0.16, "$X_1 < 0$")
-for x, y, mean in [(0.08, 0.10, "-1.80"), (0.36, 0.10, "0.63"),
-                   (0.56, 0.16, "-1.06"), (0.76, 0.16, "0.21"),
-                   (0.92, 0.34, "2.49")]:
-    leaf(x, y, mean)
-right.set_xlim(0, 1)
-right.set_ylim(0, 1.1)
-right.axis("off")
-plt.tight_layout()
+def tree_probs(forest, X_new):
+    return np.array([tree.predict_proba(X_new.to_numpy())[:, 1]
+                     for tree in forest.estimators_])
 ```
 
-a. Sketch the tree that corresponds to the partition in the left panel. Label each internal node with its rule and each leaf with its mean.
-b. Write each of the five regions in the left panel as a set, in the form $R = \{X \mid X_1 < a, X_2 \geq b\}$. What does the partition predict for a new observation with $X_1 = 0.5$ and $X_2 = -0.5$?
-c. The box with mean 5 is on both sides of the line $X_2 = 1$. Why does that force your tree in part a to make its first split on $X_1$? Could a tree whose first split is $X_2 < 1$ give the same predictions everywhere? If so, how many leaves would it need?
-d. Draw the partition that the tree in the right panel describes, in the style of the left panel. Mark each cutpoint on the axes and write the mean in each region.
-e. Fill in the blanks below so that `tree_right` follows the tree in the right panel and returns the mean in the leaf where $(X_1, X_2)$ lands. Run the code to draw its predictions over a grid, and check them against your diagram from part d.
+e. Fill in the blanks below. Each forest has 501 trees, an odd number, so the vote cannot tie. For each random forest, how many distinct estimates do the trees give, and for how many of the 200 test stores do the two rules disagree? Does this match part d? Which rule does `forest.predict` follow?
 
 ::: {.no-answer}
 :::
 
 ```{python}
-def tree_right(x1, x2):
-    if x2 < 1:
-        if x1 < 1:
-            return -1.80
-        return 0.63
-    # the right branch of the root splits twice more
-    if ____:
-        if ____:
-            return ____
-        return ____
-    return ____
+rows = []
+for leaf in [1, 10]:
+    forest = RandomForestClassifier(n_estimators=501, max_features=None,
+                                    min_samples_leaf=leaf, random_state=363)
+    forest.fit(seats_train, High_train)
+    probs = tree_probs(forest, seats_test)
+    # Yes when more than half of the 501 trees estimate P(Yes) above 0.5
+    vote = np.where(____, "Yes", "No")
+    # Yes when the mean of the 501 estimates is above 0.5
+    average = np.where(____, "Yes", "No")
+    rows.append({
+        "min_samples_leaf": leaf,
+        "distinct estimates": len(np.unique(probs)),
+        "stores where the rules disagree": int((vote != average).sum()),
+        "predict matches vote": bool((forest.predict(seats_test) == vote).all()),
+        "predict matches average": bool((forest.predict(seats_test) == average).all()),
+    })
 
-
-x1_grid = np.linspace(-1, 2, 301)
-x2_grid = np.linspace(-1, 3, 401)
-surface = np.array([[tree_right(a, b) for a in x1_grid] for b in x2_grid])
-
-ramp = LinearSegmentedColormap.from_list("sta363", ["#eec8e1", "#d5008f", "#404040"])
-plt.pcolormesh(x1_grid, x2_grid, surface, cmap=ramp, shading="auto")
-plt.colorbar(label="predicted Y")
-plt.xlabel("$X_1$")
-plt.ylabel("$X_2$")
-plt.show()
+pd.DataFrame(rows)
 ```
 
 ::: {.answer}
@@ -122,112 +97,112 @@ plt.show()
 
 ## 2.
 
-Let's take the process that grows a tree, recursive binary splitting, on
-six training observations with two predictors.
+ISLP Section 8.2.3 states that boosting with stumps (trees with $d = 1$ split)
+gives an **additive model**, a model of the form
 
-| observation | 1 | 2 | 3 | 4 | 5 | 6 |
-|---|---|---|---|---|---|---|
-| $X_1$ | 1 | 2 | 3 | 4 | 5 | 6 |
-| $X_2$ | 5 | 1 | 3 | 6 | 2 | 4 |
-| $Y$ | 5 | 5 | 12 | 10 | 0 | 11 |
+$$f(X) = \sum_{j=1}^{p} f_j(X_j),$$
 
-Before any split, all six observations are predicted with their mean of 7.17,
-and the RSS is 106.83.
+where each $f_j$ depends only on the single predictor $X_j$. The boosted model
+from lecture is
 
-a. Describe, step by step, how recursive binary splitting grows a regression tree. Explain what it searches over at each step, which quantity it uses to choose a split, and what it predicts in each region. What do "top-down" and "greedy" mean here?
+$$\hat{f}(x) = \sum_{b=1}^{B}\lambda\hat{f}^b(x).$$
 
-b. By hand, find the RSS after the split $X_1 < 2.5$ and after the split $X_2 < 2.5$. Show the mean of each side of each split.
+a. Explain why boosting with stumps gives an additive model. Hint: what does the prediction of a single stump depend on? Group the $B$ shrunken stumps by the predictor each one splits on.
 
-c. Fill in the blanks below to compute the RSS after every candidate split on both predictors. Which predictor and cutpoint does recursive binary splitting choose first? Check your answers to part b against the table, and the choice against the `max_depth=1` tree.
+The loop below is the boosting loop from lecture, fit to `Sales` in `Carseats`
+with the 11 columns of `X_seats` from Question 1. The fit
+starts at the mean of `Sales` rather than at 0, as `GradientBoostingRegressor`
+does, so the residuals start at `Sales` minus its mean. It also uses
+$\lambda = 0.1$. `stump.tree_.feature[0]` is the column number of the
+predictor used at a tree's first split, which for a stump is its only split,
+and `split_on` records the name of that predictor for every stump. The table at
+the end counts how many of the first 200 stumps and how many of the last 200
+split on each predictor.
 
-::: {.no-answer}
-:::
-
-```{python}
-toy = pd.DataFrame({
-    "X1": [1, 2, 3, 4, 5, 6],
-    "X2": [5, 1, 3, 6, 2, 4],
-    "Y": [5, 5, 12, 10, 0, 11],
-})
-
-
-def split_rss(x, y, s):
-    left, right = y[x < s], y[x >= s]
-    # each side is predicted with its own mean
-    return ____
-
-
-rows = []
-for col in ["X1", "X2"]:
-    values = np.sort(toy[col].unique())
-    # the cutpoints halfway between adjacent observed values
-    cuts = ____
-    for s in cuts:
-        rows.append({"predictor": col, "cutpoint": s,
-                     "RSS after": split_rss(toy[col], toy["Y"], s)})
-
-print(pd.DataFrame(rows).sort_values("RSS after").round(2))
-
-stump = DecisionTreeRegressor(max_depth=1, random_state=363)
-stump.fit(toy[["X1", "X2"]], toy["Y"])
-print(export_text(stump, feature_names=["X1", "X2"], decimals=2))
-```
-
-::: {.answer}
-:::
-
-d. Fit `DecisionTreeRegressor(max_leaf_nodes=3, random_state=363)` to `toy`, which adds the one split that lowers the RSS the most after the first. Print it with `export_text`. Which region did the second split go to, and what is the training RSS of this three-leaf tree?
-
-::: {.code-cell}
-:::
-
-::: {.answer}
-:::
-
-e. Take a different three-leaf tree: split first at $X_1 < 2.5$, then split the region $X_1 \geq 2.5$ at $X_2 < 2.5$. By hand, find its leaf means and training RSS. Which three-leaf tree fits the training data better? Use your table from part c to explain why recursive binary splitting missed it.
-
-## 3.
-
-In the `Carseat` data, `Sales` is unit sales
-in thousands, `Price` is the price the company charges at each store,
-`Advertising` is the local advertising budget in thousands of dollars, and
-`ShelveLoc` is the quality of the shelving location, `Bad`, `Medium` or `Good`.
-`pd.get_dummies` turns `ShelveLoc` into the 0/1 columns `ShelveLoc_Good` and
-`ShelveLoc_Medium`, with `Bad` as the baseline, and does the same for `Urban`
-and `US`. A split on a 0/1 column at 0.5 sends the stores with a 0 to the left.
-
-```{python}
-Carseats = pd.read_csv(DATA + "Carseats.csv")
-X = pd.get_dummies(Carseats.drop(columns=["Sales"]), drop_first=True).astype(float)
-y = Carseats["Sales"]
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.5, random_state=363
-)
-```
-
-a. Fill in the blanks below to fit a tree with `max_depth=3` to the training set and draw it. How many leaves does it have? Which predictor makes the first split, and what does that split tell us about sales?
+b. Fill in the blanks below to run the loop. Which predictors do the first 200 stumps split on most often, and which do the last 200 split on most often? What do you think the late stumps on `Population` are fitting, and what does that suggest about using 1,000 stumps here?
 
 ::: {.no-answer}
 :::
 
 ```{python}
-tree = DecisionTreeRegressor(max_depth=3, random_state=363).fit(____, ____)
+sales = Carseats["Sales"]
+lam, B = 0.1, 1000
+r = (sales - sales.mean()).to_numpy()
+stumps = []
+split_on = []
+for b in range(B):
+    # a tree with d = 1 split, fit to the current residuals
+    stump = DecisionTreeRegressor(max_leaf_nodes=____, random_state=363)
+    stump.fit(X_seats, ____)
+    # subtract the shrunken stump from the residuals
+    r = ____
+    stumps.append(stump)
+    split_on.append(X_seats.columns[stump.tree_.feature[0]])
 
-fig, ax = plt.subplots(figsize=(12, 5))
-plot_tree(tree, feature_names=list(X.columns), impurity=False, rounded=True,
-          precision=2, fontsize=9, ax=ax)
+f_hat = sales.mean() + sum(lam * stump.predict(X_seats) for stump in stumps)
+pd.DataFrame({
+    "first 200": pd.Series(split_on[:200]).value_counts(),
+    "last 200": pd.Series(split_on[-200:]).value_counts(),
+}).fillna(0).astype(int)
+```
+
+::: {.answer}
+:::
+
+c. `f_j` below adds up the shrunken stumps that split on one column, which is the $f_j$ from part a. Fill in the blanks. What does the last line check, and how does its output confirm part a?
+
+::: {.no-answer}
+:::
+
+```{python}
+def f_j(column, X_new):
+    total = np.zeros(len(X_new))
+    for stump, name in zip(stumps, split_on):
+        # keep only the stumps that split on this column
+        if ____:
+            total = total + ____
+    return total
+
+
+parts = pd.DataFrame({col: f_j(col, X_seats) for col in X_seats.columns})
+np.allclose(sales.mean() + parts.sum(axis=1), f_hat)
+```
+
+::: {.answer}
+:::
+
+The code below plots $f_{\text{Price}}$ across the observed prices. `grid`
+copies the first store 200 times and then replaces its price.
+
+d. Why would copying a different store into `grid` give the same curve? By about how much does the boosted model lower predicted sales when the price rises from 100 to 140? Compare with 40 times the coefficient on `Price` from `LinearRegression().fit(X_seats, sales)`.
+
+::: {.no-answer}
+:::
+
+```{python}
+grid = X_seats.iloc[[0] * 200].reset_index(drop=True)
+grid["Price"] = np.linspace(X_seats["Price"].min(), X_seats["Price"].max(), 200)
+
+plt.plot(grid["Price"], f_j("Price", grid), color="#d5008f")
+plt.xlabel("Price")
+plt.ylabel(r"$f_{\mathrm{Price}}$")
 plt.show()
 ```
 
+::: {.code-cell}
+:::
+
 ::: {.answer}
 :::
 
-b. Follow the tree for a store with a `Good` shelving location, a `Price` of 120, and an `Advertising` budget of 5. What sales does the tree predict? Write the leaf it lands in as a region, in the form $R = \{X \mid \text{ShelveLoc} = \text{Good}, \dots\}$.
+e. With $d = 2$, a tree can split on `ShelveLoc_Good` and then split only the good-shelf stores on `Price`, giving three leaves. Explain why its prediction cannot be written as a function of `ShelveLoc_Good` plus a function of `Price` unless two leaves predict the same sales.
 
-c. Compare the `Price` cutpoints under each shelving location. Does the tree treat the effect of `Price` as the same at every shelving location? Where does `Advertising` enter the tree, and what does that tell us about which stores sell more when they advertise?
+In application exercise 15, logistic regression beat the classification trees
+on `High`. For part f, set
+`cv = KFold(n_splits=10, shuffle=True, random_state=363)` and give each
+`GradientBoostingRegressor` the argument `random_state=363`.
 
-d. Use your `split_rss` from Question 2 to run the search for the first split yourself: for each of the 11 columns of `X_train`, find the cutpoint with the smallest RSS. Which column and cutpoint win, and do they match the root of your tree?
+f. Use `cross_val_score` and `cv` to find the CV MSE of `LinearRegression()` and of boosting with 1,000 trees and $\lambda = 0.1$, for $d = 1$ and for $d = 2$. Rank the three. Using parts d and e, what does the ranking suggest about how `Sales` depends on the predictors?
 
 ::: {.code-cell}
 :::
@@ -235,7 +210,32 @@ d. Use your `split_rss` from Question 2 to run the search for the first split yo
 ::: {.answer}
 :::
 
-e. Compute the test MSE of your tree, of `DummyRegressor()`, and of `LinearRegression()`, each fit on the training set. Which is lowest? Within a leaf the tree predicts the same sales at every price. If sales fall steadily as `Price` rises, how does that help explain the gap to least squares?
+## 3.
+
+The `Caravan` data includes whether each of 5,822
+customers bought caravan insurance, and 348 of them did. Below, the first 1,000
+customers are the training set and the remaining 4,822 form the test set. Names starting
+with P give a customer's contribution to one type of insurance policy and names
+starting with A give the number of policies of that type, so `PPERSAUT` is the
+contribution to car policies.
+
+```{python}
+Caravan = pd.read_csv(DATA + "Caravan.csv")
+y_car = (Caravan["Purchase"] == "Yes").astype(int)
+X_car = Caravan.drop(columns=["Purchase"])
+X_train, X_test = X_car.iloc[:1000], X_car.iloc[1000:]
+y_train, y_test = y_car.iloc[:1000], y_car.iloc[1000:]
+int(y_train.sum()), int(y_test.sum())
+```
+
+`GradientBoostingClassifier` boosts trees for a two-class response. Each tree
+is fit to the gap between the 0/1 response and the current estimated
+probability, and the shrunken trees add up on the log-odds scale, the same
+scale as logistic regression. `learning_rate` is $\lambda$ and
+`max_leaf_nodes` is $d + 1$, as in `GradientBoostingRegressor`, and
+`.predict_proba()` returns estimated probabilities.
+
+a. Fit `GradientBoostingClassifier` to the training set with 1,000 stumps, $\lambda = 0.01$ and `random_state=363`, and save it as `boost`. Which five predictors have the largest `feature_importances_`? How many of the 85 have an importance of exactly 0? How can that happen?
 
 ::: {.code-cell}
 :::
@@ -243,7 +243,82 @@ e. Compute the test MSE of your tree, of `DummyRegressor()`, and of `LinearRegre
 ::: {.answer}
 :::
 
+Your book predicts a purchase when the estimated probability of a purchase is above
+20%. A customer mailed a brochure at random buys about 6% of the time.
+
+b. Use `boost` to estimate the probability of a purchase for each test customer, save the predictions above 20% as `flagged`, and form `confusion_matrix(y_test, flagged)`. What fraction of the flagged customers purchase, compared with 6%? How many would a threshold of 50% flag?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+c. Fill in the blanks below to repeat part b for logistic regression and a random forest. Which model has the highest precision at 20%, and how many customers does each one flag?
+
+::: {.no-answer}
+:::
+
+```{python}
+models = {
+    "boosting": boost,
+    "logistic regression": make_pipeline(StandardScaler(),
+                                         LogisticRegression(max_iter=10000)),
+    "random forest": RandomForestClassifier(n_estimators=500, max_features="sqrt",
+                                            oob_score=True, random_state=363),
+}
+probs = {}
+rows = []
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    probs[name] = model.predict_proba(X_test)[:, 1]
+    # True for each test customer predicted to purchase
+    flagged = ____
+    rows.append({
+        "model": name,
+        "flagged": int(flagged.sum()),
+        "purchased": int(y_test[flagged].sum()),
+        # fraction of the flagged customers who purchased
+        "precision": ____,
+    })
+
+pd.DataFrame(rows).round(3)
+```
+
+::: {.answer}
+:::
+
+The forest's `oob_score_` is its OOB accuracy: each training customer is
+predicted by the trees that left it out, with a threshold of 50%.
+
+d. Compare `models["random forest"].oob_score_` with the accuracy of predicting no purchase for every training customer. Why is OOB accuracy a poor guide to how useful this random forest is for choosing who gets a brochure?
+
+::: {.code-cell}
+:::
+
+::: {.answer}
+:::
+
+The three models flag different numbers of customers, so their precisions in
+part c compare different mailing sizes.
+
+e. Suppose the company can mail as many brochures as boosting flagged in part b. Fill in the blanks below to find each model's precision among that many test customers with the highest estimated probabilities. Which model would you use to choose who gets a brochure?
+
+::: {.no-answer}
+:::
+
+```{python}
+# the number of test customers boosting flagged in part b
+k = ____
+for name, p in probs.items():
+    # np.argsort(-p) lists the test customers from the largest p to the smallest
+    top = np.argsort(-p)[:k]
+    print(name, round(float(____), 3))
+```
+
+::: {.answer}
+:::
 
 *Data from James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J.
 (2023). An Introduction to Statistical Learning with Applications in Python.
-Springer. Questions 1 to 3 are adapted from Chapter 8 exercises 4, 6 and 8.*
+Springer. Questions 1 to 3 are adapted from Chapter 8 exercises 5, 2 and 11.*
